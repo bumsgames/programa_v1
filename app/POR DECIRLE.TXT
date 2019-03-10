@@ -1,0 +1,4 @@
+Pasarle el movimientosFILTRADOS.blade.php completo
+Pasarle el nuevo codigo de la funcion filtrar_movimientos_bums en programController
+Pasarle el nuevo codigo de la funcion movimientos en programController
+Lo mismo con la funcion movimientos_personal

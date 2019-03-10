@@ -1,0 +1,257 @@
+[29-Jul-2018 00:36:45 America/Caracas] PHP Warning:  require(/home/bumsgame/public_html/../../bootstrap/autoload.php): failed to open stream: No such file or directory in /home/bumsgame/public_html/index.php on line 22
+[29-Jul-2018 00:36:45 America/Caracas] PHP Warning:  require(/home/bumsgame/public_html/../../bootstrap/autoload.php): failed to open stream: No such file or directory in /home/bumsgame/public_html/index.php on line 22
+[29-Jul-2018 00:36:45 America/Caracas] PHP Fatal error:  require(): Failed opening required '/home/bumsgame/public_html/../../bootstrap/autoload.php' (include_path='.:/opt/cpanel/ea-php70/root/usr/share/pear') in /home/bumsgame/public_html/index.php on line 22
+[29-Jul-2018 00:36:57 America/Caracas] PHP Warning:  require(/home/bumsgame/public_html/../../bootstrap/autoload.php): failed to open stream: No such file or directory in /home/bumsgame/public_html/index.php on line 22
+[29-Jul-2018 00:36:57 America/Caracas] PHP Warning:  require(/home/bumsgame/public_html/../../bootstrap/autoload.php): failed to open stream: No such file or directory in /home/bumsgame/public_html/index.php on line 22
+[29-Jul-2018 00:36:57 America/Caracas] PHP Fatal error:  require(): Failed opening required '/home/bumsgame/public_html/../../bootstrap/autoload.php' (include_path='.:/opt/cpanel/ea-php70/root/usr/share/pear') in /home/bumsgame/public_html/index.php on line 22
+[29-Jul-2018 00:57:12 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 710
+[29-Jul-2018 00:57:23 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 710
+[29-Jul-2018 00:59:18 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 710
+[29-Jul-2018 00:59:28 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 710
+[29-Jul-2018 01:00:28 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 710
+[29-Jul-2018 01:06:24 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 710
+[29-Jul-2018 01:08:23 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 710
+[29-Jul-2018 01:09:43 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Reporte' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 711
+[29-Jul-2018 10:35:14 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:21 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:39 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:39 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:42 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:44 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:47 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:49 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:52 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:53 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:55 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:57 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:58 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:35:58 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:36:01 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:36:08 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 10:36:10 America/Caracas] PHP Fatal error:  Call to undefined function public_html_path() in /home/bumsgame/config/filesystems.php on line 48
+[29-Jul-2018 21:02:34 America/Caracas] PHP Parse error:  syntax error, unexpected '}' in /home/bumsgame/storage/framework/views/5c151671c2a57a605133ab495b15d392856a3a7f.php on line 63
+[29-Jul-2018 21:02:50 America/Caracas] PHP Parse error:  syntax error, unexpected '}' in /home/bumsgame/storage/framework/views/5c151671c2a57a605133ab495b15d392856a3a7f.php on line 63
+[29-Jul-2018 21:02:52 America/Caracas] PHP Parse error:  syntax error, unexpected '}' in /home/bumsgame/storage/framework/views/5c151671c2a57a605133ab495b15d392856a3a7f.php on line 63
+[29-Jul-2018 21:33:07 America/Caracas] PHP Parse error:  syntax error, unexpected ')', expecting '(' in /home/bumsgame/storage/framework/views/2a99d74db336c508658e6fecba66409dbee3d54d.php on line 86
+[29-Jul-2018 21:33:54 America/Caracas] PHP Parse error:  syntax error, unexpected ')', expecting '(' in /home/bumsgame/storage/framework/views/2a99d74db336c508658e6fecba66409dbee3d54d.php on line 86
+[29-Jul-2018 21:37:30 America/Caracas] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 792
+[29-Jul-2018 21:37:46 America/Caracas] PHP Parse error:  syntax error, unexpected '->' (T_OBJECT_OPERATOR) in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 792
+[29-Jul-2018 22:06:02 America/Caracas] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in /home/bumsgame/storage/framework/views/2a99d74db336c508658e6fecba66409dbee3d54d.php on line 172
+[29-Jul-2018 22:07:54 America/Caracas] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in /home/bumsgame/storage/framework/views/2a99d74db336c508658e6fecba66409dbee3d54d.php on line 172
+[29-Jul-2018 22:27:55 America/Caracas] PHP Parse error:  syntax error, unexpected '$movement' (T_VARIABLE), expecting function (T_FUNCTION) in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 837
+[29-Jul-2018 22:35:32 America/Caracas] PHP Parse error:  syntax error, unexpected '$movement' (T_VARIABLE), expecting function (T_FUNCTION) in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 838
+[29-Jul-2018 23:08:03 America/Caracas] PHP Fatal error:  Class 'Bumsgames\homework' not found in /home/bumsgame/app/Http/Controllers/HomeworkController.php on line 114
+[02-Aug-2018 13:04:26 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 13:04:29 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 13:04:32 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 13:04:39 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 13:04:53 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 14:07:24 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 14:10:17 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 15:12:26 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 15:12:30 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 15:16:13 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 16:44:00 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 16:45:08 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 16:45:37 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 16:46:03 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 16:48:21 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 16:48:56 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 16:51:47 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 17:39:15 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 17:39:19 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 17:39:29 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 17:40:19 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 18:05:55 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 18:06:13 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 18:06:38 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:42:40 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:42:47 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:43:01 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:43:35 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:51:09 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:52:27 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:53:33 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[02-Aug-2018 23:55:25 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:00:55 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:00:59 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:01:14 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:01:24 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:01:50 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:02:42 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:05:30 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:10:03 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:11:16 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:11:17 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:12:38 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:16:00 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:16:31 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:19:03 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:22:06 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:23:24 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:24:09 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:24:10 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:24:45 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:25:08 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:25:26 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:25:50 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 00:36:20 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 01:06:47 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 01:09:05 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 01:12:09 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 10:02:11 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 10:03:20 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 10:03:25 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[03-Aug-2018 10:03:46 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 209
+[09-Aug-2018 00:45:54 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 00:49:31 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 00:56:31 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 00:59:55 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:01:01 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:05:45 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:10:08 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:12:56 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:16:30 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:20:25 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:22:55 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:25:44 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:28:31 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:39:03 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:39:06 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:45:52 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:49:43 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:52:52 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:55:07 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:57:04 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 01:57:09 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:02:13 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:06:10 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:07:28 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:10:09 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:14:18 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:14:23 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:19:06 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:21:12 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:23:54 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:26:37 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:30:21 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:32:52 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:36:14 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:36:14 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:38:25 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:45:32 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:45:35 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:48:48 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:51:17 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:55:01 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:56:42 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 02:59:53 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:03:14 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:06:11 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:10:45 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:13:22 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:16:03 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:17:18 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:17:30 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:17:32 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:20:55 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:23:59 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:25:01 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:40:53 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:43:34 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:45:37 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:49:15 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 03:51:47 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 09:31:40 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 09:31:49 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 09:32:19 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 10:22:43 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 10:23:57 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 10:57:18 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:49:59 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:51:59 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:52:49 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:53:45 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:53:50 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:54:07 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:56:00 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:58:04 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 11:59:51 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 12:09:10 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 12:09:54 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 13:44:02 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 13:49:27 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 13:53:25 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 13:58:20 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:02:28 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:06:48 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:09:27 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:13:48 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:13:56 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:21:12 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:25:08 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:26:06 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:27:51 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:29:30 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:30:36 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:35:30 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:36:20 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 14:37:18 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:03:54 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:07:09 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:13:09 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:14:12 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:17:37 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:21:09 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:21:37 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:22:48 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:25:20 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:26:33 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:31:06 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:32:03 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 15:32:56 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 20:35:40 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 20:35:50 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 20:36:07 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 20:39:40 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 20:43:14 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 20:43:48 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 22:43:38 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on string in /home/bumsgame/app/Article.php on line 40
+[09-Aug-2018 22:56:05 America/Caracas] PHP Fatal error:  Call to a member function getClientOriginalName() on null in /home/bumsgame/app/Article.php on line 40
+[13-Aug-2018 14:47:25 America/Caracas] PHP Fatal error:  Class 'Bumsgames\Articulo' not found in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 1534
+[13-Aug-2018 15:04:32 America/Caracas] PHP Fatal error:  Call to a member function count() on null in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 1541
+[13-Aug-2018 15:33:07 America/Caracas] PHP Parse error:  syntax error, unexpected 'Route' (T_STRING) in /home/bumsgame/routes/web.php on line 45
+[13-Aug-2018 15:48:10 America/Caracas] PHP Parse error:  syntax error, unexpected 'Route' (T_STRING) in /home/bumsgame/routes/web.php on line 45
+[13-Aug-2018 16:02:20 America/Caracas] PHP Parse error:  syntax error, unexpected 'Route' (T_STRING) in /home/bumsgame/routes/web.php on line 45
+[13-Aug-2018 16:02:28 America/Caracas] PHP Parse error:  syntax error, unexpected 'Route' (T_STRING) in /home/bumsgame/routes/web.php on line 45
+[13-Aug-2018 16:02:38 America/Caracas] PHP Parse error:  syntax error, unexpected 'Route' (T_STRING) in /home/bumsgame/routes/web.php on line 45
+[13-Aug-2018 16:02:41 America/Caracas] PHP Parse error:  syntax error, unexpected 'Route' (T_STRING) in /home/bumsgame/routes/web.php on line 45
+[13-Aug-2018 16:02:55 America/Caracas] PHP Parse error:  syntax error, unexpected 'Route' (T_STRING) in /home/bumsgame/routes/web.php on line 45
+[22-Aug-2018 20:08:58 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ProgramController.php on line 1584
+[23-Sep-2018 13:05:02 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 457
+[23-Sep-2018 13:05:25 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 457
+[23-Sep-2018 13:48:15 America/Caracas] PHP Fatal error:  Call to a member function fill() on null in /home/bumsgame/app/Http/Controllers/ArticleController.php on line 457
+[02-Dec-2018 18:55:54 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 18:59:58 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:01:41 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:01:52 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:07:38 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:07:44 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:09:19 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:09:32 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:11:06 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:11:56 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:12:39 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:21:18 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:37:19 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:37:23 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:40:09 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:42:54 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:55:29 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 19:59:03 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 20:12:59 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 20:18:37 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 20:40:24 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 20:44:17 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 20:51:07 America/Caracas] PHP Fatal error:  Class 'Bumsgames\comment' not found in /home/bumsgame/app/Http/Controllers/CommentController.php on line 22
+[02-Dec-2018 23:36:25 America/Caracas] PHP Fatal error:  Call to a member function diffForHumans() on string in /home/bumsgame/storage/framework/views/300d3ab4cd4e18f9966aa2008b111c7a0bc1bc06.php on line 147
