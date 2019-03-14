@@ -68,11 +68,11 @@ class WebController extends Controller
 		$comentarios = $comentarios->shuffle();
 		$comentarios = $comentarios->take(10);
 
-
+		$noticias = \Bumsgames\Noticia::orderby('created_at','desc')->get();
 		/* Fin del nuevo codigo */
 		\Bumsgames\Visita::create(['tipo'=>'General']);
 
-		return view('index', compact('categorias','articulos','coins','moneda_actual','articulo_mas_vendido_semana','portal1','portal2','portal3', 'comentarios'));
+		return view('index', compact('categorias','articulos','coins','moneda_actual','articulo_mas_vendido_semana','portal1','portal2','portal3', 'comentarios','noticias'));
 		/* Nuevo codigo, se agrego 'comentarios' arriba*/
 	}
 

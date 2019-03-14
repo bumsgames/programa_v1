@@ -138,6 +138,8 @@
                     <li><a class="treeview-item" href="{{ url('misArticles_lista_escrita') }}" target="_blank"><i class="icon fa fa-circle-o"></i> Mis Articulos (lista escrita)</a></li>
                     <li><a class="treeview-item" href="{{ url('modo_ml') }}"><i class="icon fa fa-circle-o"></i> Modo Mercadolibre</a></li>
                     <li><a class="treeview-item" href="{{ url('articles_web') }}"><i class="icon fa fa-circle-o"></i> Articulos en la Pagina Web</a></li>
+                    <li><a class="treeview-item" href="{{ url('articulosSinImagen') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Imagenes</a></li>
+                    <li><a class="treeview-item" href="{{ url('articulosSinPeso') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Peso</a></li>
                   </ul>
                 </li>
                 {{-- @if(Auth::user()->level >= 7)
@@ -169,6 +171,12 @@
                   </ul>
                 </li>
                 @endif
+                <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-newspaper-o"></i><span class="app-menu__label">Noticias</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                    <li><a class="treeview-item" href="/noticias/crear"><i class="icon fa fa-circle-o"></i>Agregar Noticia</a></li>
+                    <li><a class="treeview-item" href="/noticias"><i class="icon fa fa-circle-o"></i> Ver Noticias</a></li>   
+                  </ul>
+                </li>
                 <li>
                   <a class="app-menu__item" href="/cupones">
                     <i class="app-menu__icon fa fa-dashboard"></i>

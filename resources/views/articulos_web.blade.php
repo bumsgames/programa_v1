@@ -9,6 +9,47 @@
 	padding: 10px !important;
 }
 </style>
+<style>
+.vendido_img{
+	border-radius: 250px;
+	width: 150px;
+	height: 150px;
+}
+</style>
+
+
+
+ <div class="row justify-content-center">
+    <div class="col-1">
+      <img class="vendido_img" src="img/maxresdefault.jpg" alt="">
+    </div>
+    <div class="col-8" style="border-left-style: solid;">
+		<h3 style="margin-left: 50px;">Ultimos articulos vendidos:</h3>
+		<div class="" style="float: left; margin-left: 60px;">
+			<img src="img/18CODAWW@.jpg" height="130" alt="" align="left">
+			Call of Duty Word At War II - SELLADO
+			<br>
+			<strong>PlayStation 4 | Articulo Fisico</strong>
+		</div>
+		<div class="" style="float: left; margin-left: 10px;">
+			<img src="img/18CODAWW@.jpg" height="130" alt="" align="left">
+			Call of Duty Word At War II - SELLADO
+			<br>
+			<strong>PlayStation 4 | Articulo Fisico</strong>
+		</div>
+		<div class="" style="float: left; margin-left: 10px;">
+			<img src="img/18CODAWW@.jpg" height="130" alt="" align="left">
+			Call of Duty Word At War II - SELLADO
+			<br>
+			<strong>PlayStation 4 | Articulo Fisico</strong>
+		</div>
+	</div>
+  </div>
+<br>
+
+
+
+
 <div class="container">
 	<div class="fondotituloArticulos">
 		<h2  class="titulobumsArticulos">{{ $title }}</h2>
@@ -16,12 +57,15 @@
 	<div id="mostrararticulos" class="tile">
 		
 		<div class="row">
-			<div class="col-12 col-lg-3">
+			<div class="col-12 col-lg-2">
 				<div class="container sticky responsive">	
 					<br>	
+					{{-- class="col-12 col-lg-6" --}}
+					<h4>Articulos disponibles:  {{ $articulos->count() }}</h4>
+					<br>
+					<br>
 					<div class="row">
-					    <div class="col-12 col-lg-6">
-<h4 class="col-12 col-lg-6">Articulos disponibles:  {{ $articulos->count() }}</h4>
+						<div class="col-12 col-lg-6">
 							Ordenar por:
 							<form class="form-inline" action="{{ $buscador_ruta }}" method="post">
 								<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">

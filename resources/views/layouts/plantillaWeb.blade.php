@@ -136,7 +136,7 @@
 					</li>
 					@if (Auth::guard('client')->guest())
 					<li class="nav-item active">	
-						<strong><a class="nav-link " href="/login" id="login_us"><i class="fa fa-user-circle-o" aria-hidden="true"></i> INICIAR SESION</a></strong>
+						<strong><a class="nav-link " href="/login" id="login_us"><i class="fas fa-user"></i> INICIAR SESION</a></strong>
 					</li>
 					@endif
 					@if (Auth::guard('client')->check())
@@ -220,7 +220,10 @@
 				<a class="nav-link letraBlanca" href="/articulos_oferta">OFERTAS</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link letraBlanca" href="/articulos_web">TODOS LOS ARTICULOS</a>
+				<a class="nav-link letraBlanca" href="/articulos_web">ARTICULOS RECIENTES</a>
+			</li>
+			<li>
+				<a class="nav-link letraBlanca" href="">Cambia tu moneda-> </a>
 			</li>
 			<li>
 				<form class="form-inline margin" action="{{ url('prueba') }}" method="post">
@@ -353,50 +356,43 @@
 					<img alt="Brand" src="{{ url('img/lo2.png') }}" width="160">
 				</a>
 			</div>
-			<div class="col escondite" style="background-color: black;">
-				<center style="padding: 10px;"><h5>DIRECCION</h5></center>
-				<hr>	
-				<center>
-					<img src="img/pelota.png" width="150" alt="Avatar">
-					<br>
-					<br>	
-					PUERTO ORDAZ, Estado Bolivar <br>	
-					C.C. Alta Vista II, segundo Piso <br>
-					Local #22 frente a la Sala de Juegos <br>	
-					<br>	
+			<div class="col escondite">
+				<div class="cartica">
+					<center style="padding: 10px;"><h5>DIRECCION</h5></center>
+					<hr>	
+					<center>
+						<img src="img/pelota.png" width="150" alt="Avatar">
+						<br>
+						<br>	
+						PUERTO ORDAZ, Estado Bolivar <br>	
+						C.C. Alta Vista II, segundo Piso <br>
+						Local #22 frente a la Sala de Juegos <br>	
+						<br>	
+					</center>	
+				</div>
+			</div>
+			<div class="col escondite">
+				<div class="cartica">
+					<center style="padding: 10px;"><h5>REDES SOCIALES</h5></center>
+					<hr>	
+					<center>	
+						<a href="https://www.facebook.com/bumsgamesoficial" target="_blank" title="Vista nuestro facebook, que esperas?"><img src="img/logo-f.png" class="abc" alt=""> @BumsGames</a>
+						<br>
+						<br>
+						<a href="https://www.instagram.com/bumsgames/" target="_blank" href="www.google.co.ve" title="Unete a nuestra comunidad en Instagram, tenemos muchas sorpresas"><img class="abc" src="img/logo-i.png" alt=""> @BumsGames</a>
+						<br>
+						<br>
+						<a href="https://perfil.mercadolibre.com.ve/BUMSGAMES_OFICIAL" target="_blank" title="Mira nuestra reputacion en MercadoLibre, somos MercadoLideres"><img class="abc2" src="img/logo-m.png" alt=""> BumsGames_OFICIAL</a>
+					</center>
 
-					<!-- <a class="fb-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
-						<i class="fa fa-facebook fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-					<a class="gplus-ic" href="https://www.instagram.com/bumsgames/" target="_blank"> 
-						<i class="fa fa-google-plus fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-					<!--Instagram-->
-					<!-- <a class="ins-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
-						<i class="fa fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a> --> 
-				</center>	
+
+					<br>
+				</div>
 			</div>
-			<div class="col escondite" style="background-color: black;">
-				<h5>REDES SOCIALES</h5>
-				<hr>	
-				<center>
-					<a class="fb-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
-						<i class="fa fa-facebook fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-					<a class="gplus-ic" href="https://www.instagram.com/bumsgames/" target="_blank"> 
-						<i class="fa fa-google-plus fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-					<!--Instagram-->
-					<a class="ins-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
-						<i class="fa fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-				</center>	
-			</div>
-			<div class="col"><h5>CONTACTO</h5>
-				<hr>
-				<div class="row">	
-					<div class="col">
+			<div class="col escondite">
+				<div class="cartica">
+					<center style="padding: 10px;"><h5>CONTACTANOS</h5>
+						<hr>	
 						David Salazar.
 						<br>	
 						<i class="fab fa-whatsapp fa-2x"></i> 
@@ -416,10 +412,7 @@
 						(+58) 0412-119-23-79
 						<br>	
 						<br>
-
-					</div>
-					<div class="col">	
-					</div>
+					</center>
 				</div>
 			</div>
 		</div>

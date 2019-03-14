@@ -64,7 +64,7 @@ function mostrarImagen(event) {
 //ready ready ready
 $( document ).ready(function() {
     $('.carousel').carousel({
-        interval: 2000
+        interval: 5000
     });
 
     $("#hidden").hide();

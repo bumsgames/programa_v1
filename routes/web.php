@@ -223,3 +223,49 @@ Route::get('/cupones','CuponesController@ShowCupones');
 Route::get('/cupones/crear','CuponesController@create');
 Route::get('/cupones/editar/{id}','CuponesController@editar');
 Route::get('/cupones/eliminar/{id}','CuponesController@eliminar');
+
+/*
+--------------------------------
+	Noticias - Administracion
+--------------------------------
+*/
+
+//Devuelve todas las noticias
+Route::get('/noticias','NoticiaController@ShowNoticias');
+//Devuelve el formulario para crear noticias
+Route::get('/noticias/crear','NoticiaController@create');
+//Devuelve el formulario para editar noticias
+Route::get('/noticias/editar/{id}','NoticiaController@editar');
+//Elimina una noticia
+Route::get('/noticias/eliminar/{id}','NoticiaController@eliminar');
+
+//Guarda una nueva noticia
+Route::post('/noticias/crear','NoticiaController@store');
+Route::post('/noticias/editar/{id}','NoticiaController@change');
+
+/*
+------------------------------
+	Noticias - Usuario
+------------------------------
+*/
+
+//Actualiza los likes
+Route::get('/noticialike/{id}','NoticiaController@LikeNoticia');
+
+/*
+------------------------------
+	Miscelaneos
+------------------------------
+*/
+
+//Articulos sin imagenes
+Route::get('/articulosSinImagen','ProgramController@Articulos_Sin_Imagen');
+
+//Agregar imagen
+Route::post('/actualizarImagen/{id}','ProgramController@Actualizar_Imagen');
+
+//Articulos sin peso
+Route::get('/articulosSinPeso','ProgramController@Articulos_Sin_Peso');
+
+//Agrega el peso
+Route::post('/actualizarPeso/{id}','ProgramController@Actualizar_Peso');
