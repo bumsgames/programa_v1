@@ -103,7 +103,16 @@ class WebController extends Controller
 		$buscador_ruta = 'buscar_articulo_bums';
 		\Bumsgames\Visita::create(['tipo'=>'General']);
 
-		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual','title', 'buscador_ruta'));
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+
+		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual','title', 'buscador_ruta','ultimos_vendidos'));
 	}
 
 	function buscar_articulo_bumsG(){
@@ -129,7 +138,17 @@ class WebController extends Controller
 		$title = 'Busqueda de: '.Session::get('name');
 		$buscador_ruta = 'buscar_articulo_bumsG';
 		\Bumsgames\Visita::create(['tipo'=>'General']);
-		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual','title', 'buscador_ruta'));
+
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+
+		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual','title', 'buscador_ruta','ultimos_vendidos'));
 	}
 
 	function categorias(){
@@ -181,6 +200,15 @@ class WebController extends Controller
 			$id_coin = 1;
 		}
 
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+
 		$categorias = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::where('id','!=',$id_coin)->get();
 		$moneda_actual = \Bumsgames\Coin::find($id_coin);
@@ -188,7 +216,7 @@ class WebController extends Controller
 		$title = 'Todos los articulos';
 		$buscador_ruta = 'articulos_web';
 		\Bumsgames\Visita::create(['tipo'=>'General']);
-		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual','title', 'buscador_ruta'));
+		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual','title', 'buscador_ruta','ultimos_vendidos'));
 	}
 
 	// function categoria_general($categoria, Request $request){
@@ -287,7 +315,17 @@ class WebController extends Controller
 
 		$title = Session::get('categoria');
 		\Bumsgames\Visita::create(['tipo'=>'General']);
-		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual', 'title', 'buscador_ruta'));
+
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+
+		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual', 'title', 'buscador_ruta','ultimos_vendidos'));
 	}
 
 	function ayuda(Request $request){
@@ -310,7 +348,17 @@ class WebController extends Controller
 		$moneda_actual = \Bumsgames\Coin::find($id_coin);
 
 		\Bumsgames\Visita::create(['tipo'=>'General']);
-		return view('ayuda', compact('categorias','articulos','coins','moneda_actual'));
+
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+
+		return view('ayuda', compact('categorias','articulos','coins','moneda_actual','ultimos_vendidos'));
 	}
 
 	function comprasuser(Request $request){
@@ -411,7 +459,17 @@ class WebController extends Controller
 		
 		\Bumsgames\Visita::create(['tipo'=>'General']);
 		$portal3 = \Bumsgames\Imagen::where('portal','=','3')->inRandomOrder()->get();
-		return view('lista_escrita', compact('categorias','articulos','coins','moneda_actual','portal3','precio_cliente','precio_porcentaje'));
+
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+
+		return view('lista_escrita', compact('categorias','articulos','coins','moneda_actual','portal3','precio_cliente','precio_porcentaje','ultimos_vendidos'));
 	}
 
 	function lista_escrita2(Request $request){
@@ -473,7 +531,16 @@ class WebController extends Controller
 		$moneda_actual = \Bumsgames\Coin::find($id_coin);
 		
 		\Bumsgames\Visita::create(['tipo'=>'General']);
-		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual'));
+
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual','ultimos_vendidos'));
 	}
 
 	public function lala(){
@@ -508,7 +575,16 @@ class WebController extends Controller
 
 		$title = 'Articulos en oferta';
 		\Bumsgames\Visita::create(['tipo'=>'General']);
-		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual', 'title', 'buscador_ruta'));
+
+		$ultimos_vendidos = \Bumsgames\Sales::
+		join('articles','id_article','=','articles.id')
+		->join('categories','articles.category','=','categories.id')
+		->groupby('articles.name')
+		->groupby('articles.category')
+		->orderby('sales.created_at','desc')
+		->limit(3)
+		->get();
+		return view('articulos_web', compact('categorias','articulos','coins','moneda_actual', 'title', 'buscador_ruta','ultimos_vendidos'));
 	}
 
 	public function orden_a_pagar(Request $request){

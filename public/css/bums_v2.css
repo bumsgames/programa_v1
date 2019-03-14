@@ -1443,3 +1443,64 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
     background-color: #9E2C2D;
     border-color:#9E2C2D;
 }
+
+.ultimo-vendido-banner{
+    background-color: rgba(255,255,255,0.8);
+    padding: 10px;
+    border-bottom: 5px solid black;
+    border-top: 5px solid rgba(255,255,255,0.9);
+}
+
+.ultimo-vendido-title{
+    background-color: black;
+    color: white;
+    border-radius: 100px;
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+
+.ultimo-vendido-c-text, .ultimo-vendido-c-img{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ultimo-vendido-c-img{
+    max-width: 30%;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.ultimo-vendido-c-img img{
+    width: 100%;
+    
+}
+.ultimo-vendido-c-text{
+    max-width: 70%;
+}
+
+
+.commentbutton{
+    margin-left: -250px;
+    width: 300px;
+    -webkit-transition: transform 0.5s; /* Safari */
+    transition: transform 0.5s;
+}
+
+.commentbutton:hover{
+    -ms-transform: translate(250px); /* IE 9 */
+    -webkit-transform: translate(250px); /* Safari */
+    transform: translate(250px);
+}
+
+.contactbutton{
+    margin-left: -200px;
+    width: 250px;
+    -webkit-transition: transform 0.5s; /* Safari */
+    transition: transform 0.5s;
+}
+
+.contactbutton:hover{
+    -ms-transform: translate(200px); /* IE 9 */
+    -webkit-transform: translate(200px); /* Safari */
+    transform: translate(200px);
+}

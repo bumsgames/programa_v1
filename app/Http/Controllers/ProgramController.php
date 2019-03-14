@@ -719,7 +719,9 @@ class ProgramController extends Controller
 		$categories = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::All();
 		$title = "Buscador de coincidencia en la base de datos";
-		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar' , 'articles','coins','users','categories', 'articles_cantidad','tutoriales'));
+
+		$busqueda = $request->coincidencia;
+		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar' , 'articles','coins','users','categories', 'articles_cantidad','tutoriales','busqueda'));
 	}
 
 	public function allArticle(){
@@ -859,10 +861,23 @@ class ProgramController extends Controller
 
 		$article->fondo = $request->image;
 		 //Se buscan todos los articulos de la misma categoria y nombre
-		 $articles = \Bumsgames\Article::where('name',$article->name)
-		 ->where('category',$article->category)
-		 ->get();
 		
+		 if(($article->category == 1) || ($article->category == 2)){
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->whereIn('category',[1,2])
+			->get();
+		 }
+		 else if(($article->category == 8) || ($article->category == 9)){
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->whereIn('category',[8,9])
+			->get();
+		 }
+		 else{
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->where('category',$article->category)
+			->get();
+		 }
+
 		 //Se actualizan todos los articulos iguales
 		 foreach($articles as $art){
 			 $art->fondo = $request->image;
@@ -943,6 +958,10 @@ class ProgramController extends Controller
 		$oferta = $request->oferta;
 		$peso = $request->peso;
 		$seldu = $request->seldu;
+
+		$busqueda = $request->namefilt;
+		$parametros = [$category,$filtrocorreo,$disponible,$creatorfilter,$nickfil,$precio,$oferta,$peso,$seldu];
+
 		$articles = \Bumsgames\Article::where('articles.quantity','>=','-1000')
 		->where('articles.id','!=','2');
 
@@ -968,13 +987,13 @@ class ProgramController extends Controller
 			$articles->where('nickname','LIKE','%'.$nickfil.'%');
 		}
 		if($precio > 0){
-			$articles->where('price_in_dolar','<=',$precio);
+			$articles->where('price_in_dolar','>=',$precio);
 		}
 		if($oferta > 0){
-			$articles->where('offer_price','<=',$oferta);
+			$articles->where('offer_price','>=',$oferta);
 		}
 		if($peso > 0){
-			$articles->where('peso','<=',$peso);
+			$articles->where('peso','>=',$peso);
 		}		
 
 		if($seldu != 0){
@@ -1036,7 +1055,7 @@ class ProgramController extends Controller
 		->orderby('created_at', 'desc')
 		->get();
 		
-		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar', 'articles','coins','users','categories', 'articles_cantidad','tutoriales'));
+		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar', 'articles','coins','users','categories', 'articles_cantidad','tutoriales','parametros','busqueda'));
 	}
 	public function categoria_art($category){
 		$articles = \Bumsgames\Article::

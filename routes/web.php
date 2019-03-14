@@ -186,12 +186,12 @@ Route::post('/filtrar_articulos', 'WebController@filtrar_articulos');
 Route::post('/articulos_oferta', 'WebController@articulos_oferta');
 Route::post('/articulos/{categoria}', 'WebController@articulos');
 Route::post('/categoria_general/{categoria}', 'WebController@categoria_general');
-Route::post('/prueba', 'WebController@prueba');
-Route::post('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
+Route::get('/prueba', 'WebController@prueba');
+Route::get('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
 Route::post('/agregaCarro','WebController@agregaCarro');
 Route::post('/categoria_general','WebController@categoria_general');
 Route::post('/articulos_web', 'WebController@articulos_web');
-Route::post('/articulos', 'WebController@articulos');
+Route::get('/articulos', 'WebController@articulos');
 Route::post('/reportar_pago', 'WebController@reportar_pago');
 
 // Cliente Login Get

@@ -15,7 +15,7 @@
 					<form action="{{ url('articulos_bd') }}" method="POST" class="form-inline col-12 col-lg-7" target="_blank">
 						{{ csrf_field() }}
 						<div class="my-1 mr-sm-2">
-							<input autocomplete="off" type="text" placeholder="Buscar" class="form-control" name="coincidencia" id="buscador">
+							<input autocomplete="off" type="text" placeholder="Buscar" class="form-control" name="coincidencia" id="buscador" @if(isset($busqueda)) value={{$busqueda}} @endif>
 						</div>
 						<button type="submit" class="btn btn-primary mr-sm-2 my-1">
 							<i class="fa fa-search" aria-hidden="true"></i> 
@@ -58,15 +58,15 @@
 					<div class="row" style="margin-left:0">
 						<div class="form-group col-12">
 							<label for="namefilt"> Filtrar por nombre</label>
-							<input autocomplete="off" class="form-control" type="text" name="namefilt" placeholder="Filtrar por nombre">
+							<input autocomplete="off" class="form-control" type="text" name="namefilt" placeholder="Filtrar por nombre" @if(isset($busqueda)) value={{$busqueda}} @endif>
 						</div>
 						<div class="form-group col-12 col-lg-3">
-													<label for="selcat">Filtrar por categoria</label>
+							<label for="selcat">Filtrar por categoria</label>
 							<select name="selcat" class="form-control" id="selcat">
 								<option value='0'>No filtrar</option>
 								<?php $cont=0?>
 								@foreach($categories as $categoria)
-								<option value="{{$categoria->id}}">{{$categoria->category}}</option>
+								<option value="{{$categoria->id}}" @if(isset($parametros[0]))@if($parametros[0] == $categoria->id) selected @endif @endif>{{$categoria->category}}</option>
 								@endforeach
 							</select>
 						</div>	
@@ -76,24 +76,24 @@
 								<option value="0">No filtrar</option>
 								<?php $cont=0?>
 								@foreach($users as $usuario)
-								<option value="{{$usuario->id}}">{{$usuario->name}} {{$usuario->lastname}}</option>
+								<option value="{{$usuario->id}}" @if(isset($parametros[8]))@if($parametros[8] == $usuario->id) selected @endif @endif>{{$usuario->name}} {{$usuario->lastname}}</option>
 								@endforeach
 							</select>
 						</div>
 
 						<div  class="form-group col-12 col-lg-3">
 							<label for="correofiltro">Filtrar por Correo</label>
-							<input autocomplete="off" type="text" placeholder="Buscar correo" class="form-control" name="filtrocorreo" id="correofiltro">
+							<input @if(isset($parametros[1])) value="{{$parametros[1]}}" @endif autocomplete="off" type="text" placeholder="Buscar correo" class="form-control" name="filtrocorreo" id="correofiltro">
 						</div>
 						<div class="form-group col-12 col-lg-3">
 							<label for="seldu">Filtrar por disponibilidad</label>
 							<div class="form-control">
 								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" class="custom-control-input" id="disponible" name="disponible" value="1">
+									<input type="radio" class="custom-control-input" id="disponible" name="disponible" value="1" @if(isset($parametros[2]))@if($parametros[2] == 1) checked @endif @endif>
 									<label class="custom-control-label" for="disponible">Disponible</label>
 								</div>
 								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" class="custom-control-input" id="nodisponible" name="disponible" value="2">
+									<input type="radio" class="custom-control-input" id="nodisponible" name="disponible" value="2"  @if(isset($parametros[2]))@if($parametros[2] == 2) checked @endif @endif>
 									<label class="custom-control-label" for="nodisponible">No disponible</label>
 								</div> 
 							</div>
@@ -107,7 +107,7 @@
 								<option value="0">No filtrar</option>
 								<?php $cont=0?>
 								@foreach($users as $usuario)
-								<option value="{{$usuario->id}}">{{$usuario->name}} {{$usuario->lastname}}</option>
+								<option value="{{$usuario->id}}" @if(isset($parametros[3]))@if($parametros[3] == $usuario->id) selected @endif @endif>{{$usuario->name}} {{$usuario->lastname}}</option>
 								@endforeach
 							</select>
 						</div>	
@@ -115,25 +115,25 @@
 
 						<div  class="form-group col-12 col-lg-3">
 							<label for="nickfil">Filtrar por Nickname</label>
-							<input autocomplete="off" type="text" placeholder="Buscar correo" class="form-control" name="nickfil" id="nickfil">
+							<input autocomplete="off" type="text" @if(isset($parametros[4])) value="{{$parametros[4]}}"  @endif placeholder="Buscar Nickname" class="form-control" name="nickfil" id="nickfil">
 						</div>
 
 						<div class="form-group col-12 col-lg-3">
 							<label for="precio">Filtrar por Precio</label>
 							<div >
-								<label for="preciorange">Precio: <span id="precioranget"></span > $</label>
-  								<input value="0" type="range" class="custom-range" id="preciorange" name="precio">
+								<label for="preciorange">Precio Minimo: <span id="precioranget"></span > $</label>
+  								<input @if(isset($parametros[5])) value="{{$parametros[5]}}" @else value="0" @endif  type="range" class="custom-range" id="preciorange" name="precio">
 							</div>
 							<div>
-								<label  for="ofertarange">Precio subrayado: <span id="ofertaranget"></span> $</label>
-  								<input value="0" type="range" class="custom-range" id="ofertarange" name="oferta">
+								<label  for="ofertarange">Precio Subrayado Minimo: <span id="ofertaranget"></span> $</label>
+  								<input @if(isset($parametros[6])) value="{{$parametros[6]}}" @else value="0" @endif type="range" class="custom-range" id="ofertarange" name="oferta">
 							</div>
 						</div>
 						<div class="form-group col-12 col-lg-3">
-							<label for="peso">Filtrar por Peso</label>
+							<label for="peso">Filtrar por Peso Minimo</label>
 							<div class="form-control">
 								<label for="pesorange">Peso: <span id="pesoranget"></span > GB</label>
-  								<input value="0" type="range" class="custom-range" id="pesorange" name="peso">
+  								<input @if(isset($parametros[7])) value="{{$parametros[7]}}" @else value="0" @endif type="range" class="custom-range" id="pesorange" name="peso">
 							</div>
 						</div>
 						

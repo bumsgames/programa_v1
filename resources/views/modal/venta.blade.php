@@ -17,7 +17,7 @@
 						<hr>
 						<div class="row">
 							<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-							<input name="id_articulo" id="id_articulo">
+							<input name="id_articulo" id="id_articulo" hidden="">
 							<input type="text" id="articulo_venta" hidden>
 							<input type="text" id="email_articulo_venta" hidden>
 							<input type="text" id="password_articulo_venta" hidden>

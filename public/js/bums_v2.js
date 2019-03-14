@@ -147,28 +147,28 @@ $("#nickfil").on('keyup', function() {
 
 $("#preciorange").on( "change", function(){
     $('.prod').filter(function(){
-        return ($( "#preciorange").val() > $(this).find('.preciofil').text());
+        return ($( "#preciorange").val() > Number($(this).find('.preciofil').text()));
     }).hide();
     $('.prod').filter(function(){
-        return ($("#preciorange").val() <= $(this).find('.preciofil').text());
+        return ($("#preciorange").val() <= Number($(this).find('.preciofil').text()));
     }).show();
 });
 
 $("#ofertarange").on( "change", function(){
     $('.prod').filter(function(){
-        return ($( "#ofertarange").val() > $(this).find('.ofertafil').text());
+        return ($( "#ofertarange").val() > Number($(this).find('.ofertafil').text()));
     }).hide();
     $('.prod').filter(function(){
-        return ($("#ofertarange").val() <= $(this).find('.ofertafil').text());
+        return ($("#ofertarange").val() <= Number($(this).find('.ofertafil').text()));
     }).show();
 });
 
 $("#pesorange").on( "change", function(){
     $('.prod').filter(function(){
-        return ($( "#pesorange").val() > $(this).find('.pesofil').text());
+        return ($( "#pesorange").val() > Number($(this).find('.pesofil').text()));
     }).hide();
     $('.prod').filter(function(){
-        return ($("#pesorange").val() <= $(this).find('.pesofil').text());
+        return ($("#pesorange").val() <= Number($(this).find('.pesofil').text()));
     }).show();
 });
 
@@ -184,7 +184,7 @@ slider.oninput = function() {
 /* Slider de oferta */
 var sliderof = document.getElementById("ofertarange");
 var outputof = document.getElementById("ofertaranget");
-outputof.innerHTML = slider.value; // Muestra el valor de oferta
+outputof.innerHTML = sliderof.value; // Muestra el valor de oferta
 
 sliderof.oninput = function() {
     outputof.innerHTML = this.value;
@@ -193,7 +193,7 @@ sliderof.oninput = function() {
 /* Slider de peso */
 var sliderp = document.getElementById("pesorange");
 var outputp = document.getElementById("pesoranget");
-outputp.innerHTML = slider.value; // Muestra el valor de peso
+outputp.innerHTML = sliderp.value; // Muestra el valor de peso
 
 sliderp.oninput = function() {
     outputp.innerHTML = this.value;

@@ -24,7 +24,7 @@
 
 </head>
 
-<body style="background-color: white;">
+<body style="background-color: white;" class="patron">
 	<div class="layer">
 		{{-- 	<div class="social-bar">
 			<a href="https://www.facebook.com/bumsgamesoficial/" class="icon icon-facebook" target="_blank"></a>
@@ -43,8 +43,7 @@
 
 				<ul id="searchnav" class="navbar-nav mr-auto">
 					<li>		
-						<form class="form-inline" action="/buscar_articulo_bums" method="post">
-							{{ csrf_field() }}
+						<form class="form-inline" action="/buscar_articulo_bums" method="get">
 							<div id="searchnavgroup" class="input-group">
 								<input autocomplete="off" type="text" class="form-control" id="exampleInputEmail1" name="name" placeholder="Simplifica tu compra utilizando el buscador.">
 
@@ -81,8 +80,7 @@
 								<a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle">Nintendo <i style="float:right" class="fa fa-caret-right"></i></a>
 								<div  id="dropnin" class="dropdown-menu">';
 								?>
-								<form action="articulos" method="POST">
-									{{ csrf_field() }}
+								<form action="articulos" method="get">
 									<button type="submit" name="category" value="{{$categoria->id}}" class="dropdown-item">{{$categoria->category}}</button>
 									<!--<a class="" href="#">{{$categoria->category}}</a>-->
 								</form>
@@ -100,8 +98,7 @@
 								<?php $count=0?>
 								@foreach($categorias as $categoria)
 
-								<form action="articulos" method="POST">
-									{{ csrf_field() }}
+								<form action="articulos" method="GET">
 									<button type="submit" name="category" value="{{$categoria->id}}" class="dropdown-item">{{$categoria->category}}</button>
 									<!--<a class="" href="#">{{$categoria->category}}</a>-->
 								</form>
@@ -186,8 +183,7 @@
 				</a>
 			</div>
 
-			<form class="form-inline" action="/buscar_articulo_bums" method="post">
-				{{ csrf_field() }}
+			<form class="form-inline" action="/buscar_articulo_bums" method="get">
 				<input class="form-control buscador_bums" name="name" type="search" placeholder="Buscar articulo" aria-label="Search" autocomplete="off">
 				<button class="btn btn-outline-success my-2 my-sm-0 boton botonBuscador_bums"  type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
 			</form>
@@ -226,9 +222,8 @@
 				<a class="nav-link letraBlanca" href="">Cambia tu moneda-> </a>
 			</li>
 			<li>
-				<form class="form-inline margin" action="{{ url('prueba') }}" method="post">
+				<form class="form-inline margin" action="{{ url('prueba') }}" method="get">
 					{{-- onchange="cambiaBandera(this.options[this.selectedIndex].value)" --}}
-					<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 					<select class="form-control selectCoin" onchange="this.form.submit()" name="id_coin" id="id_coin">
 						<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
 						@foreach($coins as $coin)
@@ -252,10 +247,10 @@
 	@include('modal.comment')
 
 	<button type="button" class="btn btn-primary contactbutton" data-toggle="modal" data-target="#contactModal">
-		Contáctanos <i class="fab fa-whatsapp"></i>
+		Contáctanos <i class="fab fa-whatsapp fa-lg align-middle float-right"></i>
 	</button>
-	<button type="button" class="btn btn-primary commentbutton" data-toggle="modal" data-target="#commentModal" style="width: 250px;">
-		DEJANOS TU COMENTARIO <i class="far fa-comment-dots"></i>
+	<button type="button" class="btn btn-primary commentbutton" data-toggle="modal" data-target="#commentModal">
+		DEJANOS TU COMENTARIO <i class="far fa-lg fa-comment-dots float-right align-middle"></i>
 	</button>
 	<input type="checkbox" class="checkbox" id="check">
 
@@ -321,7 +316,7 @@
 			</div>
 		</div>
 	</div>
-
+	@yield('ultimos-vendidos')
 	{{-- CARROUSEL CON REDES SOCIALES INICIO --}}
 	@yield('content')
 	{{-- CARROUSEL CON REDES SOCIALES FIN --}}
