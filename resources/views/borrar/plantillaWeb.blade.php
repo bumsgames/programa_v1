@@ -201,7 +201,7 @@
 				<a class="nav-link letraBlanca" href="/articulos_web">ARTICULOS RECIENTES</a>
 			</li>
 			<li>
-				<span class="nav-link letraBlanca">Cambia tu moneda <span class="fa fa-arrow-right"></span> </span>
+				<a class="nav-link letraBlanca" href="">Cambia tu moneda-> </a>
 			</li>
 			<li>
 				<form class="form-inline margin" action="{{ url('prueba') }}" method="get">

@@ -719,7 +719,9 @@ class ProgramController extends Controller
 		$categories = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::All();
 		$title = "Buscador de coincidencia en la base de datos";
-		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar' , 'articles','coins','users','categories', 'articles_cantidad','tutoriales'));
+
+		$busqueda = $request->coincidencia;
+		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar' , 'articles','coins','users','categories', 'articles_cantidad','tutoriales','busqueda'));
 	}
 
 	public function allArticle(){
@@ -828,6 +830,123 @@ class ProgramController extends Controller
 		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar', 'articles','coins','users','categories', 'articles_cantidad','tutoriales'));
 	
 	}
+
+	//Retorna los articulos sin imagenes
+	public function Articulos_Sin_Imagen(){
+
+		$articles = \Bumsgames\Article::where('articles.quantity','>=','-1000')
+		->where('articles.id','!=','2')
+		->where('articles.fondo','like','azar.jpg')
+		->get();
+
+		$articles_cantidad = $articles->count();
+
+		$tutoriales = \Bumsgames\tutorial::All();
+
+		$users = \Bumsgames\BumsUser::All();
+		$categories = \Bumsgames\Category::All();
+		$coins = \Bumsgames\Coin::All();
+		$title = "Todos los articulos sin imagenes.";
+		$comments_por_aprobar = \Bumsgames\Comment::
+		where('aprobado',NULL)
+		->orderby('created_at', 'desc')
+		->get();
+		
+		return view('articleNoImage', compact('title','bancos','comments_por_aprobar', 'articles','coins','users','categories', 'articles_cantidad','tutoriales'));
+	}
+
+	//Agrega la imagen a todos los articulos iguales
+	public function Actualizar_Imagen(Request $request, $id){
+		$article = \Bumsgames\Article::find($id);
+
+		$article->fondo = $request->image;
+		 //Se buscan todos los articulos de la misma categoria y nombre
+		
+		 if(($article->category == 1) || ($article->category == 2)){
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->whereIn('category',[1,2])
+			->get();
+		 }
+		 else if(($article->category == 8) || ($article->category == 9)){
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->whereIn('category',[8,9])
+			->get();
+		 }
+		 else{
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->where('category',$article->category)
+			->get();
+		 }
+
+		 //Se actualizan todos los articulos iguales
+		 foreach($articles as $art){
+			 $art->fondo = $request->image;
+			 $art->save();
+		 }
+
+		 $article->save();
+
+		 return back();
+	}
+
+	//Retorna los articulos sin peso
+	public function Articulos_Sin_Peso(){
+
+		$articles = \Bumsgames\Article::where('articles.quantity','>=','-1000')
+		->where('articles.peso','0')
+		->where('articles.id','!=','2')		
+		->whereIn('articles.category',[1,2,3,5,7,8,9,10,12,13])
+		->get();
+
+		$articles_cantidad = $articles->count();
+
+		$tutoriales = \Bumsgames\tutorial::All();
+
+		$users = \Bumsgames\BumsUser::All();
+		$categories = \Bumsgames\Category::All();
+		$coins = \Bumsgames\Coin::All();
+		$title = "Todos los articulos sin peso.";
+		$comments_por_aprobar = \Bumsgames\Comment::
+		where('aprobado',NULL)
+		->orderby('created_at', 'desc')
+		->get();
+		
+		return view('articleNoPeso', compact('title','bancos','comments_por_aprobar', 'articles','coins','users','categories', 'articles_cantidad','tutoriales'));
+	}
+
+	public function Actualizar_Peso(Request $request, $id){
+
+		$article = \Bumsgames\Article::find($id);
+
+		$article->peso = $request->peso;
+
+		 //Se buscan todos los articulos de la misma categoria y nombre
+		 if(($article->category == 1) || ($article->category == 2)){
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->whereIn('category',[1,2])
+			->get();
+		 }
+		 else if(($article->category == 8) || ($article->category == 9)){
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->whereIn('category',[8,9])
+			->get();
+		 }
+		 else{
+			$articles = \Bumsgames\Article::where('name',$article->name)
+			->where('category',$article->category)
+			->get();
+		 }
+		 //Se actualizan todos los articulos iguales
+		 foreach($articles as $art){
+			 $art->peso = $request->peso;
+			 $art->save();
+		 }
+
+		 $article->save();
+
+		 return back();
+	}
+
 	public function aplicar_filtros_multiples(Request $request){
 		$namefilt = $request->namefilt;
 		$category= $request->selcat;
@@ -839,6 +958,10 @@ class ProgramController extends Controller
 		$oferta = $request->oferta;
 		$peso = $request->peso;
 		$seldu = $request->seldu;
+
+		$busqueda = $request->namefilt;
+		$parametros = [$category,$filtrocorreo,$disponible,$creatorfilter,$nickfil,$precio,$oferta,$peso,$seldu];
+
 		$articles = \Bumsgames\Article::where('articles.quantity','>=','-1000')
 		->where('articles.id','!=','2');
 
@@ -864,13 +987,13 @@ class ProgramController extends Controller
 			$articles->where('nickname','LIKE','%'.$nickfil.'%');
 		}
 		if($precio > 0){
-			$articles->where('price_in_dolar','<=',$precio);
+			$articles->where('price_in_dolar','>=',$precio);
 		}
 		if($oferta > 0){
-			$articles->where('offer_price','<=',$oferta);
+			$articles->where('offer_price','>=',$oferta);
 		}
 		if($peso > 0){
-			$articles->where('peso','<=',$peso);
+			$articles->where('peso','>=',$peso);
 		}		
 
 		if($seldu != 0){
@@ -932,7 +1055,7 @@ class ProgramController extends Controller
 		->orderby('created_at', 'desc')
 		->get();
 		
-		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar', 'articles','coins','users','categories', 'articles_cantidad','tutoriales'));
+		return view('allArticle', compact('title','bancos','comments_por_aprobar','pago_sin_confirmar', 'articles','coins','users','categories', 'articles_cantidad','tutoriales','parametros','busqueda'));
 	}
 	public function categoria_art($category){
 		$articles = \Bumsgames\Article::

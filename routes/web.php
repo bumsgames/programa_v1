@@ -186,12 +186,12 @@ Route::post('/filtrar_articulos', 'WebController@filtrar_articulos');
 Route::post('/articulos_oferta', 'WebController@articulos_oferta');
 Route::post('/articulos/{categoria}', 'WebController@articulos');
 Route::post('/categoria_general/{categoria}', 'WebController@categoria_general');
-Route::post('/prueba', 'WebController@prueba');
-Route::post('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
+Route::get('/prueba', 'WebController@prueba');
+Route::get('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
 Route::post('/agregaCarro','WebController@agregaCarro');
 Route::post('/categoria_general','WebController@categoria_general');
 Route::post('/articulos_web', 'WebController@articulos_web');
-Route::post('/articulos', 'WebController@articulos');
+Route::get('/articulos', 'WebController@articulos');
 Route::post('/reportar_pago', 'WebController@reportar_pago');
 
 // Cliente Login Get
@@ -223,3 +223,55 @@ Route::get('/cupones','CuponesController@ShowCupones');
 Route::get('/cupones/crear','CuponesController@create');
 Route::get('/cupones/editar/{id}','CuponesController@editar');
 Route::get('/cupones/eliminar/{id}','CuponesController@eliminar');
+
+/*
+--------------------------------
+	Noticias - Administracion
+--------------------------------
+*/
+
+//Devuelve todas las noticias
+Route::get('/noticias','NoticiaController@ShowNoticias');
+//Devuelve el formulario para crear noticias
+Route::get('/noticias/crear','NoticiaController@create');
+//Devuelve el formulario para editar noticias
+Route::get('/noticias/editar/{id}','NoticiaController@editar');
+//Elimina una noticia
+Route::get('/noticias/eliminar/{id}','NoticiaController@eliminar');
+
+//Guarda una nueva noticia
+Route::post('/noticias/crear','NoticiaController@store');
+Route::post('/noticias/editar/{id}','NoticiaController@change');
+
+/*
+------------------------------
+	Noticias - Usuario
+------------------------------
+*/
+
+//Actualiza los likes
+Route::get('/noticialike/{id}','NoticiaController@LikeNoticia');
+
+/*
+------------------------------
+	Miscelaneos
+------------------------------
+*/
+
+//Articulos sin imagenes
+Route::get('/articulosSinImagen','ProgramController@Articulos_Sin_Imagen');
+
+//Agregar imagen
+Route::post('/actualizarImagen/{id}','ProgramController@Actualizar_Imagen');
+
+//Articulos sin peso
+Route::get('/articulosSinPeso','ProgramController@Articulos_Sin_Peso');
+
+//Agrega el peso
+Route::post('/actualizarPeso/{id}','ProgramController@Actualizar_Peso');
+
+
+
+
+//ESTE SIEMPRE SE DEBE DEJAR DE ULITMO!
+Route::get('/{url}', 'WebController@error404');

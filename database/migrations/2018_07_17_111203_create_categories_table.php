@@ -1,5 +1,4 @@
-
-$table->string('nickname', 50);<?php
+<?php
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,6 +16,8 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('category', 100);
+            $table->string('description', 500);
+            $table->string('image', 200);
             $table->timestamps();
         });
     }

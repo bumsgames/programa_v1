@@ -63,10 +63,8 @@ function mostrarImagen(event) {
 
 //ready ready ready
 $( document ).ready(function() {
-    $('.carousel').carousel({
-        interval: 2000
-    });
-
+    $('#carousel_pago').carousel({interval:false});
+    $('.carousel').carousel();
     $("#hidden").hide();
     window.addEventListener('load', init, false);
 
@@ -1568,7 +1566,7 @@ $.ajax({
                 acumulado++;
                 borrado = i;
                 precioAcumulado+= Number(item.precio) * Number(e) ;
-                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+                tablaDatos.append("<tr><tdh>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
             });
             $("#nArt").val(numero);
             tablaDatos.append("<tr><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td></tr>");

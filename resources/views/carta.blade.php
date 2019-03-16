@@ -11,29 +11,37 @@
 		</div>
 	</div> --}}
 		{{-- <script>
-			  $('#image{{$count}} .card-img-top').on('mouseover', function(){
-				  $('#image{{$count}}').children(".card-img-top").css({'transform': 'scale('+ 2 +')'});})
-				  .on('mouseout', function(){
-					  $('#image{{$count}}').children('.card-img-top').css({'transform': 'scale(1)'})
-					  .on('mousemove', function(e){
-						  $('#image{{$count}}').children('.card-img-top')
-						  .css({'transform-origin': ((e.pageX - $('#image{{$count}}').offset().left) / $('#image{{$count}}').width()) * 100 + '% ' + ((e.pageY - $('#image{{$count}}').offset().top) / $('#image{{$count}}').height()) * 100 +'%'});
+				$('#image{{$count}} .card-img-top').on('mouseover', function(){
+					$('#image{{$count}}').children(".card-img-top").css({'transform': 'scale('+ 2 +')'});})
+					.on('mouseout', function(){
+						$('#image{{$count}}').children('.card-img-top').css({'transform': 'scale(1)'})
+						.on('mousemove', function(e){
+							$('#image{{$count}}').children('.card-img-top')
+							.css({'transform-origin': ((e.pageX - $('#image{{$count}}').offset().left) / $('#image{{$count}}').width()) * 100 + '% ' + ((e.pageY - $('#image{{$count}}').offset().top) / $('#image{{$count}}').height()) * 100 +'%'});
 						});
 			});
 
 		</script> --}}
-
-		<div class=" ">
-			<img class="card-img-top imagen" height="255" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap">
+		<style>	
+		.img-top{
+			/*	max-width: 180px;*/
+			min-height: 260px;
+			max-height: 260px;
+		}
+	</style>
+	<center>
+		<div class="" style="background-color: white;">
+			<img class="img-top" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap">
 		</div>
+	</center>
 
 
-		@if($articulo->oferta > 0)
-		{{-- http://www.diasa.com.mx/wp-content/uploads/2016/07/oferta.png --}}
-		<div class="cartaEtiqueta_oferta">
-			<img  src="{{ url('img/oferta.png') }}" alt="" class="oferta-img">
-		</div>
-		@endif
+	@if($articulo->oferta > 0)
+	{{-- http://www.diasa.com.mx/wp-content/uploads/2016/07/oferta.png --}}
+	<div class="cartaEtiqueta_oferta">
+		<img  src="{{ url('img/oferta.png') }}" alt="" class="oferta-img">
+	</div>
+	@endif
 
 	<!-- <div class="cartaFoto_pequena"> 
 			<img class="portada_articulo" src="{{ url('img/'.$articulo->image) }}"> 
@@ -62,20 +70,20 @@
 						'{{ $articulo->pertenece_category->category }}', 
 						{{ $articulo->price_in_dolar }},
 						'{{ $articulo->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
-							<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> 
-						</button>
-					</div>
-					<div style='font-size: 11px;' class="col-8 cartaCifra mt-1 mb-1">
-						@if($articulo->oferta==1) 
-						<del> 
+						<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> 
+					</button>
+				</div>
+				<div style='font-size: 11px;' class="col-8 cartaCifra mt-1 mb-1">
+					@if($articulo->oferta==1) 
+					<del> 
 						<strong class="precio_rebajado">
-						    {{ number_format($articulo->offer_price * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+							{{ number_format($articulo->offer_price * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 						</strong>
-						</del> 
-						@endif
-						&nbsp;<strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
-						</div>
-					</div>
+					</del> 
+					@endif
+					&nbsp;<strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
