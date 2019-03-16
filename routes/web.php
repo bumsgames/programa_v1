@@ -269,3 +269,9 @@ Route::get('/articulosSinPeso','ProgramController@Articulos_Sin_Peso');
 
 //Agrega el peso
 Route::post('/actualizarPeso/{id}','ProgramController@Actualizar_Peso');
+
+
+
+
+//ESTE SIEMPRE SE DEBE DEJAR DE ULITMO!
+Route::get('/{url}', 'WebController@error404');

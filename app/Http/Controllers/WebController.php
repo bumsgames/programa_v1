@@ -727,5 +727,23 @@ class WebController extends Controller
 		->withErrors(['cupon'=>'Codigo invalido']);
 	}
 
+	public function error404($url){
+
+		if(Session::has('id_coin')){
+			$id_coin = Session::get('id_coin');
+		}else{
+			$id_coin = 1;
+		}
+
+		$categorias = \Bumsgames\Category::All();
+		$coins = \Bumsgames\Coin::where('id','!=',$id_coin)->get();
+		$moneda_actual = \Bumsgames\Coin::find($id_coin);
+
+		$title = 'Pagina no encontrada';
+		$buscador_ruta = 'buscar_articulo_bums';
+		\Bumsgames\Visita::create(['tipo'=>'General']);
+		return view('errors.404',compact('categorias','coins','moneda_actual','title','buscador_ruta'));
+	}
+
 }
 
