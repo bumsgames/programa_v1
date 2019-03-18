@@ -12,8 +12,11 @@
   <link rel="stylesheet" type="text/css" href="{{ url('css/datatables.min.css') }}">
   
   <!-- Font-icon css-->
+  
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
   <link rel="icon" href="{{ url('img/LOGO.ico') }}" />
+  
   {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" /> --}}
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -175,6 +178,12 @@
                   <ul class="treeview-menu">
                     <li><a class="treeview-item" href="/noticias/crear"><i class="icon fa fa-circle-o"></i>Agregar Noticia</a></li>
                     <li><a class="treeview-item" href="/noticias"><i class="icon fa fa-circle-o"></i> Ver Noticias</a></li>   
+                  </ul>
+                </li>
+                <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-poll"></i><span class="app-menu__label">Encuesta</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                  <ul class="treeview-menu">
+                    <li><a class="treeview-item" href="/encuestas/crear"><i class="icon fa fa-circle-o"></i>Agregar Encuesta</a></li>
+                    <li><a class="treeview-item" href="/encuestas"><i class="icon fa fa-circle-o"></i> Ver Encuestas</a></li>   
                   </ul>
                 </li>
                 <li>

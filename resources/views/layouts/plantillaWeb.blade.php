@@ -7,8 +7,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 	<script src="//cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js" type="text/javascript"></script>
 	<script src='{{ asset("js/jquery.zoom.js") }}'></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet"/>
 	<link rel="icon" href="img/logo_circular.ico" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
@@ -17,7 +16,6 @@
 	<script async custom-element="amp-auto-ads"
 	src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
 </script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 
 
@@ -229,10 +227,10 @@
 	@include('modal.comment')
 
 	<button type="button" class="btn btn-primary contactbutton" data-toggle="modal" data-target="#contactModal">
-		Contáctanos <i class="fab fa-whatsapp"></i>
+		Contáctanos <i class="fab fa-whatsapp fa-lg align-middle float-right"></i>
 	</button>
-	<button type="button" class="btn btn-primary commentbutton" data-toggle="modal" data-target="#commentModal" style="width: 250px;">
-		DEJANOS TU COMENTARIO <i class="far fa-comment-dots"></i>
+	<button type="button" class="btn btn-primary commentbutton" data-toggle="modal" data-target="#commentModal">
+			DEJANOS TU COMENTARIO <i class="far fa-lg fa-comment-dots float-right align-middle"></i>	
 	</button>
 	<input type="checkbox" class="checkbox" id="check">
 
