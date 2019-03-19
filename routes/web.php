@@ -273,6 +273,12 @@ Route::post('/encuestas/editar/{id}','EncuestaController@change');
 //Votar
 Route::post('/encuestas/votar/{id}','EncuestaController@Votar');
 
+//Actualiza la encuesta al votar
+Route::get('/encuestas/user/show','EncuestaController@MostrarResultado');
+
+//Activa/Desactiva una encuesta
+Route::get('/encuesta/activar/{id}','EncuestaController@ActivarEncuesta');
+
 /*
 ------------------------------
 	Miscelaneos

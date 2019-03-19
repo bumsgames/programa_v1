@@ -139,30 +139,9 @@ duration: 20000,
 								</div>
 								<div class="card-body">
 									<h5 class="card-title"><strong>{{$encuesta->nombre}}</strong></h5>
-									<p class="card-text">
-										<?php $opciones = 0;?>
-										<?php $total = 0;?>
-										@foreach($encuesta->Options as $option)
-											<?php $total+=$option->contador?>
-										@endforeach
-										<?php if($total == 0){ $total = 1;}?>
-										@foreach($encuesta->Options as $option)
-										<?php $opciones++;?>
-										<div class="custom-control custom-radio encuesta-option">
-											<input type="radio" class="custom-control-input" id="option_{{$opciones}}" name="respuesta" value="{{$option->id}}">
-											<label class="custom-control-label" for="option_{{$opciones}}">{{$option->nombre}}</label>
-										</div> 
-										<div class="encuesta-resultado" style="display:none">
-											{{$option->nombre}}
-											<div class="progress mb-1">
-												<div class="progress-bar" role="progressbar" 
-												style="width: {{number_format ( $option->contador * 100/$total , 0 , "," , "." )}}%;background-color:{{$option->color}}"
-													aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{number_format ( $option->contador * 100/$total , 2 , "," , "." )}}%</div>
-											</div>
-										</div>
-										
-										@endforeach
-									</p>
+									<div id="encuesta-section">
+										@include('encuestas.section')
+									</div>
 								</div>
 								<div class="card-footer text-muted">
 									<button type="button" id="votar_btn" class="btn btn-dark text-center btn-block">Votar</button>
@@ -172,14 +151,12 @@ duration: 20000,
 							</form>
 							@else
 							<div class="card-header">
-								Header
+								No hay encuesta
 							</div>
 							<div class="card-body">
-								<h4 class="card-title">Title</h4>
-								<p class="card-text">Text</p>
+								<h4 class="card-title">No hay encuesta actualmente</h4>
 							</div>
 							<div class="card-footer text-muted">
-								Footer
 							</div>
 							@endif
 						</div>
@@ -366,8 +343,12 @@ $("#votar_btn").click(function(){
         dataType: 'JSON',
         success: function (data) { 
             if(data.success){
-                $('.encuesta-option').hide();
+				$('#encuesta-section').fadeOut();
+				$('#encuesta-section').load('/encuestas/user/show', function() {
+					$('#encuesta-section').fadeIn();
+					$('.encuesta-option').hide();
 				$('.encuesta-resultado').show();
+				});
 				$('#regresar_btn').show();
 				$('#votar_btn').hide();
 				$('#mostrar_btn').hide();

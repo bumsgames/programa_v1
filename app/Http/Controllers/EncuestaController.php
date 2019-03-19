@@ -3,6 +3,7 @@
 namespace Bumsgames\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 use Bumsgames\Poll;
 use Bumsgames\Poll_Option;
 
@@ -83,10 +84,46 @@ class EncuestaController extends Controller
     }
 
     public function Votar(Request $request, $id){
-        $encuesta = Poll_Option::find($id);
-        $encuesta->contador += 1;
-        $encuesta->save();
+        $encuesta = Poll_Option::find($id); //Se obtiene la opcion seleccionada
+        if(Session::has('opcion_voto')){ //Se comprueba que no haya votado antes
+            if(Session::get('poll_voted') == $encuesta->Fk_Poll && $encuesta->id != Session::get('opcion_voto')){ //Se comprueba que no haya votado en el mismo poll
+                $encuesta_ref = Poll_Option::find(Session::get('opcion_voto'));
+                $encuesta_ref->contador = $encuesta_ref->contador - 1;
+                $encuesta_ref->save();
+            }
+        }
+        if($encuesta->id != Session::get('opcion_voto')){
+            $encuesta->contador = $encuesta->contador + 1;
+            $encuesta->save();
+        }
+        Session::put('opcion_voto',$encuesta->id);
+        Session::put('poll_voted',$encuesta->Fk_Poll);
 
         return response()->json(array('success' => true));
+    }
+
+    public function MostrarResultado(){
+        $encuesta = \Bumsgames\Poll::where('estado','1')->first();
+        return view('encuestas.section',compact('encuesta'));
+    }
+
+    public function ActivarEncuesta($id){
+        $ref_encuesta = \Bumsgames\Poll::find($id);
+
+        if($ref_encuesta->estado == 0){
+            $ref_encuestas = \Bumsgames\Poll::where('estado','=','1')->get();
+            foreach($ref_encuestas as $ref_enc){
+                $ref_enc->estado = 0;
+                $ref_enc->save();
+            }
+            $ref_encuesta->estado = 1;
+        }
+        else{
+            $ref_encuesta->estado = 0;
+        }
+        $ref_encuesta->save();
+        
+
+        return redirect('/encuestas');
     }
 }

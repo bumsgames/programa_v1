@@ -1,6 +1,73 @@
 @extends('layouts.bums', ['tutoriales' => $tutoriales])
 
 @section('content')
+<style>
+
+/*Switch de las encuestas*/
+/* The switch - the box around the slider */
+.switch {
+    position: relative!important;
+    display: inline-block!important;
+    width: 60px!important;
+    height: 34px!important;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0!important;
+    width: 0!important;
+    height: 0!important;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute!important;
+    cursor: pointer!important;
+    top: 0!important;
+    left: 0!important;
+    right: 0!important;
+    bottom: 0!important;
+    background-color: #ccc!important;
+    -webkit-transition: .4s!important;
+    transition: .4s!important;
+  }
+  
+  .slider:before {
+    position: absolute!important;
+    content: ""!important;
+    height: 26px!important;
+    width: 26px!important;
+    left: 4px!important;
+    bottom: 4px!important;
+    background-color: white!important;
+    -webkit-transition: .4s!important;
+    transition: .4s!important;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3!important;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3!important;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px)!important;
+    -ms-transform: translateX(26px)!important;
+    transform: translateX(26px)!important;
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px!important;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%!important;
+  }
+
+</style>
 <main class="app-content">
 	<div class="app-title">
 		<div>
@@ -19,6 +86,7 @@
 							<tr>
 								<th scope="col">#</th>
                                 <th scope="col">Título</th>
+                                <th>Activar/Desactivar</th>
                                 <th scope="col">Opciones</th>
                                 <th></th>
 							</tr>
@@ -33,6 +101,14 @@
                             <tr>
                                 <td class="align-middle">{{$encuesta->id}}</td>
                                 <td class="align-middle">{{$encuesta->nombre}}</td>
+                                <td class="align-middle">
+                                    <label class="switch">
+                                        <input onchange="activarencuesta({{$encuesta->id}})" type="checkbox" @if($encuesta->estado == 1) checked @endif>
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <br>
+                                    <small>*Solo puede haber una encuesta activa a la vez</small>
+                                </td>
                                 <td class="align-middle">
                                     @foreach($encuesta->Options as $opcion)
                                     {{$opcion->nombre}}
@@ -133,6 +209,11 @@
     function modaltrigger(id, titulo){
         $('.titulomodal').text(titulo);
         $('#delete-link').attr("href","/encuestas/eliminar/"+id);
+    }
+</script>
+<script>
+    function activarencuesta(id){
+        window.location.href = "/encuesta/activar/"+id;
     }
 </script>
 @endsection
