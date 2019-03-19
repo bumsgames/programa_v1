@@ -180,7 +180,7 @@
                     <li><a class="treeview-item" href="/noticias"><i class="icon fa fa-circle-o"></i> Ver Noticias</a></li>   
                   </ul>
                 </li>
-                <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-poll"></i><span class="app-menu__label">Encuesta</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+                <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Encuesta</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                   <ul class="treeview-menu">
                     <li><a class="treeview-item" href="/encuestas/crear"><i class="icon fa fa-circle-o"></i>Agregar Encuesta</a></li>
                     <li><a class="treeview-item" href="/encuestas"><i class="icon fa fa-circle-o"></i> Ver Encuestas</a></li>   

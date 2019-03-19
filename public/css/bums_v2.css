@@ -1420,7 +1420,7 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
 }
 
 .noticia-likes{
-    position: absolute;
+    margin-top:10px;
     bottom: 0;
     left: 0;
 }

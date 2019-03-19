@@ -5,6 +5,7 @@ namespace Bumsgames\Http\Controllers;
 use Illuminate\Http\Request;
 use Bumsgames\Noticia;
 use Bumsgames\BumsUser;
+use Session;
 
 class NoticiaController extends Controller
 {
@@ -74,11 +75,15 @@ class NoticiaController extends Controller
     }
 
     public function LikeNoticia($id){
-        $noticia = Noticia::find($id);
-        $noticia->likes = $noticia->likes + 1;
-        $noticia->save();
-
-        return response()->json(array('success' => true));
+        if(!Session::has('liked') || !in_array($id,Session::get('liked'))){
+            $noticia = Noticia::find($id);
+            $noticia->likes = $noticia->likes + 1;
+            $noticia->save();
+            Session::push('liked',$noticia->id);
+            return response()->json(array('success' => true));
+        }
+        
+        return response()->json(array('success' => false));
     }
 
 }

@@ -186,7 +186,7 @@ duration: 20000,
 									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								</a>
 								<?php $count=0;?>
-								@foreach($noticias as $noticia)
+								@forelse($noticias as $noticia)
 								<div class="carousel-item item-vertical @if($count == 0) active @endif">
 										<?php $count=$count+1;?>
 			
@@ -196,10 +196,6 @@ duration: 20000,
 												<div class="noticia-img-container  mx-auto">
 													<img src="img/{{$noticia->imagen}}" class="noticia-img" alt="">	
 												</div>
-												<div class="noticia-likes">
-													<span class="likes badge badge-red">Likes: <span class="badge bg-light text-dark" id="likes_num_{{$noticia->id}}">{{$noticia->likes}}</span> <i class="fas fa-heart"></i></span>
-													<a href="javascript:void(0);" onclick="aumentarMegusta({{$noticia->id}})" class="btn btn-primary buttonLike">Me gusta <i class="far fa-thumbs-up"></i></a>
-												</div>
 											</div>
 											<div class="col-8">
 												<div class="noticia-content">
@@ -208,15 +204,38 @@ duration: 20000,
 												</div>
 												
 											</div>
+											<div class="col-4">
+												<div class="noticia-likes">
+													<span class="likes badge badge-red">Likes: <span class="badge bg-light text-dark" id="likes_num_{{$noticia->id}}">{{$noticia->likes}}</span> <i class="fas fa-heart"></i></span>
+													<a href="javascript:void(0);" onclick="aumentarMegusta({{$noticia->id}})" class="btn btn-primary buttonLike">Me gusta <i class="far fa-thumbs-up"></i></a>
+												</div>
+											</div>
 										</div>
 										
 										
 									</div>
 								</div>
-								@endforeach
+
+								@empty
+								<div class="carousel-item item-vertical active">
+									<div class="noticia">
+										<div class="row">
+											<div class="col-12 text-center">
+												<div class="noticia-content">
+													<br>
+													<br>
+													<br>
+													<br>
+													<strong><h3>No hay noticias actualmente</h3></strong>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								@endforelse
 								<a class="carousel-control-next carousel-control-next-vertical" href="#carouselNoticias" role="button" data-slide="next">
 									<span class="carousel-control-next-icon" aria-hidden="true"></span>
-									</a>
+								</a>
 							</div>
 						</div>
 					</div>

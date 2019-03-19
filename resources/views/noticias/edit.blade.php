@@ -23,7 +23,8 @@
                         <div class="col-12 col-lg">
                             <div class="form-group">
                                 <label for=""><strong>Descripcion de la noticia</strong></label>
-                                <textarea type="text" class="form-control" name="descripcion" id="descripcion" required>{{$noticia->descripcion}}</textarea>
+                                <textarea maxlength="255" type="text" class="form-control" onkeyup="countChar(this)" name="descripcion" id="descripcion" required>{{$noticia->descripcion}}</textarea>
+                                <small class="float-left" id="counter">255</small>
                             </div>
                         </div>
                     </div>
@@ -63,5 +64,17 @@
 		});
 	});
 </script>
-
+<script>
+    $(document).ready(function(){
+        $('#counter').text(255-$('#descripcion').val().length);
+    });
+    function countChar(val) {
+        var len = val.value.length;
+        if (len >= 256) {
+        val.value = val.value.substring(0, 255);
+        } else {
+        $('#counter').text(255 - len);
+        }
+    };
+</script>
 @endsection

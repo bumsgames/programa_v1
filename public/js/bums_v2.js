@@ -231,9 +231,11 @@ function aumentarMegusta(id){
         type: 'GET', 
         url: '/noticialike/'+id,
         success: function (data) {
+            if(data.success){
             var likes = Number($('#likes_num_'+id).html());
             likes++;
              $("#likes_num_"+id).html(likes)   //// For replace with previous one
+            }
         },
         error: function() { 
              console.log(data);
