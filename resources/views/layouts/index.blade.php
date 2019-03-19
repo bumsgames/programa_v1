@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div id="bannertop" class="carousel slide" data-ride="carousel" data-interval="50000">
+<div id="bannertop" class="carousel slide" data-ride="carousel" data-interval="5000">
 	<div class="carousel-inner">
 		<div class="carousel-item active">
 			<img class="d-block w-100" src="img/family.jpg" alt="First slide">

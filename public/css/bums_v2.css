@@ -24,9 +24,8 @@
   }
 
   .buttonLike {
-    float: right;
     background-color: #3498db;
-    margin-right: 30px;
+    margin: 30px;
 }
 
 .noticia{
@@ -41,17 +40,15 @@
 
 .noticia-letras{
     color: black;
-    margin-left: 250px ;
     padding-top: 20px;
 }
 
 .noticias-letras2{
-    margin-left: 240px ;
 }
 
 .likes{
     float: left;
-    margin-left: 20px;
+    margin-left: 30px;
     color: #3498db;
 }
 
@@ -1311,10 +1308,6 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
 .slide-vertical .cont-vertical{padding:0;}
 .inner-vertical{position: relative;}
 .item-vertical .noticia{ 
-    position: absolute;
-    top: 0%;
-    left: 50%;
-    margin: 30% 0 0 -50%;
     width: 100%;
     height: auto;
 }
@@ -1407,7 +1400,7 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
 
 .noticia-img-container{
     height: 230px;
-    width: 230px;
+    width: 100%;
     overflow: hidden;
     display: inline-block;
     position: absolute;
@@ -1419,12 +1412,17 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
 .noticia-content{
     display: inline-block;
     min-height: 230px;
-
+    margin-left: 10px;
 }
 
 .likes{
     color:white;
-    margin: 10px;
+}
+
+.noticia-likes{
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .badge-red{
@@ -1435,8 +1433,7 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
 .buttonLike{
     background-color:#BD3536;
     border-color: #BD3536;
-    margin: 10px;
-
+    
 }
 
 .buttonLike:hover{
@@ -1659,4 +1656,40 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 20px;
+}
+
+/*
+----------------------------------
+    Css del poll- Administracion
+----------------------------------
+*/
+.poll_options_add{
+    
+}
+
+/*
+----------------------------------
+    CSS del poll - Usuario
+----------------------------------
+*/
+.card.encuesta-card{
+    border-radius: 0!important;
+}
+
+.card.encuesta-card:hover{
+    box-shadow:none;
+}
+
+.card.encuesta-card .card-header{
+    background-color: #171717;
+    border-radius: 0;
+    color:#9E9E9E;
+}
+
+.card.encuesta-card .card-body{
+    height: unset;
+}
+
+.encuesta-option{
+    margin-bottom: 5px;
 }

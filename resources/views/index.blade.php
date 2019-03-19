@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div id="bannertop" class="carousel slide" data-ride="carousel" data-interval="1000">
+<div id="bannertop" class="carousel slide" data-ride="carousel" data-interval="5000">
 	<div class="carousel-inner">
 		<div class="carousel-item active">
 			<img class="d-block w-100" src="img/family.jpg" alt="First slide">
@@ -121,54 +121,110 @@ duration: 20000,
 </script>
 </div>
 
-{{-- comentarios --}}
+{{-- Noticias --}}
 <div class="col-12 col-lg-5">
-	<div class="colorBackground_Titulo">	
-		<h2 class="colortitulo" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;"><i class="fas fa-exclamation-circle"></i> NOTICIAS</h2>
-	</div>
-
-	<!-- NOTICIA -->
-
-	<section class="slide-wrapper slide-vertical">
-		<div class="container cont-vertical">
-			<div id="carouselNoticias" class="carousel slide carousel-vertical" data-ride="carousel">
-				<ol class="carousel-indicators indicator-vertical">
-					<?php $count=0;?>
-					@foreach($noticias as $noticia)
-						<li data-target="#carouselNoticias" data-slide-to="{{$count}}" @if($count==0) class="active" @endif></li>
-						<?php $count=$count+1;?>
-					@endforeach
-				</ol>
-				<div class="carousel-inner inner-vertical ">
-					<a class="carousel-control-prev carousel-control-prev-vertical" href="#carouselNoticias" role="button" data-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					</a>
-					<?php $count=0;?>
-					@foreach($noticias as $noticia)
-					<div class="carousel-item item-vertical @if($count == 0) active @endif">
-							<?php $count=$count+1;?>
-
-						<div class="noticia">
-							<div class="noticia-img-container  mx-auto">
-								<img src="img/{{$noticia->imagen}}" class="noticia-img" alt="">	
+		<div class="row">
+			<div class="col-12">
+				<div class="colorBackground_Titulo">	
+					<h2 class="colortitulo" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;"><i class="fa fa-poll-h"></i> ENCUESTA</h2>
+				</div>
+				<section>
+					<div style="width:70%" class="mx-auto">
+						<div class="card encuesta-card">
+							@if(isset($encuesta))
+							<form action="" method="POST">
+								<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+								<div class="card-header">
+								<h5>{{$encuesta->nombre}}</h5>
+								</div>
+								<div class="card-body">
+									<h5 class="card-title"><strong>{{$encuesta->nombre}}</strong></h5>
+									<div id="encuesta-section">
+										@include('encuestas.section')
+									</div>
+								</div>
+								<div class="card-footer text-muted">
+									<button type="button" id="votar_btn" class="btn btn-dark text-center btn-block">Votar</button>
+									<button type="button" id="mostrar_btn" class="btn text-center btn-light border border-dark btn-block">Ver resultados</button>
+									<button style="display:none" type="button" id="regresar_btn" class="btn text-center btn-light border border-dark btn-block">Regresar</button>
+								</div>
+							</form>
+							@else
+							<div class="card-header">
+								No hay encuesta
 							</div>
-							<div class="noticia-content">
-								<strong><h4 class="noticia-letras">{{$noticia->titulo}}</h4></strong>
-								<p class="noticias-letras2">{{$noticia->descripcion}}</p>
+							<div class="card-body">
+								<h4 class="card-title">No hay encuesta actualmente</h4>
 							</div>
-							
-							<span class="likes badge badge-red">Likes: <span class="badge bg-light text-dark" id="likes_num_{{$noticia->id}}">{{$noticia->likes}}</span> <i class="fas fa-heart"></i></span>
-							<a href="javascript:void(0);" onclick="aumentarMegusta({{$noticia->id}})" class="btn btn-primary buttonLike">Me gusta <i class="far fa-thumbs-up"></i></a>
+							<div class="card-footer text-muted">
+							</div>
+							@endif
 						</div>
 					</div>
-					@endforeach
-					<a class="carousel-control-next carousel-control-next-vertical" href="#carouselNoticias" role="button" data-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						</a>
-				</div>
+				</section>
 			</div>
 		</div>
-	</section>
+		<div class="row">
+			<div class="col-12">
+				<div class="colorBackground_Titulo">	
+					<h2 class="colortitulo" style="margin-left: 10px; margin-top: 10px; margin-bottom: 10px;"><i class="fas fa-exclamation-circle"></i> NOTICIAS</h2>
+				</div>
+				<!-- NOTICIA -->
+			
+				<section class="slide-wrapper slide-vertical">
+					<div class="container cont-vertical">
+						<div id="carouselNoticias" class="carousel slide carousel-vertical" data-ride="carousel">
+							<ol class="carousel-indicators indicator-vertical">
+								<?php $count=0;?>
+								@foreach($noticias as $noticia)
+									<li data-target="#carouselNoticias" data-slide-to="{{$count}}" @if($count==0) class="active" @endif></li>
+									<?php $count=$count+1;?>
+								@endforeach
+							</ol>
+							<div class="carousel-inner inner-vertical ">
+								<a class="carousel-control-prev carousel-control-prev-vertical" href="#carouselNoticias" role="button" data-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								</a>
+								<?php $count=0;?>
+								@foreach($noticias as $noticia)
+								<div class="carousel-item item-vertical @if($count == 0) active @endif">
+										<?php $count=$count+1;?>
+			
+									<div class="noticia">
+										<div class="row">
+											<div class="col-4">
+												<div class="noticia-img-container  mx-auto">
+													<img src="img/{{$noticia->imagen}}" class="noticia-img" alt="">	
+												</div>
+												<div class="noticia-likes">
+													<span class="likes badge badge-red">Likes: <span class="badge bg-light text-dark" id="likes_num_{{$noticia->id}}">{{$noticia->likes}}</span> <i class="fas fa-heart"></i></span>
+													<a href="javascript:void(0);" onclick="aumentarMegusta({{$noticia->id}})" class="btn btn-primary buttonLike">Me gusta <i class="far fa-thumbs-up"></i></a>
+												</div>
+											</div>
+											<div class="col-8">
+												<div class="noticia-content">
+													<strong><h4 class="noticia-letras">{{$noticia->titulo}}</h4></strong>
+													<p class="noticias-letras2">{{$noticia->descripcion}}</p>
+												</div>
+												
+											</div>
+										</div>
+										
+										
+									</div>
+								</div>
+								@endforeach
+								<a class="carousel-control-next carousel-control-next-vertical" href="#carouselNoticias" role="button" data-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									</a>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+	</div>
+	
+	
 	<script>
 	$('#carouselNoticias').carousel({
 				interval: false
@@ -272,6 +328,56 @@ duration: 10000,
 </div>
 {{-- <input type="checkbox" class="checkbox" id="check"> --}}
 
+<script>
+
+$("#votar_btn").click(function(){
+
+    var CSRF_TOKEN = $('#token').val();
+    $.ajax({
+        url: '/encuestas/votar/'+$('input[name="respuesta"]:checked').val(),
+        type: 'POST',
+        data: {
+            _token: CSRF_TOKEN, 
+            id:$('input[name="respuesta"]:checked').val(),
+        },
+        dataType: 'JSON',
+        success: function (data) { 
+            if(data.success){
+				$('#encuesta-section').fadeOut();
+				$('#encuesta-section').load('/encuestas/user/show', function() {
+					$('#encuesta-section').fadeIn();
+					$('.encuesta-option').hide();
+				$('.encuesta-resultado').show();
+				});
+				$('#regresar_btn').show();
+				$('#votar_btn').hide();
+				$('#mostrar_btn').hide();
+            }
+
+            $("#message").text(data.msg); 
+
+        },
+        error: function (data){
+            $("#message").text(data.msg); 
+        }
+        
+    }); 
+});
+$("#mostrar_btn").click(function(){
+	$('.encuesta-option').hide();
+	$('.encuesta-resultado').show();
+	$('#regresar_btn').show();
+	$('#votar_btn').hide();
+	$('#mostrar_btn').hide();
+});
+$("#regresar_btn").click(function(){
+	$('.encuesta-option').show();
+	$('.encuesta-resultado').hide();
+	$('#regresar_btn').hide();
+	$('#votar_btn').show();
+	$('#mostrar_btn').show();
+});
+</script>
 
 
 @endsection

@@ -254,6 +254,33 @@ Route::get('/noticialike/{id}','NoticiaController@LikeNoticia');
 
 /*
 ------------------------------
+	Encuestas - Administracion
+------------------------------
+*/
+//Devuelve todas las encuestas
+Route::get('/encuestas','EncuestaController@ShowEncuestas');
+//Devuelve el formulario para crear encuestas
+Route::get('/encuestas/crear','EncuestaController@create');
+//Devuelve el formulario para editar encuestas
+Route::get('/encuestas/editar/{id}','EncuestaController@editar');
+//Elimina una encuesta
+Route::get('/encuestas/eliminar/{id}','EncuestaController@eliminar');
+
+//Guarda una nueva encuesta
+Route::post('/encuestas/crear','EncuestaController@store');
+Route::post('/encuestas/editar/{id}','EncuestaController@change');
+
+//Votar
+Route::post('/encuestas/votar/{id}','EncuestaController@Votar');
+
+//Actualiza la encuesta al votar
+Route::get('/encuestas/user/show','EncuestaController@MostrarResultado');
+
+//Activa/Desactiva una encuesta
+Route::get('/encuesta/activar/{id}','EncuestaController@ActivarEncuesta');
+
+/*
+------------------------------
 	Miscelaneos
 ------------------------------
 */
