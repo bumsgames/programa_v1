@@ -12,6 +12,7 @@ class Noticia extends Model
         'descripcion',
         'likes',
         'Fk_Creador',
+        'prioridad'
 
     ];
 
@@ -20,10 +21,10 @@ class Noticia extends Model
      *
      * @var array
      */
-    protected $hidden = [
-    ];
+    protected $hidden = [];
 
-    public function autor(){
-        return $this->belongsTo('Bumsgames\BumsUser','Fk_Creador');
+    public function autor()
+    {
+        return $this->belongsTo('Bumsgames\BumsUser', 'Fk_Creador');
     }
 }

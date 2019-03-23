@@ -35,22 +35,24 @@ class Sales extends Model
 	// 	return $this->price - $this->commission;
 	// }
 
-	public function articulo() {
-        return $this->belongsTo('Bumsgames\Article', 'id_article'); // Le indicamos que se va relacionar con el atributo id
-    }
-
-    public function user() {
-        return $this->belongsTo('Bumsgames\BumsUser', 'id_vendedor'); // Le indicamos que se va relacionar con el atributo id
-    }
-
-    public function cliente() {
-        return $this->belongsTo('Bumsgames\Client', 'id_client'); // Le indicamos que se va relacionar con el atributo id
-    }
-
-    public function movimiento() {
-        return $this->belongsTo('Bumsgames\Movimiento', 'id_movimiento'); // Le indicamos que se va relacionar con el atributo id
+	public function articulo()
+	{
+		return $this->belongsTo('Bumsgames\Article', 'id_article'); // Le indicamos que se va relacionar con el atributo id
 	}
-	
 
-	
+	public function user()
+	{
+		return $this->belongsTo('Bumsgames\BumsUser', 'id_vendedor'); // Le indicamos que se va relacionar con el atributo id
+	}
+
+	public function cliente()
+	{
+		return $this->belongsTo('Bumsgames\Client', 'id_client'); // Le indicamos que se va relacionar con el atributo id
+	}
+
+	public function movimiento()
+	{
+		return $this->belongsTo('Bumsgames\Movimiento', 'id_movimiento'); // Le indicamos que se va relacionar con el atributo id
+	}
 }
+

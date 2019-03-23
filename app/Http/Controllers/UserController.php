@@ -17,7 +17,8 @@ class UserController extends Controller
         return view('user.createUser', compact('users'));
     }
 
-    public function prueba(Request $request){
+    public function prueba(Request $request)
+    {
         return "bien";
     }
 
@@ -41,9 +42,9 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // $request('tal')
-       // \Bumsgames\BumsUser::create([
-       //  'name' => $request['name']
-       // ]);
+        // \Bumsgames\BumsUser::create([
+        //  'name' => $request['name']
+        // ]);
         // \Bumsgames\BumsUser::create([
         //     'name'     => $request->name,
         //     'lastname'     => $request->lastname,

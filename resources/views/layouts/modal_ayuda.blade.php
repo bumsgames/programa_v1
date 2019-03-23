@@ -9,7 +9,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				@include('plantilla_guia')
+				@include('admin.misc.plantilla_guia')
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

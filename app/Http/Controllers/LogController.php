@@ -2,6 +2,7 @@
 
 // namespace Bumsgames\Http\Controllers\Auth;
 namespace Bumsgames\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -59,8 +60,6 @@ class LogController extends Controller
 
 
         return "Error";
-
-        
     }
 
     /**

@@ -8,10 +8,11 @@ class Coin extends Model
 {
 	protected $table = 'coins';
 
-    protected $fillable = [
+	protected $fillable = [
 		'coin',
 		'sign',
 		'valor',
 		'imagen'
 	];
 }
+

@@ -9,22 +9,29 @@ use Session;
 
 class NoticiaController extends Controller
 {
-
-    public function ShowNoticias(){
+    //Muestra las noticias en la parte administrativa
+    public function ShowNoticias()
+    {
         $tutoriales = \Bumsgames\tutorial::All();
         $title = "Todas las Noticias";
         $noticias = Noticia::paginate(40);
-        return view('noticias.all',compact('tutoriales','title','noticias'));
+        return view('admin.noticias.all', compact('tutoriales', 'title', 'noticias'));
     }
 
-    public function create(){
+    //Devuelve el formulario de creacion
+    public function create()
+    {
         $tutoriales = \Bumsgames\tutorial::All();
         $users = BumsUser::all();
-        return view('noticias.create',compact('users','tutoriales'));
+        return view('admin.noticias.create', compact('users', 'tutoriales'));
     }
 
-    public function store(Request $request){
-
+    //Crea una nueva noticia
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'image' => 'required|max:300',
+        ]);
         $noticia = new Noticia;
 
         //setea el nombre con la hora actual para evitar nombres duplicados
@@ -35,6 +42,7 @@ class NoticiaController extends Controller
         //Se guarda el nombre de la imagen en la bd
         $noticia->imagen = $imageName;
 
+        $noticia->prioridad = $request->prioridad;
         $noticia->titulo = $request->titulo;
         $noticia->descripcion = $request->descripcion;
         $noticia->Fk_Creador = $request->autor;
@@ -43,16 +51,23 @@ class NoticiaController extends Controller
         return redirect('/noticias');
     }
 
-    public function editar($id){
+    //Devuelve el formulario de creacion de una noticia
+    public function editar($id)
+    {
         $tutoriales = \Bumsgames\tutorial::All();
         $users = BumsUser::all();
         $noticia = Noticia::find($id);
-        return view('noticias.edit',compact('users','tutoriales','noticia'));
+        return view('admin.noticias.edit', compact('users', 'tutoriales', 'noticia'));
     }
 
-    public function change(Request $request, $id){
+    //edita una noticia
+    public function change(Request $request, $id)
+    {
+        $this->validate($request, [
+            'image' => 'required|max:300',
+        ]);
         $noticia = Noticia::find($id);
-        if(isset($request->image)){
+        if (isset($request->image)) {
             //setea el nombre con la hora actual para evitar nombres duplicados
             $imageName = time() . '.' . $request->file('image')->getClientOriginalExtension();
             $imageref = $request->file('image');
@@ -61,6 +76,7 @@ class NoticiaController extends Controller
             //Se guarda el nombre de la imagen en la bd
             $noticia->imagen = $imageName;
         }
+        $noticia->prioridad = $request->prioridad;
         $noticia->titulo = $request->titulo;
         $noticia->descripcion = $request->descripcion;
         $noticia->save();
@@ -68,22 +84,26 @@ class NoticiaController extends Controller
         return redirect('/noticias');
     }
 
-    public function eliminar($id){
+    //Elimina una noticia
+    public function eliminar($id)
+    {
         $noticia = Noticia::find($id);
         $noticia->delete();
         return back();
     }
 
-    public function LikeNoticia($id){
-        if(!Session::has('liked') || !in_array($id,Session::get('liked'))){
+    //Da un like a la noticia
+    public function LikeNoticia($id)
+    {
+        //Comprueba que no haya dado like ya a esa noticia
+        if (!Session::has('liked') || !in_array($id, Session::get('liked'))) {
             $noticia = Noticia::find($id);
             $noticia->likes = $noticia->likes + 1;
             $noticia->save();
-            Session::push('liked',$noticia->id);
+            Session::push('liked', $noticia->id);
             return response()->json(array('success' => true));
         }
-        
+
         return response()->json(array('success' => false));
     }
-
 }

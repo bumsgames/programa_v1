@@ -13,7 +13,8 @@ class reporte extends Model
 		'creador'
 	];
 
-	public function creadorF(){
+	public function creadorF()
+	{
 		return $this->belongsTo('Bumsgames\BumsUser', 'creador');
 	}
 }

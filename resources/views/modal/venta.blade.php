@@ -91,6 +91,7 @@
 									>
 								</div>		
 							</div>
+							{{--
 							<div class="col-12 col-lg">
 								<div class="form-group">
 									<label for=""><strong>Nota</strong></label>
@@ -102,7 +103,7 @@
 									autocomplete="off"
 									>
 								</div>		
-							</div>
+							</div>--}}
 						</div>
 
 						<div class="table-responsive">
@@ -221,6 +222,13 @@
 							placeholder=""
 							autocomplete="off">
 						</textarea>
+						<small class="text-danger">
+							<strong>
+								*En caso de recibir juego digital como parte de pago, colocar el correo del mismo
+								<br>
+								*En caso de que sea doble pago (bancos diferentes ) o recibir articulo fisico como parte de pago hacerlo saber en la nota
+							</strong>
+						</small>
 					</div>
 				</div>
 			</div>

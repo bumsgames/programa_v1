@@ -52,7 +52,7 @@
 		<div class='marquee_articulos'>
 			<div class="padre">
 				@foreach($articulos as $articulo)
-				@include('carta')
+				@include('webuser.misc.carta')
 				@endforeach
 			</div>
 		</div>
@@ -234,7 +234,7 @@ duration: 10000,
 				<hr>
 				<div class="padre">
 					@foreach($articulos as $articulo)
-					@include('carta')
+					@include('webuser.misc.carta')
 					@endforeach
 				</div>
 

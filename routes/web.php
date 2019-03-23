@@ -21,7 +21,7 @@ Route::post('/actualizar_user','BumsUserController@actualizar_user');
 Route::post('/logueo','BumsUserController@logueo');
 
 // ProgramController GET
-Route::get('/ventas','ProgramController@ventas')->name('ventas');;
+Route::get('/ventas','ProgramController@ventas')->name('ventas');
 Route::get('/obtener_ventas','ProgramController@obtenerVentas')->name('obtener_ventas');
 Route::post('/filtrar_ventas','ProgramController@filtrarVentas')->name('filtrar_ventas');
 Route::get('/filtrar_ventas/{id_usuario}/{fecha_inicio}/{fecha_final}','ProgramController@obtenerVentas')->name('obtener_filtrar_ventas');
@@ -30,7 +30,7 @@ Route::get('/filtrar_ventas_usuario/{id_usuario}','ProgramController@obtenerVent
 Route::get('/clientes','ProgramController@clientes');
 Route::get('/ordenes', 'ProgramController@ordenes');
 Route::get('/configurar_tu_user', 'ProgramController@configurar_tu_user');
-Route::get('/clientes_totales', 'ProgramController@clientes_totales');
+//Route::get('/clientes_totales', 'ProgramController@clientes_totales');
 Route::post('/devolver_articulo', 'ProgramController@devolver_articulo');
 Route::get('/mis_clientes','ProgramController@mis_clientes');
 Route::get('/movimientos_tuyos','ProgramController@movimientos_tuyos');
@@ -158,7 +158,7 @@ Route::post('/modificar_Articulo', 'ArticleController@modificar_Articulo');
 
 
 // WebController 
-Route::get('/categorias', 'WebController@categorias');
+//Route::get('/categorias', 'WebController@categorias');
 Route::get('/articulos_web', 'WebController@articulos_web');
 Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');
 Route::get('/send','ChatController@send2');
@@ -168,10 +168,10 @@ Route::get('/ayuda', 'WebController@ayuda');
 Route::get('/adminpaneluser', 'WebController@adminpaneluser');
 Route::get('/categoria_general/{categoria}', 'WebController@categoria_general');
 Route::get('/prueba2', 'ControllerPrimary@index');
-Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/lala', 'WebController@lala');
 Route::get('/','WebController@index');
 Route::get('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
+Route::get('/buscar_articulo_bumsG', 'WebController@buscar_articulo_bumsG');
 Route::get('/categoria_general','WebController@categoria_general');
 Route::get('/articulos', 'WebController@articulos');
 Route::get('/orden_a_pagar', 'WebController@orden_a_pagar');
@@ -238,7 +238,6 @@ Route::get('/noticias/crear','NoticiaController@create');
 Route::get('/noticias/editar/{id}','NoticiaController@editar');
 //Elimina una noticia
 Route::get('/noticias/eliminar/{id}','NoticiaController@eliminar');
-
 //Guarda una nueva noticia
 Route::post('/noticias/crear','NoticiaController@store');
 Route::post('/noticias/editar/{id}','NoticiaController@change');
@@ -265,19 +264,24 @@ Route::get('/encuestas/crear','EncuestaController@create');
 Route::get('/encuestas/editar/{id}','EncuestaController@editar');
 //Elimina una encuesta
 Route::get('/encuestas/eliminar/{id}','EncuestaController@eliminar');
-
 //Guarda una nueva encuesta
 Route::post('/encuestas/crear','EncuestaController@store');
 Route::post('/encuestas/editar/{id}','EncuestaController@change');
-
 //Votar
 Route::post('/encuestas/votar/{id}','EncuestaController@Votar');
-
 //Actualiza la encuesta al votar
 Route::get('/encuestas/user/show','EncuestaController@MostrarResultado');
-
 //Activa/Desactiva una encuesta
 Route::get('/encuesta/activar/{id}','EncuestaController@ActivarEncuesta');
+//Elimina las opciones
+Route::get('/encuestas/eliminar/opcion/{id}','EncuestaController@EliminarOpcion');
+
+/*
+-------------------------------
+		Correo
+-------------------------------
+*/
+Route::get('mailpago','mailController@EnviarPago');
 
 /*
 ------------------------------
@@ -298,7 +302,11 @@ Route::get('/articulosSinPeso','ProgramController@Articulos_Sin_Peso');
 Route::post('/actualizarPeso/{id}','ProgramController@Actualizar_Peso');
 
 
-
+/*
+------------------------------------------
+	Pagina 404 - SIEMPRE DEJAR AL FONDO
+------------------------------------------
+*/
 
 //ESTE SIEMPRE SE DEBE DEJAR DE ULITMO!
 Route::get('/{url}', 'WebController@error404');

@@ -8,15 +8,15 @@ class Comment extends Model
 {
 
 
-    protected $table = 'comment';
+	protected $table = 'comment';
 
 
-    protected $fillable = [
-    	'id_comentario',
-    	'nombre',
-    	'texto',
-    	'fecha_comentado',
-    	'aprobado',
-    	'fecha_aprobado'
-    ];
+	protected $fillable = [
+		'id_comentario',
+		'nombre',
+		'texto',
+		'fecha_comentado',
+		'aprobado',
+		'fecha_aprobado'
+	];
 }

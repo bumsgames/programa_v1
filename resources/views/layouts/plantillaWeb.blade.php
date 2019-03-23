@@ -53,13 +53,17 @@
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto">
-					@include('boton_categoria')
+					@include('webuser.misc.boton_categoria')
 					
 					<li class="nav-item active">
 						<strong><a class="nav-link" id="login_us" href="/ayuda"><i class="fa fa-users" aria-hidden="true" title="texto al pasar el raton"></i> AYUDA</a></strong>
 					</li>
 					<li class="nav-item active">	
-						<strong><a class="nav-link " href="/login" id="login_us"><i class="fa fa-user-circle-o" aria-hidden="true"></i> REGISTRARSE</a></strong>
+						<strong>
+							<button style="border:none" type="button" class="btn btn-primary nav-link" id="login_us" data-toggle="modal" data-target="#modalregistro">
+								<i class="fa fa-user-circle" aria-hidden="true"></i> REGISTRARSE
+							</button>
+						</strong>
 					</li>
 					@if (Auth::guard('client')->guest())
 					<li class="nav-item active">	
@@ -236,7 +240,8 @@
 
 
 	<div class="carrito_compra" style="overflow-y: auto;">
-		<div style="margin-top: 115px;">			<h1 class="titulo-carrito"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>	CARRITO DE COMPRAS</h1>	
+		<div style="margin-top: 115px;">			
+			<h1 class="titulo-carrito"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>	CARRITO DE COMPRAS</h1>	
 
 			<div class="container contcarrito">	
 				<br>	
@@ -392,14 +397,15 @@
 			</div>
 		</div>
 		<br>	
-
+		
 		<div class="footer-copyright text-center py-3 foot2">Llegamos para hacer la diferencia.
 			<a href="https://mdbootstrap.com/bootstrap-tutorial/"> BumsGames.com.ve</a>
 		</div>
 	</footer>
 	<!-- FIN FOOTER -->
+	@include('modal.registrarse')
 
-
+	
 	{{-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -414,7 +420,29 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
+	<script>
+		var margen_carrito = $(".carrito_compra").outerWidth(true) - $(".carrito_compra").outerWidth();
+		$( ".checkbox").change(function(e) {
+			if($(".checkbox").is(":checked")){
+				goRight();
+			}
+			else{
+				goLeft();
+			}
+		});
 
+
+		function goRight(){ // inner stuff slides left
+			var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
+			var newLeftMargin = (initalLeftMargin - margen_carrito); // extra 2 for border
+			$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
+		}
+		function goLeft(){ // inner stuff slides right
+			var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
+			var newLeftMargin = (initalLeftMargin + margen_carrito); // extra 2 for border
+			$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
+		}
+	</script>
 
 	<!-- Footer -->
 

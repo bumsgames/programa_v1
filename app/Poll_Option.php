@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Poll_Option extends Model
 {
     protected $fillable = [
-    	'nombre',
-    	'contador',
+        'nombre',
+        'contador',
         'Fk_Poll',
         'color'
     ];
@@ -17,6 +17,4 @@ class Poll_Option extends Model
     {
         return $this->belongsTo('Bumsgames\Poll', 'Fk_Poll');
     }
-
-
 }

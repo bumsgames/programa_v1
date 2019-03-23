@@ -14,7 +14,7 @@ class Client extends Authenticatable
     protected $guard = 'client';
 
 
-	protected $table = 'clients';
+    protected $table = 'clients';
 
     protected $fillable = [
         'name',
@@ -28,12 +28,14 @@ class Client extends Authenticatable
 
     ];
 
-    public function mis_articulos(){
-        return $this->belongsToMany('Bumsgames\Client', 'pertenece_clientes','id_cliente', 'id_article');
+    public function mis_articulos()
+    {
+        return $this->belongsToMany('Bumsgames\Client', 'pertenece_clientes', 'id_cliente', 'id_article');
     }
 
-    public function vendedor_del_articulo(){
+    public function vendedor_del_articulo()
+    {
         return $this->belongsToMany('Bumsgames\BumsUser', 'sales', 'id_client', 'id_vendedor');
     }
-
 }
+

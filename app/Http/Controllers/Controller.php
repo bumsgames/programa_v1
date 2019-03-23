@@ -9,8 +9,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
-	public function index(){
-    	return "hola";
+    public function index()
+    {
+        return "hola";
     }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

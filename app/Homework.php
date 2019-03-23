@@ -20,14 +20,16 @@ class Homework extends Model
 	protected $dates = ['deleted_at'];
 
 
-	public function enviado_de() {
-        return $this->belongsTo('Bumsgames\BumsUser', 'de_usuario'); // Le indicamos que se va relacionar con el atributo id
-    }
-    public function recibido_por() {
-        return $this->belongsTo('Bumsgames\BumsUser', 'para_usuario'); // Le indicamos que se va relacionar con el atributo id
-    }
-    public function nombre_status() {
-        return $this->belongsTo('Bumsgames\Status', 'status'); // Le indicamos que se va relacionar con el atributo id
-    }
-
+	public function enviado_de()
+	{
+		return $this->belongsTo('Bumsgames\BumsUser', 'de_usuario'); // Le indicamos que se va relacionar con el atributo id
+	}
+	public function recibido_por()
+	{
+		return $this->belongsTo('Bumsgames\BumsUser', 'para_usuario'); // Le indicamos que se va relacionar con el atributo id
+	}
+	public function nombre_status()
+	{
+		return $this->belongsTo('Bumsgames\Status', 'status'); // Le indicamos que se va relacionar con el atributo id
+	}
 }

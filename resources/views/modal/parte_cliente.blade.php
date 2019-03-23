@@ -78,6 +78,7 @@
 								<td>#</td>
 								<td>Cliente</td>
 								<td>Contacto</td>
+								<td>Nickname</td>
 								<td></td>
 							</tr>
 						</thead>

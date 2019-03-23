@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class PerteneceCliente extends Model
 {
     protected $fillable = [
-    	'id_cliente',
-    	'id_article',
+        'id_cliente',
+        'id_article',
         'id_venta',
-    	'informacion'
+        'informacion'
     ];
 
     public function cliente()

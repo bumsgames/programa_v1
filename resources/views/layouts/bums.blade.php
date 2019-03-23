@@ -114,10 +114,7 @@
                     @if(Auth::user()->level >= 9)
                     <li><a class="treeview-item" href="{{ url('ventas') }}"><i class="icon fa fa-circle-o"></i>Todas las ventas</a></li>
                     @endif
-                    
                     <li><a class="treeview-item" href="{{ url('ventas_mias') }}"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
-                    
-                    
                   </ul>
                 </li>-->
                 @endif
@@ -132,7 +129,7 @@
                 <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Articulos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                   <ul class="treeview-menu">
                     <li><a class="treeview-item" href="{{ url('formulario_registrar_articulo') }}"><i class="icon fa fa-circle-o"></i> Registrar Articulo</a></li>
-                    <li><a class="treeview-item" href="{{ url('categoria_articulo_admin') }}"><i class="icon fa fa-circle-o"></i> Articulos por categoria</a></li>
+                    {{--<li><a class="treeview-item" href="{{ url('categoria_articulo_admin') }}"><i class="icon fa fa-circle-o"></i> Articulos por categoria</a></li>--}}
                     
                     <li><a class="treeview-item" href="{{ url('allArticles') }}"><i class="icon fa fa-circle-o"></i> Articulos Disponibles</a></li>
                     {{-- <li><a class="treeview-item" href="{{ url('allArticlesOff') }}"><i class="icon fa fa-circle-o"></i> Articulos Agotados</a></li> --}}

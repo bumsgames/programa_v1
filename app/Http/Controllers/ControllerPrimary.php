@@ -9,8 +9,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ControllerPrimary extends BaseController
 {
-    public function index(){
-    	return view('user');
+    public function index()
+    {
+        return view('user');
     }
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

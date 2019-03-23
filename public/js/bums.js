@@ -1047,7 +1047,8 @@ $("#realizar_venta").click(function(){
     if( $("#nickname").val() ){
      form_data.append('nickname', $("#nickname").val());
  }else{
-    var nickname = $("#name_client").val()+""+$("#lastname_client").val()+""+Math.floor(Math.random() * (999 - 100 + 1));
+    var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
+    nickname = nickname.replace(/\s/g,'');;
     form_data.append('nickname', nickname);
 }
 form_data.append('num_contact', $("#num_contact").val());
@@ -1849,7 +1850,7 @@ function mostrar_articulo_cliente(id_articulo){
             $( "#tabla tbody" ).append('<tr><td>'
                 +contador+ '</td><td>'
                 +item.name+' '+item.lastname+ '</td><td>'+item.num_contact+' ||| '
-                +item.email+'</td><td><button class="btn btn-dark" onclick="eliminaRelacion('+item.id_pertenece+','+id_articulo+');">Elimina relacion</button><button onclick="devolverA('+item.id_pertenece+','+id_articulo+');" class="btn btn-dark">Devolver articulo</button></td></tr>"');
+                +item.email+'</td><td>'+item.nickname+'</td><td><button class="btn btn-dark btn-block" onclick="eliminaRelacion('+item.id_pertenece+','+id_articulo+');">Elimina relacion</button><button onclick="devolverA('+item.id_pertenece+','+id_articulo+');" class="btn btn-dark">Devolver articulo</button></td></tr>"');
         });
         $('#titulo_cliente_articulo').append(titulo);
         $('#id_articulo2').val(id_articulo);

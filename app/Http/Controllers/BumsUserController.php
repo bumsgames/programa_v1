@@ -4,19 +4,18 @@ namespace Bumsgames\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use Session;
-use Redirect;
-use App\User;
 use Bumsgames\Notifications\TaskCompleted;
 use Bumsgames\BumsUser;
 
 
 class BumsUserController extends Controller
 {
-    public function __construct(){
-        $this->middleware('guest', ['only' => 'index']);
+    //Redirecciona al usuario comun en las paginas de administracion
+    public function __construct()
+    {
+        $this->middleware('guest', ['only' => 'webuser.index']);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +23,7 @@ class BumsUserController extends Controller
      */
     public function index()
     {
-        return view('login');
+        return view('admin.login');
     }
 
 
@@ -46,12 +45,14 @@ class BumsUserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function actualizar_user(Request $request){
+    public function actualizar_user(Request $request)
+    {
         $this->validate($request, [
             'password' => 'password|required|string',
         ]);
     }
-    public function logueo(Request $request){
+    public function logueo(Request $request)
+    {
         $this->validate($request, [
             'nickname' => 'required|string',
             'email' => 'nullable|email',
@@ -68,10 +69,10 @@ class BumsUserController extends Controller
         }
 
         return back()
-        ->withErrors(['nickname'=>'Usuario o Clave incorrecto'])
-        ->withInput(request(['nickname']));
+            ->withErrors(['nickname' => 'Usuario o Clave incorrecto'])
+            ->withInput(request(['nickname']));
     }
-    
+
     public function store(Request $request)
     {
 
@@ -93,30 +94,30 @@ class BumsUserController extends Controller
         }
 
         return back()
-        ->withErrors(['nickname'=>'Usuario o Clave incorrecto'])
-        ->withInput(request(['nickname']));
+            ->withErrors(['nickname' => 'Usuario o Clave incorrecto'])
+            ->withInput(request(['nickname']));
     }
-
-    public function crear_usuario(Request $request){
-        try{
+    //Crea un nuevo bumsuser
+    public function crear_usuario(Request $request)
+    {
+        try {
+            //encripta la contraseña
             $request['password'] = bcrypt($request->password);
             \Bumsgames\BumsUser::create($request->all());
             $titulo = 'USUARIO CREADO';
-            $data = 'Accion por: '.auth()->user()->name.' '.auth()->user()->lastname;
+            $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
             $data2 = '';
-            $users = BumsUser::where('level','>=','7')->get();
-            foreach ($users as $user){
-               $user->notify(new TaskCompleted($titulo,$data, $data2));
-           }
-           return back()->with('success','Usuario creado, correctamente.');
-
-       } catch (\Exception $e) {
-        return back()
-        ->with('error','Hubo un error y no se pudo agregar su Usuario')
-        ->withInput(request(['name', 'lastname', 'email', 'nickname', 'level']));
-
-    }     
-}
+            $users = BumsUser::where('level', '>=', '7')->get();
+            foreach ($users as $user) {
+                $user->notify(new TaskCompleted($titulo, $data, $data2));
+            }
+            return back()->with('success', 'Usuario creado, correctamente.');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Hubo un error y no se pudo agregar su Usuario')
+                ->withInput(request(['name', 'lastname', 'email', 'nickname', 'level']));
+        }
+    }
 
     /**
      * Display the specified resource.

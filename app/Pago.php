@@ -29,21 +29,26 @@ class Pago extends Model
 		'cupon_id',
 	];
 
-	public function setImageAttribute($image){
-		$this->attributes['image'] = Carbon::now()->second.$image->getClientOriginalName();
-		$name = Carbon::now()->second.$image->getClientOriginalName();
+	public function setImageAttribute($image)
+	{
+		$this->attributes['image'] = Carbon::now()->second . $image->getClientOriginalName();
+		$name = Carbon::now()->second . $image->getClientOriginalName();
 		\Storage::disk('local')->put($name, \File::get($image));
 	}
 
-	public function persona1() {
-        return $this->belongsTo('Bumsgames\BumsUser', 'id_user'); // Le indicamos que se va relacionar con el atributo id
-    }
-
-    public function persona2() {
-        return $this->belongsTo('Bumsgames\BumsUser', 'id_user'); // Le indicamos que se va relacionar con el atributo id
+	public function persona1()
+	{
+		return $this->belongsTo('Bumsgames\BumsUser', 'id_user'); // Le indicamos que se va relacionar con el atributo id
 	}
-	
-	public function cupon() {
-        return $this->belongsTo('Bumsgames\Coupon', 'cupon_id');
+
+	public function persona2()
+	{
+		return $this->belongsTo('Bumsgames\BumsUser', 'id_user'); // Le indicamos que se va relacionar con el atributo id
+	}
+
+	public function cupon()
+	{
+		return $this->belongsTo('Bumsgames\Coupon', 'cupon_id');
 	}
 }
+
