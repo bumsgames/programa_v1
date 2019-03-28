@@ -1,4 +1,4 @@
-<div class="hijo contenedor">
+<div class="hijo contenedor cat_{{$articulo->category}}">
 	<style>	
 	.contenedor:hover .imagen {-webkit-transform:scale(1.1);transform:scale(1.1); transition: all 0.3s ease-in-out;}
 	.contenedor {overflow:hidden;}

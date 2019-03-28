@@ -301,7 +301,8 @@ Route::get('/articulosSinPeso','ProgramController@Articulos_Sin_Peso');
 //Agrega el peso
 Route::post('/actualizarPeso/{id}','ProgramController@Actualizar_Peso');
 
-
+//Enlace externo del pago
+Route::get('/reporte-pago/{id}','ProgramController@ReportePagoExt');
 /*
 ------------------------------------------
 	Pagina 404 - SIEMPRE DEJAR AL FONDO

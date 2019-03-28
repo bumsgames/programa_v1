@@ -50,13 +50,8 @@
 	</div>
 @endsection
 @section('content')
-
-
 <br>
-
-
-
-
+<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 <div class="container">
 	<div class="fondotituloArticulos">
 		<h2  class="titulobumsArticulos">{{ $title }}</h2>
@@ -64,15 +59,14 @@
 	<div id="mostrararticulos" class="tile">
 		
 		<div class="row">
-			<div class="col-12 col-lg-2">
-				<div class="container sticky responsive">	
+			<div class="col-12 col-lg-3">
+				<div class="container sticky responsive bg-dark" style="top:100px;border-radius:3px">	
 					<br>	
 					{{-- class="col-12 col-lg-6" --}}
-					<h4>Articulos disponibles:  {{ $articulos->count() }}</h4>
-					<br>
+					<h4>Articulos disponibles:  <span id="count_art">{{ $articulos->count() }}</span></h4>
 					<br>
 					<div class="row">
-						<div class="col-12 col-lg-6">
+						<div class="col-12">
 							Ordenar por:
 							<form class="form-inline" action="{{ $buscador_ruta }}" method="get">
 								<select class="form-control se letraPe" onchange="this.form.submit()" name="filtro" style="font-size: 14px;">
@@ -85,6 +79,20 @@
 							</form>
 						</div>
 					</div>
+					<br>
+					@if(!isset($comprofilt))
+					<div class="row">
+						<div class="col-12" style="padding-left:0;padding-right:0">
+							<h5>&nbsp;&nbsp;&nbsp;Filtrar por categoria</h5>
+							@foreach($categorias as $categoria)
+							<label class="btn btn-dark text-left" style="margin-bottom:0;font-size:0.8rem;width:100%">
+								<input type="checkbox" name="cat_filt" id="cat_{{$categoria->id}}" autocomplete="off">
+								<span style="width:100%">{{$categoria->category}}</span>
+							</label>
+							@endforeach
+						</div>
+					</div>
+					@endif
 				</div>
 			</div>
 			<div class="col">
@@ -125,9 +133,25 @@ crossorigin="anonymous"></script>
 		$('.hijo').filter(function () {
 			return rex.test($(this).text());
 		}).show();
+		filter_cat_hide();
+		$('#count_art').text($('.hijo:visible').length);
+	});
+
+	$('input[name="cat_filt"]').change(function(){
+		$('.hijo').hide();
+		var rex = new RegExp($("#buscador_articulo").val(), 'i');
+		$('.hijo').filter(function () {
+			return rex.test($(this).text());
+		}).show();
+		filter_cat_hide();
+		if(!$('input[name="cat_filt"]').is(':checked')){
+			$('.hijo').filter(function () {
+				return rex.test($(this).text());
+			}).show();
+		}
+		$('#count_art').text($('.hijo:visible').length);
 	});
 </script>
-
 {{-- return rex.test($(".status", this).text()); --}}
 
 @endsection

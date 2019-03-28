@@ -564,6 +564,7 @@ form_data.append('password', $("#password").val());
 form_data.append('nickname', $("#nickname").val());
 form_data.append('reset_button', $("#reset_button").val());
 form_data.append('note', $("#note").val());
+form_data.append('costo',$('#costo').val());
 if($('#inputFile2').prop('files')[0]){
     form_data.append('fondo', $('#inputFile2').prop('files')[0]);
     
@@ -684,6 +685,7 @@ $("#registrar_articulo").click(function(){
     form_data.append('nickname', $("#nickname").val());
     form_data.append('reset_button', $("#reset_button").val());
     form_data.append('note', $("#note").val());
+    form_data.append('costo',$('#costo').val())
     //form_data.append('fondo', $('#inputFiletext').val());
 
     /* Comentado en caso que se quiera volver a tratar con 2 imagenes
@@ -1976,11 +1978,111 @@ function cambiaBandera(algo){
                     });
                 }
 
+                function nuevo_detalle_compra(id){
+                    var route = "/ver_detalle_compra/"+id+"";
+                    var total = 0;
+                    $.get(route, function(data){
+                        $.each(data, function(i, item) {
+                            $("#a_ext").attr("href","/reporte-pago/"+id);
+                            $("#identificador").html(item.id);
+                            $("#nombre_cli").html(item.name+" "+item.lastname);
+                            $("#tipo_pago").html(item.tipo_trans);
+                            $("#pago_banco").html(item.banco);
+                            $("#pago_cedula").html(item.cedula);
+                            $("#pago_referencia").html(item.referencia);
+                            $("#pago_monto").html(item.monto);
+                            if(item.cupon_id != null){
+                                $("#cupon_id").html(item.cupon_id);
+                                $("#cupon_monto").html(item.descuento);
+                                $("#cupon_creador").html(item.c_name+" "+item.c_lastname);
+                                $("#cupon_codigo").html(item.codigo);
+                                total-=item.descuento;
+                            }
+                            else{
+                                $("#descuento_div").hide();
+                                $("#cupon_id").html("-");
+                                $("#cupon_monto").html("-");
+                                $("#cupon_creador").html("-");
+                                $("#cupon_codigo").html("-");
+                            }
+                          
+                            $("#pago_fecha").html(item.fecha);
+                            if(item.verificado != 0){
+                                $("#pago_ver").html("<span class='fa fa-check text-success'></span>")
+                            }
+                            else{
+                                $("#pago_ver").html("<span class='fa fa-lg fa-times text-danger'></span>")
+                            }
+                            if(item.entregado != 0){
+                                $("#pago_ent").html("<span class='fa fa-check text-success'></span>")
+                            }
+                            else{
+                                $("#pago_ent").html("<span class='fa fa-lg fa-times text-danger'></span>")
+                            }
+
+                            $("#pago_capture").attr("src","img/"+item.image);
+                            if(item.empresa != null){
+                                $("#envio_emp").html(item.empresa);
+                                $("#envio_des").html(item.destinario);
+                                $("#envio_ced").html(item.cedula_destinario);
+                                $("#envio_dir").html(item.direccion);
+                                $("#envio_tel").html(item.telefono);
+                            }
+                            else{
+                                $("#envio_div").hide();
+                                $("#envio_emp").html("-");
+                                $("#envio_des").html("-");
+                                $("#envio_ced").html("-");
+                                $("#envio_dir").html("-");
+                                $("#envio_tel").html("-");
+                            }
+                            
+                            $("#whatsapp").html(item.ws);
+                            if(item.nota_adicional != null){
+                                $("#nota_ad").html(item.nota_adicional);
+                            }
+                            else{
+                                $("#nota_ad").html("-")
+                            }
+                        });
+                    });
+                    var route = "/ver_articulo_compra/"+id+"";
+                    var numero = 0;
+                    $.get(route, function(data){
+                        $("#articulos_div").empty();
+
+                        $.each(data, function(i, item) {
+                            numero++;
+                            total += item.price_in_dolar;
+                            // alert(item.name);
+                            $( "#articulos_div" ).append('<div class="card mb-3" style="max-width: 100%;max-height:510px"><div class="row no-gutters"><div class="col-md-4"><img src="/img/'+item.fondo+'" class="card-img" alt="..."></div><div class="col-md-8"><div class="card-body"><h5 style="margin-bottom:0" class="card-title">'+item.name+'</h5><p style="margin-bottom:0" class="card-text"><span class="cat_'+item.category+'"></span></p><p class="card-text"><span>Precio: '+item.price_in_dolar+'$</span></p></div></div></div></div>');
+                            $(".cat_1").text('PlayStation 4 Primario | Cuenta Digital');
+                            $(".cat_2").text('PlayStation 4 Secundario | Cuenta Digital');
+                            $(".cat_3").text('PlayStation 4 Codigo | Codigo Digital');
+                            $(".cat_4").text('PlayStation 4 | Articulo Fisico');
+                            $(".cat_5").text('PlayStation 3 | Cupo Digital');
+                            $(".cat_6").text('PlayStation 3 | Articulo Fiscio');
+                            $(".cat_7").text('PlayStation 3 | Codigo Digital');
+                            $(".cat_8").text('Xbox One Primario | Cuenta Digital');
+                            $(".cat_9").text('Xbox One Secundario | Cuenta Digital');
+                            $(".cat_10").text('Xbox One Codigo | Codigo Digital');
+                            $(".cat_11").text('Xbox One | Articulo Fisico');
+                            $(".cat_12").text('Nintendo Digital | Cuenta Digital');
+                            $(".cat_13").text('Nintendo Digital | Codigo Digital');
+                            $(".cat_14").text('Nintendo | Articulo Fisico');
+                            $(".cat_15").text('Otros | Articulo Fisico');
+                            $( "#articulos_div" ).append('<hr>');
+                        });
+                        $('#total_com').html(total+" $");
+                    });
+                }
+
                 function ver_detalle_compra(id){
                     var route = "/ver_detalle_compra/"+id+"";
                     $.get(route, function(data){
                         $.each(data, function(i, item) {
                             $("#id").val(item.id);
+                            $("#id").text(item.id);
                             $("#name").val(item.name);
                             $("#lastname").val(item.lastname);
                             $("#ws").val(item.ws);

@@ -88,7 +88,12 @@ class ArticleController extends Controller
         "data" => "El precio subrayado no puede ser menor al precio unitario.\n\n\nPrecio Unitario: " . $request->price_in_dolar . " $.\n\nPrecio de subrayado: " . $request->offer_price . " $",
       ]);
     }
-
+    if (($request->costo < 0)) {
+      return response()->json([
+        "tipo" => "1",
+        "data" => "El costo de inversión no puede ser menor a 0.\n\n\Costo de Inversión: " . $request->costo . "$",
+      ]);
+    }
     $variable = $request->category_nombre;
     $searchterm = "Cupo Digital";
     $pos = strrpos($variable, $searchterm);
@@ -160,6 +165,40 @@ class ArticleController extends Controller
     // crea el articulo
     if ($request->ajax()) {
       $articulo = \Bumsgames\Article::create($request->all());
+    }
+
+    //Actualiza el costo del producto con el mismo email y nickname
+    if(in_array($articulo->category,[1,2])){
+      if($articulo->category == 1){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','2')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+      else if($articulo->category == 2){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','1')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+    }
+    if(in_array($articulo->category,[8,9])){
+      if($articulo->category == 8){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','9')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+      else if($articulo->category == 9){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','8')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+    }
+    if(isset($artref)){
+      $artref->costo = $request->costo;
+      $artref->save();
     }
 
     $temporal =  \Bumsgames\Article::where('name', $articulo->name)
@@ -574,6 +613,42 @@ class ArticleController extends Controller
     $articulo = \Bumsgames\Article::find($request->id_articulo);
     $articulo->fill($request->all());
     $articulo->save();
+
+    
+    //Actualiza el costo del producto con el mismo email y nickname
+    if(in_array($articulo->category,[1,2])){
+      if($articulo->category == 1){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','2')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+      else if($articulo->category == 2){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','1')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+    }
+    if(in_array($articulo->category,[8,9])){
+      if($articulo->category == 8){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','9')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+      else if($articulo->category == 9){
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        ->where('category','8')
+        ->where('articles.nickname', $request->nickname)
+        ->first();
+      }
+    }
+    if(isset($artref)){
+      $artref->costo = $request->costo;
+      $artref->save();
+    }
+
 
     $temporal =  \Bumsgames\Article::where('name', $articulo->name)
       ->where('category', $request->category)

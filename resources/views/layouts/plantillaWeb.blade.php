@@ -29,7 +29,7 @@
 			<a href="https://www.instagram.com/bumsgames/" class="icon icon-instagram" target="_blank"></a>
 			<a href="https://www.youtube.com/channel/UC5vd9oCSYHhoPIypaaZb6UQ?view_as=subscriber" class="icon icon-youtube" target="_blank"></a>
 		</div> --}}
-		<nav id="mainnavbar" style="background: white !important;" class="navbar navbar-expand-lg navbar-light bg-light menu navBums fixed-top">
+		<nav id="mainnavbar" style="background: white !important;" class="navbar navbar-expand-xl navbar-light bg-light menu navBums fixed-top">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation" style="background: white;">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -38,7 +38,9 @@
 			</a>
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 				<br>
-
+				<div class="row">
+					
+				</div>
 				<ul id="searchnav" class="navbar-nav mr-auto">
 					<li>		
 						<form class="form-inline" action="/buscar_articulo_bums" method="get">
@@ -52,13 +54,15 @@
 						</form>
 					</li>
 				</ul>
-				<ul class="navbar-nav ml-auto">
+
+				<ul class="navbar-nav ml-auto menubuttons">
 					@include('webuser.misc.boton_categoria')
 					
-					<li class="nav-item active">
-						<strong><a class="nav-link" id="login_us" href="/ayuda"><i class="fa fa-users" aria-hidden="true" title="texto al pasar el raton"></i> AYUDA</a></strong>
+					<li class="nav-item menunav active">
+						<a class="nav-link" id="login_us" href="/ayuda"><i class="fa fa-users" aria-hidden="true" title="texto al pasar el raton"></i> AYUDA</a>
 					</li>
-					<li class="nav-item active">	
+					<li class="nav-item menunav active">	
+						
 						<strong>
 							<button style="border:none" type="button" class="btn btn-primary nav-link" id="login_us" data-toggle="modal" data-target="#modalregistro">
 								<i class="fa fa-user-circle" aria-hidden="true"></i> REGISTRARSE
@@ -66,24 +70,24 @@
 						</strong>
 					</li>
 					@if (Auth::guard('client')->guest())
-					<li class="nav-item active">	
-						<strong><a class="nav-link " href="/login" id="login_us"><i class="fas fa-user"></i> INICIAR SESION</a></strong>
+					<li class="nav-item menunav active">	
+						<a class="nav-link " href="/login" id="login_us"><i class="fas fa-user"></i> INICIAR SESION</a>
 					</li>
 					@endif
 					@if (Auth::guard('client')->check())
-					<li class="nav-item active dropicon casolog">
-						<strong><a class="nav-link " href="/adminpaneluser" id="login_us"><i class="fa fa-user-circle-o dropbtn" style="padding:0" aria-hidden="true"></i> MI CUENTA</a></strong>	
+					<li class="nav-item menunav active dropicon casolog">
+						<a class="nav-link " href="/adminpaneluser" id="login_us"><i class="fa fa-user-circle-o dropbtn" style="padding:0" aria-hidden="true"></i> MI CUENTA</a>
 						<div class="dropdown-content">
 							<a href="/adminpaneluser">Panel Personal</a>
 							<a href="/logout_user">Cerrar Sesion</a>
 
 						</div>
 					</li>
-					<li style="display:none" class="nav-item active casolog">
-						<strong><a class="nav-link " href="/adminpaneluser" id="login_us"><i class="fa fa-user-circle-o dropbtn" style="padding:0" aria-hidden="true"></i> PANEL PERSONAL</a></strong>	
+					<li style="display:none" class="nav-item menunav active casolog">
+						<a class="nav-link " href="/adminpaneluser" id="login_us"><i class="fa fa-user-circle-o dropbtn" style="padding:0" aria-hidden="true"></i> PANEL PERSONAL</a>
 					</li>
-					<li style="display:none" class="nav-item active casolog">
-						<strong><a class="nav-link " href="/logout_user" id="login_us"><i class="fa fa-user-circle-o dropbtn" style="padding:0" aria-hidden="true"></i> CERRAR SESION</a></strong>	
+					<li style="display:none" class="nav-item menunav active casolog">
+						<a class="nav-link " href="/logout_user" id="login_us"><i class="fa fa-user-circle-o dropbtn" style="padding:0" aria-hidden="true"></i> CERRAR SESION</a>
 					</li>
 					@endif		
 
@@ -99,7 +103,7 @@
 						data-target="#exampleModalLong"><i class="fa fa-shopping-cart f	a-lg" aria-hidden="true"></i> <span class="badge badge-light rojoBlanco" id="badge">{{ count(Session::get('carrito')) }}</span></button>
 					</li>
 					@endif --}}
-					<li class="nav-item active">	
+					<li class="nav-item menunav active">	
 						<label class="menu car" for="check"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> <span class="badge badge-light rojoBlanco" id="badge">{{ count(Session::get('carrito')) }}</span>	</label>
 					</li>
 				</ul>

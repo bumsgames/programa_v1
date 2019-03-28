@@ -676,7 +676,7 @@ class ProgramController extends Controller
 
 		if (isset($request->misbusqueda)) {
 			$articles = \Bumsgames\Article::join('bums_user_articles', 'articles.id', '=', 'bums_user_articles.id_article')
-				->selectRaw('articles.id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, porcentaje, articles.id as id_articulo, note, offer_price, peso')
+				->selectRaw('articles.id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, porcentaje, articles.id as id_articulo, note, offer_price, peso, costo')
 				->where('bums_user_articles.id_bumsuser', Auth::id())
 				->where('articles.id', '!=', '2')
 				->where(function ($q) use ($request) {
@@ -732,7 +732,7 @@ class ProgramController extends Controller
 
 		$articles = \Bumsgames\Article::where('quantity', '>=', '-1000')
 			->where("id", "!=", "2")
-			->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso"))
+			->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso, costo"))
 			->orderby('email')
 			->orderby('category')
 			->paginate(40);
@@ -791,7 +791,7 @@ class ProgramController extends Controller
 		}
 		$articles = \Bumsgames\Article::where('quantity', '>=', '-1000')
 			->where('id', '!=', '2')
-			->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso"))
+			->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso, costo"))
 			->orderby($parametre, $maymen)
 			->orderby('category')
 			->paginate(40);
@@ -993,7 +993,7 @@ class ProgramController extends Controller
 		}
 		$articles_cantidad = $articles->count();
 
-		$articles = $articles->select(\DB::raw("articles.id, articles.id_creator, articles.name, articles.category, articles.price_in_dolar, articles.quantity, articles.email, articles.password, articles.nickname, articles.reset_button, articles.note, articles.offer_price, articles.peso"))
+		$articles = $articles->select(\DB::raw("articles.id, articles.id_creator, articles.name, articles.category, articles.price_in_dolar, articles.quantity, articles.email, articles.password, articles.nickname, articles.reset_button, articles.note, articles.offer_price, articles.peso, articles.costo"))
 			->orderby('articles.id')
 			->orderby('articles.category')
 			->paginate(40);
@@ -1056,7 +1056,7 @@ class ProgramController extends Controller
 			->orderby('quantity', 'DESC')
 			->paginate(200);
 
-		$articles_cantidad = \Bumsgames\Article::select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso"))
+		$articles_cantidad = \Bumsgames\Article::select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso, costo"))
 			->where('quantity', '>=', '1')
 			->where('category', $category)
 			->where('id', '!=', '2')
@@ -1273,7 +1273,7 @@ class ProgramController extends Controller
 			->paginate(40);
 		$tutoriales = \Bumsgames\tutorial::All();
 
-		$articles_cantidad = \Bumsgames\Article::selectRaw('id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, sum(quantity) as quantity, note, offer_price, peso')
+		$articles_cantidad = \Bumsgames\Article::selectRaw('id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, sum(quantity) as quantity, note, offer_price, peso, costo')
 			->where('quantity', '>', 0)
 			->where('id', '!=', '2')
 			->groupBy('name', 'category')
@@ -1596,12 +1596,26 @@ class ProgramController extends Controller
 	{
 		$pago = \Bumsgames\Pago::leftJOIN('envio__pagos', 'pagos.id', '=', 'envio__pagos.id_pago')
 			->leftJOIN('coupon', 'pagos.cupon_id', '=', 'coupon.id')
-			->select(\DB::raw("*, pagos.id as id"))
+			->leftjoin('bums_users','coupon.fk_empleado','bums_users.id')
+			->select(\DB::raw("pagos.*,envio__pagos.*, pagos.id as id, pagos.created_at, bums_users.name as c_name, bums_users.lastname as c_lastname, coupon.codigo as codigo, coupon.descuento as descuento, coupon.id as cupon_id"))
 			->where('pagos.id', $id)
 			->groupby('pagos.id')
 			->get();
 
 		return $pago;
+	}
+
+	public function ReportePagoExt($id)
+	{
+		$pago = \Bumsgames\Pago::leftJOIN('envio__pagos', 'pagos.id', '=', 'envio__pagos.id_pago')
+		->leftJOIN('coupon', 'pagos.cupon_id', '=', 'coupon.id')
+		->leftjoin('bums_users','coupon.fk_empleado','bums_users.id')
+		->select(\DB::raw("pagos.*,envio__pagos.*, pagos.id as id, pagos.created_at, bums_users.name as c_name, bums_users.lastname as c_lastname, coupon.codigo as codigo, coupon.descuento as descuento, coupon.id as cupon_id"))
+		->where('pagos.id', $id)
+		->groupby('pagos.id')
+		->first();
+
+		return view('admin.pago.reporte_ext',compact("pago"));
 	}
 
 	public function ver_articulo_compra($id)
@@ -2127,6 +2141,56 @@ class ProgramController extends Controller
 
 		// return $sales->movimiento;
 
+		//Temporal mientras pienso como mejorarlo
+		$arr_comple;
+		foreach($movimientos as $movimiento){
+
+			if(in_array($movimiento->movimiento->venta[0]->articulo->category,[1,2])){
+				if($movimiento->movimiento->venta[0]->articulo->category == 1){
+					$articulo_complemento = \Bumsgames\Article::where('articles.category','2')
+					->where('articles.email',$movimiento->movimiento->venta[0]->articulo->email)
+					->where('articles.nickname',$movimiento->movimiento->venta[0]->articulo->nickname)
+					->first();
+				}
+				else{
+					$articulo_complemento = \Bumsgames\Article::where('articles.category','1')
+					->where('articles.email',$movimiento->movimiento->venta[0]->articulo->email)
+					->where('articles.nickname',$movimiento->movimiento->venta[0]->articulo->nickname)
+					->first();
+				}
+				if(isset($articulo_complemento)){
+					$arr_comple[$movimiento->movimiento->venta[0]->articulo->id] = $articulo_complemento->price_in_dolar;
+				}
+				else{
+					$arr_comple[$movimiento->movimiento->venta[0]->articulo->id] = 0;
+				}
+			}
+			else if (in_array($movimiento->movimiento->venta[0]->articulo->category,[8,9])){
+				if($movimiento->movimiento->venta[0]->articulo->category == 8){
+					$articulo_complemento = \Bumsgames\Article::where('articles.category','9')
+					->where('articles.email',$movimiento->movimiento->venta[0]->articulo->email)
+					->where('articles.nickname',$movimiento->movimiento->venta[0]->articulo->nickname)
+					->first();
+				}
+				else{
+					$articulo_complemento = \Bumsgames\Article::where('articles.category','8')
+					->where('articles.email',$movimiento->movimiento->venta[0]->articulo->email)
+					->where('articles.nickname',$movimiento->movimiento->venta[0]->articulo->nickname)
+					->first();
+				}
+				if(isset($articulo_complemento)){
+					$arr_comple[$movimiento->movimiento->venta[0]->articulo->id] = $articulo_complemento->price_in_dolar;
+				}
+				else{
+					$arr_comple[$movimiento->movimiento->venta[0]->articulo->id] = 0;
+				}
+			}
+			else{
+				$arr_comple[$movimiento->movimiento->venta[0]->articulo->id] = 0;
+			}
+
+		}
+
 		$title = 'Movimientos de Empresa';
 		$movement = 'bums';
 		$url = 'movimientos_tipo_banco';
@@ -2149,7 +2213,7 @@ class ProgramController extends Controller
 		//Comentar las 3 lineas de abajo para volver al emtodo ajax	
 		$movimientos_list = [];
 		$count_movimientos = 1;
-		return view('admin.movimientos.movimientosFILTRADOS', compact('movimientos', 'comments_por_aprobar', 'movimientos_list', 'count_movimientos', 'pago_sin_confirmar', 'title', 'movement', 'url', 'coins', 'usuarios', 'tutoriales'));
+		return view('admin.movimientos.movimientosFILTRADOS', compact('movimientos', 'comments_por_aprobar', 'movimientos_list', 'count_movimientos', 'pago_sin_confirmar', 'title', 'movement', 'url', 'coins', 'usuarios', 'tutoriales','arr_comple'));
 	}
 
 	public function filtrar_movimientos_bums(Request $request)

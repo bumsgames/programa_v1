@@ -26,7 +26,8 @@ class Article extends Model
         'reset_button',
         'note',
         'fondo',
-        'oferta'
+        'oferta',
+        'costo'
     ];
 
     //Coloca un valor default al peso al usar create
@@ -128,4 +129,6 @@ class Article extends Model
     {
         return $this->belongsToMany('Bumsgames\Sales', 'pertenece_clientes', 'id_article', 'id_venta');
     }
+
+
 }

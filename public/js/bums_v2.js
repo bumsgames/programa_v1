@@ -406,3 +406,104 @@ $('#category_btn').click(function(){
     $('#dropanchor').trigger('click');
     $("#down_icon").toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
 })
+
+
+function filter_cat_show(){
+    if($('#cat_1').is(':checked')){
+        $('.cat_1').show();
+    }
+    if($('#cat_2').is(':checked')){
+        $('.cat_2').show();
+    }
+    if($('#cat_3').is(':checked')){
+        $('.cat_3').show();
+    }
+    if($('#cat_4').is(':checked')){
+        $('.cat_4').show();
+    }
+    if($('#cat_5').is(':checked')){
+        $('.cat_5').show();
+    }
+    if($('#cat_6').is(':checked')){
+        $('.cat_6').show();
+    }
+    if($('#cat_7').is(':checked')){
+        $('.cat_7').show();
+    }
+    if($('#cat_8').is(':checked')){
+        $('.cat_8').show();
+    }
+    if($('#cat_9').is(':checked')){
+        $('.cat_9').show();
+    }
+    if($('#cat_10').is(':checked')){
+        $('.cat_10').show();
+    }
+    if($('#cat_11').is(':checked')){
+        $('.cat_11').show();
+    }
+    if($('#cat_12').is(':checked')){
+        $('.cat_12').show();
+    }
+    if($('#cat_13').is(':checked')){
+        $('.cat_13').show();
+    }
+    if($('#cat_14').is(':checked')){
+        $('.cat_14').show();
+    }
+    if($('#cat_15').is(':checked')){
+        $('.cat_15').show();
+    }
+}
+
+
+function filter_cat_hide(){
+    if($('input[name="cat_filt"]').is(':checked')){
+        if(!$('#cat_1').is(':checked')){
+            $('.cat_1').hide();
+        }
+        if(!$('#cat_2').is(':checked')){
+            $('.cat_2').hide();
+        }
+        if(!$('#cat_3').is(':checked')){
+            $('.cat_3').hide();
+        }
+        if(!$('#cat_4').is(':checked')){
+            $('.cat_4').hide();
+        }
+        if(!$('#cat_5').is(':checked')){
+            $('.cat_5').hide();
+        }
+        if(!$('#cat_6').is(':checked')){
+            $('.cat_6').hide();
+        }
+        if(!$('#cat_7').is(':checked')){
+            $('.cat_7').hide();
+        }
+        if(!$('#cat_8').is(':checked')){
+            $('.cat_8').hide();
+        }
+        if(!$('#cat_9').is(':checked')){
+            $('.cat_9').hide();
+        }
+        if(!$('#cat_10').is(':checked')){
+            $('.cat_10').hide();
+        }
+        if(!$('#cat_11').is(':checked')){
+            $('.cat_11').hide();
+        }
+        if(!$('#cat_12').is(':checked')){
+            $('.cat_12').hide();
+        }
+        if(!$('#cat_13').is(':checked')){
+            $('.cat_13').hide();
+        }
+        if(!$('#cat_14').is(':checked')){
+            $('.cat_14').hide();
+        }
+        if(!$('#cat_15').is(':checked')){
+            $('.cat_15').hide();
+        }
+    }   
+}
+

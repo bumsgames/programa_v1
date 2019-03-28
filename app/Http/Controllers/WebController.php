@@ -325,7 +325,7 @@ class WebController extends Controller
 		$categorias = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
 		$moneda_actual = \Bumsgames\Coin::find($id_coin);
-
+		$comprofilt = 1;
 		$buscador_ruta = 'articulos';
 
 		$title = Session::get('categoria');
@@ -339,7 +339,7 @@ class WebController extends Controller
 			->limit(3)
 			->get();
 
-		return view('webuser.article.articulos_web', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
+		return view('webuser.article.articulos_web', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos','comprofilt'));
 	}
 
 	function ayuda(Request $request)
@@ -646,7 +646,7 @@ class WebController extends Controller
 		// dd($request->all());
 		if ($request->envio == 1) {
 			$request->request->add(['id_pago' => $ultimo_pago->id]);
-			$ultimo_pago = \Bumsgames\Envio_Pago::create($request->all());
+			$envio_pago = \Bumsgames\Envio_Pago::create($request->all());
 		}
 		if (isset($request->id_cupon)) {
 

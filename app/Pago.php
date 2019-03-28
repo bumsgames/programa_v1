@@ -50,5 +50,10 @@ class Pago extends Model
 	{
 		return $this->belongsTo('Bumsgames\Coupon', 'cupon_id');
 	}
+
+	public function Articulos()
+	{
+		return $this->belongsToMany('Bumsgames\Article','pago__articulos','id_pago','id_article');
+	}
 }
 

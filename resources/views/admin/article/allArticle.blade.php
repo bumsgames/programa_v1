@@ -363,6 +363,11 @@
 									<br>	
 									<br>
 									@endif
+									<strong>Costo de Inversión: </strong>
+									<br>
+									<span class="costofil">{{$article->costo}} $</span>
+									<br>
+									<br>
 								</td>
 								<td>
 									@if(Auth::user()->level >= 7)

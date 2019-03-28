@@ -30,7 +30,7 @@ class CreateArticlesTable extends Migration
             $table->integer('peso')->default(0);
             $table->integer('quantity')->default(1);
             $table->integer('oferta')->default(0);
-            
+        
             $table->string('email', 200)->default('Sin correo electronico')->nullable();
             $table->string('password', 100)->default('No vender sin colocar la clave')->nullable();
             $table->string('nickname', 100)->default('No vender sin colocar nickname')->nullable();

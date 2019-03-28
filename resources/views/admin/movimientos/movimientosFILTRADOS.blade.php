@@ -189,8 +189,8 @@
 										@endif
 										<?php $contar_x++;?>
 									@endforeach			
-									<br><strong>Total: </strong>{{number_format($movimiento->movimiento->price * $movimiento->movimiento->cantidad, 0, ',', '.')." ".$movimiento->movimiento->moneda->sign}}			
-									
+									<br><strong>Total: </strong>{{number_format($movimiento->movimiento->price * $movimiento->movimiento->cantidad, 0, ',', '.')." ".$movimiento->movimiento->moneda->sign}}		
+
 
 								</td>
 
@@ -211,6 +211,12 @@
 										<strong>Precio del dolar del día: </strong>{{number_format($movimiento->movimiento->dolardia, 0, ',', '.')}} {{$movimiento->movimiento->moneda->sign}}
 										<br><br>
 										<strong>Cliente: </strong>{{$movimiento->movimiento->venta->cliente->name}} {{$movimiento->movimiento->venta->cliente->lastname}}
+										<br><br>
+										<strong>Ganancia Neta: </strong>
+										<?php
+											$ganancian = ($movimiento->movimiento->price/$movimiento->movimiento->dolardia) - ($movimiento->movimiento->venta->articulo->costo * ($movimiento->movimiento->price/$movimiento->movimiento->dolardia)*100/($movimiento->movimiento->venta->articulo->price_in_dolar+$arr_comple[$movimiento->movimiento->venta->articulo->id]))/100;
+											echo number_format($ganancian*$movimiento->movimiento->dolardia, 0, ',', '.')." ".$movimiento->movimiento->moneda->sign;
+										?>
 										<?php break;?>
 									@endforeach
 								@else

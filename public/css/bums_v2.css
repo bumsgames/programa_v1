@@ -1055,6 +1055,10 @@ a.ayuda-item:not(.active):hover{
 
 
     /*CSS PARA HACER EL SITIO RESPONSIVE*/
+    .nav-item.menunav{
+        padding-left: 0;
+    }
+
     @media (min-width: 992px ){
         @media (max-width:1200px){
             #login_us{
@@ -1087,20 +1091,55 @@ a.ayuda-item:not(.active):hover{
         }
     }
 
-    @media(min-width: 1225px){
-        #exampleInputEmail1 {
+    @media(min-width: 1200px) and (max-width:1457px){
+        #navbarTogglerDemo01 {
+            flex-flow: row wrap;
+        }
+        #searchnav, #searchnav li, #searchnav li form,#searchnavgroup{
+            width: 100%;
+        }
+        #exampleInputEmail1{
+            width: 80%;
+        }
+        .menubuttons.ml-auto{
+            margin-left: unset!important;
+            padding-top: 5px;
+        }
+        #mainnavbar{
+            height: unset!important;
+        }
+        ul.navNormal{
+            margin-top: 100px!important;
+        }
 
-            width: 450px ;
+        .nav-item.menunav{
+            padding-left: 20px;
         }
     }
 
-    @media(min-width: 1373px){
+    @media(min-width: 1458px) {
+        #exampleInputEmail1 {
+            width: 350px ;
+        }
+    }
+
+    @media(min-width: 1508px){
+        #exampleInputEmail1 {
+
+            width: 400px ;
+        }
+    }
+
+
+
+    @media(min-width: 1692px){
         #exampleInputEmail1 {
 
             width: 600px ;
         }
     }
 
+    
     .btnbuscar{
         background-color: #BD3536;
     }
@@ -1697,3 +1736,4 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
 .encuesta-option{
     margin-bottom: 5px;
 }
+

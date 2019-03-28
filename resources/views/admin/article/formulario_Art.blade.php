@@ -131,7 +131,14 @@
 				</div>
 				<hr>
 				<div class="row">
-				<div class="col-12 col-lg">
+					<div class="col-12 col-lg">
+						<div class="form-group">
+							<label for="costo"><strong>Costo de Inversión ($)</strong></label>
+							<input class="form-control form-control-sm" type="number" autocomplete="off" name="costo" id="costo"
+							value="{{$articulo->costo}}" placeholder="" min="0">
+						</div>
+					</div>
+					<div class="col-12 col-lg">
 						<div class="form-group">
 							<label for=""><strong>Precio de SubRayado en $</strong></label>
 							<input class="form-control form-control-sm" 

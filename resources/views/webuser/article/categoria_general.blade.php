@@ -10,7 +10,8 @@
 }
 </style>
 <div class="container">
-	
+		<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+
 	<div class="tile">
 		<h2>{{ $title }}</h2>
 		<hr>

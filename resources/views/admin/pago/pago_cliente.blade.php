@@ -74,8 +74,11 @@
 											@if($sin->verificado <= 0 && $sin->entregado <= 0)
 											@endif
 											<br>	
-											<button data-toggle="modal" 
-											data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>
+											{{--<button data-toggle="modal" 
+											data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>--}}
+											<button type="button" class="btn btn-sm" onclick="nuevo_detalle_compra({{$sin->id}})" data-toggle="modal" data-target="#modelId">
+												Ver mas detalles
+											</button>
 										</td>
 									</tr>
 									@endforeach
@@ -143,8 +146,11 @@
 												@if($sin->verificado <= 0 && $sin->entregado <= 0)
 												<button id="verificar_entregar" class="btn btn-sm" onclick="verificar_entregar({{ $sin->id }})">Verificar y Entregar</button>
 												@endif
-												<button data-toggle="modal" 
-												data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>
+												{{--<button data-toggle="modal" 
+												data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>--}}
+												<button type="button" class="btn btn-sm" onclick="nuevo_detalle_compra({{$sin->id}})" data-toggle="modal" data-target="#modelId">
+													Ver mas detalles
+												</button>
 
 												<button class="btn btn-danger" onclick="eliminar_orden({{ $sin->id }})">Eliminar</button>
 												
@@ -179,6 +185,7 @@
 					text-decoration:none;
 				}
 			</style>
+			{{--
 			<div class="modal fade letraNegra" id="ver_detalle_compra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
@@ -280,6 +287,280 @@
 								</div>
 							</div>
 							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+			--}}
+			<style>
+	
+
+			.pago_section{
+				background-color:#009688;
+				padding: 10px 5px;
+				color:white;
+				width: 80%;
+				display: inline-block;
+			}
+			.right_triangle{
+				margin-bottom: -14px;
+				border-top: 45px solid #009688;
+				border-right: 45px solid transparent;
+				display: inline-block;
+			}
+			</style>
+			<!-- Modal -->
+			<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+				<div class="modal-dialog modal-xl" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h2 class="modal-title"><span class="fa fa-shopping-cart"></span> Reporte de Pago</h2>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true"><span class="fa fa-times"></span></span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-6">
+									<h4 class="pago_section">DATOS DEL PAGO</h4><span class="right_triangle"></span>
+									<hr>
+									<div class="row">
+										<div class="col-6">
+											<span>ID del pago</span>
+										</div>
+										<div class="col-6">
+											<span id="identificador"></span>
+										</div>
+									</div>
+									<br>
+									<h4 class="pago_section">ARTICULOS COMPRADOS</h4><span class="right_triangle"></span>
+									<hr>
+									<div class="row">
+										<div class="col-12">
+											<div id="articulos_div">
+												
+											</div>
+										</div>
+									</div>
+									<div id="descuento_div">
+										<h4 class="pago_section">CODIGO DE DESCUENTO</h4><span class="right_triangle"></span>
+										<hr>
+										<div class="row">
+											<div class="col-5">
+												<span>ID del cupon aplicado</span>
+											</div>
+											<div class="col-6">
+												<span id="cupon_id"></span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-5">
+												<span>Monto del cupon aplicado ($)</span>
+											</div>
+											<div class="col-6">
+												<span id="cupon_monto"></span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-5">
+												<span>Creado por</span>
+											</div>
+											<div class="col-6">
+												<span id="cupon_creador"></span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-5">
+												<span>Codigo</span>
+											</div>
+											<div class="col-6">
+												<span id="cupon_codigo"></span>
+											</div>
+										</div>
+										<br>
+									</div>
+									<h4 class="pago_section">TOTAL COMPRA</h4><span class="right_triangle"></span>
+									<hr>
+									<div class="row">
+										<div class="col-5">
+											<h5>Total ($)</h5>
+										</div>
+										<div class="col-6">
+											<h5 id="total_com"></h5>
+										</div>
+									</div>
+								</div>
+								<div class="col-6">
+									<h4 class="pago_section">DATOS DEL CLIENTE</h4><span class="right_triangle"></span>
+									<hr>
+									<div class="row">
+										<div class="col-4">
+											<span>Nombre del cliente</span>
+										</div>
+										<div class="col-6">
+											<span id="nombre_cli"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>WhatsApp</span>
+										</div>
+										<div class="col-6">
+											<span id="whatsapp"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>Nota Adicional</span>
+										</div>
+										<div class="col-6">
+											<span id="nota_ad"></span>
+										</div>
+									</div>
+									<br>
+									<h4 class="pago_section">DATOS DEL PAGO</h4><span class="right_triangle"></span>
+									<hr>
+									<div class="row">
+										<div class="col-4">
+											<span>Tipo de pago</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="tipo_pago"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>Banco</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="pago_banco"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>Cedula</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="pago_cedula"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span># de referencia</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="pago_referencia"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>Monto</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="pago_monto"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>Fecha</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="pago_fecha"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>Pago Verificado</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="pago_ver"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4">
+											<span>Orden Entregada</span>
+										</div>
+										<div class="col-6">
+											<span style="text-transform: capitalize;" id="pago_ent"></span>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="col-4" style=" display: flex;
+										justify-content: center;
+										flex-direction: column;">
+											<span >Capture</span>
+										</div>
+										<div class="col-6">
+											<img id="pago_capture" src="img/ws.png" height="250" alt="">
+										</div>
+									</div>
+									<br>
+									<div id="envio_div">
+										<h4 class="pago_section">DATOS DE ENVIO</h4><span class="right_triangle"></span>
+										<hr>
+										<div class="row">
+											<div class="col-4">
+												<span>Empresa</span>
+											</div>
+											<div class="col-6">
+												<span style="text-transform: capitalize;" id="envio_emp"></span>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-4">
+												<span>Destinatario</span>
+											</div>
+											<div class="col-6">
+												<span style="text-transform: capitalize;" id="envio_des"></span>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-4">
+												<span>Cedula</span>
+											</div>
+											<div class="col-6">
+												<span style="text-transform: capitalize;" id="envio_ced"></span>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-4">
+												<span>Dirección</span>
+											</div>
+											<div class="col-6">
+												<span style="text-transform: capitalize;" id="envio_dir"></span>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="col-4">
+												<span>Teléfono</span>
+											</div>
+											<div class="col-6">
+												<span style="text-transform: capitalize;" id="envio_tel"></span>
+											</div>
+										</div>
+										<br>
+									</div>
+								</div>
+								
+							</div>
+							
+						</div>
+						<div class="modal-footer">
+							<a href="/reporte-pago/" id="a_ext" target="_blank" class="btn btn-primary">Enlace externo</a>
 						</div>
 					</div>
 				</div>
