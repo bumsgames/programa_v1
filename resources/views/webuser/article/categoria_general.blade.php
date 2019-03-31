@@ -10,7 +10,6 @@
 }
 </style>
 <div class="container">
-		<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 
 	<div class="tile">
 		<h2>{{ $title }}</h2>
@@ -23,7 +22,6 @@
 					<br>	
 					Ordenar por:
 					<form class="form-inline" action="{{ $buscador_ruta }}" method="post">
-						<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 						<select class="form-control se letraPe" onchange="this.form.submit()" name="filtro" style="font-size: 14px;">
 							<option class="form-control letraPe" value="">Sin filtro de busqueda</option>
 							<option value="1">Menor a mayor</option>

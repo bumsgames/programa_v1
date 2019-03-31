@@ -27,7 +27,9 @@ class Article extends Model
         'note',
         'fondo',
         'oferta',
-        'costo'
+        'costo',
+        'estado',
+        'trailer'
     ];
 
     //Coloca un valor default al peso al usar create

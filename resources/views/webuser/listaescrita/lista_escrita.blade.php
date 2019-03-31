@@ -15,23 +15,24 @@
 	</style>
 	<div class="container-fluid">
 		<div class="row justify-content-center ultimo-vendido-banner">
-			<div class="col-1">
+			<div class="col-12 col-xl-2 text-center">
 				<br>
 				<img class="vendido_img" src="img/maxresdefault.jpg" alt="">
 			</div>
 			<div style="border-left-style: solid; margin: 0 40px;"></div>
-			<div class="col-9">
+			<div class="col-12 col-xl-9">
 				<div class="row">
 					<div class="col-12">
-						<h3 class="ultimo-vendido-title">Ultimos articulos vendidos</h3>
+						<h3 class="ultimo-vendido-title" style="width:100%">Ultimos articulos vendidos</h3>
 					</div>
 				</div>
 				<div class="row">
 					@foreach($ultimos_vendidos as $uv)
-					<div class="col-4">
+					<div class="col-12 col-xl-4">
+						<br>
 						<div class="ultimo-vendido-content">
-							<div class="ultimo-vendido-c-img">
-								<img src="img/{{$uv->articulo->fondo}}" height="130" alt="">
+							<div class="ultimo-vendido-c-img text-center" style="overflow:hidden;max-width:50%">
+								<img src="img/{{$uv->articulo->fondo}}" height="130" style="width:auto" alt="">
 							</div>
 							<div class="ultimo-vendido-c-text">
 								{{$uv->articulo->name}}
@@ -69,7 +70,6 @@
 				<div class="collapse show">
 					<div class="card-body">
 						<form class="form" action="lista_escrita" method="post">
-							<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 							<div class="form-group">
 								<label for="pf">
 									Precio unitario a aumentar (<span id="sign">{{$moneda_actual->sign}}</span>)
@@ -101,7 +101,6 @@
 			<form class="form-inline" action="lista_escrita" method="post">
 				
 				
-				<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 				<select class="form-control" onchange="this.form.submit()" name="filtro" style="font-size: 14px;">
 					<option class="form-control" value="">Sin filtro de busqueda</option>
 					<option value="1">Menor a mayor</option>
@@ -125,11 +124,12 @@
 					<?php $i = 1; ?>
 					<br>
 					<br>
-					<h4><strong>{{ $categoria }}</strong></h4>
-					<button type="button" onclick='CopyToClipboard("div_{{$articulo->pertenece_category->id}}")' class="btn btnbums sticky copy" style="top:180px">Copiar Categoria</button>
-					<br>
-					<br>
+					<button type="button" onclick='CopyToClipboard("div_{{$articulo->pertenece_category->id}}")' class="btn btnbums sticky copy" style="top:180px">Copiar</button>
+					
 					<div id="div_{{$articulo->pertenece_category->id}}">
+						<h4><strong>{{ $categoria }}</strong></h4>
+						<br>
+						<br>
 					@endif
 					
 					    <strong><?php echo $i++; ?></strong>. {{$articulo->name }}. 
@@ -201,6 +201,7 @@
 			window.getSelection().removeAllRanges()
 			window.getSelection().addRange(range);
 			document.execCommand("copy");
+			window.getSelection().removeAllRanges();
 		}
 	}
 </script>

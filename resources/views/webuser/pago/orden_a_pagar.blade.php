@@ -88,8 +88,8 @@
 			<div class="col">
 				<?php $i = 1; ?>
 				<?php $precio = 0; ?> 
-				@if(Session::has('carrito'))
-				 @foreach( Session::get('carrito') as $x )
+				@if(Session::has('carrito')) 
+				@foreach( Session::get('carrito') as $x )
 				<?php $precio += $x['precio']; ?> 
 				@endforeach 
 				@endif
@@ -152,7 +152,7 @@
 														<?php 
 															if(isset($coupon) && ($coupon->descuento < $precio))
 																$precio -= $coupon->descuento; ?> 
-																@endif
+														@endif
 														<tr>
 															<td colspan="2"></td>
 															<td class="text-left">
@@ -223,20 +223,20 @@
 												<h4>Opciones de pago</h4>
 												<div id="accordianId" role="tablist" aria-multiselectable="true">
 													<div class="card">
-														<div class="card-header" role="tab" id="section1HeaderId">
-															<h5 class="mb-0">
-																<a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+														<a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
+															<div class="card-header" role="tab" id="section1HeaderId">
+																<h5 class="mb-0">
 																	Cuentas Bancarias
-																</a>
-															</h5>
-														</div>
+																</h5>
+															</div>
+														</a>
 														<div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
 															<div class="card-body card-pago">
 																<div class="row">
 																	<div class="col-4">
 																		<div class="card">
 																			<center>
-																				<img width="218" src="{{asset('img/provincial.png')}}" alt="">
+																				<img width="170" src="{{asset('img/provincial.png')}}" alt="">
 																			</center>
 																			<div class="card-body card-pago">
 																				<h4 class="card-title">Provincial</h4>
@@ -249,7 +249,7 @@
 																	<div class="col-4">
 																		<div class="card">
 																			<center>
-																				<img width="218" src="{{asset('img/banesco logo.jpg')}}" alt="">
+																				<img width="150" src="{{asset('img/banesco logo.jpg')}}" alt="">
 																			</center>
 																			<div class="card-body">
 																				<h4 class="card-title">Banesco</h4>
@@ -262,7 +262,7 @@
 																	<div class="col-4">
 																		<div class="card">
 																			<center>
-																				<img width="218" src="{{asset('img/mercantil.png')}}" alt="">
+																				<img width="150" src="{{asset('img/mercantil.png')}}" alt="">
 																			</center>
 																			<div class="card-body">
 																				<h4 class="card-title">Mercantil</h4>
@@ -275,7 +275,7 @@
 																	<div class="col-4 offset-1">
 																		<div class="card">
 																			<center>
-																				<img width="218" src="{{asset('img/bdv.png')}}" alt="">
+																				<img width="150" src="{{asset('img/bdv.png')}}" alt="">
 																			</center>
 																			<div class="card-body">
 																				<h4 class="card-title">Banco de Venezuela</h4>
@@ -288,7 +288,7 @@
 																	<div class="col-4 offset-2">
 																		<div class="card">
 																			<center>
-																				<img width="218" src="{{asset('img/bnc.png')}}" alt="">
+																				<img width="150" src="{{asset('img/bnc.png')}}" alt="">
 																			</center>
 																			<div class="card-body">
 																				<h4 class="card-title">BNC</h4>
@@ -303,13 +303,13 @@
 														</div>
 													</div>
 													<div class="card">
-														<div class="card-header" role="tab" id="section2HeaderId">
-															<h5 class="mb-0">
-																<a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
+														<a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId">
+															<div class="card-header" role="tab" id="section2HeaderId">
+																<h5 class="mb-0">
 																Otros metodos de pagos
-																</a>
-															</h5>
-														</div>
+																</h5>
+															</div>
+														</a>
 														<div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
 															<div class="card-body card-pago">
 																<h5>
@@ -397,22 +397,22 @@
 														<small class="form-text text-muted">Los envios solo se realizan mediante estas 2 empresas.</small>
 														<br>
 														<div class="form-row">
-															<div class="form-group col-lg-3">
+															<div class="form-group col-lg-6">
 																<label for="inputEmail4"><strong>Destinatario</strong></label>
 																<input onkeyup="comprodesbloqueo60()" type="text" class="form-control letras" id="destinario">
 																<small class="form-text text-muted">Obligatorio</small>
 															</div>
-															<div class="form-group col-lg-3">
+															<div class="form-group col-lg-6">
 																<label for="inputPassword4"><strong>Documento de Identidad</strong></label>
 																<input onkeyup="comprodesbloqueo60()" type="number" class="form-control" id="cedula_destinario">
 																<small class="form-text text-muted">Obligatorio</small>
 															</div>
-															<div class="form-group col-lg-3">
+															<div class="form-group col-lg-6">
 																<label for="inputPassword4"><strong>Oficina o Direccion</strong></label>
 																<input onkeyup="comprodesbloqueo60()" type="textarea" class="form-control" id="direccion_destinario">
 																<small class="form-text text-muted">Obligatorio</small>
 															</div>
-															<div class="form-group col-lg-3">
+															<div class="form-group col-lg-6">
 																<label for="inputPassword4"><strong>Numero Telefonico</strong></label>
 																<input onkeyup="comprodesbloqueo60()" type="text" class="form-control ws" id="numero_destinario">
 																<small class="form-text text-muted">Obligatorio</small>
@@ -577,7 +577,8 @@
 														border-right: 45px solid transparent;
 														display: inline-block;
 													}
-													.reporte-container{
+
+													.reporte-container {
 														border-radius: 5px;
 														border: 2px solid #009688;
 													}
@@ -638,8 +639,8 @@
 																		{{$coupon->codigo}}
 																	</div>
 																</div>
-																<br>
-																 @endif
+																<br> 
+																@endif
 																<h4 class="pago_section">TOTAL COMPRA</h4><span class="right_triangle"></span>
 																<hr>
 																<div class="row">

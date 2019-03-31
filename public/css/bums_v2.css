@@ -127,6 +127,12 @@
         border-color: #BD3536;
     }
 
+    .dropdown-menu.oferta{
+        border-radius: 0 0 0.25rem 0.25rem ;
+        border-width: 2px;
+        border-color: #BD3536;
+    }
+
     .dropdown-submenu .dropdown-menu {
         border-width: 2px;
     }
@@ -1515,6 +1521,7 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
     max-width: 70%;
 }
 
+@media(min-width:992px){
 
 .commentbutton{
     margin-left: -250px;
@@ -1541,7 +1548,7 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
     -webkit-transform: translate(200px); /* Safari */
     transform: translate(200px);
 }
-
+}
 
 .pagonav{
     background-color: rgba(0,0,0,0.9)!important;
@@ -1737,3 +1744,20 @@ a.ayuda-item:first-child, a.ayuda-item:last-child {
     margin-bottom: 5px;
 }
 
+.btnbums.sticky{
+    background-color: rgb(180,180,180);
+}
+
+.btnbums.sticky:hover{
+    background-color: rgb(170,170,170);
+}
+
+.container-login{
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 80px 0;
+    border-radius: 5px;
+}
+
+#category_btn{
+    cursor: pointer;
+}

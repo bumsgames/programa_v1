@@ -681,6 +681,12 @@ class ProgramController extends Controller
 				->where('articles.id', '!=', '2')
 				->where(function ($q) use ($request) {
 					$q->Where('name', 'like', '%' . $request->coincidencia . '%');
+					if(isset($request->coinc_nickname)){
+						$q->where('nickname','like','%'.$request->coinc_nickname.'%');
+					}
+					if(isset($request->coinc_email)){
+						$q->where('email','like','%'.$request->coinc_email.'%');
+					}
 				})
 				->orderby('category')
 				->orderby('email')
@@ -690,6 +696,12 @@ class ProgramController extends Controller
 		} else {
 			$articles = \Bumsgames\Article::where(function ($q) use ($request) {
 				$q->Where('name', 'like', '%' . $request->coincidencia . '%');
+				if(isset($request->coinc_nickname)){
+					$q->where('nickname','like','%'.$request->coinc_nickname.'%');
+				}
+				if(isset($request->coinc_email)){
+					$q->where('email','like','%'.$request->coinc_email.'%');
+				}
 			})
 				->where('articles.id', '!=', '2')
 				->orderby('category')
@@ -1367,6 +1379,14 @@ class ProgramController extends Controller
 		]);
 	}
 
+	public function DescripcionArticulo($id)
+	{
+		$artdescripcion = \Bumsgames\Article::find($id);
+		return response()->json([
+			"mensaje" => $artdescripcion		
+		]);
+	}
+
 	public function modicacion_rapida_get(Request $request)
 	{
 		$articuloRapido = \Bumsgames\Article::where('id', $request->id)->first();
@@ -1654,22 +1674,30 @@ class ProgramController extends Controller
 
 	public function modificacion_rapida(Request $request)
 	{
-		$refer = \Bumsgames\Article::find($request->id);
+		$refer = \Bumsgames\Article::find($request->id);		
+		if (isset($request->quantity)) {
+			if(!($request->quantity > 1 && in_array($refer->category,[1,2,8,9]))){
+				//Comprobante que dice si se agregara timestamp o no
+				$comprobante_disponibilidad =
+					\Bumsgames\Article::where('quantity', '>', '0')
+					->where('name', '=', $refer->name)
+					->where('category', '=', $refer->category)
+					->get();
+				if (($comprobante_disponibilidad->count() == 0) && $refer->quantity < $request->quantity) {
+					DB::statement('UPDATE articles SET ultimo_agregado="' . Carbon::now() . '" WHERE id=' . $request->id . ' ');
+				}
+				DB::statement('UPDATE articles SET quantity="' . $request->quantity . '" WHERE id=' . $request->id . ' ');
+			}
+			else{
+				return response()->json([
+					"data" => "categoria",
+				]);
+			}
+		}
 		if (isset($request->note)) {
 			DB::statement('UPDATE articles SET note="' . $request->note . '" WHERE id=' . $request->id . ' ');
 		}
-		if (isset($request->quantity)) {
-			//Comprobante que dice si se agregara timestramp o no
-			$comprobante_disponibilidad =
-				\Bumsgames\Article::where('quantity', '>', '0')
-				->where('name', '=', $refer->name)
-				->where('category', '=', $refer->category)
-				->get();
-			if (($comprobante_disponibilidad->count() == 0) && $refer->quantity < $request->quantity) {
-				DB::statement('UPDATE articles SET ultimo_agregado="' . Carbon::now() . '" WHERE id=' . $request->id . ' ');
-			}
-			DB::statement('UPDATE articles SET quantity="' . $request->quantity . '" WHERE id=' . $request->id . ' ');
-		}
+
 		if (isset($request->reset_button)) {
 			if (in_array($refer->category, [1, 2, 5])) {
 				DB::statement('UPDATE articles SET reset_button="' . $request->reset_button . '" WHERE id=' . $request->id . ' OR (email="' . $refer->email . '" AND (category IN (1,2,5)))');
@@ -2139,10 +2167,11 @@ class ProgramController extends Controller
 			->orderby('movimientos.created_at', 'DESC')
 			->paginate(100);
 
+			
 		// return $sales->movimiento;
 
 		//Temporal mientras pienso como mejorarlo
-		$arr_comple;
+		/*$arr_comple;
 		foreach($movimientos as $movimiento){
 
 			if(in_array($movimiento->movimiento->venta[0]->articulo->category,[1,2])){
@@ -2189,7 +2218,7 @@ class ProgramController extends Controller
 				$arr_comple[$movimiento->movimiento->venta[0]->articulo->id] = 0;
 			}
 
-		}
+		}*/
 
 		$title = 'Movimientos de Empresa';
 		$movement = 'bums';
@@ -2213,7 +2242,7 @@ class ProgramController extends Controller
 		//Comentar las 3 lineas de abajo para volver al emtodo ajax	
 		$movimientos_list = [];
 		$count_movimientos = 1;
-		return view('admin.movimientos.movimientosFILTRADOS', compact('movimientos', 'comments_por_aprobar', 'movimientos_list', 'count_movimientos', 'pago_sin_confirmar', 'title', 'movement', 'url', 'coins', 'usuarios', 'tutoriales','arr_comple'));
+		return view('admin.movimientos.movimientosFILTRADOS', compact('movimientos', 'comments_por_aprobar', 'movimientos_list', 'count_movimientos', 'pago_sin_confirmar', 'title', 'movement', 'url', 'coins', 'usuarios', 'tutoriales'));
 	}
 
 	public function filtrar_movimientos_bums(Request $request)
@@ -3156,8 +3185,7 @@ class ProgramController extends Controller
 			->where('bums_user_articles.id_bumsuser', Auth::id())
 			->where('articles.quantity', '>', 0)
 			->where('articles.id', '!=', '2')
-			->select('articles.*', 'bums_user_articles.*', DB::raw('sum(1) as total'))
-			->groupBy('articles.category', 'articles.name', 'bums_user_articles.porcentaje')
+			->select('articles.*', 'bums_user_articles.*')
 			->orderBy('articles.category')
 			->orderBy('articles.price_in_dolar', 'asc')
 			->orderBy('articles.name')

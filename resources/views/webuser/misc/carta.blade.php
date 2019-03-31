@@ -30,9 +30,13 @@
 		}
 	</style>
 	<center>
-		<div class="" style="background-color: white;">
-			<img class="img-top" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap">
-		</div>
+		<form class="" action="ver_mas" method="POST">
+			<button style="width:100%;border:none;background-color:unset;padding:0;cursor:pointer;text-align:unset" type="submit" name="art_id" value="{{$articulo->id}}">
+				<div class="" style="background-color: white;">
+					<img class="img-top" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap">
+				</div>
+			</button>
+		</form>
 	</center>
 
 
@@ -47,19 +51,23 @@
 			<img class="portada_articulo" src="{{ url('img/'.$articulo->image) }}"> 
 		</div>  -->
 		<div class="card-body letraNegra">
-			<div class="titulo_carta" style="color: red !important; font-size: 14px;">
-				<strong>{{ $articulo->name }}</strong>
-			</div>
-			<strong><p style='font-size: 12px;'>{{ $articulo->pertenece_category->category }}</p></strong>		
-{{-- 			@if( !in_array($articulo->category, array([4,6,11,14,15])))	
-			<p style='font-size:12px;'>Peso: {{$articulo->peso}}GB</p>
-			@endif --}}
-			@if($articulo->category == 4 || $articulo->category == 6 || $articulo->category == 11 || $articulo->category >= 14)	
-			<p style='font-size:12px'>Envios al siguiente dia habil luego del pago.</p>
-			@else
-			<p style='font-size:12px;'>Peso: {{$articulo->peso}}GB</p>
-			@endif
-
+			<form class="" action="ver_mas" method="POST">
+				<button style="border:none;background-color:unset;padding:0;cursor:pointer;text-align:unset" type="submit" name="art_id" value="{{$articulo->id}}">
+					<div class="titulo_carta" style="color: red !important; font-size: 14px;">
+						<strong>{{ $articulo->name }}</strong>
+					</div>
+				</button>
+				<strong><p style='font-size: 12px;'>{{ $articulo->pertenece_category->category }}</p></strong>		
+	{{-- 			@if( !in_array($articulo->category, array([4,6,11,14,15])))	
+				<p style='font-size:12px;'>Peso: {{$articulo->peso}}GB</p>
+				@endif --}}
+				@if($articulo->category == 4 || $articulo->category == 6 || $articulo->category == 11 || $articulo->category >= 14)	
+				<p style='font-size:12px'>Envios al siguiente dia habil luego del pago.</p>
+				@else
+				<p style='font-size:12px;'>Peso: {{$articulo->peso}}GB</p>
+				@endif
+			
+			</form>
 		</div>
 
 		<div class="lightgray" style="background: #F1948A;">

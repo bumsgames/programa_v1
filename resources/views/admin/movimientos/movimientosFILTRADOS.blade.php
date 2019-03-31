@@ -68,6 +68,7 @@
 						<!-- Descomentar si se quiere volver a poner el excel
 						<button value="excel" name="excel" onclick="askForExcel()" class="btn btn-primary">Exportar</button>-->
 						<button value="save" name="save" onclick="askForSubmit()" class="btn btn-primary">Filtrar Busqueda</button>
+						<button value="save" name="save" onclick="askForDavid()" formtarget="_blank" class="btn btn-primary">Busqueda David</button>
 						</center>
 						<br>	
 
@@ -214,7 +215,7 @@
 										<br><br>
 										<strong>Ganancia Neta: </strong>
 										<?php
-											$ganancian = ($movimiento->movimiento->price/$movimiento->movimiento->dolardia) - ($movimiento->movimiento->venta->articulo->costo * ($movimiento->movimiento->price/$movimiento->movimiento->dolardia)*100/($movimiento->movimiento->venta->articulo->price_in_dolar+$arr_comple[$movimiento->movimiento->venta->articulo->id]))/100;
+											$ganancian = ($movimiento->movimiento->price/$movimiento->movimiento->dolardia) - ($movimiento->movimiento->venta->articulo->costo * ($movimiento->movimiento->price/$movimiento->movimiento->dolardia)/($movimiento->movimiento->venta->articulo->price_in_dolar));
 											echo number_format($ganancian*$movimiento->movimiento->dolardia, 0, ',', '.')." ".$movimiento->movimiento->moneda->sign;
 										?>
 										<?php break;?>
@@ -332,6 +333,10 @@
 		function askForSubmit() {
 				form.action="{{route("filtrar_movimientos_bums")}}";
 				form.submit();
+		}
+		function askForDavid() {
+			form.action="{{route("filtrar_movimientos_bums_david")}}";
+			form.submit();
 		}
 		
 	</script>

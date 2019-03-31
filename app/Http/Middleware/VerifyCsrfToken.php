@@ -12,6 +12,16 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        //
+        "/ver_mas",
+        "/agregaCarro",
+        "/borrarElementoCarrito",
+        "/filtrar_articulos",
+        "/articulos_oferta",
+        "/articulos/*",
+        "/buscar_articulo_bums",
+        "/categoria_general",
+        "/articulos_web",
+        "/articulos",
+        "/lista_escrita"
     ];
 }

@@ -15,23 +15,24 @@
 	</style>
 	<div class="container-fluid">
 		<div class="row justify-content-center ultimo-vendido-banner">
-			<div class="col-1">
+			<div class="col-12 col-xl-2 text-center">
 				<br>
 				<img class="vendido_img" src="img/maxresdefault.jpg" alt="">
 			</div>
 			<div style="border-left-style: solid; margin: 0 40px;"></div>
-			<div class="col-9">
+			<div class="col-12 col-xl-9">
 				<div class="row">
 					<div class="col-12">
-						<h3 class="ultimo-vendido-title">Ultimos articulos vendidos</h3>
+						<h3 class="ultimo-vendido-title" style="width:100%">Ultimos articulos vendidos</h3>
 					</div>
 				</div>
 				<div class="row">
 					@foreach($ultimos_vendidos as $uv)
-					<div class="col-4">
+					<div class="col-12 col-xl-4">
+						<br>
 						<div class="ultimo-vendido-content">
-							<div class="ultimo-vendido-c-img">
-								<img src="img/{{$uv->articulo->fondo}}" height="130" alt="">
+							<div class="ultimo-vendido-c-img text-center" style="overflow:hidden;max-width:50%">
+								<img src="img/{{$uv->articulo->fondo}}" height="130" style="width:auto" alt="">
 							</div>
 							<div class="ultimo-vendido-c-text">
 								{{$uv->articulo->name}}

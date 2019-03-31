@@ -47,12 +47,7 @@
 							{!!$errors->first('name','<span class="help-block">:message</span>')!!} {!!$errors->first('nickname','
 							<span class="help-block">:message</span>')!!}
 						</div>
-						<div class="col-12 col-lg" hidden="">
-							<div class="form-group">
-								<label for=""><strong>Descripcion</strong></label>
-								<input type="text" class="form-control" name="description" id="description" autocomplete="off">
-							</div>
-						</div>
+
 						<div class="col-12 col-lg">
 							<div class="form-group">
 								<label for=""><strong>Categoria</strong></label>
@@ -95,7 +90,7 @@
 							<div class="form-group">
 								<label for="costo"><strong>Costo de Inversión ($)</strong></label>
 								<input value="0" class="form-control form-control-sm" type="number" autocomplete="off" name="costo" id="costo"
-								 value="100" placeholder="" min="0">
+								 value="100" placeholder="" min="0" required>
 							</div>
 						</div>
 						<div class="col-12 col-lg">
@@ -154,34 +149,58 @@
 
 
 					</div>
+					<hr>
 					<div class="row">
 						<div class="col-12 col-lg">
-							<div class="col-12 col-lg">
-								<div class="form-group">
-									<label for=""><strong>Nota del Articulo</strong></label>
-									<textarea type="text" class="form-control" name="note" id="note"></textarea>
-								</div>
+							<div class="form-group">
+								<label for="estado"><strong>Condición</strong></label>
+								<input class="form-control form-control-sm" type="text" name="estado" id="estado">
+							</div>
+						</div>
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for="trailer"><strong>Trailer del juego</strong></label>
+								<input class="form-control form-control-sm" type="text" name="trailer" id="trailer">
+							</div>
+						</div>
+						<div class="col-12 col-lg-12">
+							<div class="form-group">
+								<label for="description"><strong>Descripción</strong></label>
+								<textarea type="text" class="form-control" name="description" id="description"></textarea>
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-lg">
-						<div class="form-group">
-							<label for="image">
-							<strong>
-								<label for="image">Imagen del Articulo</label>
-							</strong>
-							</label>
-							<div class="custom-file">
-								<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es">
-								<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for=""><strong>Nota del Articulo</strong></label>
+								<textarea type="text" class="form-control" name="note" id="note"></textarea>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for="image">
+								<strong>
+									<label for="image">Imagen del Articulo</label>
+								</strong>
+								</label>
+								<div class="custom-file">
+									<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es">
+									<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
 
-								<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
+									<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
+								</div>
+								<br>
+								<br>
+								<img id="img2" width="175"><br/>
 							</div>
-							<br>
-							<br>
-							<img id="img2" width="175"><br/>
 						</div>
 					</div>
+					
 					<hr>
 					<br>
 					<!-- <div class="form-group">

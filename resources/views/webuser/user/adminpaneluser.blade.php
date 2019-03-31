@@ -32,7 +32,7 @@
 	</style>
     <div class="row">
 					<div class="col-2 side-panel-col">
-						<div class="list-group group-panel" id="list-tab" role="tablist">
+						<div class="list-group group-panel" id="list-tab" style="padding-bottom:40px;" role="tablist">
                             <span class="list-group-item list-group-item-action panel-item-main " >
                                 <div class="row">
                                     <div class="col-2">    

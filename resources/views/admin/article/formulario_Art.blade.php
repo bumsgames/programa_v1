@@ -85,18 +85,7 @@
 								{!!$errors->first('name','<span class="help-block">:message</span>')!!}
 								{!!$errors->first('nickname','<span class="help-block">:message</span>')!!}
 							</div>
-							<div class="col-12 col-lg" hidden="">
-								<div class="form-group">
-									<label for=""><strong>Descripcion</strong></label>
-									<input type="text" 
-									class="form-control" 
-									name="description"
-									id="description"
-									value="{{ $articulo->description }}" 
-									autocomplete="off">
-								</div>
-								<input type="text" id="category_viejo" value="{{$articulo->category}}" hidden="">
-							</div>
+							
 							<div class="col-12 col-lg">
 								<div class="form-group">
 									<label for=""><strong>Categoria</strong></label>
@@ -116,18 +105,18 @@
 							<div class="form-group">
 								<label for=""><strong>Oferta</strong></label>
 								<select 
-								class="form-control form-control-sm" name="category" 
-								id="oferta">
-								@if($articulo->oferta == '0')
-								<option value="{{$articulo->oferta}}">No</option>
-								<option value="1">Si</option>
-								@else
-								<option value="{{$articulo->oferta}}">Si</option>
-								<option value="0">No</option>
-								@endif
-							</select>
+									class="form-control form-control-sm" name="category" 
+									id="oferta">
+									@if($articulo->oferta == '0')
+									<option value="{{$articulo->oferta}}">No</option>
+									<option value="1">Si</option>
+									@else
+									<option value="{{$articulo->oferta}}">Si</option>
+									<option value="0">No</option>
+									@endif
+								</select>
+							</div>
 						</div>
-					</div>
 				</div>
 				<hr>
 				<div class="row">
@@ -255,19 +244,40 @@
 
 
 				</div>
-				<div class="row">	
-				<div class="col-12 col-lg">
-				<div class="col-12 col-lg">
-							<div class="form-group">
-								<label for=""><strong>Nota del Articulo</strong></label>
-								<textarea type="text" 
-								class="form-control" 
-								name="note"
-								id="note">{{ $articulo->note }}</textarea>
-							</div>
+				<div class="row">
+					<div class="col-12 col-lg">
+						<div class="form-group">
+							<label for="estado"><strong>Condición</strong></label>
+							<input class="form-control form-control-sm" type="text" value="{{$articulo->estado}}" name="estado" id="estado">
 						</div>
 					</div>
-					<!--<div class="col">	
+					<div class="col-12 col-lg">
+						<div class="form-group">
+							<label for="trailer"><strong>Trailer del juego</strong></label>
+							<input class="form-control form-control-sm" type="text" value="{{$articulo->trailer}}" name="trailer" id="trailer">
+						</div>
+					</div>
+					<div class="col-12 col-lg-12">
+						<div class="form-group">
+							<label for="description"><strong>Descripción</strong></label>
+							<textarea type="text" class="form-control" name="description" id="description">{{$articulo->description}}</textarea>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">	
+					<div class="col-12 col-lg">
+						<div class="form-group">
+							<label for=""><strong>Nota del Articulo</strong></label>
+							<textarea type="text" 
+							class="form-control" 
+							name="note"
+							id="note">{{ $articulo->note }}</textarea>
+						</div>
+					</div>
+				</div>
+				<!--<div class="row">
+					<div class="col">	
 						<div class="form-group">
 							<label for="image">
 								<strong>
@@ -282,7 +292,9 @@
 							<br>
 							<img id="img1" width="175" src="img/{{ $articulo->image }}"><br/>
 						</div>
-					</div>-->
+					</div>
+				</div>-->
+				<div class="row">
 					<div class="col-12 col-lg">
 						<div class="form-group">
 							<label for="image">

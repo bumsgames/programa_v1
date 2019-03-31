@@ -9,14 +9,15 @@
 			<center>
             
 
-				<form method="post" action="{{ url('/login') }}">
+				<form class="container-login" method="post" action="{{ url('/login') }}">
 					{{ csrf_field() }}
                     <div class="loginContainer">
                         <img src="{{url('img/logobums2.png')}}"/>
                         <br>
                         <br>                       
                         {!!$errors->first('nickname','<span style="color:white" class="help-block">:message</span>')!!}
- <br>                   <h5 class="titulo-ayuda">Login</h5>
+                        <br>                   
+                        <h5 class="titulo-ayuda">Login</h5>
 
                         <br>
                         <div class="form-group">
@@ -34,7 +35,7 @@
                         <button class="btn btn-primary btnLogin" type="submit">Iniciar Sesion</button>
                         <br>
                         <br>
-                        <a class="forgot" href="#">¿Olvidaste tu contraseña?</a>
+                        <a class="forgot" href="#" data-toggle="modal" data-target="#modelId">¿Olvidaste tu contraseña?</a>
                     </div>
 				</form>
 			</center>
@@ -43,6 +44,20 @@
 		</div>
 	</div>
 
+
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <a href="#" data-dismiss="modal">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5><strong>Si has olvidado tu contraseña ponte en contacto con un agente de BumsGames e indicale tu situación</strong></h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
 @endsection
 
 

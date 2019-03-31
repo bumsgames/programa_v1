@@ -30,13 +30,13 @@
 				<br>
 				@endif
 
-				<strong><?php echo $i++; ?></strong>. {{$articulo->name }}. Cantidad: <strong>{{$articulo->total}}</strong>. Acción: <strong>{{$articulo->porcentaje}}%</strong>,
-				<strong> {{ number_format((($articulo->price_in_dolar)*$articulo->total*$articulo->porcentaje/100 )	, 2, ',', '.') }} $</strong>	
+				<strong><?php echo $i++; ?></strong>. {{$articulo->name }}. <strong>Cantidad:</strong> {{$articulo->quantity}}. <strong>Acción:</strong> {{$articulo->porcentaje}}%,
+				<strong> {{ number_format((($articulo->price_in_dolar)*$articulo->quantity*$articulo->porcentaje/100 )	, 2, ',', '.') }} $</strong>	
 				<br><br>	
 				@endforeach
 
 				@foreach($articles_price as $aprice)
-				<?php $cuenta += $aprice->price_in_dolar*$aprice->porcentaje/100; ?>	    
+				<?php $cuenta += $aprice->price_in_dolar*$aprice->quantity*$aprice->porcentaje/100; ?>	    
 				@endforeach
 
 			</div>

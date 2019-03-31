@@ -12,6 +12,7 @@
 	<link rel="icon" href="img/logo_circular.ico" />
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
 	<link rel="stylesheet" type="text/css" href="{{ url('css/bums.css') }}"/>
+	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 	<link href="{{ url('css/bums_v2.css') }}"  rel="stylesheet"/>
 	<script async custom-element="amp-auto-ads"
 	src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
@@ -119,7 +120,7 @@
 				<h1 class="background_categoria">CATEGORIAS</h1>
 				<div class="padre">
 					@foreach($categorias as $categoria)
-					<a href="www.google.co.ve">
+					<a href="/articulos_web_cat/{{$categoria->id}}/{{str_slug($categoria->category, '+')}}">
 						<div class="area_categoria">
 							<img class="img_category" src="{{ url('img/'.$categoria->image) }}" width="100" alt="" style="">
 							<div class="categoria_padding">
@@ -205,6 +206,9 @@
 			</li>
 			<li class="nav-item">
 				<a class="nav-link letraBlanca" href="/articulos_web">ARTICULOS RECIENTES</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link letraBlanca" href="/agotados">ARTICULOS AGOTADOS</a>
 			</li>
 			<li>
 				<span class="nav-link letraBlanca">Cambia tu moneda <span class="fa fa-arrow-right"></span> </span>

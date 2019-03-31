@@ -129,7 +129,7 @@
 						<hr>
 						<input type="text" hidden="" id="articulo_venta">
 						<div class="row" hidden="">
-						<div class="col-12 col-lg">
+							<div class="col-12 col-lg">
 								<div class="form-group">
 									<label for=""><strong>Tipo de Transaccion</strong></label>
 									<select 
@@ -144,8 +144,6 @@
 							</label>	
 						</div>
 					</div>
-					<br>	
-					<br>
 					<div class="row">
 					<div class="col-12 col-lg">
 							<div class="form-group">

@@ -166,7 +166,7 @@ button:hover{
 .cartaInicio{
 
 	width: 18em; 
-	background-color: #ECF0F1;
+	background-color: #ECF0F1!important;
 	border-radius: 50px 50px 0px 0px;
 }
 

@@ -12,18 +12,34 @@ class NoticiaController extends Controller
     //Muestra las noticias en la parte administrativa
     public function ShowNoticias()
     {
+        $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+                ->orWhere('entregado', '<=', 0);
+        })->get();
+        $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+            ->orderby('created_at', 'desc')
+            ->get();
         $tutoriales = \Bumsgames\tutorial::All();
         $title = "Todas las Noticias";
         $noticias = Noticia::paginate(40);
-        return view('admin.noticias.all', compact('tutoriales', 'title', 'noticias'));
+        return view('admin.noticias.all', compact('tutoriales', 'title', 'noticias','comments_por_aprobar','pago_sin_confirmar'));
     }
 
     //Devuelve el formulario de creacion
     public function create()
     {
+        $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+                ->orWhere('entregado', '<=', 0);
+        })->get();
+        $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+            ->orderby('created_at', 'desc')
+            ->get();
         $tutoriales = \Bumsgames\tutorial::All();
         $users = BumsUser::all();
-        return view('admin.noticias.create', compact('users', 'tutoriales'));
+        return view('admin.noticias.create', compact('users', 'tutoriales','comments_por_aprobar','pago_sin_confirmar'));
     }
 
     //Crea una nueva noticia
@@ -54,18 +70,28 @@ class NoticiaController extends Controller
     //Devuelve el formulario de creacion de una noticia
     public function editar($id)
     {
+        $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+                ->orWhere('entregado', '<=', 0);
+        })->get();
+        $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+            ->orderby('created_at', 'desc')
+            ->get();
         $tutoriales = \Bumsgames\tutorial::All();
         $users = BumsUser::all();
         $noticia = Noticia::find($id);
-        return view('admin.noticias.edit', compact('users', 'tutoriales', 'noticia'));
+        return view('admin.noticias.edit', compact('users', 'tutoriales', 'noticia','comments_por_aprobar','pago_sin_confirmar'));
     }
 
     //edita una noticia
     public function change(Request $request, $id)
     {
-        $this->validate($request, [
-            'image' => 'required|max:300',
-        ]);
+        if (isset($request->image)) {
+            $this->validate($request, [
+                'image' => 'required|max:300',
+            ]);
+        }
         $noticia = Noticia::find($id);
         if (isset($request->image)) {
             //setea el nombre con la hora actual para evitar nombres duplicados

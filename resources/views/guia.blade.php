@@ -15,7 +15,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="tile">
-			@include('plantilla_guia')
+			@include('admin.misc.plantilla_guia')
 		</div>
 	</div>
 </div>

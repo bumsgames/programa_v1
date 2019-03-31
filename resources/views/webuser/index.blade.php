@@ -141,7 +141,7 @@ duration: 20000,
 								<div class="card-body">
 									<h5 class="card-title"><strong>{{$encuesta->nombre}}</strong></h5>
 									<div id="encuesta-section">
-										@include('encuestas.section')
+										@include('admin.encuestas.section')
 									</div>
 								</div>
 								<div class="card-footer text-muted">

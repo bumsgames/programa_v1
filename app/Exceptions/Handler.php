@@ -47,6 +47,16 @@ class Handler extends ExceptionHandler
         if($exception instanceof \Illuminate\Auth\AuthenticationException){
             return redirect('/fdlfdsjlkfjfddal');
         }
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException)
+        {
+            return redirect()
+                    ->back()
+                    ->withInput($request->except('password'))
+                    ->with([
+                        'message' => 'La pagina ha expirado por inactividad. Por favor recargue el sitio e intente de nuevo',
+                        'message-type' => 'info']);
+        }   
+        
         return parent::render($request, $exception);
     }
 

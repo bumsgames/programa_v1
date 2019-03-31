@@ -510,11 +510,13 @@ $("#modificar_articulo").click(function(){
     var temp_porcentaje = 0;
     var duenno_array = new Array();
     var porcentaje_array = new Array();
+
     if(porcentaje.length == 0){
         swal('El articulo no tiene dueño, por favor colocarlo');
         return;
     }
 
+    // Verifica los duennos y porcentajes y los guarda en 2 array
     for (var i = 0; i <porcentaje.length; i++) {
         temp_porcentaje += Number(porcentaje[i].value);
 
@@ -565,6 +567,8 @@ form_data.append('nickname', $("#nickname").val());
 form_data.append('reset_button', $("#reset_button").val());
 form_data.append('note', $("#note").val());
 form_data.append('costo',$('#costo').val());
+form_data.append('estado',$('#estado').val());
+form_data.append('trailer',$('#trailer').val().replace("watch?v=", "embed/"))
 if($('#inputFile2').prop('files')[0]){
     form_data.append('fondo', $('#inputFile2').prop('files')[0]);
     
@@ -686,6 +690,8 @@ $("#registrar_articulo").click(function(){
     form_data.append('reset_button', $("#reset_button").val());
     form_data.append('note', $("#note").val());
     form_data.append('costo',$('#costo').val())
+    form_data.append('estado',$('#estado').val())
+    form_data.append('trailer',$('#trailer').val().replace("watch?v=", "embed/"))
     //form_data.append('fondo', $('#inputFiletext').val());
 
     /* Comentado en caso que se quiera volver a tratar con 2 imagenes
@@ -983,7 +989,7 @@ $("#name").on('keyup', function(){
                 $("#table_article td").remove();
                 var nuevaFila;
                 $.each(data.mensaje, function(i, item) {
-                    nuevaFila+="<tr><td>"+item.name+"</td><td class='cat"+item.category+"'></td><td><button id='bat' onclick='divFunctionArt(\""+item.name+"\",\""+item.category+"\",\""+item.oferta+"\",\""+item.price_in_dolar+"\",\""+item.offer_price+"\",\""+item.peso+"\",\""+item.fondo+"\",);'>Seleccionar</button></td></tr>";
+                    nuevaFila+="<tr><td>"+item.name+"</td><td class='cat"+item.category+"'></td><td><button id='bat' onclick='divFunctionArt(\""+item.name+"\",\""+item.category+"\",\""+item.oferta+"\",\""+item.price_in_dolar+"\",\""+item.offer_price+"\",\""+item.peso+"\",\""+item.fondo+"\",\""+item.id+"\",\""+item.trailer+"\",);'>Seleccionar</button></td></tr>";
                 });
                 $("#table_article").append(nuevaFila);
                 $.each(data.cat,function(i,item){
@@ -997,7 +1003,7 @@ function divFunctionArt(){
     alert('name');
 }
 
-function divFunctionArt(name, category, oferta, price_in_dolar, offer_price, peso, fondo){
+function divFunctionArt(name, category, oferta, price_in_dolar, offer_price, peso, fondo, description, trailer){
 
     $("#name").val(name);
     $("#category").val(category);
@@ -1006,7 +1012,12 @@ function divFunctionArt(name, category, oferta, price_in_dolar, offer_price, pes
     $("#offer_price").val(offer_price);
     $("#peso").val(peso);
     $("#inputFiletext").val(fondo);
+    $("#trailer").val(trailer);
     $("#img2").attr( 'src', 'img/'+fondo );
+
+    $.get( "/descripcionArticulo/"+description, function( data ) {
+        $( "#description" ).html( data.mensaje.description );
+      });
 
     $("#tablacoincidenciaart").hide();
 }
@@ -1314,7 +1325,7 @@ $("#realizar_modificacion").click(function(){
 
         success:function(data){
             if(data.tipo == 1){
-                swal('Se ha modificado exitosamente');
+                swal('Se ha modificado exitosamnte');
                 $('#modalmod').modal('hide');
 
             }
@@ -1323,8 +1334,12 @@ $("#realizar_modificacion").click(function(){
                 $("#quantity").val('');
                 $("#reset_button").val('');
                 $("#notemod").val('');
-
-                swal('Se ha modificado exitosamente');
+                if(data.data == "Modificado"){
+                    swal('Se ha modificado exitosamente');
+                }
+                else if(data.data == "categoria"){
+                    swal('Esta categoria no puede tener cantidad mayor a 1');
+                }
                 $('#modalmod').modal('hide');
 
             }

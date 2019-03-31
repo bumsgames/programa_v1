@@ -20,6 +20,9 @@
 					{{ csrf_field() }}
 					<div class="custom-control my-1 mr-sm-2">
 						<input autocomplete="off" type="text" placeholder="Buscar" class="form-control" name="coincidencia" id="buscador">
+						<input autocomplete="off" type="text" placeholder="Nickname" class="form-control" name="coinc_nickname" id="coinc_nickname">
+						<input autocomplete="off" type="text" placeholder="Email" class="form-control" name="coinc_email" id="coinc_email">
+
 						<input type="text" name="misbusqueda" value="{{Auth::id()}}" hidden>
 					</div>
 					<button type="submit" class="btn btn-primary my-1">

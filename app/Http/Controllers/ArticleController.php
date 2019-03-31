@@ -54,6 +54,14 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+  /*
+  -------------------------------------
+      Agrega un articulo
+  -------------------------------------
+  */
+
   // ArticleRequest
   public function store(ArticleRequest $request)
   {
@@ -168,7 +176,7 @@ class ArticleController extends Controller
     }
 
     //Actualiza el costo del producto con el mismo email y nickname
-    if(in_array($articulo->category,[1,2])){
+    /*if(in_array($articulo->category,[1,2])){
       if($articulo->category == 1){
         $artref = \Bumsgames\Article::where('articles.email', $request->email)
         ->where('category','2')
@@ -199,7 +207,7 @@ class ArticleController extends Controller
     if(isset($artref)){
       $artref->costo = $request->costo;
       $artref->save();
-    }
+    }*/
 
     $temporal =  \Bumsgames\Article::where('name', $articulo->name)
       ->where('category', $articulo->category)
@@ -241,6 +249,12 @@ class ArticleController extends Controller
 
     return $request->all();
   }
+
+   /*
+  -------------------------------------
+      cambiar contraseña
+  -------------------------------------
+  */
 
   public function cambia_password($category, $email, $password, $nickname)
   {
@@ -478,6 +492,12 @@ class ArticleController extends Controller
     }
   }
 
+  /*
+  -------------------------------------
+      Modificar un articulo
+  -------------------------------------
+  */
+
   public function modificar_Articulo(ArticleRequest $request)
   {
     $variable = $request->category_nombre;
@@ -553,7 +573,7 @@ class ArticleController extends Controller
 
       if (($request->cambio_email_o_category == 1) && isset($request->email)) {
         $cambio_email_o_category = 1;
-        $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->get();
+        $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->where('id','!=', $request->id_articulo)->get();
         if ($art->count() >= 1) {
           return response()->json([
             "tipo" => "1",
@@ -612,11 +632,12 @@ class ArticleController extends Controller
     // modificacion articulo
     $articulo = \Bumsgames\Article::find($request->id_articulo);
     $articulo->fill($request->all());
+    
     $articulo->save();
 
     
     //Actualiza el costo del producto con el mismo email y nickname
-    if(in_array($articulo->category,[1,2])){
+    /*if(in_array($articulo->category,[1,2])){
       if($articulo->category == 1){
         $artref = \Bumsgames\Article::where('articles.email', $request->email)
         ->where('category','2')
@@ -647,7 +668,7 @@ class ArticleController extends Controller
     if(isset($artref)){
       $artref->costo = $request->costo;
       $artref->save();
-    }
+    }*/
 
 
     $temporal =  \Bumsgames\Article::where('name', $articulo->name)

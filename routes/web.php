@@ -82,6 +82,7 @@ Route::get('/ver_tutoriales','ProgramController@verTutoriales');
 Route::get('/tutorial/eliminar/{id}','ProgramController@eliminarTutorial');
 Route::post('/tutorial/eliminarmodal/{id}','ProgramController@eliminarmodal');
 Route::get('/tutorial/editar/{id}','ProgramController@editarTutorial');
+Route::get('/descripcionArticulo/{id}','ProgramController@DescripcionArticulo');
 
 // ProgramController POST
 Route::post('/registrar_cuenta','ProgramController@registrar_cuenta');
@@ -160,6 +161,7 @@ Route::post('/modificar_Articulo', 'ArticleController@modificar_Articulo');
 // WebController 
 //Route::get('/categorias', 'WebController@categorias');
 Route::get('/articulos_web', 'WebController@articulos_web');
+Route::get('/articulos_web_cat/{id}/{categoria?}', 'WebController@articulos_web_cat');
 Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');
 Route::get('/send','ChatController@send2');
 Route::get('/lista_escrita', 'WebController@lista_escrita');
@@ -213,16 +215,38 @@ Route::get('/comentario/rechazar/{id}','CommentController@rechazarcomentario');
 Route::get('/comentario/eliminar/{id}','CommentController@eliminarcomentario');
 
 
-//Cupones
+/*
+--------------------------------------  
+		Cupones
+--------------------------------------
+*/
+//Canjea el cupon
 Route::post('/canjear/{precio}','WebController@canjear');
+//Crea el cupon
 Route::post('/cupones/crear','CuponesController@store');
+//Edita el cupon
 Route::post('/cupones/editar/{id}','CuponesController@edit');
 
-//Cupones Get
+//Devuelve todos los cupones
 Route::get('/cupones','CuponesController@ShowCupones');
+//Devuelve el formulario de creacion de cupones
 Route::get('/cupones/crear','CuponesController@create');
+//Devuelve el formulario de edicion de cupones
 Route::get('/cupones/editar/{id}','CuponesController@editar');
+//Elimina un cupon
 Route::get('/cupones/eliminar/{id}','CuponesController@eliminar');
+
+/*
+--------------------------------
+	Articulos - Usuario
+--------------------------------
+*/
+//Retorna la vista de un producto en especifico
+Route::post('/ver_mas','WebController@ver_mas');
+
+//Retorna los articulos agotados
+Route::post('/agotados','WebController@Art_agotados');
+Route::get('/agotados','WebController@Art_agotados');
 
 /*
 --------------------------------
@@ -275,6 +299,30 @@ Route::get('/encuestas/user/show','EncuestaController@MostrarResultado');
 Route::get('/encuesta/activar/{id}','EncuestaController@ActivarEncuesta');
 //Elimina las opciones
 Route::get('/encuestas/eliminar/opcion/{id}','EncuestaController@EliminarOpcion');
+
+/*
+-------------------------------
+	Ofertas - Administración
+-------------------------------
+*/
+//Mostrar las ofertas por revisar
+Route::get('/ofertas_cliente','OfertasController@show');
+//Mostrar las ofertas aprobadas
+Route::get('/ofertas_cliente_aprobadas','OfertasController@show_a');
+//Mostrar las ofertas rechazadas
+Route::get('/ofertas_cliente_rechazadas','OfertasController@show_r');
+//Aprobar oferta
+Route::get('/ofertas_cliente/aprobar/{id}','OfertasController@AprobarOferta');
+//Rechazar oferta
+Route::get('/ofertas_cliente/rechazar/{id}','OfertasController@RechazarOferta');
+
+/*
+-------------------------------
+	Ofertas - Usuarios
+-------------------------------
+*/
+//Crear oferta
+Route::post('/ofertas_cliente/crear','OfertasController@store');
 
 /*
 -------------------------------
