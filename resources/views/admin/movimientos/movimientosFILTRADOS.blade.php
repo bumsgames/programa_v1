@@ -44,7 +44,7 @@
 								<label for="validationCustomUsername">Fecha final</label>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="inputGroupPrepend">Final: </span>
+										<span class="input-group-text" id="inputGroupPrepend">final: </span>
 									</div>
 									<input type="date" class="form-control" id="validationCustomUsername" name="fecha_final" placeholder="Username" aria-describedby="inputGroupPrepend" required>
 									<div class="invalid-feedback">
@@ -200,24 +200,39 @@
 								@if(starts_with($movimiento->movimiento->description, 'Venta Realizada'))
 									@foreach($movimiento->movimiento->venta as $movimiento->movimiento->venta)
 										<strong>Artículo: </strong>{{$movimiento->movimiento->venta->articulo->name}}
+										<br>
+										<strong>Cantidad: </strong>{{$movimiento->movimiento->cantidad}}
 										<br><br>
 										<strong>Categoría: </strong>{{$movimiento->movimiento->venta->articulo->pertenece_category->category}}
 										<br><br>
-										{{$movimiento->movimiento->venta->articulo->email}} | {{$movimiento->movimiento->venta->articulo->nickname}} | {{$movimiento->movimiento->venta->articulo->password}}
+										{{$movimiento->movimiento->venta->articulo->email}} | {{$movimiento->movimiento->venta->articulo->nickname}} @if(Auth::user()->level >= 7)| {{$movimiento->movimiento->venta->articulo->password}} @endif
 										<br><br>
-										<strong>Cantidad: </strong>{{$movimiento->movimiento->cantidad}}
-										<br><br>
-										<strong>Precio unitario: </strong>{{number_format($movimiento->movimiento->price, 0, ',', '.')}} {{$movimiento->movimiento->moneda->sign}}
+										<strong>Cliente: </strong>{{$movimiento->movimiento->venta->cliente->name}} {{$movimiento->movimiento->venta->cliente->lastname}}
+										<br>
+										<br>
+
+
+										
 										<br><br>
 										<strong>Precio del dolar del día: </strong>{{number_format($movimiento->movimiento->dolardia, 0, ',', '.')}} {{$movimiento->movimiento->moneda->sign}}
 										<br><br>
-										<strong>Cliente: </strong>{{$movimiento->movimiento->venta->cliente->name}} {{$movimiento->movimiento->venta->cliente->lastname}}
+										<strong>Precio de venta unitario: </strong>{{number_format($movimiento->movimiento->price/$movimiento->movimiento->cantidad, 0, ',', '.')}} {{$movimiento->movimiento->moneda->sign}}
 										<br><br>
-										<strong>Ganancia Neta: </strong>
+										<strong>Precio de venta unitario ($): </strong> {{ number_format($movimiento->movimiento->price/($movimiento->movimiento->cantidad*$movimiento->movimiento->moneda->valor), 2, ',', '.') }} $
+										<br><br>
+										<br>
+
+										<b>Costo inversion:</b> {{ $movimiento->movimiento->inversion  }} $
+										<br>
+										<br>
+										<b>Ganancia neta:</b> {{ number_format(($movimiento->movimiento->price / $movimiento->movimiento->moneda->valor) - ($movimiento->movimiento->inversion * $movimiento->movimiento->cantidad), 2, ',', '.') }} $
+
 										<?php
+											/*
 											$ganancian = ($movimiento->movimiento->price/$movimiento->movimiento->dolardia) - ($movimiento->movimiento->venta->articulo->costo * ($movimiento->movimiento->price/$movimiento->movimiento->dolardia)/($movimiento->movimiento->venta->articulo->price_in_dolar));
 											echo number_format($ganancian*$movimiento->movimiento->dolardia, 0, ',', '.')." ".$movimiento->movimiento->moneda->sign;
-										?>
+											*/
+										?> 
 										<?php break;?>
 									@endforeach
 								@else

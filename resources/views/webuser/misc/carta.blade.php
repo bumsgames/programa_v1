@@ -1,44 +1,67 @@
+<style>	
+
+.content_fondo {
+	line-height:280px;
+	margin:0px auto;
+	text-align:center;
+	z-index: 9999;
+}
+
+.ligthbox{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	background: rgba(0,0,0,0.85) !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+
+}
+
+.img_light{
+	width: 600px ;
+}
+
+.btn-close{
+	width: 50px;
+	height: 50px;
+	border: 1px solid #fff;
+	border-radius: 100%;
+	color: #fff;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 12px;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+}
+
+</style>
 <div class="hijo contenedor cat_{{$articulo->category}}">
 	<style>	
-	.contenedor:hover .imagen {-webkit-transform:scale(1.1);transform:scale(1.1); transition: all 0.3s ease-in-out;}
-	.contenedor {overflow:hidden;}
+	.espaciom_img:hover .imagen {-webkit-transform:scale(1.1);transform:scale(1.1); transition: all 0.3s ease-in-out;}
+	.espaciom_img {overflow:hidden;}
 </style>
 
-
-<div class="card cartaInicio" style="overflow:hidden">
-	{{-- <div id="image{{$count}}" style="overflow:hidden; " >
-		<div  class="card-img-top imagen" style="background-image:url({{ url('img/'.$articulo->fondo) }}); background-size:cover" alt="Card image cap">
-		</div>
-	</div> --}}
-		{{-- <script>
-				$('#image{{$count}} .card-img-top').on('mouseover', function(){
-					$('#image{{$count}}').children(".card-img-top").css({'transform': 'scale('+ 2 +')'});})
-					.on('mouseout', function(){
-						$('#image{{$count}}').children('.card-img-top').css({'transform': 'scale(1)'})
-						.on('mousemove', function(e){
-							$('#image{{$count}}').children('.card-img-top')
-							.css({'transform-origin': ((e.pageX - $('#image{{$count}}').offset().left) / $('#image{{$count}}').width()) * 100 + '% ' + ((e.pageY - $('#image{{$count}}').offset().top) / $('#image{{$count}}').height()) * 100 +'%'});
-						});
-			});
-
-		</script> --}}
-		<style>	
-		.img-top{
-			/*	max-width: 180px;*/
-			min-height: 260px;
-			max-height: 260px;
-		}
-	</style>
+{{-- card --}}
+<div class="cartaInicio	" style="overflow:hidden">	
 	<center>
-		<form class="" action="ver_mas" method="POST">
-			<button style="width:100%;border:none;background-color:unset;padding:0;cursor:pointer;text-align:unset" type="submit" name="art_id" value="{{$articulo->id}}">
-				<div class="" style="background-color: white;">
-					<img class="img-top" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap">
+		<div class="espaciom_img">
+			
+			{{ csrf_field() }}
+			<input type="" name="art_id" value="{{$articulo->id}}" hidden="">
+			<button style="width:100%;border:none;background-color:unset;padding:0;cursor:zoom-in;text-align:unset" type="submit">
+				<div class="content_fondo img_centro">
+					<td><img class="img-top imagen newImg" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap" style=""></td>
 				</div>
 			</button>
-		</form>
-	</center>
 
+		</div>
+	</center>
 
 	@if($articulo->oferta > 0)
 	{{-- http://www.diasa.com.mx/wp-content/uploads/2016/07/oferta.png --}}
@@ -47,51 +70,110 @@
 	</div>
 	@endif
 
-	<!-- <div class="cartaFoto_pequena"> 
-			<img class="portada_articulo" src="{{ url('img/'.$articulo->image) }}"> 
-		</div>  -->
-		<div class="card-body letraNegra">
-			<form class="" action="ver_mas" method="POST">
-				<button style="border:none;background-color:unset;padding:0;cursor:pointer;text-align:unset" type="submit" name="art_id" value="{{$articulo->id}}">
-					<div class="titulo_carta" style="color: red !important; font-size: 14px;">
-						<strong>{{ $articulo->name }}</strong>
-					</div>
-				</button>
-				<strong><p style='font-size: 12px;'>{{ $articulo->pertenece_category->category }}</p></strong>		
-	{{-- 			@if( !in_array($articulo->category, array([4,6,11,14,15])))	
-				<p style='font-size:12px;'>Peso: {{$articulo->peso}}GB</p>
-				@endif --}}
-				@if($articulo->category == 4 || $articulo->category == 6 || $articulo->category == 11 || $articulo->category >= 14)	
+	<div class="card-body letraNegra">
+		<div class="titulo_carta">
+			<br>
+			<center>
+
+				<strong>{{ str_limit($articulo->name,40	) }}</strong>
+				{{-- <strong>{{ $articulo->name }}</strong> --}}
+			</center>
+		</div>
+
+		<br>
+
+		<center>
+			@if($articulo->category >= 1 && $articulo->category <= 7 )
+			<img class="img_category" src="{{ url('img/playstation.png') }}" alt="" style="max-height: 20px;">
+			@else
+			@if($articulo->category >= 8 && $articulo->category <= 11 )
+			<img class="img_category" src="{{ url('img/icono_xbox.png') }}" alt="" style="max-height: 20px;">
+
+			@else
+			@if($articulo->category >= 12 && $articulo->category <= 14 )
+				<img class="img_category" src="{{ url('img/nintendo.png') }}" alt="" style="max-height: 20px;">
+			@else
+			@if($articulo->category >= 15 && $articulo->category <= 15 )
+				<img class="img_category" src="{{ url('img/celular (2).png') }}" alt="" style="max-height: 20px;">
+			@else
+			@if($articulo->category >= 16 && $articulo->category <= 16)
+				<img class="img_category" src="{{ url('img/otro (2).png') }}" alt="" style="max-height: 20px;">
+			@endif
+			@endif
+			@endif
+			@endif
+			@endif
+
+
+
+
+			@if($articulo->category == 4 || $articulo->category == 6 || $articulo->category == 11 || $articulo->category == 14 || $articulo->category == 15 || $articulo->category == 16 )
+			<div style="font-size: 11px !important;"><b>Condicion: </b>{{ $articulo->estado }}</div>
+
+			@else
+			<div style="font-size: 11px !important;"><b>Condicion: </b>Digital</div>
+			@endif
+			<strong><p style='font-size: 13px;'>{{ $articulo->pertenece_category->category }}</p></strong>	
+				{{-- @if($articulo->category == 4 || $articulo->category == 6 || $articulo->category == 11 || $articulo->category >= 14)	
 				<p style='font-size:12px'>Envios al siguiente dia habil luego del pago.</p>
 				@else
 				<p style='font-size:12px;'>Peso: {{$articulo->peso}}GB</p>
-				@endif
-			
-			</form>
-		</div>
+				@endif --}}
 
-		<div class="lightgray" style="background: #F1948A;">
-			<div class="row nose">
-				<div class="col">
-					<button class="btn btn-primary btn-block botonCarta"
-					onclick="agregaCarro('{{ $articulo->id }}', '{{ $articulo->name }}', 
-						'{{ $articulo->pertenece_category->category }}', 
-						{{ $articulo->price_in_dolar }},
-						'{{ $articulo->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
-						<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> 
-					</button>
-				</div>
-				<div style='font-size: 11px;' class="col-8 cartaCifra mt-1 mb-1">
+			</center>	
+
+			<center>
+				<h5>
 					@if($articulo->oferta==1) 
+					<p style="display: none;">articulo_enoferta12</p>
 					<del> 
 						<strong class="precio_rebajado">
 							{{ number_format($articulo->offer_price * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 						</strong>
 					</del> 
 					@endif
-					&nbsp;<strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
-				</div>
+					<strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
+				</h5>
+			</center>
+		</div>
+
+		
+		<div class="row margin_top_cardButton">
+			<div class="col-6">
+				<form class="" action="ver_mas" method="POST">
+					{{ csrf_field() }}
+					<input type="" name="art_id" value="{{$articulo->id}}" hidden="">
+					<button class="btn btn-primary botonCarta" style="height: 57px;">
+						Ver mas
+					</button>	
+				</form>
 			</div>
+			<div class="col-6">
+				<button class="btn btn-primary botonCarta"
+				onclick="agregaCarro('{{ $articulo->id }}', '{{ $articulo->name }}', 
+					'{{ $articulo->pertenece_category->category }}', 
+					{{ $articulo->price_in_dolar }},
+					'{{ $articulo->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
+					<img width="50" src="{{ url('img/carrito crash.png') }}">
+				</button>
+			</div>	
 		</div>
 	</div>
 </div>
+<script>
+	$(".newImg").click(function(e){
+		var enlaceImg = e.target.src;
+		console.log(enlaceImg);
+		var ligthbox = '<div class="ligthbox">'+
+		'<img class="img_light" src="'+enlaceImg+'" alt="">' +
+		'<div class="btn-close">X</div>' + 
+		'</div>';
+
+		$("body").append(ligthbox)
+		$(".btn-close").click(function(){
+			$(".ligthbox").remove();
+		})
+
+
+	})
+</script>

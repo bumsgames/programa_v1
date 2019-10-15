@@ -1,182 +1,242 @@
 @extends('layouts.plantillaWeb')
-@section('ultimos-vendidos')
-<style>
-	.btn-categorias{
-		margin: 20px;
-		padding: 10px !important;
-	}
-	</style>
-	<style>
-	.vendido_img{
-		border-radius: 250px;
-		width: 150px;
-		height: 150px;
-	}
-	</style>
-	<div class="container-fluid">
-		<div class="row justify-content-center ultimo-vendido-banner">
-			<div class="col-12 col-xl-2 text-center">
-				<br>
-				<img class="vendido_img" src="img/maxresdefault.jpg" alt="">
-			</div>
-			<div style="border-left-style: solid; margin: 0 40px;"></div>
-			<div class="col-12 col-xl-9">
-				<div class="row">
-					<div class="col-12">
-						<h3 class="ultimo-vendido-title" style="width:100%">Ultimos articulos vendidos</h3>
-					</div>
-				</div>
-				<div class="row">
-					@foreach($ultimos_vendidos as $uv)
-					<div class="col-12 col-xl-4">
-						<br>
-						<div class="ultimo-vendido-content">
-							<div class="ultimo-vendido-c-img text-center" style="overflow:hidden;max-width:50%">
-								<img src="img/{{$uv->articulo->fondo}}" height="130" style="width:auto" alt="">
-							</div>
-							<div class="ultimo-vendido-c-text">
-								{{$uv->articulo->name}}
-								<br>
-								<strong>{{$uv->articulo->pertenece_category->category}}</strong>
-								<br>
-							</div>
-						</div>
-					</div>
-					@endforeach
-					
-				</div>
-				
-			</div>
-		</div>
-	</div>
-@endsection
+@extends('layouts.ultimos-v')
+
 @section('content')
 <br>
 <br>
 
-<div class="container"><div class="fondotituloEscrito" >
-	<h2 class="col-6 titulobumsEscrito">Lista escrita</h2>
-</div>
-<div class="tile fondoBlanco" >
-	<div class="row">	
-		<div id="accordion" class="col-lg-3 col-12">
-			<div class="card sticky" style="top:150px;">
-				<div class="card-header revendedor-header">
-					<h5 class="card-link ">
-						<i class="fa fa-gear"></i> Herramientas para revendedores 
-					</h5>
-
-				</div>
-				<div class="collapse show">
-					<div class="card-body">
+<div class="container">
+	<div class="fondotituloEscrito2" >
+		<h2 class="col-8 titulobumsEscrito2">Lista escrita</h2>
+	</div>
+	<div class="tile fondoBlanco" >
+		<div class="row">	
+			<div id="accordion" class="col-lg-3 col-12">
+				<div class="card menu_rev">
+					<div class="card-header revendedor-header">
+						<div style="padding:;">
+							<center>
+								<h3>
+									<i class="fa fa-gear"></i> Herramientas para revendedores 
+								</h3>
+								<p>Aumenta el precio de la lista escrita a tu conveniencia.</p>
+							</center>
+						</div>
+						<hr style="border: solid 1px gray; opacity: 0.7;">
 						<form class="form" action="lista_escrita" method="post">
 							<div class="form-group">
 								<label for="pf">
-									Precio unitario a aumentar (<span id="sign">{{$moneda_actual->sign}}</span>)
+									<strong>Precio unitario a aumentar (<span id="sign">{{$moneda_actual->sign}}</span>)</strong>
 								</label>
 								<input id="pf" class="form-control" type="number" name="precio_fijo" value="{{$precio_cliente}}">
 							</div>
 
 							<div class="form-group">
-								<label for="pp">Porcentaje de precio a aumentar (%)</label>
+								<strong><label for="pp">Porcentaje de precio a aumentar (%)</label></strong>
 								<input id="pp" class="form-control" type="number" name="precio_porcentaje" value="{{($precio_porcentaje*100)-100}}">
 							</div>
-							<button id="herramientbtn" class="btn btnbums" type="submit">Ingresar</button>
-						</form> 		
-					</div>						
-				</div>						
-			</div>			
-			<br>
-			<br>		
-			<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="precioherramienta"></h5>
-			<br>
-			<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="porcentajeherramienta"></h5>
-			<br>
-			<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="infoherramienta"></h5>
+							<center>
+								
+								<button id="herramientbtn" class="btn btn-primary" type="submit"><i class="fas fa-wrench"></i> Usar herramienta</button>
+							</center>
+							<br>
+							<br>
+							<br>
+						</form> 
 
-		</div>
-		<div class="col-lg-6 col-12">
-			<h5>Ordenar por:</h5>
+						<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="precioherramienta"></h5>
+						<br>
+						<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="porcentajeherramienta"></h5>
+						<br>
+						<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="infoherramienta"></h5>
 
-			<form class="form-inline" action="lista_escrita" method="post">
+						<br>
+						<center>
+								<button type="button" onclick='CopyToClipboard("lista_1","LISTA PS4")' class="btn btn-primary btn-block"></i> Copiar Lista PS4</button>
+								<button type="button" onclick='CopyToClipboard("lista_2","LISTA PS3")' class="btn btn-primary btn-block"></i> Copiar Lista PS3</button>
+								<button type="button" onclick='CopyToClipboard("lista_3","LISTA XB1")' class="btn btn-primary btn-block"></i> Copiar Lista XB1</button>
+								<button type="button" onclick='CopyToClipboard("lista_4","LISTA NINTENDO")' class="btn btn-primary btn-block"></i> Copiar Lista Nintendo</button>
+								<button type="button" onclick='CopyToClipboard("lista_5","LISTA CELULARES")' class="btn btn-primary btn-block"></i> Copiar Lista Celulares</button>
+								<button type="button" onclick='CopyToClipboard("lista_6","LISTA OTROS")' class="btn btn-primary btn-block"></i> Copiar Lista Otros</button>
+							</center>
+							<br>
+
+					</div>	
+					<div class="container sticky2 masAncho">
+				<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+					<div class="carousel-inner">
+						<?php $i = 0; ?>
+						@foreach($portal3 as $imagen)
+						@if($i == 0)
+						<div class="carousel-item active">
+							<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
+						</div>
+						@else
+						<div class="carousel-item">
+							<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
+						</div>
+						@endif
+						<?php $i++; ?>
+						@endforeach
+					</div>
+				</div>
+
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Bloque Lista Escrita -->
+			<ins class="adsbygoogle"
+			style="display:block"
+			data-ad-client="ca-pub-2298464716816209"
+			data-ad-slot="7801147059"
+			data-ad-format="auto"
+			data-full-width-responsive="true"></ins>
+			<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>					
+				</div>			
+
+			</div>
+			<div class="col-lg-8 col-12 tile_3">
+				<h5>Ordenar por:</h5>
+
+				<form class="form-inline" action="lista_escrita" method="post">
+
+
+					<select class="form-control" onchange="this.form.submit()" name="filtro" style="font-size: 14px;">
+						<option class="form-control" value="">Sin filtro de busqueda</option>
+						<option value="1">Menor a mayor</option>
+						<option value="2">Mayor a menor</option>
+						<option value="4">Orden alfabetico ascendente</option>
+						<option value="3">Orden alfabetico descendente</option>
+					</select>
+				</form> 	
+				<br>
 				
 				
-				<select class="form-control" onchange="this.form.submit()" name="filtro" style="font-size: 14px;">
-					<option class="form-control" value="">Sin filtro de busqueda</option>
-					<option value="1">Menor a mayor</option>
-					<option value="2">Mayor a menor</option>
-					<option value="4">Orden alfabetico ascendente</option>
-					<option value="3">Orden alfabetico descendente</option>
-				</select>
-			</form> 	
-			<br>
 
-			<?php $i = 1; ?>
-			<?php $categoria = ''; ?>
-			<div class="row">
-				<div class="col">
-					@foreach($articulos as $articulo)
-					@if($articulo->pertenece_category->category != $categoria)
-					@if($i != 1)
+
+				<?php $i = 1; ?>
+				<?php $categoria = ''; ?>
+				<div class="row">
+					<div class="col">
+						@foreach($articulos as $articulo)
+						@if($articulo->pertenece_category->category != $categoria)
+						@if($i != 1)
 					</div>
 					@endif
 					<?php $categoria = $articulo->pertenece_category->category; ?>
 					<?php $i = 1; ?>
 					<br>
 					<br>
-					<button type="button" onclick='CopyToClipboard("div_{{$articulo->pertenece_category->id}}")' class="btn btnbums sticky copy" style="top:180px">Copiar</button>
 					
+					<button type="button" onclick='CopyToClipboard("div_{{$articulo->pertenece_category->id}}","{{ $articulo->pertenece_category->category }}")' class="btn btnbums sticky copy" style="top:180px; background-color: blue;">Copiar</button>
+					{{-- LISTA PS4 COPIAR Y PEGAR --}}
+					@if($articulo->pertenece_category->id == 1)
+					
+					<div id="lista_1">
+						@endif
+
+						@if($articulo->pertenece_category->id == 5)
+						
+					</div>
+					@endif
+
+					{{-- LISTA PS3 COPIAR Y PEGAR --}}
+					@if($articulo->pertenece_category->id == 5)
+					
+					<div id="lista_2">
+					@endif
+
+					@if($articulo->pertenece_category->id == 8)
+					
+					</div>
+					@endif
+
+					{{-- LISTA XB1 COPIAR Y PEGAR --}}
+					@if($articulo->pertenece_category->id == 8)
+					
+					<div id="lista_3">
+					@endif
+
+					@if($articulo->pertenece_category->id == 12)
+					
+					</div>
+					@endif
+
+					{{-- LISTA NINTENDO COPIAR Y PEGAR --}}
+					@if($articulo->pertenece_category->id == 12)
+					
+					<div id="lista_4">
+					@endif
+
+					@if($articulo->pertenece_category->id == 15)
+					
+					</div>
+					@endif
+
+					{{-- LISTA CELULARES COPIAR Y PEGAR --}}
+					@if($articulo->pertenece_category->id == 15)
+					
+					<div id="lista_5">
+					@endif
+
+					@if($articulo->pertenece_category->id == 16)
+					
+					</div>
+					@endif
+
+					{{-- LISTA OTROS COPIAR Y PEGAR --}}
+					@if($articulo->pertenece_category->id == 16)
+					
+					<div id="lista_6">
+					@endif
+
+					@if($articulo->pertenece_category->id == 17)
+					
+					</div>
+					@endif
+
 					<div id="div_{{$articulo->pertenece_category->id}}">
 						<h4><strong>{{ $categoria }}</strong></h4>
 						<br>
 						<br>
-					@endif
-					
-					    <strong><?php echo $i++; ?></strong>. {{$articulo->name }}. 
-					    @if($articulo->oferta==1)
-					    {{ $articulo->price_offer }}
-					        <del>{{ number_format((($articulo->offer_price* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</del>
-					        <strong class="precio_oferta"> {{ number_format((($articulo->price_in_dolar* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</strong>
-					    @else    
-					        <strong> {{ number_format((($articulo->price_in_dolar* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</strong>
-					    @endif			    
-					    <br><br>	
-					@endforeach
-					</div>
-				</div>
-				</div>
-				<br>
-				<br>
-				<h3>
-					Articulos disponibles: {{ $articulos->count() }}
-				</h3>
-				
-			</div>
-			<div class="col-lg-3 col-12">
-				<div class="container sticky2 masAncho">
-					<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-						<div class="carousel-inner">
-							<?php $i = 0; ?>
-							@foreach($portal3 as $imagen)
-							@if($i == 0)
-							<div class="carousel-item active">
-								<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
-							</div>
-							@else
-							<div class="carousel-item">
-								<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
-							</div>
-							@endif
-							<?php $i++; ?>
-							@endforeach
-						</div>
-					</div>
+						@endif
 
+
+						@if($articulo->category == 4 || $articulo->category == 6 || $articulo->category == 11 || $articulo->category == 14 || $articulo->category == 15 || $articulo->category == 16 )
+						<strong><?php echo $i++; ?></strong>. {{$articulo->name }} - {{ $articulo->estado}}.
+						
+						@else
+						<strong><?php echo $i++; ?></strong>. {{$articulo->name }}.
+						@endif
+						@if($articulo->oferta==1)
+						{{ $articulo->price_offer }}
+						<del>{{ number_format((($articulo->offer_price* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</del>
+						<strong class="precio_oferta"> {{ number_format((($articulo->price_in_dolar* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</strong>
+						@else    
+						<strong> {{ number_format((($articulo->price_in_dolar* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</strong>
+						@endif			    
+						<br><br>	
+
+
+						@endforeach
+						</div>
+
+					</div>
 				</div>
-				<amp-auto-ads type="adsense"
-				data-ad-client="ca-pub-2298464716816209">
-			</amp-auto-ads>
+			</div>
+			<br>
+			<br>
+			<h3>
+				Articulos disponibles: {{ $articulos->count() }}
+			</h3>
+
 		</div>
+		
 	</div>
 	<br>
 	<br>
@@ -185,10 +245,9 @@
 </div>
 
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
-	function CopyToClipboard(containerid) {
+	function CopyToClipboard(containerid, b) {
 		if (document.selection) { 
 			var range = document.body.createTextRange();
 			range.moveToElementText(document.getElementById(containerid));
@@ -202,8 +261,9 @@
 			window.getSelection().addRange(range);
 			document.execCommand("copy");
 			window.getSelection().removeAllRanges();
+			alert("Usted ha copiado la categoria: "+b+".");
 		}
 	}
 </script>
-	@endsection
+@endsection
 

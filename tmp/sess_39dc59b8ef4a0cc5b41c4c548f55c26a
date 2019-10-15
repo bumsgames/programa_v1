@@ -1,0 +1,35 @@
+ PMA_token |s:16:"/`[Rc(0i:hUpHW.";auth_type|s:3:"env";browser_access_time|a:2:{s:7:"default";i:1554575097;s:36:"e720ae17-83cc-6d99-5b25-473fd1932ea6";i:1554583617;}relation|a:1:{i:1;a:22:{s:11:"PMA_VERSION";s:5:"4.8.3";s:7:"relwork";b:0;s:11:"displaywork";b:0;s:12:"bookmarkwork";b:0;s:7:"pdfwork";b:0;s:8:"commwork";b:0;s:8:"mimework";b:0;s:11:"historywork";b:0;s:10:"recentwork";b:0;s:12:"favoritework";b:0;s:11:"uiprefswork";b:0;s:12:"trackingwork";b:0;s:14:"userconfigwork";b:0;s:9:"menuswork";b:0;s:7:"navwork";b:0;s:17:"savedsearcheswork";b:0;s:18:"centralcolumnswork";b:0;s:20:"designersettingswork";b:0;s:19:"exporttemplateswork";b:0;s:8:"allworks";b:0;s:4:"user";N;s:2:"db";N;}}cache|a:2:{s:25:"server_1_cpses_buf9t0lz1p";a:16:{s:14:"mysql_cur_user";s:26:"cpses_buf9t0lz1p@localhost";s:17:"is_create_db_priv";b:0;s:14:"is_reload_priv";b:0;s:12:"db_to_create";s:0:"";s:30:"dbs_where_create_table_allowed";a:2:{i:0;s:14:"bumsgame\_bums";i:1;s:23:"bumsgame\_bums\_oficial";}s:11:"dbs_to_test";a:6:{i:0;s:18:"information_schema";i:1;s:18:"performance_schema";i:2;s:5:"mysql";i:3;s:3:"sys";i:4;s:14:"bumsgame\_bums";i:5;s:23:"bumsgame\_bums\_oficial";}s:9:"proc_priv";b:0;s:10:"table_priv";b:0;s:8:"col_priv";b:0;s:7:"db_priv";b:0;s:12:"is_grantuser";b:0;s:13:"is_createuser";b:0;s:12:"is_superuser";b:0;s:11:"binary_logs";a:0:{}s:18:"menu-levels-server";a:13:{s:9:"databases";s:14:"Bases de datos";s:3:"sql";s:3:"SQL";s:6:"status";s:13:"Estado actual";s:6:"rights";s:8:"Usuarios";s:6:"export";s:8:"Exportar";s:6:"import";s:8:"Importar";s:8:"settings";s:14:"Configuraci√≥n";s:6:"binlog";s:16:"Registro binario";s:11:"replication";s:12:"Replicaci√≥n";s:4:"vars";s:9:"Variables";s:7:"charset";s:20:"Juegos de caracteres";s:7:"plugins";s:12:"Complementos";s:6:"engine";s:7:"Motores";}s:14:"menu-levels-db";a:14:{s:9:"structure";s:10:"Estructura";s:3:"sql";s:3:"SQL";s:6:"search";s:6:"Buscar";s:17:"multi_table_query";s:20:"Generar una consulta";s:6:"export";s:8:"Exportar";s:6:"import";s:8:"Importar";s:9:"operation";s:11:"Operaciones";s:10:"privileges";s:11:"Privilegios";s:8:"routines";s:7:"Rutinas";s:6:"events";s:7:"Eventos";s:8:"triggers";s:12:"Disparadores";s:8:"tracking";s:11:"Seguimiento";s:8:"designer";s:10:"Dise√±ador";s:15:"central_columns";s:18:"Columnas centrales";}}s:8:"server_1";a:4:{s:15:"userprefs_mtime";i:1554574735;s:14:"userprefs_type";s:7:"session";s:12:"config_mtime";i:1551699342;s:9:"userprefs";a:2:{s:4:"lang";s:2:"es";s:7:"Console";a:1:{s:4:"Mode";s:8:"collapse";}}}}encryption_key|s:32:"¿ü49RW~/@eE´õæAı¸ŒcÔò_ÈéìÛçS`÷";userconfig|a:2:{s:2:"db";a:2:{s:4:"lang";s:2:"es";s:12:"Console/Mode";s:8:"collapse";}s:2:"ts";i:1554574735;}two_factor_check|b:1;is_git_revision|b:0;tmpval|a:14:{s:15:"favorite_tables";a:1:{i:1;a:0:{}}s:13:"recent_tables";a:1:{i:1;a:0:{}}s:18:"table_limit_offset";i:0;s:21:"table_limit_offset_db";s:21:"bumsgame_bums_oficial";s:5:"query";a:1:{s:32:"c4531d937699f850d092bd073d85e796";a:8:{s:3:"sql";s:680:"CREATE TABLE `ofertas` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `telefono` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `oferta` text COLLATE utf8_unicode_ci,
+  `estado` int(11) NOT NULL DEFAULT '0',
+  `Fk_article` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ofertas_fk_article_foreign` (`Fk_article`),
+  CONSTRAINT `ofertas_fk_article_foreign` FOREIGN KEY (`Fk_article`) REFERENCES `articles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";s:1:"0";s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}}s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;s:12:"display_blob";b:0;s:19:"hide_transformation";b:0;s:3:"pos";s:1:"0";s:8:"max_rows";i:25;s:12:"repeat_cells";i:100;}ConfigFile1|a:4:{s:28:"PmaNoRelation_DisableWarning";b:1;s:12:"ShowCreateDb";b:0;s:7:"Console";a:1:{s:4:"Mode";s:8:"collapse";}s:7:"Servers";a:1:{i:1;a:2:{s:7:"only_db";s:0:"";s:7:"hide_db";s:0:"";}}}debug|a:0:{}Import_message|a:2:{s:7:"message";s:1147:"<div class="error"><h1>Error</h1><p><strong>consulta SQL:</strong>
+    </p>
+<p>
+<code class="sql"><pre>
+CREATE TABLE `ofertas` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `telefono` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `oferta` text COLLATE utf8_unicode_ci,
+  `estado` int(11) NOT NULL DEFAULT '0',
+  `Fk_article` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `ofertas_fk_article_foreign` (`Fk_article`),
+  CONSTRAINT `ofertas_fk_article_foreign` FOREIGN KEY (`Fk_article`) REFERENCES `articles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+</pre></code>
+</p>
+<p>
+    <strong>MySQL ha dicho: </strong><a href="./url.php?url=https%3A%2F%2Fdev.mysql.com%2Fdoc%2Frefman%2F5.6%2Fen%2Ferror-messages-server.html" target="mysql_doc"><img src="themes/dot.gif" title="Documentaci√≥n" alt="Documentaci√≥n" class="icon ic_b_help" /></a>
+</p>
+<code>#1050 - La tabla&nbsp;&nbsp;'ofertas' ya existe</code><br/></div>";s:11:"go_back_url";s:35:"db_sql.php?db=bumsgame_bums_oficial";}is_multi_query|b:0;sql_from_query_box|b:1;errors|a:0:{}

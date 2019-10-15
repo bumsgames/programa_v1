@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
             ->on('bums_users')
             ->onDelete('restrict');
             $table->string('name', 200)->default('Sin nombre');
-            $table->string('description', 200)->default('** SIN DESCRIPCION **')->nullable();
+            $table->string('description', 200)->default('** SIN DESCRIPCION **')->nullable();  
             $table->integer('category')->unsigned()->default(1);            
             $table->foreign('category')->references('id')
             ->on('categories')
@@ -28,7 +28,7 @@ class CreateArticlesTable extends Migration
             $table->integer('price_in_dolar')->default(0);
             $table->integer('offer_price')->default(0);
             $table->integer('peso')->default(0);
-            $table->integer('quantity')->default(1);
+            $table->integer('quantity')->default(1)->unsigned();
             $table->integer('oferta')->default(0);
         
             $table->string('email', 200)->default('Sin correo electronico')->nullable();

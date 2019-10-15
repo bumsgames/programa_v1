@@ -22,6 +22,8 @@ class VerifyCsrfToken extends BaseVerifier
         "/categoria_general",
         "/articulos_web",
         "/articulos",
-        "/lista_escrita"
+        "/lista_escrita",
+        "/ofertas_cliente",
+        "/ofertas_cliente/crear"
     ];
 }

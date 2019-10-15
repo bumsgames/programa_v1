@@ -79,8 +79,10 @@
 									id="name"
 									value="{{ $articulo->name }}" 
 									placeholder=""
-									autocomplete="off">
-
+									autocomplete="off"
+									maxlength="80"
+									onkeyup="countChar(this)">
+									<small class="float-left" id="counter">0</small>
 								</div>
 								{!!$errors->first('name','<span class="help-block">:message</span>')!!}
 								{!!$errors->first('nickname','<span class="help-block">:message</span>')!!}
@@ -360,7 +362,19 @@
 			}
 		});
 	</script>
-
+   <script>
+	    $(document).ready(function(){
+        	$('#counter').text($('#name').val().length);
+    	});
+	function countChar(val) {
+	  var len = val.value.length;
+	  if (len >= 81) {
+		val.value = val.value.substring(0, 80);
+	  } else {
+		$('#counter').text(len);
+	  }
+	};
+  </script>
 
 
 

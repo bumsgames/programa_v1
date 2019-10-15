@@ -15,7 +15,7 @@
                         <div class="col-12 col-lg-6">
                             <div class="form-group">
                                 <label for="titulo"><strong>Titulo de la Noticia</strong></label>
-                                <input type="text" class="form-control" name="titulo" id="titulo" required>
+                                <input type="text" class="form-control" name="titulo" id="titulo" autocomplete="off" required>
                             </div>
                         </div>
                         <div class="col-12 col-lg-6">
@@ -40,7 +40,7 @@
                         <div class="col-12 col-lg">
                             <div class="form-group">
                                 <label for=""><strong>Descripcion de la noticia</strong></label>
-                                <textarea maxlength="255" type="text" class="form-control" name="descripcion" onkeyup="countChar(this)" id="descripcion" required></textarea>
+                                <textarea maxlength="255" autocomplete="off" type="text" class="form-control" name="descripcion" onkeyup="countChar(this)" id="descripcion" required></textarea>
                                 <small class="float-left" id="counter">255</small>
                             </div>
                         </div>

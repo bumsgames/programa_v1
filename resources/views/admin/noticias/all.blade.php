@@ -30,12 +30,12 @@
 						<tbody>	
                             @foreach($noticias as $noticia)
                             <tr>
-                                <td class="align-middle">{{$noticia->id}}</td>
-                                <td class="align-middle">{{$noticia->titulo}}</td>
-                                <td class="align-middle">{{$noticia->descripcion}}</td>
-                                <td class="align-middle">{{$noticia->prioridad}}</td>
-                                <td class="align-middle">{{$noticia->likes}}</td>
-                                <td class="align-middle" style="width:25%"><img width="100%" src="{{asset('img/'.$noticia->imagen)}}" alt="No se encontro la imagen"></td>
+                                <td class="align-middle break-word ">{{$noticia->id}}</td>
+                                <td class="align-middle break-word ">{{$noticia->titulo}}</td>
+                                <td class="align-middle break-word ">{{$noticia->descripcion}}</td>
+                                <td class="align-middle break-word ">{{$noticia->prioridad}}</td>
+                                <td class="align-middle break-word ">{{$noticia->likes}}</td>
+                                <td class="align-middle break-word " style="width:25%"><img width="100%" src="{{asset('img/'.$noticia->imagen)}}" alt="No se encontro la imagen"></td>
                                 <td class="align-middle">{{$noticia->autor->name}} {{$noticia->autor->lastname}}</td>
                                 <td class="align-middle">
                                     <a href="/noticias/editar/{{$noticia->id}}" class="btn btn-info">Editar</a> 
@@ -47,6 +47,20 @@
                             @endforeach
 			            </tbody>
 		            </table>
+                    <style type="text/css">
+                        .break-word {
+                             -ms-word-break: break-all;
+                                 word-break: break-all;
+
+                                 // Non standard for webkit
+                                 word-break: break-word;
+
+                            -webkit-hyphens: auto;
+                               -moz-hyphens: auto;
+                                -ms-hyphens: auto;
+                                    hyphens: auto;
+                            }
+                    </style>
 	            </div>
 	@if ($noticias->hasPages())
         <ul class="pagination justify-content-center">

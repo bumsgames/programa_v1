@@ -95,6 +95,7 @@ Route::post('/ordenes_cuenta','ProgramController@ordenes_cuenta')->name('ordenes
 Route::post('/colocar_comision','ProgramController@colocar_comision');
 Route::post('/realizar_modificacion','ProgramController@modificacion_rapida');
 Route::post('/realizar_modificacion_cliente','ProgramController@realizar_modificacion_cliente');
+Route::post('/agregaCarro_admin','ProgramController@agregaCarro_admin');
 
 Route::post('/guardar_reporte','ProgramController@guardar_reporte');
 Route::post('/realizar_movimiento_financiero','ProgramController@realizar_movimiento_financiero');
@@ -166,6 +167,7 @@ Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');
 Route::get('/send','ChatController@send2');
 Route::get('/lista_escrita', 'WebController@lista_escrita');
 Route::get('/articulos_oferta', 'WebController@articulos_oferta');
+Route::get('/articulos_oferta_opc', 'WebController@articulos_oferta_opc');
 Route::get('/ayuda', 'WebController@ayuda');
 Route::get('/adminpaneluser', 'WebController@adminpaneluser');
 Route::get('/categoria_general/{categoria}', 'WebController@categoria_general');
@@ -176,6 +178,7 @@ Route::get('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
 Route::get('/buscar_articulo_bumsG', 'WebController@buscar_articulo_bumsG');
 Route::get('/categoria_general','WebController@categoria_general');
 Route::get('/articulos', 'WebController@articulos');
+Route::get('/articulos2', 'WebController@articulos2');
 Route::get('/orden_a_pagar', 'WebController@orden_a_pagar');
 
 
@@ -195,6 +198,7 @@ Route::post('/categoria_general','WebController@categoria_general');
 Route::post('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos', 'WebController@articulos');
 Route::post('/reportar_pago', 'WebController@reportar_pago');
+Route::post('/articulos', 'WebController@articulos');
 
 // Cliente Login Get
 Route::get('/login','WebController@login');
@@ -323,6 +327,7 @@ Route::get('/ofertas_cliente/rechazar/{id}','OfertasController@RechazarOferta');
 */
 //Crear oferta
 Route::post('/ofertas_cliente/crear','OfertasController@store');
+Route::post('/ofertas_cliente','OfertasController@store_oferta');
 
 /*
 -------------------------------
@@ -359,3 +364,5 @@ Route::get('/reporte-pago/{id}','ProgramController@ReportePagoExt');
 
 //ESTE SIEMPRE SE DEBE DEJAR DE ULITMO!
 Route::get('/{url}', 'WebController@error404');
+Route::get('/{url}/{url2}', 'WebController@error404');
+Route::get('/{url}/{url2}/{url3}', 'WebController@error404');

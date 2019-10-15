@@ -107,8 +107,13 @@ class HomeworkController extends Controller
             })->get();
         // $users = \Bumsgames\BumsUser::All();
         $categories = \Bumsgames\Category::All();
-
-        return view('admin.article.formulario_Art', compact('pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales'));
+        
+        if(Auth::user()->level >= 7 || in_array($articulo->category,[3,4,6,7,10,11,13,14,15])){
+            return view('admin.article.formulario_Art', compact('pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales'));
+        }
+        else{
+            return redirect('404');
+        }
     }
     /**
      * Show the form for creating a new resource.

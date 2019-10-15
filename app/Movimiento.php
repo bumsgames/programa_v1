@@ -23,7 +23,8 @@ class Movimiento extends Model
         'dolardia',
         'entidad',
         'note_movimiento',
-        'cantidad'
+        'cantidad',
+        'inversion'
     ];
     // protected $dates = ['deleted_at'];
 

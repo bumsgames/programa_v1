@@ -1,12 +1,14 @@
 <div class="modal fade" id="commentModal">
   <div class="modal-dialog  modal-lg">
     <div class="modal-content">
-      <div class="modal-header headerComment">
-        <h3 class="commentTitle"> Tu opinion vale mucho para nosotros</h3>
+      <div class="modal-header headerComment" style="background-color: black;">
+        <h3 class="commentTitle" style="color: #0080c7;"> Tu opinion vale mucho para nosotros</h3>
 
       </div>
       <div class="modal-body bodyComment" id='comentariosmodal'>
-        <h5>Tu comentario sera mostrado una vez sea aprobado!</h5>
+        <center>
+          <h5 style="color: #0080c7;">TU COMENTARIO SERA MOSTRADO UNA VEZ SEA APROBADO.</h5>
+        
         {!! Form::open(['action' => 'CommentController@store', 'method' => 'POST'])!!}
         @if (Auth::guard('client')->check())
         <div class="form-check-inline">
@@ -22,6 +24,7 @@
           </label>
         </div>
         @endif
+        </center>
         <br>
         @if (Auth::guard('client')->guest())
 
@@ -32,14 +35,13 @@
         </div>
         @endif
         <div class="form-group">
-        {{Form::label('comentario','Dejanos tu comentario y sera mostrado una vez sea aprobado')}}  
-          {{Form::textarea('comentario','',['class'=>'form-control','placeholder'=>'Deja tu comentario...'])}}
+          {{Form::textarea('comentario','',['class'=>'form-control','placeholder'=>'Dejanos tu opinion, tambien puedes reportar alguna falla en sistema...'])}}
         </div>
-        {{Form::submit('Enviar comentario',['class'=>'btn btn-primary btnmodal','id'=>'idcomentariobtn'])}}
+        {{Form::submit('Enviar comentario',['class'=>'btn btn-primary btnmodal btn-standar','id'=>'idcomentariobtn'])}}
         {!! Form::close()!!}
     </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger btnmodal" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger btnmodal btn-standar" data-dismiss="modal">Cerrar</button>
       </div>
 
     </div>

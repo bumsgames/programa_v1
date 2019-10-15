@@ -11,11 +11,28 @@
 		<div class="col-md-12">
 			<div class="tile">
 				@if($articles->total() == 0)
-					<h6>Mostrando 0 articulos</h6>
+				<h6>Mostrando 0 articulos</h6>
 				@else
-					<h6>Mostrando del {{($articles->perPage())*($articles->currentPage()-1)+1}} al {{($articles->perPage() * $articles->currentPage())-($articles->perPage() - $articles->count())}} de {{$articles->total()}} resultados</h6>
-					{{--<h6>Numero de articulos: {{ $articles_cantidad }}</h6>--}}
+				<h6>Mostrando del {{($articles->perPage())*($articles->currentPage()-1)+1}} al {{($articles->perPage() * $articles->currentPage())-($articles->perPage() - $articles->count())}} de {{$articles->total()}} resultados</h6>
+				{{--<h6>Numero de articulos: {{ $articles_cantidad }}</h6>--}}
 				@endif
+
+				@if(isset($articlesLista))
+				FUNCION POR OPTIMIZAR, SE PEGA CON MUCHOS RESULTADOS
+				<br>	
+				LISTA DE CANTITADES
+				<br>	
+				<br>	
+				@foreach($articlesLista as $article)
+				{{$article->name}} ({{$article->pertenece_category->category}}) Cantidad: {{$article->quantity}}
+				<br>	
+				Cantidad: {{$article->quantity1}}
+				<br>	
+				<br>	
+				@endforeach
+				@endif
+
+
 				<div class="row">
 					<form action="{{ url('articulos_bd') }}" method="POST" class="form-inline col-12 col-lg-7" target="_blank">
 						{{ csrf_field() }}
@@ -57,143 +74,143 @@
 				</div>
 				<br>
 				<form action="{{url('aplicar_filtros_multiples')}}" method="POST" target="_blank">
-				{{ csrf_field() }}
+					{{ csrf_field() }}
 
-				<div id="filtros" class="collapse">
-					<div class="row" style="margin-left:0">
-						<div class="form-group col-12">
-							<label for="namefilt"> Filtrar por nombre</label>
-							<input autocomplete="off" class="form-control" type="text" name="namefilt" placeholder="Filtrar por nombre" @if(isset($busqueda)) value={{$busqueda}} @endif>
-						</div>
-						<div class="form-group col-12 col-lg-3">
-							<label for="selcat">Filtrar por categoria</label>
-							<select name="selcat" class="form-control" id="selcat">
-								<option value='0'>No filtrar</option>
-								<?php $cont=0?>
-								@foreach($categories as $categoria)
-								<option value="{{$categoria->id}}" @if(isset($parametros[0]))@if($parametros[0] == $categoria->id) selected @endif @endif>{{$categoria->category}}</option>
-								@endforeach
-							</select>
-						</div>	
-						<div  class="form-group col-12 col-lg-3">
-							<label for="seldu">Filtrar por Dueño</label>
-							<select name="seldu" class="form-control custom-select" id="seldu">
-								<option value="0">No filtrar</option>
-								<?php $cont=0?>
-								@foreach($users as $usuario)
-								<option value="{{$usuario->id}}" @if(isset($parametros[8]))@if($parametros[8] == $usuario->id) selected @endif @endif>{{$usuario->name}} {{$usuario->lastname}}</option>
-								@endforeach
-							</select>
-						</div>
+					<div id="filtros" class="collapse">
+						<div class="row" style="margin-left:0">
+							<div class="form-group col-12">
+								<label for="namefilt"> Filtrar por nombre</label>
+								<input autocomplete="off" class="form-control" type="text" name="namefilt" placeholder="Filtrar por nombre" @if(isset($busqueda)) value={{$busqueda}} @endif>
+							</div>
+							<div class="form-group col-12 col-lg-3">
+								<label for="selcat">Filtrar por categoria</label>
+								<select name="selcat" class="form-control" id="selcat">
+									<option value='0'>No filtrar</option>
+									<?php $cont=0?>
+									@foreach($categories as $categoria)
+									<option value="{{$categoria->id}}" @if(isset($parametros[0]))@if($parametros[0] == $categoria->id) selected @endif @endif>{{$categoria->category}}</option>
+									@endforeach
+								</select>
+							</div>	
+							<div  class="form-group col-12 col-lg-3">
+								<label for="seldu">Filtrar por Dueño</label>
+								<select name="seldu" class="form-control custom-select" id="seldu">
+									<option value="0">No filtrar</option>
+									<?php $cont=0?>
+									@foreach($users as $usuario)
+									<option value="{{$usuario->id}}" @if(isset($parametros[8]))@if($parametros[8] == $usuario->id) selected @endif @endif>{{$usuario->name}} {{$usuario->lastname}}</option>
+									@endforeach
+								</select>
+							</div>
 
-						<div  class="form-group col-12 col-lg-3">
-							<label for="correofiltro">Filtrar por Correo</label>
-							<input @if(isset($parametros[1])) value="{{$parametros[1]}}" @endif autocomplete="off" type="text" placeholder="Buscar correo" class="form-control" name="filtrocorreo" id="correofiltro">
-						</div>
-						<div class="form-group col-12 col-lg-3">
-							<label for="seldu">Filtrar por disponibilidad</label>
-							<div class="form-control">
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" class="custom-control-input" id="disponible" name="disponible" value="1" @if(isset($parametros[2]))@if($parametros[2] == 1) checked @endif @endif>
-									<label class="custom-control-label" for="disponible">Disponible</label>
-								</div>
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" class="custom-control-input" id="nodisponible" name="disponible" value="2"  @if(isset($parametros[2]))@if($parametros[2] == 2) checked @endif @endif>
-									<label class="custom-control-label" for="nodisponible">No disponible</label>
-								</div> 
-								<div class="custom-control custom-control-inline" style="margin-right:0">
-									<button id="uncheck" class="btn btn-primary btn-sm" type="button">Resetear</button>
+							<div  class="form-group col-12 col-lg-3">
+								<label for="correofiltro">Filtrar por Correo</label>
+								<input @if(isset($parametros[1])) value="{{$parametros[1]}}" @endif autocomplete="off" type="text" placeholder="Buscar correo" class="form-control" name="filtrocorreo" id="correofiltro">
+							</div>
+							<div class="form-group col-12 col-lg-3">
+								<label for="seldu">Filtrar por disponibilidad</label>
+								<div class="form-control">
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" class="custom-control-input" id="disponible" name="disponible" value="1" @if(isset($parametros[2]))@if($parametros[2] == 1) checked @endif @endif>
+										<label class="custom-control-label" for="disponible">Disponible</label>
+									</div>
+									<div class="custom-control custom-radio custom-control-inline">
+										<input type="radio" class="custom-control-input" id="nodisponible" name="disponible" value="2"  @if(isset($parametros[2]))@if($parametros[2] == 2) checked @endif @endif>
+										<label class="custom-control-label" for="nodisponible">No disponible</label>
+									</div> 
+									<div class="custom-control custom-control-inline" style="margin-right:0">
+										<button id="uncheck" class="btn btn-primary btn-sm" type="button">Resetear</button>
+									</div>
 								</div>
 							</div>
+
 						</div>
-						
+						<div class="row" style="margin-left:0">
+							<div class="form-group col-12 col-lg-3">
+								<label for="creatorfilter">Filtrar por creador</label>
+								<select name="creatorfilter" class="form-control" id="creatorfilter">
+									<option value="0">No filtrar</option>
+									<?php $cont=0?>
+									@foreach($users as $usuario)
+									<option value="{{$usuario->id}}" @if(isset($parametros[3]))@if($parametros[3] == $usuario->id) selected @endif @endif>{{$usuario->name}} {{$usuario->lastname}}</option>
+									@endforeach
+								</select>
+							</div>	
+
+
+							<div  class="form-group col-12 col-lg-3">
+								<label for="nickfil">Filtrar por Nickname</label>
+								<input autocomplete="off" type="text" @if(isset($parametros[4])) value="{{$parametros[4]}}"  @endif placeholder="Buscar Nickname" class="form-control" name="nickfil" id="nickfil">
+							</div>
+
+							<div class="form-group col-12 col-lg-3">
+								<label for="precio">Filtrar por Precio</label>
+								<div >
+									<label for="preciorange">Precio Minimo: <span id="precioranget"></span > $</label>
+									<input @if(isset($parametros[5])) value="{{$parametros[5]}}" @else value="0" @endif  type="range" class="custom-range" id="preciorange" name="precio">
+								</div>
+								<div>
+									<label  for="ofertarange">Precio Subrayado Minimo: <span id="ofertaranget"></span> $</label>
+									<input @if(isset($parametros[6])) value="{{$parametros[6]}}" @else value="0" @endif type="range" class="custom-range" id="ofertarange" name="oferta">
+								</div>
+							</div>
+							<div class="form-group col-12 col-lg-3">
+								<label for="peso">Filtrar por Peso Minimo</label>
+								<div class="form-control">
+									<label for="pesorange">Peso: <span id="pesoranget"></span > GB</label>
+									<input @if(isset($parametros[7])) value="{{$parametros[7]}}" @else value="0" @endif type="range" class="custom-range" id="pesorange" name="peso">
+								</div>
+							</div>
+
+						</div>	
+
+						<button type="submit" class="btn btn-primary my-1 mr-sm-2">Filtrado multiple</button>
+
 					</div>
-					<div class="row" style="margin-left:0">
-						<div class="form-group col-12 col-lg-3">
-							<label for="creatorfilter">Filtrar por creador</label>
-							<select name="creatorfilter" class="form-control" id="creatorfilter">
-								<option value="0">No filtrar</option>
-								<?php $cont=0?>
-								@foreach($users as $usuario)
-								<option value="{{$usuario->id}}" @if(isset($parametros[3]))@if($parametros[3] == $usuario->id) selected @endif @endif>{{$usuario->name}} {{$usuario->lastname}}</option>
-								@endforeach
-							</select>
-						</div>	
-
-
-						<div  class="form-group col-12 col-lg-3">
-							<label for="nickfil">Filtrar por Nickname</label>
-							<input autocomplete="off" type="text" @if(isset($parametros[4])) value="{{$parametros[4]}}"  @endif placeholder="Buscar Nickname" class="form-control" name="nickfil" id="nickfil">
-						</div>
-
-						<div class="form-group col-12 col-lg-3">
-							<label for="precio">Filtrar por Precio</label>
-							<div >
-								<label for="preciorange">Precio Minimo: <span id="precioranget"></span > $</label>
-  								<input @if(isset($parametros[5])) value="{{$parametros[5]}}" @else value="0" @endif  type="range" class="custom-range" id="preciorange" name="precio">
-							</div>
-							<div>
-								<label  for="ofertarange">Precio Subrayado Minimo: <span id="ofertaranget"></span> $</label>
-  								<input @if(isset($parametros[6])) value="{{$parametros[6]}}" @else value="0" @endif type="range" class="custom-range" id="ofertarange" name="oferta">
-							</div>
-						</div>
-						<div class="form-group col-12 col-lg-3">
-							<label for="peso">Filtrar por Peso Minimo</label>
-							<div class="form-control">
-								<label for="pesorange">Peso: <span id="pesoranget"></span > GB</label>
-  								<input @if(isset($parametros[7])) value="{{$parametros[7]}}" @else value="0" @endif type="range" class="custom-range" id="pesorange" name="peso">
-							</div>
-						</div>
-						
-					</div>	
-								
-					<button type="submit" class="btn btn-primary my-1 mr-sm-2">Filtrado multiple</button>
-
-				</div>
 				</form>
 				<br>	
 				
-					@if ($articles->hasPages())
+				@if ($articles->hasPages())
 				<ul class="pagination justify-content-center">
 					@if ($articles->onFirstPage())
-						<li class="page-item disabled"><span class="page-link"><</span></li>
+					<li class="page-item disabled"><span class="page-link"><</span></li>
 					@else
-						<li class="page-item"><a class="page-link" href="{{ $articles->previousPageUrl() }}" rel="prev"><</a></li>
+					<li class="page-item"><a class="page-link" href="{{ $articles->previousPageUrl() }}" rel="prev"><</a></li>
 					@endif
 
 					@if($articles->currentPage() > 3)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url(1) }}">1</a></li>
+					<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url(1) }}">1</a></li>
 					@endif
 					@if($articles->currentPage() > 4)
-						<li class="page-item"><span class="page-link">...</span></li>
+					<li class="page-item"><span class="page-link">...</span></li>
 					@endif
 					@foreach(range(1, $articles->lastPage()) as $i)
-						@if($i >= $articles->currentPage() - 2 && $i <= $articles->currentPage() + 2)
-							@if ($i == $articles->currentPage())
-								<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
-							@else
-								<li class="page-item"><a class="page-link" href="{{ $articles->url($i) }}">{{ $i }}</a></li>
-							@endif
-						@endif
+					@if($i >= $articles->currentPage() - 2 && $i <= $articles->currentPage() + 2)
+					@if ($i == $articles->currentPage())
+					<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
+					@else
+					<li class="page-item"><a class="page-link" href="{{ $articles->url($i) }}">{{ $i }}</a></li>
+					@endif
+					@endif
 					@endforeach
 					@if($articles->currentPage() < $articles->lastPage() - 3)
-						<li class="page-item"><span class="page-link">...</span></li>
+					<li class="page-item"><span class="page-link">...</span></li>
 					@endif
 					@if($articles->currentPage() < $articles->lastPage() - 2)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url($articles->lastPage()) }}">{{ $articles->lastPage() }}</a></li>
+					<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url($articles->lastPage()) }}">{{ $articles->lastPage() }}</a></li>
 					@endif
 
 					@if ($articles->hasMorePages())
-						<li class="page-item"><a class="page-link" href="{{ $articles->nextPageUrl() }}" rel="next">></a></li>
+					<li class="page-item"><a class="page-link" href="{{ $articles->nextPageUrl() }}" rel="next">></a></li>
 					@else
-						<li class="page-item disabled"><span class="page-link">></span></li>
+					<li class="page-item disabled"><span class="page-link">></span></li>
 					@endif
 				</ul>
-			@endif
-			
+				@endif
+
 				<br>
 				<div class="table-responsive">
-				
+
 					<table class="table">
 						<thead>
 							<tr>
@@ -202,7 +219,6 @@
 								<th scope="col">Dueño</th>
 								@if(Auth::user()->level >= 7)
 								<th scope="col">Correo y Clave</th>
-
 								@else
 								<th></th>
 								@endif
@@ -226,6 +242,13 @@
 									</strong>
 									<br>	
 									<div class="catefiltrar">{{ $article->pertenece_category->category }}</div>
+									<br>	
+									<br>	
+									<strong>
+										Condición: 
+									</strong>
+									<br>	
+									<div class="estadofiltrar">{{ $article->estado }}</div>
 									<br>
 									<br>
 									<strong>
@@ -242,13 +265,13 @@
 									<br>
 									<br>
 									<?php
-										$compronumber=$article->clientes_del_articulo->count();
+									$compronumber=$article->clientes_del_articulo->count();
 									?>
 									@if($article->clientes_del_articulo->count() > 0)
 									<strong>Vendedor por cliente: </strong>
 									<br>
 									<?php $j = 1; ?>
-							
+
 									@foreach($article->ventas_del_articulo as $ventas)
 									<?php echo $j++; ?>) {{ $ventas->user->name }} {{ $ventas->user->lastname }} <br>	
 									@endforeach
@@ -297,6 +320,13 @@
 									@endif
 									@endif
 
+									Categorias
+									@foreach($article->categorias as $categoria)
+									<br>
+									<br>
+									{{ $categoria->category }}
+
+									@endforeach
 								</td>
 								<td>
 									@if(Auth::user()->level >= 7)
@@ -370,8 +400,10 @@
 									<br>
 								</td>
 								<td>
-									@if(Auth::user()->level >= 7)
 									<div class="btn-group" role="group" aria-label="Basic example">
+
+										@if(Auth::user()->level >= 7 || in_array($article->category,[3,4,6,7,10,11,13,14,15]))
+
 										<button type="button" 
 										class="btn btn-secondary" 
 										data-toggle="modal" data-target=".bd-example-modal-lg"	
@@ -379,7 +411,6 @@
 										Onclick='vender_articulo({{ $article->id }},"{{ $article->name }}", "{{ $article->email }}", "{{ $article->password }}","{{ $article->pertenece_category->category }}",{{ $article->category }});'>
 										Vender
 									</button>
-									@endif
 
 									<form action="/buscar_articulo" method="post" target="_blank">
 										<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
@@ -388,6 +419,13 @@
 									</form>
 									
 									<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" Onclick="mandaridM({{$article->id}})">Eliminar</button>
+									<button class="btn btn-primary botonCarta"
+									onclick="agregaCarro_admin('{{ $article->id }}', '{{ $article->name }}', 
+										'{{ $article->pertenece_category->category }}', 
+										{{ $article->price_in_dolar }},
+										'{{ $article->fondo }}');">
+										<img width="50" src="{{ url('img/carrito crash.png') }}">
+									</button>
 
 									
 									
@@ -396,72 +434,73 @@
 								<br>
 								
 								<button type="button" 
-									class="btn btn-secondary" 
-									data-toggle="modal" 
-									data-target=".modal_rapido" 
-									value="{{$article->id}}" 
-									
-									Onclick='modicacion_rapida(
-										{{ $article->id }},
-										"{{$article->name}}",
-										"{{ $article->pertenece_category->category }}",
-										{{$article->quantity}},
-										"{{ $article->note }}",
-										"{{$article->reset_button}}")'>
-									Modificacion Rapida
-								</button>
-								<br>
-								<br>
-								{{-- onclick='mostrar_articulo_cliente({{ $article->id }})' --}}
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal_cliente" onclick='mostrar_articulo_cliente({{ $article->id }})'>Parte cliente</button>
+								class="btn btn-secondary" 
+								data-toggle="modal" 
+								data-target=".modal_rapido" 
+								value="{{$article->id}}" 
 
-							</div>
-						</td>
-					</tr>
-					@endforeach
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	@if ($articles->hasPages())
-				<ul class="pagination justify-content-center">
-					@if ($articles->onFirstPage())
-						<li class="page-item disabled"><span class="page-link"><</span></li>
-					@else
-						<li class="page-item"><a class="page-link" href="{{ $articles->previousPageUrl() }}" rel="prev"><</a></li>
-					@endif
-
-					@if($articles->currentPage() > 3)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url(1) }}">1</a></li>
-					@endif
-					@if($articles->currentPage() > 4)
-						<li class="page-item"><span class="page-link">...</span></li>
-					@endif
-					@foreach(range(1, $articles->lastPage()) as $i)
-						@if($i >= $articles->currentPage() - 2 && $i <= $articles->currentPage() + 2)
-							@if ($i == $articles->currentPage())
-								<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
-							@else
-								<li class="page-item"><a class="page-link" href="{{ $articles->url($i) }}">{{ $i }}</a></li>
+								Onclick='modicacion_rapida(
+								{{ $article->id }},
+								"{{$article->name}}",
+								"{{ $article->pertenece_category->category }}",
+								{{$article->quantity}},
+								"{{ $article->note }}",
+								"{{$article->reset_button}}")'>
+								Modificacion Rapida
+							</button>
+							<br>
+							<br>
 							@endif
-						@endif
-					@endforeach
-					@if($articles->currentPage() < $articles->lastPage() - 3)
-						<li class="page-item"><span class="page-link">...</span></li>
-					@endif
-					@if($articles->currentPage() < $articles->lastPage() - 2)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url($articles->lastPage()) }}">{{ $articles->lastPage() }}</a></li>
-					@endif
 
-					@if ($articles->hasMorePages())
-						<li class="page-item"><a class="page-link" href="{{ $articles->nextPageUrl() }}" rel="next">></a></li>
-					@else
-						<li class="page-item disabled"><span class="page-link">></span></li>
-					@endif
-				</ul>
-			@endif
-			
+							{{-- onclick='mostrar_articulo_cliente({{ $article->id }})' --}}
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal_cliente" onclick='mostrar_articulo_cliente({{ $article->id }})'>Parte cliente</button>
+						</div>
+					</td>
+				</tr>
+				@endforeach
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+@if ($articles->hasPages())
+<ul class="pagination justify-content-center">
+	@if ($articles->onFirstPage())
+	<li class="page-item disabled"><span class="page-link"><</span></li>
+	@else
+	<li class="page-item"><a class="page-link" href="{{ $articles->previousPageUrl() }}" rel="prev"><</a></li>
+	@endif
+
+	@if($articles->currentPage() > 3)
+	<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url(1) }}">1</a></li>
+	@endif
+	@if($articles->currentPage() > 4)
+	<li class="page-item"><span class="page-link">...</span></li>
+	@endif
+	@foreach(range(1, $articles->lastPage()) as $i)
+	@if($i >= $articles->currentPage() - 2 && $i <= $articles->currentPage() + 2)
+	@if ($i == $articles->currentPage())
+	<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
+	@else
+	<li class="page-item"><a class="page-link" href="{{ $articles->url($i) }}">{{ $i }}</a></li>
+	@endif
+	@endif
+	@endforeach
+	@if($articles->currentPage() < $articles->lastPage() - 3)
+	<li class="page-item"><span class="page-link">...</span></li>
+	@endif
+	@if($articles->currentPage() < $articles->lastPage() - 2)
+	<li class="page-item hidden-xs"><a class="page-link" href="{{ $articles->url($articles->lastPage()) }}">{{ $articles->lastPage() }}</a></li>
+	@endif
+
+	@if ($articles->hasMorePages())
+	<li class="page-item"><a class="page-link" href="{{ $articles->nextPageUrl() }}" rel="next">></a></li>
+	@else
+	<li class="page-item disabled"><span class="page-link">></span></li>
+	@endif
+</ul>
+@endif
+
 
 </div>
 
@@ -472,9 +511,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
-$('#uncheck').click(function(){
-	$('input[name="disponible"]:checked').prop('checked', false);
-});
+	$('#uncheck').click(function(){
+		$('input[name="disponible"]:checked').prop('checked', false);
+	});
 </script>
 @include('modal.venta')
 @include('modal.modificacionRapida')

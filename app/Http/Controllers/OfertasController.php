@@ -2,8 +2,11 @@
 
 namespace Bumsgames\Http\Controllers;
 
-use Bumsgames\Oferta;
 use Illuminate\Http\Request;
+use Bumsgames\Oferta;
+use Mail;
+
+
 
 class OfertasController extends Controller
 {
@@ -46,6 +49,24 @@ class OfertasController extends Controller
         return 1;
     }
 
+    public function store_oferta(Request $request)
+    {
+        $offer = new Oferta;
+        $offer->name = $request->nombre_ofer;
+        $offer->telefono = $request->telefono_ofer;
+        $offer->oferta = $request->oferta_ofer;
+        $offer->estado = 0;
+        $offer->Fk_article = $request->art_ofer;
+        $offer->save();
+    
+        Mail::send(['text' => 'mail.oferta'], ['name', 'Bumsgames'], function ($message) {
+			$message->to('bumsgames.notificaciones@gmail.com', 'To Bumsgames')->subject('Nueva Oferta');
+			$message->from('bumsgames.notificaciones@gmail.com', 'Bumsgames Notificaciones');
+		});
+
+        return 1;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -59,12 +80,13 @@ class OfertasController extends Controller
         ->where(function ($query) {
             $query->where('verificado', '<=', 0)
                 ->orWhere('entregado', '<=', 0);
-        })->get();
+        })
+        ->get();
         $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
             ->orderby('created_at', 'desc')
             ->get();
         $title = "Ofertas por revisar";
-        $ofertas = Oferta::where("estado",'0')->paginate(40);
+        $ofertas = Oferta::where("estado",'0')->orderBy('created_at','desc')->paginate(40);
         return view('admin.ofertas.ofertas', compact('tutoriales', 'title', 'ofertas','pago_sin_confirmar','comments_por_aprobar'));
     }
 
@@ -80,7 +102,7 @@ class OfertasController extends Controller
             ->orderby('created_at', 'desc')
             ->get();
         $title = "Ofertas Aprobadas";
-        $ofertas = Oferta::where("estado",'1')->paginate(40);
+        $ofertas = Oferta::where("estado",'1')->orderBy('created_at','desc')->paginate(40);
         return view('admin.ofertas.ofertas', compact('tutoriales', 'title', 'ofertas','pago_sin_confirmar','comments_por_aprobar'));
     }
 
@@ -96,7 +118,7 @@ class OfertasController extends Controller
             ->orderby('created_at', 'desc')
             ->get();
         $title = "Ofertas Rechazadas";
-        $ofertas = Oferta::where("estado",'2')->paginate(40);
+        $ofertas = Oferta::where("estado",'2')->orderBy('created_at','desc')->paginate(40);
         return view('admin.ofertas.ofertas', compact('tutoriales', 'title', 'ofertas','pago_sin_confirmar','comments_por_aprobar'));
     }
 

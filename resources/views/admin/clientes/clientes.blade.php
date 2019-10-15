@@ -14,7 +14,9 @@
 				<form action="{{ url('clientesFilt') }}" method="POST" class="form col-12">
 					{{ csrf_field() }}
 					<div class="input-group mb-3">
-						<input name="buscador" type="text" class="form-control" placeholder="Buscar" id="buscador">
+						<input type="text" name="nombre" placeholder="Nombre" class="form-control" autocomplete="off">
+						<input type="text" name="apellido" placeholder="Apellido" class="form-control" autocomplete="off">
+						<input name="buscador" type="text" name="buscador" class="form-control" placeholder="Otros campos" id="buscador">
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="submit">Buscar</button> 
 						</div>
@@ -23,45 +25,49 @@
 				<br>
 				<br>
 				<strong>Clientes totales: </strong> {{ $clientes_cantidad }}
-				@if ($clientes->hasPages())
-				<ul class="pagination justify-content-center">
-					{{-- Previous Page Link --}}
-					@if ($clientes->onFirstPage())
-						<li class="page-item disabled"><span class="page-link"><</span></li>
-					@else
-						<li class="page-item"><a class="page-link" href="{{ $clientes->previousPageUrl() }}" rel="prev"><</a></li>
-					@endif
-
-					@if($clientes->currentPage() > 3)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url(1) }}">1</a></li>
-					@endif
-					@if($clientes->currentPage() > 4)
-						<li class="page-item"><span class="page-link">...</span></li>
-					@endif
-					@foreach(range(1, $clientes->lastPage()) as $i)
-						@if($i >= $clientes->currentPage() - 2 && $i <= $clientes->currentPage() + 2)
-							@if ($i == $clientes->currentPage())
-								<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
-							@else
-								<li class="page-item"><a class="page-link" href="{{ $clientes->url($i) }}">{{ $i }}</a></li>
-							@endif
+				@if($clientes instanceof \Illuminate\Pagination\LengthAwarePaginator )
+					@if ($clientes->hasPages())
+					<ul class="pagination justify-content-center">
+						{{-- Previous Page Link --}}
+						@if ($clientes->onFirstPage())
+							<li class="page-item disabled"><span class="page-link"><</span></li>
+						@else
+							<li class="page-item"><a class="page-link" href="{{ $clientes->previousPageUrl() }}" rel="prev"><</a></li>
 						@endif
-					@endforeach
-					@if($clientes->currentPage() < $clientes->lastPage() - 3)
-						<li class="page-item"><span class="page-link">...</span></li>
-					@endif
-					@if($clientes->currentPage() < $clientes->lastPage() - 2)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url($clientes->lastPage()) }}">{{ $clientes->lastPage() }}</a></li>
-					@endif
 
-					{{-- Next Page Link --}}
-					@if ($clientes->hasMorePages())
-						<li class="page-item"><a class="page-link" href="{{ $clientes->nextPageUrl() }}" rel="next">></a></li>
-					@else
-						<li class="page-item disabled"><span class="page-link">></span></li>
-					@endif
-				</ul>
-			@endif				<div class="table-responsive">
+						@if($clientes->currentPage() > 3)
+							<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url(1) }}">1</a></li>
+						@endif
+						@if($clientes->currentPage() > 4)
+							<li class="page-item"><span class="page-link">...</span></li>
+						@endif
+						@foreach(range(1, $clientes->lastPage()) as $i)
+							@if($i >= $clientes->currentPage() - 2 && $i <= $clientes->currentPage() + 2)
+								@if ($i == $clientes->currentPage())
+									<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
+								@else
+									<li class="page-item"><a class="page-link" href="{{ $clientes->url($i) }}">{{ $i }}</a></li>
+								@endif
+							@endif
+						@endforeach
+						@if($clientes->currentPage() < $clientes->lastPage() - 3)
+							<li class="page-item"><span class="page-link">...</span></li>
+						@endif
+						@if($clientes->currentPage() < $clientes->lastPage() - 2)
+							<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url($clientes->lastPage()) }}">{{ $clientes->lastPage() }}</a></li>
+						@endif
+
+						{{-- Next Page Link --}}
+						@if ($clientes->hasMorePages())
+							<li class="page-item"><a class="page-link" href="{{ $clientes->nextPageUrl() }}" rel="next">></a></li>
+						@else
+							<li class="page-item disabled"><span class="page-link">></span></li>
+						@endif
+					</ul>
+					@endif	
+				@endif
+
+				<div class="table-responsive">
 					<table class="table">
 						<thead>
 							<tr>
@@ -100,7 +106,7 @@
 								<td>
 
 									<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-										<form action="ver_articulos" method="post">
+										<form action="ver_articulos" method="post" target="_blank">
 											{{ csrf_field() }}
 											<input type="text" name="id" hidden="" value="{{ $cliente->id }}">
 											<button type="submit" class="btn btn-secondary">Compras</button>
@@ -129,45 +135,48 @@
 							@endforeach
 						</tbody>
 					</table>
+				@if($clientes instanceof \Illuminate\Pagination\LengthAwarePaginator )
 					@if ($clientes->hasPages())
-				<ul class="pagination justify-content-center">
-					{{-- Previous Page Link --}}
-					@if ($clientes->onFirstPage())
-						<li class="page-item disabled"><span class="page-link"><</span></li>
-					@else
-						<li class="page-item"><a class="page-link" href="{{ $clientes->previousPageUrl() }}" rel="prev"><</a></li>
-					@endif
-
-					@if($clientes->currentPage() > 3)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url(1) }}">1</a></li>
-					@endif
-					@if($clientes->currentPage() > 4)
-						<li class="page-item"><span class="page-link">...</span></li>
-					@endif
-					@foreach(range(1, $clientes->lastPage()) as $i)
-						@if($i >= $clientes->currentPage() - 2 && $i <= $clientes->currentPage() + 2)
-							@if ($i == $clientes->currentPage())
-								<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
-							@else
-								<li class="page-item"><a class="page-link" href="{{ $clientes->url($i) }}">{{ $i }}</a></li>
-							@endif
+					<ul class="pagination justify-content-center">
+						{{-- Previous Page Link --}}
+						@if ($clientes->onFirstPage())
+							<li class="page-item disabled"><span class="page-link"><</span></li>
+						@else
+							<li class="page-item"><a class="page-link" href="{{ $clientes->previousPageUrl() }}" rel="prev"><</a></li>
 						@endif
-					@endforeach
-					@if($clientes->currentPage() < $clientes->lastPage() - 3)
-						<li class="page-item"><span class="page-link">...</span></li>
-					@endif
-					@if($clientes->currentPage() < $clientes->lastPage() - 2)
-						<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url($clientes->lastPage()) }}">{{ $clientes->lastPage() }}</a></li>
-					@endif
 
-					{{-- Next Page Link --}}
-					@if ($clientes->hasMorePages())
-						<li class="page-item"><a class="page-link" href="{{ $clientes->nextPageUrl() }}" rel="next">></a></li>
-					@else
-						<li class="page-item disabled"><span class="page-link">></span></li>
-					@endif
-				</ul>
-			@endif				</div>
+						@if($clientes->currentPage() > 3)
+							<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url(1) }}">1</a></li>
+						@endif
+						@if($clientes->currentPage() > 4)
+							<li class="page-item"><span class="page-link">...</span></li>
+						@endif
+						@foreach(range(1, $clientes->lastPage()) as $i)
+							@if($i >= $clientes->currentPage() - 2 && $i <= $clientes->currentPage() + 2)
+								@if ($i == $clientes->currentPage())
+									<li class="page-item active"><span class="page-link">{{ $i }}</span></li>
+								@else
+									<li class="page-item"><a class="page-link" href="{{ $clientes->url($i) }}">{{ $i }}</a></li>
+								@endif
+							@endif
+						@endforeach
+						@if($clientes->currentPage() < $clientes->lastPage() - 3)
+							<li class="page-item"><span class="page-link">...</span></li>
+						@endif
+						@if($clientes->currentPage() < $clientes->lastPage() - 2)
+							<li class="page-item hidden-xs"><a class="page-link" href="{{ $clientes->url($clientes->lastPage()) }}">{{ $clientes->lastPage() }}</a></li>
+						@endif
+
+						{{-- Next Page Link --}}
+						@if ($clientes->hasMorePages())
+							<li class="page-item"><a class="page-link" href="{{ $clientes->nextPageUrl() }}" rel="next">></a></li>
+						@else
+							<li class="page-item disabled"><span class="page-link">></span></li>
+						@endif
+					</ul>
+					@endif	
+					@endif			
+				</div>
 			</div>
 		</div>
 	</div>

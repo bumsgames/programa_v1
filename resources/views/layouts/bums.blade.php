@@ -49,10 +49,10 @@
       <!--Notification Menu-->
       <li class="dropdown"><a class="app-nav__item" style="width:72px;" href="#" data-toggle="dropdown" aria-label="Show notifications"><i class="fa fa-bell-o fa-lg"></i> 
 
-  @if( auth()->user()->unreadNotifications->count() >= 1)
-  <span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
-  @endif
-  <span class="sr-only">unread messages</span></a>
+        @if( auth()->user()->unreadNotifications->count() >= 1)
+        <span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
+        @endif
+        <span class="sr-only">unread messages</span></a>
         <ul class="app-notification dropdown-menu dropdown-menu-right">
           <li class="app-notification__title">You have {{ auth()->user()->unreadNotifications->count() }} new notifications.</li>
           <div class="app-notification__content">
@@ -61,25 +61,25 @@
             <div class="app-notification__content">
               @foreach(auth()->user()->unreadNotifications as $notification)
               <li><a class="app-notification__item" href="javascript:;"><span class="app-notification__icon"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x text-danger"></i><i class="fa fa-hdd-o fa-stack-1x fa-inverse"></i></span></span>
-          <div>
-           <p class="app-notification__body"><strong>{{ $notification->data['titulo'] }}</strong></p> 
-           <p class="app-notification__message">{{ $notification->data['data'] }}</p>
-           <br> 
-           <p class="app-notification__message">{{ $notification->data['data2'] }}</p>
-           <br> 
-           <p class="app-notification__meta">{{ $notification->created_at->diffForHumans() }}</p>
-         </div></a></li>
-              @endforeach
-            </div>
-          </div>
-          <li class="app-notification__footer"><a href="{{ url('markAsRead') }}">Marcar notificaciones como leidas.</a></li>
-        </ul>
-      </li>
-      <!-- User Menu-->
-      <li class="dropdown"><a style="width:130px;" class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i> {{ Auth::user()->name }} {{ Auth::user()->lastname }}
- </a>
-        <ul class="dropdown-menu settings-menu dropdown-menu-right">
-          <li><a class="dropdown-item" href="configurar_tu_user"><i class="fa fa-cog fa-lg"></i> Configurar</a></li>
+                <div>
+                 <p class="app-notification__body"><strong>{{ $notification->data['titulo'] }}</strong></p> 
+                 <p class="app-notification__message">{{ $notification->data['data'] }}</p>
+                 <br> 
+                 <p class="app-notification__message">{{ $notification->data['data2'] }}</p>
+                 <br> 
+                 <p class="app-notification__meta">{{ $notification->created_at->diffForHumans() }}</p>
+               </div></a></li>
+               @endforeach
+             </div>
+           </div>
+           <li class="app-notification__footer"><a href="{{ url('markAsRead') }}">Marcar notificaciones como leidas.</a></li>
+         </ul>
+       </li>
+       <!-- User Menu-->
+       <li class="dropdown"><a style="width:130px;" class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i> {{ Auth::user()->name }} {{ Auth::user()->lastname }}
+       </a>
+       <ul class="dropdown-menu settings-menu dropdown-menu-right">
+        <li><a class="dropdown-item" href="configurar_tu_user"><i class="fa fa-cog fa-lg"></i> Configurar</a></li>
           {{--
           <form action="/logout" method="post">
             {{ csrf_field() }}
@@ -88,8 +88,137 @@
           <li><a class="dropdown-item" href="logout"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
         </ul>
       </li>
+
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_carrito" style="background-color: black;">
+        Carrito
+      </button>
+
+
+
+      <li class="nav-item">
+        <div class="d-flex">
+          <div class="dropdown mr-1">
+            <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+              <label class="menu car" for="check"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> <span class="badge badge-light" id="badge2" style="color: black !important;">{{ count(Session::get('carrito_admin')) }}</span>  </label>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <table class="table table-hover">
+                <tbody id="tablaCarrito2">
+                  <?php $i = 1; ?>
+                  <?php $precio = 0; ?>
+                  @if(Session::has('carrito_admin'))
+
+
+                  @foreach( Session::get('carrito_admin') as $x )
+                  <tr>
+                    <th>
+                      <?php echo $i++; ?>
+                    </th>
+                    <td>
+                      <input autocomplete="off" type='text' class='id_articulo' value='{{ $x['id'] }}' hidden="">
+                      {{ $x['articulo'] }} || {{ $x['categoria'] }}
+                    </td>
+                    <td class="columna_precio">
+                      {{  number_format($x['precio'], 2, ',', '.') }} $
+                      <?php $precio += $x['precio']; ?>
+                    </td>
+                    <td>
+                      <img src="img/{{ $x['imagen'] }}" width="40" height="45" alt="">
+                    </td>
+                    <td>
+                      <button style="color: white !important;" type="button" class="close" onclick="borrarElementoCarrito({{ $i - 1 }}, 0, '$');">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </td>
+
+                  </tr>
+
+                  @endforeach
+
+                  @endif
+                  <tr>
+                    <td>  
+                    </td>
+                    <td>  
+                    </td>
+
+                    <td>
+                      @if($precio != 0)
+                      <strong>Total:<br> {{ number_format($precio, 2, ',', '.')}} $</strong>
+                      @endif
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <button>Procesar compra</button>
+            </div>
+          </div>
+
+        </div>
+      </li>
     </ul>
   </header>
+  <!-- Modal -->
+  <div class="modal fade" id="modal_carrito" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">Carrito de compras</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <table class="table table-hover">
+            <tbody id="tablaCarrito2">
+              <?php $i = 1; ?>
+              <?php $precio = 0; ?>
+
+
+              @foreach( $carrito as $item )
+              <tr>
+                <th>
+                  <?php echo $i++; ?>.
+                </th>
+                <th>
+                  {{ $item->articulo->name }}
+                </th>
+                <th>
+                  @foreach($item->articulo->categorias as $categoria)
+                  {{ $categoria->category }}
+                  <br>
+                  <br>
+
+                  @endforeach
+                </th>
+                <th>
+                  {{ $item->cantidad }}
+                </th>
+                <th>
+                  {{ $item->articulo->price_in_dolar }} $
+                </th>
+              </tr>
+
+              @endforeach
+
+
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar carrito</button>
+          <button type="button" class="btn btn-primary">Proceder compra</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Sidebar menu-->
   <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
   <aside class="app-sidebar">
@@ -112,29 +241,29 @@
       </li>
       @endif @if(Auth::user()->level >= 7)
       <!--<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
-                  <ul class="treeview-menu">
-                    @if(Auth::user()->level >= 9)
-                    <li><a class="treeview-item" href="{{ url('ventas') }}"><i class="icon fa fa-circle-o"></i>Todas las ventas</a></li>
-                    @endif
-                    <li><a class="treeview-item" href="{{ url('ventas_mias') }}"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
-                  </ul>
-                </li>-->
+        <ul class="treeview-menu">
+          @if(Auth::user()->level >= 9)
+          <li><a class="treeview-item" href="{{ url('ventas') }}"><i class="icon fa fa-circle-o"></i>Todas las ventas</a></li>
+          @endif
+          <li><a class="treeview-item" href="{{ url('ventas_mias') }}"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
+        </ul>
+      </li>-->
       @endif
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Cuentas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      {{-- <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Cuentas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           @if(Auth::user()->level >= 10)
           <li><a class="treeview-item" href="cuentas_todas"><i class="icon fa fa-circle-o"></i> Cuentas Todas</a></li>
           @endif
           <li><a class="treeview-item" href="cuentas"><i class="icon fa fa-circle-o"></i> Cuentas Mias</a></li>
         </ul>
-      </li>
+      </li> --}}
       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Articulos</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li><a class="treeview-item" href="{{ url('formulario_registrar_articulo') }}"><i class="icon fa fa-circle-o"></i> Registrar Articulo</a></li>
           {{--
-          <li><a class="treeview-item" href="{{ url('categoria_articulo_admin') }}"><i class="icon fa fa-circle-o"></i> Articulos por categoria</a></li>--}}
+            <li><a class="treeview-item" href="{{ url('categoria_articulo_admin') }}"><i class="icon fa fa-circle-o"></i> Articulos por categoria</a></li>--}}
 
-          <li><a class="treeview-item" href="{{ url('allArticles') }}"><i class="icon fa fa-circle-o"></i> Articulos Disponibles</a></li>
+            <li><a class="treeview-item" href="{{ url('allArticles') }}"><i class="icon fa fa-circle-o"></i> Articulos Disponibles</a></li>
           {{--
           <li><a class="treeview-item" href="{{ url('allArticlesOff') }}"><i class="icon fa fa-circle-o"></i> Articulos Agotados</a></li>
           --}} {{--
@@ -178,12 +307,12 @@
         </ul>
       </li>
       @endif
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-newspaper-o"></i><span class="app-menu__label">Noticias</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+     {{--  <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-newspaper-o"></i><span class="app-menu__label">Noticias</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li><a class="treeview-item" href="/noticias/crear"><i class="icon fa fa-circle-o"></i>Agregar Noticia</a></li>
           <li><a class="treeview-item" href="/noticias"><i class="icon fa fa-circle-o"></i> Ver Noticias</a></li>
         </ul>
-      </li>
+      </li> --}}
       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Encuesta</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li><a class="treeview-item" href="/encuestas/crear"><i class="icon fa fa-circle-o"></i>Agregar Encuesta</a></li>
@@ -192,9 +321,9 @@
       </li>
       <li>
         <a class="app-menu__item" href="/cupones">
-                    <i class="app-menu__icon fa fa-dashboard"></i>
-                    <span class="app-menu__label">Cupones</span>
-                  </a>
+          <i class="app-menu__icon fa fa-dashboard"></i>
+          <span class="app-menu__label">Cupones</span>
+        </a>
       </li>
       <!--<li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Tareas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
                   <ul class="treeview-menu">
@@ -204,55 +333,57 @@
                     <li><a class="treeview-item" href="individual_duties"><i class="icon fa fa-circle-o"></i>Mis tareas</a></li>
                   </ul>
                 </li>-->
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Comentarios &nbsp;      
+                <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-comment"></i><span class="app-menu__label">Comentarios &nbsp;      
                  @if(isset($comments_por_aprobar))
                  <span class="badge badge-light">{{ $comments_por_aprobar->count() }}</span>
                  @endif
                </span><i class="treeview-indicator fa fa-angle-right"></i></a>
 
-        <ul class="treeview-menu">
-          <li><a class="treeview-item" href="/comentariosall"><i class="icon fa fa-circle-o"></i>Todos los comentarios</a></li>
-          <li><a class="treeview-item" href="/comentariospendientes"><i class="icon fa fa-circle-o"></i>Comentarios por aprobar</a></li>
-          <li><a class="treeview-item" href="/comentariosaprobados"><i class="icon fa fa-circle-o"></i>Comentarios aprobados</a></li>
-          <li><a class="treeview-item" href="/comentariosrechazados"><i class="icon fa fa-circle-o"></i>Comentarios rechazados</a></li>
-        </ul>
-      </li>
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-handshake-o"></i><span class="app-menu__label">Ofertas de Clientes &nbsp;       
-        </span><i class="treeview-indicator fa fa-angle-right"></i></a>
+               <ul class="treeview-menu">
+                <li><a class="treeview-item" href="/comentariosall"><i class="icon fa fa-circle-o"></i>Todos los comentarios</a></li>
+                <li><a class="treeview-item" href="/comentariospendientes"><i class="icon fa fa-circle-o"></i>Comentarios por aprobar</a></li>
+                <li><a class="treeview-item" href="/comentariosaprobados"><i class="icon fa fa-circle-o"></i>Comentarios aprobados</a></li>
+                <li><a class="treeview-item" href="/comentariosrechazados"><i class="icon fa fa-circle-o"></i>Comentarios rechazados</a></li>
+              </ul>
+            </li>
+            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-handshake-o"></i>
+              <span class="app-menu__label">Ofertas de Clientes &nbsp;       
+                <span class="badge badge-light">{{ \Bumsgames\Oferta::where('estado','0')->count() }}</span>
+              </span><i class="treeview-indicator fa fa-angle-right"></i></a>
 
-        <ul class="treeview-menu">
-          <li><a class="treeview-item" href="/ofertas_cliente"><i class="icon fa fa-circle-o"></i>Ofertas por revisar</a></li>
-          <li><a class="treeview-item" href="/ofertas_cliente_aprobadas"><i class="icon fa fa-circle-o"></i>Ofertas aprobadas</a></li>
-          <li><a class="treeview-item" href="/ofertas_cliente_rechazadas"><i class="icon fa fa-circle-o"></i>Ofertas rechazadas</a></li>
-        </ul>
-      </li>
-      <li>
-        <a class="app-menu__item" href="/pago_cliente"><i class="app-menu__icon fa fa-dashboard"></i>
-          <span class="app-menu__label">Pago de Clientes &nbsp; 
-            @if(isset($pago_sin_confirmar))
-            <span class="badge badge-light">{{ $pago_sin_confirmar->count() }}</span>
-            @endif
-          </span>
-        </a>
-      </li>
-      <!--<li><a class="app-menu__item" href="reporte"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Reporte</span></a></li>-->
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Imagenes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+              <ul class="treeview-menu">
+                <li><a class="treeview-item" href="/ofertas_cliente"><i class="icon fa fa-circle-o"></i>Ofertas por revisar</a></li>
+                <li><a class="treeview-item" href="/ofertas_cliente_aprobadas"><i class="icon fa fa-circle-o"></i>Ofertas aprobadas</a></li>
+                <li><a class="treeview-item" href="/ofertas_cliente_rechazadas"><i class="icon fa fa-circle-o"></i>Ofertas rechazadas</a></li>
+              </ul>
+            </li>
+            <li>
+              <a class="app-menu__item" href="/pago_cliente"><i class="app-menu__icon fa fa-dashboard"></i>
+                <span class="app-menu__label">Pago de Clientes &nbsp; 
+                  @if(isset($pago_sin_confirmar))
+                  <span class="badge badge-light">{{ $pago_sin_confirmar->count() }}</span>
+                  @endif
+                </span>
+              </a>
+            </li>
+            <!--<li><a class="app-menu__item" href="reporte"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Reporte</span></a></li>-->
+     {{--  <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Imagenes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li><a class="treeview-item" href="/imagenes"><i class="icon fa fa-circle-o"></i>Todas las imagenes</a></li>
         </ul>
-      </li>
+      </li> --}}
 
       <li hidden=""><a class="app-menu__item" href="/guia"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Guia BumsGames</span></a></li>
       <li><a class="app-menu__item" href="{{ url('portal') }}"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Imagenes del Portal</span></a></li>
     </ul>
   </aside>
   <style>
-    @media(max-width:478px) {
-      #headadmin {
-        overflow-x: scroll;
-      }
+  @media(max-width:478px) {
+    #headadmin {
+      overflow-x: scroll;
     }
-  </style>
+  }
+</style>
   @include('layouts.modal_ayuda') @yield('content') {{--
   <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script> --}}
   <script src="{{ url('js/jquery3.min.js') }}"></script>
@@ -263,22 +394,22 @@
   <script src="{{ asset('js/genesis.js') }}"></script>
   <!-- Essential javascripts for application to work-->
   {{--
-  <script src="js/jquery-3.2.1.min.js"></script> --}}
-  <script src="{{ url('js/popper.min.js') }}"></script>
-  <script src="{{ url('js/bootstrap.min.js') }}"></script>
-  <script src="{{ url('js/datatables.min.js') }}"></script>
-  <script src="{{ url('js/datatables-bootstrap.min.js') }}"></script>
-  <script src="{{ url('js/main.js') }}"></script>
-  <script src="{{ url('js/plugins/pace.min.js') }}"></script>
+    <script src="js/jquery-3.2.1.min.js"></script> --}}
+    <script src="{{ url('js/popper.min.js') }}"></script>
+    <script src="{{ url('js/bootstrap.min.js') }}"></script>
+    <script src="{{ url('js/datatables.min.js') }}"></script>
+    <script src="{{ url('js/datatables-bootstrap.min.js') }}"></script>
+    <script src="{{ url('js/main.js') }}"></script>
+    <script src="{{ url('js/plugins/pace.min.js') }}"></script>
   {{--
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/main.js"></script> --}}
   <!-- The javascript plugin to display page loading on top-->
   {{--
-  <script src="js/plugins/pace.min.js"></script> --}}
-  <!-- Page specific javascripts-->
-  <!-- Google analytics script-->
+    <script src="js/plugins/pace.min.js"></script> --}}
+    <!-- Page specific javascripts-->
+    <!-- Google analytics script-->
   {{--
   <script type="text/javascript">
     if(document.location.hostname == 'pratikborsadiya.in') {
@@ -289,11 +420,11 @@
                ga('create', 'UA-72504830-1', 'auto');
                ga('send', 'pageview');
              }
-  </script> --}}
-  <script src="{{url('js/sweet.min.js')}}"></script>
+           </script> --}}
+           <script src="{{url('js/sweet.min.js')}}"></script>
   {{--
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}} @yield("scripts")
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> --}} @yield("scripts")
 
-</body>
+  </body>
 
-</html>
+  </html>

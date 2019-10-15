@@ -29,6 +29,23 @@ function myFunction(a, b){
     $('#primary_owner').append('<option selected value='+a+'>'+b+'</option>');
 }
 
+function quitar_categoria(a, b){
+    $('#categoria_opc').append('<option selected value='+a+'>'+b+'</option>');
+}
+
+// $('.marquee').marquee({
+//     //speed in milliseconds of the marquee
+//     duration: 500000,
+//     //gap in pixels between the tickers
+//     gap: 50,
+//     //time in milliseconds before the marquee will start animating
+//     delayBeforeStart: 0,
+//     //'left' or 'right'
+//     direction: 'left',
+//     //true or false - should the marquee be duplicated to show an effect of continues flow
+//     duplicated: true,
+//     pauseOnHover: true
+// });;;;;;
 
 function init() {  
     var inputFile2 = document.getElementById('inputFile2');
@@ -500,6 +517,25 @@ $("#agregarDuenno").click(function(){
 
 });
 
+
+$("#agregarCategoria").click(function(){
+    id = $("#categoria_opc").val();
+
+    var nombre = $("#categoria_opc").find('option:selected').text();
+    if($("#categoria_opc").find('option:selected').text() == ''){
+        return;
+    }
+    nombre_html=nombre.trim().replace(/ /g, '&nbsp;');
+    
+    $("#categoria_opc").find('option:selected').remove();
+    $( "#esribir_categoria" ).append('<tr><td><input type="text" class="form-control form-control-sm categoria_marca num_cat" readonly value='+id+'></td><td><input type="text" class="form-control form-control-sm" readonly value='+nombre_html+'></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" onclick="quitar_categoria('+id+', \'' + nombre + '\');">Quitar</button></td></tr>"');
+
+    //     +'"+
+    //     +"</td><td><button type='button' class='btn btn-danger btn-sm borrar' id='abc' onclick='myFunction("+id+", '"+nombre+"', '"+nombre+"');'>Quitar</button></td></tr>");
+
+});
+
+
 function quitar(id){
     $( ".x" ).remove();
 }
@@ -628,13 +664,28 @@ $.ajax({
 $("#registrar_articulo").click(function(){
     let duenno = document.querySelectorAll('.id_duenno');
     let porcentaje = document.querySelectorAll('.duenno_porcentaje');
+
+    let categoria_marca = document.querySelectorAll('.categoria_marca');
+    let numero_de_categorias = document.querySelectorAll('.num_cat');
+    // alert(numero_de_categorias.length);
     var temp_porcentaje = 0;
     var duenno_array = new Array();
     var porcentaje_array = new Array();
+    var categoria_array = new Array();
 
     if(porcentaje.length == 0){
         swal('El articulo no tiene dueño, por favor colocarlo');
         return;
+    }
+
+    if(numero_de_categorias.length == 0){
+        swal('El articulo no pertenece a ninguna categoria');
+        return;
+    }
+
+    // Guarda cateorias en 1 array
+    for (var i = 0; i <numero_de_categorias.length; i++) {
+        categoria_array.push(categoria_marca[i].value);
     }
 
     // Verifica los duennos y porcentajes y los guarda en 2 array
@@ -706,7 +757,8 @@ $("#registrar_articulo").click(function(){
         //form_data.append('fondo', "$('#inputFiletext').val()");
 
 
-
+        // Arrays
+        form_data.append('id_categorias', JSON.stringify(categoria_array));
         form_data.append('id_bumsuser', JSON.stringify(duenno_array));
         form_data.append('porcentaje', JSON.stringify(porcentaje_array));
 
@@ -1584,10 +1636,10 @@ $.ajax({
                 acumulado++;
                 borrado = i;
                 precioAcumulado+= Number(item.precio) * Number(e) ;
-                tablaDatos.append("<tr><tdh>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button style='color: white;' type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
             });
             $("#nArt").val(numero);
-            tablaDatos.append("<tr><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td></tr>");
+            tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td></tr>");
             badge.append(acumulado);
 
         }
@@ -1631,10 +1683,57 @@ function agregaCarro(id,a,b,c,d, e, f){
                 acumulado++;
                 borrado = i;
                 precioAcumulado+= Number(item.precio) * Number(e) ;
-                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
             });
             $("#nArt").val(numero);
             tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
+            badge.append(acumulado);
+            
+
+        }
+    });
+}
+
+function agregaCarro_admin(id,nombre,categoria,precio,imagen){
+    var token = $('#token').val(); 
+    var form_data = new FormData();  
+    form_data.append('id_articulo', id);
+    form_data.append('articulo', nombre);
+    form_data.append('categoria', categoria);
+    form_data.append('precio', precio);
+    form_data.append('imagen', imagen);
+    var route = 'agregaCarro_admin';
+    
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        dataType:   'json',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+        success:function(data){
+            var tablaDatos = $("#tablaCarrito2");
+            tablaDatos.empty();
+            var i = 0;
+            var numero = 0;
+            acumulado = 0;
+
+            precioAcumulado = 0;
+            var badge = $("#badge2");
+            badge.empty();
+
+            $.each(data, function(i, item) {
+                numero++;
+                i++;
+                acumulado++;
+                borrado = i;
+                // precioAcumulado+= Number(item.precio) * Number(e) ;
+                alert(item.name);
+                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+            });
+            $("#nArt").val(numero);
+            // tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
             badge.append(acumulado);
             
 

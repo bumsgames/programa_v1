@@ -14,7 +14,7 @@ class AddCostoToArticles extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->integer('costo')->default(0);
+            $table->float('costo')->default(0);
         });
     }
 

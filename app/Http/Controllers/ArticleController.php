@@ -62,13 +62,14 @@ class ArticleController extends Controller
   -------------------------------------
   */
 
-  // ArticleRequest
+  // ArticleRequest // REGISTRAR ARTICULO
   public function store(ArticleRequest $request)
   {
     $this->validate($request, [
-      'image' => 'nullable|max:300',
-      'fondo' => 'nullable|max:300',
+      'image' => 'nullable|max:100',
+      'fondo' => 'nullable|max:100',
     ]);
+
     //verificar si es cuenta digital 
     $variable = $request->category_nombre;
     $searchterm = "Cuenta Digital";
@@ -90,18 +91,21 @@ class ArticleController extends Controller
         ]);
       }
     }
+
     if (($request->offer_price < $request->price_in_dolar) && ($request->oferta == 1)) {
       return response()->json([
         "tipo" => "1",
         "data" => "El precio subrayado no puede ser menor al precio unitario.\n\n\nPrecio Unitario: " . $request->price_in_dolar . " $.\n\nPrecio de subrayado: " . $request->offer_price . " $",
       ]);
     }
+
     if (($request->costo < 0)) {
       return response()->json([
         "tipo" => "1",
         "data" => "El costo de inversión no puede ser menor a 0.\n\n\Costo de Inversión: " . $request->costo . "$",
       ]);
     }
+
     $variable = $request->category_nombre;
     $searchterm = "Cupo Digital";
     $pos = strrpos($variable, $searchterm);
@@ -126,6 +130,7 @@ class ArticleController extends Controller
         ]);
       }
     }
+
     // tomar todos los articulos donde tengan ese mismo nombre y categoria
     $art = \Bumsgames\Article::where('name', $request->name)
       ->where('category', $request->category)
@@ -212,14 +217,21 @@ class ArticleController extends Controller
     $temporal =  \Bumsgames\Article::where('name', $articulo->name)
       ->where('category', $articulo->category)
       ->get();
+
+      // cambiando precio de todas las coincidencias con misma categoria
     foreach ($temporal as $x) {
       $algo = \Bumsgames\Article::find($x->id);
+      if ($request->price_in_dolar < $x->price_in_dolar) {
+        $algo->fill(['ultimo_agregado' => Carbon::now()]);
+      }
       $algo->fill(['price_in_dolar' => $articulo->price_in_dolar]);
       $algo->save();
+
       if (!isset($imagentodos) && $x->fondo != 'fondo_nada.jpg') {
         $imagentodos = $x->fondo;
       }
     }
+
     if (!isset($request->fondo) && isset($imagentodos)) {
       DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $articulo->id . ' ');
     }
@@ -232,6 +244,29 @@ class ArticleController extends Controller
         DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $algo->id . ' ');
       }
       $algo->save();
+    }
+
+    //Se cambian todos los trailers
+    if (isset($request->trailer)) {
+      if($request->category == 1 || $request->category == 2){
+        $articles_trailers = \Bumsgames\Article::whereIn('category',[1,2])
+        ->where('name',$request->name)
+        ->get();
+      }
+      else if($request->category == 8 || $request->category == 9){
+        $articles_trailers = \Bumsgames\Article::whereIn('category',[8,9])
+        ->where('name',$request->name)
+        ->get();
+      }
+      else{
+        $articles_trailers = \Bumsgames\Article::where('name',$request->name)
+        ->where('category',$request->category)
+        ->get();
+      }
+      foreach($articles_trailers as $art_trailer){
+        $art_trailer->trailer = $request->trailer;
+        $art_trailer->save();
+      }
     }
 
     // crea a quien pertenece el juego
@@ -247,6 +282,15 @@ class ArticleController extends Controller
       ]);
     }
 
+    // AGREGAR CATEGORIAS AL ARTICULO
+    $id_categorias = json_decode($request->id_categorias);
+
+    for ($i = 0; $i < count($id_categorias); $i++) {
+      \Bumsgames\Articulo_Categoria::create([
+        'id_articulo' => $id_articulo,
+        'id_categoria' => $id_categorias[$i]
+      ]);
+    }
     return $request->all();
   }
 
@@ -500,6 +544,7 @@ class ArticleController extends Controller
 
   public function modificar_Articulo(ArticleRequest $request)
   {
+    
     $variable = $request->category_nombre;
     $searchterm = "Cuenta Digital";
     $pos = strrpos($variable, $searchterm);
@@ -572,16 +617,21 @@ class ArticleController extends Controller
       }
 
       if (($request->cambio_email_o_category == 1) && isset($request->email)) {
-        $cambio_email_o_category = 1;
-        $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->where('id','!=', $request->id_articulo)->get();
-        if ($art->count() >= 1) {
-          return response()->json([
-            "tipo" => "1",
-            "data" => "Este articulo digital ya ha sido registrado con ese mismo correo.\n\n\n Correo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
-          ]);
+        $articulo_ref_cambio = \Bumsgames\Article::find($request->id_articulo);
+
+        if($request->email != $articulo_ref_cambio->email){
+          $cambio_email_o_category = 1;
+          $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->where('id','!=', $request->id_articulo)->get();
+          if ($art->count() >= 1) {
+            return response()->json([
+              "tipo" => "1",
+              "data" => "Este articulo digital ya ha sido registrado con ese mismo correo.\n\n\n Correo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
+            ]);
+          }
         }
       }
     }
+
     if (($request->offer_price < $request->price_in_dolar) && ($request->oferta == 1)) {
       return response()->json([
         "tipo" => "1",
@@ -601,12 +651,16 @@ class ArticleController extends Controller
         ]);
       }
       if (($request->cambio_email_o_category == 1) && isset($request->email)) {
-        $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->get();
-        if ($art->count() >= 1) {
-          return response()->json([
-            "tipo" => "1",
-            "data" => "Este articulo digital ya ha sido registrado con ese mismo correo.\n\n\n Correo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
-          ]);
+        $articulo_ref_cambio = \Bumsgames\Article::find($request->id_articulo);
+
+        if($request->email != $articulo_ref_cambio->email){
+          $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->get();
+          if ($art->count() >= 1) {
+            return response()->json([
+              "tipo" => "1",
+              "data" => "Este articulo digital ya ha sido registrado con ese mismo correo.\n\n\n Correo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
+            ]);
+          }
         }
       }
     }
@@ -621,6 +675,7 @@ class ArticleController extends Controller
       $cantidad_que_tenia = $art->sum('quantity');
     }
 
+
     $comprobante_disponibilidad =
       \Bumsgames\Article::where('quantity', '>', '0')
       ->where('name', '=', $refer->name)
@@ -629,11 +684,15 @@ class ArticleController extends Controller
     if (($comprobante_disponibilidad->count() == 0) && ($refer->quantity < $request->quantity)) {
       $request->request->add(['ultimo_agregado' => Carbon::now()]);
     }
+    
     // modificacion articulo
     $articulo = \Bumsgames\Article::find($request->id_articulo);
+
     $articulo->fill($request->all());
     
-    $articulo->save();
+    //guardando, modifica el mas reciente, tambien precio
+
+
 
     
     //Actualiza el costo del producto con el mismo email y nickname
@@ -676,6 +735,9 @@ class ArticleController extends Controller
       ->get();
     foreach ($temporal as $x) {
       $algo = \Bumsgames\Article::find($x->id);
+      if ($request->price_in_dolar < $x->price_in_dolar) {
+        $algo->fill(['ultimo_agregado' => Carbon::now()]);
+      }
       $algo->fill(['price_in_dolar' => $articulo->price_in_dolar]);
       if (isset($request->image)) {
         $algo->fill(['image' => $request->image]);
@@ -685,6 +747,8 @@ class ArticleController extends Controller
       }
       $algo->save();
     }
+
+    $articulo->save();
 
     // cambio de oferta de todos los que son iguales
     if (1 == 1) {
@@ -698,7 +762,28 @@ class ArticleController extends Controller
         $algo->save();
       }
     }
-
+    //Se cambian todos los trailers
+    if (isset($request->trailer)) {
+      if($request->category == 1 || $request->category == 2){
+        $articles_trailers = \Bumsgames\Article::whereIn('category',[1,2])
+        ->where('name',$request->name)
+        ->get();
+      }
+      else if($request->category == 8 || $request->category == 9){
+        $articles_trailers = \Bumsgames\Article::whereIn('category',[8,9])
+        ->where('name',$request->name)
+        ->get();
+      }
+      else{
+        $articles_trailers = \Bumsgames\Article::where('name',$request->name)
+        ->where('category',$request->category)
+        ->get();
+      }
+      foreach($articles_trailers as $art_trailer){
+        $art_trailer->trailer = $request->trailer;
+        $art_trailer->save();
+      }
+    }
 
     //Cambio de la cuenta secundaria si se cambio la primaria en PS4
     if ($articulo->category == 1) {

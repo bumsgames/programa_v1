@@ -32,6 +32,11 @@ class Article extends Model
         'trailer'
     ];
 
+    public function categorias()
+    {
+        return $this->belongsToMany(Category::class, 'articulo_categorias','id_articulo', 'id_categoria');
+    }
+
     //Coloca un valor default al peso al usar create
     //Se debe usar esto debido a que la funcion Article::create() no toma el default de la bd y hay que forzarlo
     public static function boot()

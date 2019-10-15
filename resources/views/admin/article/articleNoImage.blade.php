@@ -11,7 +11,15 @@
 		<div class="col-md-12">
                 <div class="tile">
                         <h6>Numero de articulos: {{ $articles_cantidad }}</h6>
-
+                        @if ($errors->any())
+                        <br>
+                        <div class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    {{ $error }}
+                                @endforeach
+                        </div>
+                        <br>
+                        @endif
             <table class="table">
                 <thead>
                     <tr>

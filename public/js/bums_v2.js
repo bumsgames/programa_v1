@@ -12,15 +12,20 @@ $('.dropdown').on("hidden.bs.dropdown", function() {
 
 $(document).ready(function(){
     $(".carousel").carousel({
-       interval: 6000
-    });
+     interval: 6000
  });
+});
 
 // dropdown categorias
 $('#maindrop').hover(function(){
 	$('#dropanchor').trigger('click');
 	$("#down_icon").toggleClass('fa-chevron-down').toggleClass('fa-chevron-right');
 })
+
+$("#category_btn").click(function(){
+    $('#dropdown-content2').slideToggle([100 ],["linear"]);
+    $("#down_icon").toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
+});
 
 
 
@@ -72,11 +77,11 @@ $('#dropanchornin').hover(function(){
 $( "#buscador" ).on('keyup', function() {
 
     $('.prod').filter(function () {
-		return !($(this).find('.nombreafiltrar').text().toLowerCase().indexOf($("#buscador").val().toLowerCase()) != -1);
-	}).hide();
+      return !($(this).find('.nombreafiltrar').text().toLowerCase().indexOf($("#buscador").val().toLowerCase()) != -1);
+  }).hide();
     $('.prod').filter(function () {
-		return ($(this).find('.nombreafiltrar').text().toLowerCase().indexOf($("#buscador").val().toLowerCase()) != -1);
-	}).show();
+      return ($(this).find('.nombreafiltrar').text().toLowerCase().indexOf($("#buscador").val().toLowerCase()) != -1);
+  }).show();
 });
 
 $("#selcat").on( "change", function(){
@@ -201,20 +206,20 @@ sliderp.oninput = function() {
 
 /* */
 $('#order').on('change',function(){
-if($('#order').val()==1 || $('#order').val()==2){
-	$('#by option:first-child').text('Mayor a menor');
-	$('#by option:last-child').text('Menor a mayor');
-}
+    if($('#order').val()==1 || $('#order').val()==2){
+       $('#by option:first-child').text('Mayor a menor');
+       $('#by option:last-child').text('Menor a mayor');
+   }
 
-else if($('#order').val()==3 || $('#order').val()==4 || $('#order').val()==5){
-	$('#by option:first-child').text('Alfabetico Z-A');
-	$('#by option:last-child').text('Alfabetico A-Z');
-}
+   else if($('#order').val()==3 || $('#order').val()==4 || $('#order').val()==5){
+       $('#by option:first-child').text('Alfabetico Z-A');
+       $('#by option:last-child').text('Alfabetico A-Z');
+   }
 
-else if($('#order').val()==6){
-	$('#by option:first-child').text('Fecha ultima a primera');
-	$('#by option:last-child').text('Fecha primera a ultima');
-}
+   else if($('#order').val()==6){
+       $('#by option:first-child').text('Fecha ultima a primera');
+       $('#by option:last-child').text('Fecha primera a ultima');
+   }
 });
 
 
@@ -232,15 +237,15 @@ function aumentarMegusta(id){
         url: '/noticialike/'+id,
         success: function (data) {
             if(data.success){
-            var likes = Number($('#likes_num_'+id).html());
-            likes++;
+                var likes = Number($('#likes_num_'+id).html());
+                likes++;
              $("#likes_num_"+id).html(likes)   //// For replace with previous one
-            }
-        },
-        error: function() { 
-             console.log(data);
-        }
-    });
+         }
+     },
+     error: function() { 
+       console.log(data);
+   }
+});
 }
 
 
@@ -282,7 +287,6 @@ function borrarElementoCarritoPago(a, e, f){
 
         }
     });
-
 }
 
 function actualizarbarra(num){
@@ -311,15 +315,15 @@ function comprotodolleno60(){
                 $('#direccion_destinario').val().length >= 1 &&
                 $('#numero_destinario').val().length >= 1){
                 return true;
-            }
-            else{
-                return false;
-            }
+        }
+        else{
+            return false;
         }
     }
-    else{
-        return false;
-    }
+}
+else{
+    return false;
+}
 }
 
 function comprodesbloqueo60(){
@@ -339,10 +343,10 @@ function comprocontinuar60(){
         actualizarbarra(80);
         $('#campo1').val(
             $('#name').val()+" "+$('#lastname').val()
-        );
+            );
         $('#campo2').val(
             $('#ws').val()
-        );
+            );
         $('.alert-vacio').hide();
     }
     else{
@@ -359,19 +363,19 @@ function isValidDate(s) {
     var bits = s.split('/');
     var d = new Date(bits[2] + '/' + bits[1] + '/' + bits[0]);
     return !!(d && (d.getMonth() + 1) == bits[1] && d.getDate() == Number(bits[0]));
-  }
+}
 
 function comprotodolleno80(){
     if($('#banco_emisor').val().length >= 1 
-    && $('#cedula_titular').val().length >= 1 
-    && $('#referencia').val().length >= 1 
-    && Date.parse($('#fecha').val()) 
-    && $('#image')[0].files.length != 0){
+        && $('#cedula_titular').val().length >= 1 
+        && $('#referencia').val().length >= 1 
+        && Date.parse($('#fecha').val()) 
+        && $('#image')[0].files.length != 0){
         return true;
-    }
-    else{
-        return false;
-    }
+}
+else{
+    return false;
+}
 }
 
 function comprodesbloqueo80(){
@@ -391,10 +395,10 @@ function comprocontinuar80(){
         actualizarbarra(100);
         $('#campo3').val(
             $('#banco_emisor').val()
-        );
+            );
         $('#campo4').val(
             $('#referencia').val()
-        );
+            );
         $('.alert-vacio').hide();
     }
     else{
@@ -407,6 +411,21 @@ $('#category_btn').click(function(){
     $("#down_icon").toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
 })
 
+function oferta_filt_show(){
+    if($('#oferta_filt').is(':checked')){
+        $('.oferta_0').show();
+        
+    }
+}
+
+function oferta_filt_hide(){
+
+    if($('input[name="cat_filt"]').is(':checked')){
+        if(!$('#oferta_filt').is(':checked')){
+            $('.oferta_1').hide();
+        }
+    }   
+}
 
 function filter_cat_show(){
     if($('#cat_1').is(':checked')){
@@ -453,6 +472,21 @@ function filter_cat_show(){
     }
     if($('#cat_15').is(':checked')){
         $('.cat_15').show();
+    }
+    if($('#cat_16').is(':checked')){
+        $('.cat_16').show();
+    }
+    if($('#cat_17').is(':checked')){
+        $('.cat_17').show();
+    }
+    if($('#cat_18').is(':checked')){
+        $('.cat_18').show();
+    }
+    if($('#cat_19').is(':checked')){
+        $('.cat_19').show();
+    }
+    if($('#cat_20').is(':checked')){
+        $('.cat_20').show();
     }
 }
 
@@ -504,6 +538,20 @@ function filter_cat_hide(){
         if(!$('#cat_15').is(':checked')){
             $('.cat_15').hide();
         }
+        if(!$('#cat_16').is(':checked')){
+            $('.cat_16').hide();
+        }
+        if(!$('#cat_17').is(':checked')){
+            $('.cat_17').hide();
+        }
+        if(!$('#cat_18').is(':checked')){
+            $('.cat_18').hide();
+        }
+        if(!$('#cat_19').is(':checked')){
+            $('.cat_19').hide();
+        }
+        if(!$('#cat_20').is(':checked')){
+            $('.cat_20').hide();
+        }
     }   
 }
-

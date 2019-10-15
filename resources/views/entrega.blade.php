@@ -25,6 +25,9 @@
 	<br>
 	Categoria: 	{{ $articulo->pertenece_category->category }}
 	<br>	
+	<br>
+	ATENCION, OJO: Bajo ninguna circunstancia cambiar el APODO, NICKNAME de la cuenta proporcionada, puede significar la expulsion inmediata sin reembolso del JUEGO.
+	<br>
 	<br>	
 	*VIDEOTUTORIAL PARA DESCARGAR:* https://www.youtube.com/watch?v=fzHBj8vPZ3s&t=36s 
 	<br>
@@ -57,6 +60,9 @@
 	Password: {{ $articulo->password }}
 	<br>
 	Categoria: 	{{ $articulo->pertenece_category->category }}
+	<br>
+	<br>
+	ATENCION, OJO: Bajo ninguna circunstancia cambiar el APODO, NICKNAME de la cuenta proporcionada, puede significar la expulsion inmediata sin reembolso del JUEGO.
 	<br>	
 	<br>	
 	*VIDEOTUTORIAL PARA DESCARGAR:* https://www.youtube.com/watch?v=5vXs4Gnxxi0&t=12s
@@ -101,6 +107,9 @@
 	Password: {{ $articulo->password }}
 	<br>
 	Categoria: 	{{ $articulo->pertenece_category->category }}
+	<br>	
+	<br>
+	ATENCION, OJO: Bajo ninguna circunstancia cambiar el APODO, NICKNAME de la cuenta proporcionada, puede significar la expulsion inmediata sin reembolso del JUEGO.
 	<br>	
 	<br>
 	*VIDEOTUTORIAL PARA DESCARGAR:* https://www.youtube.com/watch?v=YZzDS5CJJ4s

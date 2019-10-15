@@ -19,17 +19,18 @@
 
 				@foreach($tutoriales as $tuto)
 					<div class="tab-pane fade  <?php if(++$count == 1) echo 'show active';?>" id="list-{{$tuto->id}}" role="tabpanel" aria-labelledby="list-{{$tuto->id}}">
+						<h4>{{$tuto->titulo}}</h4>
 						<?php echo $tuto->texto; ?>
 						<br><br>
 						<div style="float:right">
 							<a href="/tutorial/editar/{{$tuto->id}}" class="btn btn-secondary">Editar Tutorial</a>
 							<button type="button" 
-											class="btn btn-danger" 
-											data-toggle="modal" data-target=".bd-example-modal-lg"	
-											value="{{ $tuto->id }} "
-											Onclick='borrar_tutorial_modal({{ $tuto->id }})'>
-											Elminar tutorial
-										</button>	
+								class="btn btn-danger" 
+								data-toggle="modal" data-target=".bd-example-modal-lg"	
+								value="{{ $tuto->id }} "
+								Onclick='borrar_tutorial_modal({{ $tuto->id }})'>
+								Elminar tutorial
+							</button>	
 						</div>
 				</div>
 				@endforeach
