@@ -519,15 +519,19 @@ $("#agregarDuenno").click(function(){
 
 
 $("#agregarCategoria").click(function(){
+
     id = $("#categoria_opc").val();
 
     var nombre = $("#categoria_opc").find('option:selected').text();
+
     if($("#categoria_opc").find('option:selected').text() == ''){
         return;
     }
+
     nombre_html=nombre.trim().replace(/ /g, '&nbsp;');
     
     $("#categoria_opc").find('option:selected').remove();
+
     $( "#esribir_categoria" ).append('<tr><td><input type="text" class="form-control form-control-sm categoria_marca num_cat" readonly value='+id+'></td><td><input type="text" class="form-control form-control-sm" readonly value='+nombre_html+'></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" onclick="quitar_categoria('+id+', \'' + nombre + '\');">Quitar</button></td></tr>"');
 
     //     +'"+
@@ -543,9 +547,16 @@ function quitar(id){
 $("#modificar_articulo").click(function(){ 
     let duenno = document.querySelectorAll('.id_duenno');
     let porcentaje = document.querySelectorAll('.duenno_porcentaje');
+
+    //Lista todas las categorias seleccionadas de la tabla
+    let categoria_marca = document.querySelectorAll('.categoria_marca');
+    let numero_de_categorias = document.querySelectorAll('.num_cat');
+
+
     var temp_porcentaje = 0;
     var duenno_array = new Array();
     var porcentaje_array = new Array();
+    var categoria_array = new Array();
 
     if(porcentaje.length == 0){
         swal('El articulo no tiene dueño, por favor colocarlo');
@@ -575,88 +586,102 @@ $("#modificar_articulo").click(function(){
         return;
     }
 
-//ARTICLE CONTROLLER
-var route = '/modificar_Articulo';
-var token = $('#token').val(); 
-
-if( $("#category").val() == 0){
-    swal('El articulo debe pertenecer a una categoria');
-    return;
-}
-
-var form_data = new FormData();  
-categoria_nombre = $("#category").find('option:selected').text();  
-form_data.append('primary_owner', $("#primary_owner").val());
-form_data.append('name', $("#name").val());
-form_data.append('id_articulo', $("#id_articulo").val());
-form_data.append('description', $("#description").val());
-form_data.append('category', $("#category").val());
-form_data.append('oferta', $("#oferta").val());
-form_data.append('category_nombre', categoria_nombre);
-form_data.append('price_in_dolar', $("#price_in_dolar").val());
-form_data.append('offer_price', $("#offer_price").val());
-form_data.append('quantity', $("#quantity").val());
-form_data.append('peso', $("#peso").val());
-form_data.append('email', $("#email").val());
-form_data.append('password', $("#password").val());
-form_data.append('nickname', $("#nickname").val());
-form_data.append('reset_button', $("#reset_button").val());
-form_data.append('note', $("#note").val());
-form_data.append('costo',$('#costo').val());
-form_data.append('estado',$('#estado').val());
-form_data.append('trailer',$('#trailer').val().replace("watch?v=", "embed/"))
-if($('#inputFile2').prop('files')[0]){
-    form_data.append('fondo', $('#inputFile2').prop('files')[0]);
-    
-}   
-var cambio_email_o_category = 0;
-var cambio_password = 0;
-a = ($("#email").val() != $("#email_viejo").val());
-b = ($("#category").val() != $("#category_viejo").val());  
-c = ($("#password").val() != $("#password_viejo").val());
-if(a || b){
-    cambio_email_o_category++;
-}
-
-if(c){
-    cambio_password++;
-}
-form_data.append('cambio_email_o_category', cambio_email_o_category);
-form_data.append('cambio_password', cambio_password);
-form_data.append('id_bumsuser', JSON.stringify(duenno_array));
-form_data.append('porcentaje', JSON.stringify(porcentaje_array));
-
-
-$.ajax({
-    url:        route,
-    headers:    {'X-CSRF-TOKEN':token},
-    type:       'POST',
-    data:       form_data,
-    contentType: false, 
-    processData: false,
-
-    success:function(data){
-        if(data.tipo == 1){
-            swal(data.data);  
-        }else{
-            $("#password_viejo").val($("#password").val());
-            swal("El articulo: "+$("#name").val()+" || "+categoria_nombre+". \n\n\nFue modificado con exito.");
-            // setTimeout(function() 
-            // {
-            //     location.reload(); 
-            // }, 2000);
-        }     
-    },
-    error:function(msj){
-        var errormessages = "";
-
-        $.each(msj.responseJSON, function(i, field){
-            errormessages+="\n"+field+"\n";
-        });
-
-        swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+    // Guarda cateorias en 1 array
+    for (var i = 0; i <numero_de_categorias.length; i++) {
+        categoria_array.push(categoria_marca[i].value);
     }
-});
+
+    console.log("categoria_array" ,categoria_array);
+    //return;
+
+    //ARTICLE CONTROLLER
+    var route = '/modificar_Articulo';
+    var token = $('#token').val(); 
+
+    if( $("#category").val() == 0){
+        swal('El articulo debe pertenecer a una categoria');
+        return;
+    }
+
+    var form_data = new FormData();  
+    categoria_nombre = $("#category").find('option:selected').text();  
+    form_data.append('primary_owner', $("#primary_owner").val());
+    form_data.append('name', $("#name").val());
+    form_data.append('id_articulo', $("#id_articulo").val());
+    form_data.append('description', $("#description").val());
+    //form_data.append('category', $("#category").val());
+    form_data.append('oferta', $("#oferta").val());
+    form_data.append('category_nombre', categoria_nombre);
+    form_data.append('price_in_dolar', $("#price_in_dolar").val());
+    form_data.append('offer_price', $("#offer_price").val());
+    form_data.append('quantity', $("#quantity").val());
+    form_data.append('peso', $("#peso").val());
+    form_data.append('email', $("#email").val());
+    form_data.append('password', $("#password").val());
+    form_data.append('nickname', $("#nickname").val());
+    form_data.append('reset_button', $("#reset_button").val());
+    form_data.append('note', $("#note").val());
+    form_data.append('costo',$('#costo').val());
+    form_data.append('estado',$('#estado').val());
+    form_data.append('trailer',$('#trailer').val().replace("watch?v=", "embed/"))
+    if($('#inputFile2').prop('files')[0]){
+        form_data.append('fondo', $('#inputFile2').prop('files')[0]);
+        
+    }   
+    var cambio_email_o_category = 0;
+    var cambio_password = 0;
+    a = ($("#email").val() != $("#email_viejo").val());
+    b = ($("#category").val() != $("#category_viejo").val());  
+    c = ($("#password").val() != $("#password_viejo").val());
+    if(a || b){
+        cambio_email_o_category++;
+    }
+
+    if(c){
+        cambio_password++;
+    }
+    form_data.append('cambio_email_o_category', cambio_email_o_category);
+    form_data.append('cambio_password', cambio_password);
+    form_data.append('id_bumsuser', JSON.stringify(duenno_array));
+    form_data.append('porcentaje', JSON.stringify(porcentaje_array));
+    form_data.append('id_categorias', JSON.stringify(categoria_array));
+
+    //console.log("form_data",form_data);
+    //return;
+
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+
+        success:function(data){
+
+            console.log(data);
+
+            if(data.tipo == 1){
+                swal(data.data);  
+            }else{
+                $("#password_viejo").val($("#password").val());
+                //swal("El articulo: "+$("#name").val()+" || "+categoria_nombre+". \n\n\nFue modificado con exito.");
+                // setTimeout(function() 
+                // {
+                //     location.reload(); 
+                // }, 2000);
+            }     
+        },
+        error:function(msj){
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+        }
+    });
 
 });
 
@@ -754,40 +779,40 @@ $("#registrar_articulo").click(function(){
         form_data.append('fondo', $('#inputFile2').prop('files')[0]);      
     }  
 
-        //form_data.append('fondo', "$('#inputFiletext').val()");
+    //form_data.append('fondo', "$('#inputFiletext').val()");
 
 
-        // Arrays
-        form_data.append('id_categorias', JSON.stringify(categoria_array));
-        form_data.append('id_bumsuser', JSON.stringify(duenno_array));
-        form_data.append('porcentaje', JSON.stringify(porcentaje_array));
+    // Arrays
+    form_data.append('id_categorias', JSON.stringify(categoria_array));
+    form_data.append('id_bumsuser', JSON.stringify(duenno_array));
+    form_data.append('porcentaje', JSON.stringify(porcentaje_array));
 
-        $.ajax({
-            url:        route,
-            headers:    {'X-CSRF-TOKEN':token},
-            type:       'POST',
-            data:       form_data,
-            contentType: false, 
-            processData: false,
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
 
-            success:function(data){
-                if(data.tipo == 1){
-                    swal(data.data);  
-                }else{
-                    swal("El articulo: "+$("#name").val()+" | "+categoria_nombre+". Fue registrado con exito.");
-                }
-            },
-            error:function(msj){
-                var errormessages = "";
-                $.each(msj.responseJSON, function(i, field){
-                    errormessages+="\n"+field+"\n";
-                });
-
-                swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+        success:function(data){
+            if(data.tipo == 1){
+                swal(data.data);  
+            }else{
+                swal("El articulo: "+$("#name").val()+" | "+categoria_nombre+". Fue registrado con exito.");
             }
-        });
+        },
+        error:function(msj){
+            var errormessages = "";
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
 
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+        }
     });
+
+});
 
 //ventana tipo lista
 $("#actualizar_uss").click(function(){

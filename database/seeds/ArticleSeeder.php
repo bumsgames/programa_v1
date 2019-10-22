@@ -12,6 +12,7 @@ class ArticleSeeder extends Seeder
     public function run()
     {
         DB::table('articles')->insert([
+            'ubicacion'=> '1',
             'id' => '2',
         	'id_creator' => '2',
         	'name' => 'Devolucion',
@@ -26,7 +27,8 @@ class ArticleSeeder extends Seeder
         ]);
 
         DB::table('articles')->insert([
-        	'id_creator' => '2',
+            'ubicacion'=> '1',
+            'id_creator' => '2',
         	'name' => 'Red dead redemption 2',
         	'category' => '1',
         	'price_in_dolar' => '40',
@@ -43,7 +45,8 @@ class ArticleSeeder extends Seeder
         ]);
 
         DB::table('articles')->insert([
-        	'id_creator' => '1',
+            'ubicacion'=> '1',
+            'id_creator' => '1',
         	'name' => 'Red dead redemption 2',
         	'category' => '2',
         	'price_in_dolar' => '30',
@@ -59,7 +62,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '3',
+            'ubicacion'=> '1',
+            'id_creator' => '3',
         	'name' => 'Red dead redemption 2',
         	'category' => '4',
         	'price_in_dolar' => '50',
@@ -71,7 +75,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '2',
+            'ubicacion'=> '1',
+            'id_creator' => '2',
         	'name' => 'Dark Souls 3',
         	'category' => '2',
         	'price_in_dolar' => '8',
@@ -87,7 +92,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '1',
+            'ubicacion'=> '1',
+            'id_creator' => '1',
         	'name' => 'Dark Souls 3',
         	'category' => '1',
         	'price_in_dolar' => '25',
@@ -103,7 +109,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '2',
+            'ubicacion'=> '1',
+            'id_creator' => '2',
         	'name' => 'Dark Souls 3',
         	'category' => '4',
         	'price_in_dolar' => '40',
@@ -115,7 +122,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '1',
+            'ubicacion'=> '1',
+            'id_creator' => '1',
         	'name' => 'Monster Hunter: Worlds',
         	'category' => '8',
         	'price_in_dolar' => '40',
@@ -131,7 +139,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '2',
+            'ubicacion'=> '1',
+            'id_creator' => '2',
         	'name' => 'Monster Hunter: Worlds',
         	'category' => '9',
         	'price_in_dolar' => '30',
@@ -147,6 +156,7 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
+            'ubicacion'=> '1',
             'id_creator' => '1',
         	'name' => 'Monster Hunter: Worlds',
         	'category' => '9',
@@ -163,6 +173,7 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
+            'ubicacion'=> '1',
             'id_creator' => '3',
         	'name' => 'Monster Hunter: Worlds',
         	'category' => '8',
@@ -179,7 +190,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '2',
+            'ubicacion'=> '1',
+            'id_creator' => '2',
         	'name' => 'Just Cause 3 XXL',
         	'category' => '1',
         	'price_in_dolar' => '40',
@@ -195,7 +207,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '1',
+            'ubicacion'=> '1',
+            'id_creator' => '1',
         	'name' => 'Bayonetta',
         	'category' => '5',
         	'price_in_dolar' => '10',
@@ -211,7 +224,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '3',
+            'ubicacion'=> '1',
+            'id_creator' => '3',
         	'name' => 'Doom',
         	'category' => '1',
         	'price_in_dolar' => '40',
@@ -227,7 +241,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '3',
+            'ubicacion'=> '1',
+            'id_creator' => '3',
         	'name' => 'Doom',
         	'category' => '2',
         	'price_in_dolar' => '30',
@@ -243,7 +258,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '3',
+            'ubicacion'=> '1',
+            'id_creator' => '3',
         	'name' => 'Doom',
         	'category' => '8',
         	'price_in_dolar' => '40',
@@ -259,7 +275,8 @@ class ArticleSeeder extends Seeder
             'updated_at'=>'2018-11-25 00:00:00.000000'
         ]);
         DB::table('articles')->insert([
-        	'id_creator' => '1',
+            'ubicacion'=> '1',
+            'id_creator' => '1',
         	'name' => 'Doom',
         	'category' => '9',
         	'price_in_dolar' => '30',
@@ -276,7 +293,8 @@ class ArticleSeeder extends Seeder
         ]);
 
         DB::table('articles')->insert([
-        	'id_creator' => '2',
+            'ubicacion'=> '1',
+            'id_creator' => '2',
         	'name' => 'Fifa 19',
         	'category' => '1',
         	'price_in_dolar' => '40',
@@ -293,7 +311,8 @@ class ArticleSeeder extends Seeder
         ]);
 
         DB::table('articles')->insert([
-        	'id_creator' => '1',
+            'ubicacion'=> '1',
+            'id_creator' => '1',
         	'name' => 'Fifa 19',
         	'category' => '9',
         	'price_in_dolar' => '30',
@@ -310,7 +329,8 @@ class ArticleSeeder extends Seeder
         ]);
 
         DB::table('articles')->insert([
-        	'id_creator' => '1',
+            'ubicacion'=> '1',
+            'id_creator' => '1',
         	'name' => 'God of War 3',
         	'category' => '5',
         	'price_in_dolar' => '10',
@@ -327,7 +347,8 @@ class ArticleSeeder extends Seeder
         ]);
 
         DB::table('articles')->insert([
-        	'id_creator' => '3',
+            'ubicacion'=> '1',
+            'id_creator' => '3',
         	'name' => 'Super Smash Bros. Ultimate',
         	'category' => '12',
         	'price_in_dolar' => '40',

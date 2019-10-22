@@ -25,7 +25,7 @@ class ArticleRequest extends FormRequest
     {
         return [
             'nickname' => 'nullable|string|max:40',
-            'category' => 'required',
+            //'category' => 'required',
             'name' => 'required|string|max:80',
             'quantity' => 'required|integer|max:100',
             'price_in_dolar' => 'required|max:10000',

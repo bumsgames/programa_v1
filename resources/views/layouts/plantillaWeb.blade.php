@@ -145,7 +145,10 @@ duration: 450000,
 				<a class="nav-link link_bums" href="#" data-toggle="modal" data-target="#contactModal"><i class="fab fa-whatsapp"></i> Contáctanos</a>
 			</li>
 			<li class="nav-item" >	
-				<label class="menu car" for="check"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> <span class="badge badge-light" id="badge" style="color: black !important;">{{ count(Session::get('carrito')) }}</span>	</label>
+				<!-- <label class="menu car" for="check">
+					<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> 
+					<span class="badge badge-light" id="badge" style="color: black !important;">{{ count(Session::get('carrito')) }}</span>	
+				</label> -->
 			</li>
 		</ul>
 

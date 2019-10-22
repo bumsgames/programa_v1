@@ -544,7 +544,7 @@ class ArticleController extends Controller
 
   public function modificar_Articulo(ArticleRequest $request)
   {
-    
+
     $variable = $request->category_nombre;
     $searchterm = "Cuenta Digital";
     $pos = strrpos($variable, $searchterm);
@@ -553,6 +553,21 @@ class ArticleController extends Controller
 
     //Se busca el articulo antes del cambio para tenerlo como referencia
     $refer = \Bumsgames\Article::find($request->id_articulo);
+
+
+    // MODIFICAR CATEGORIAS AL ARTICULO
+    $id_categorias = json_decode($request->id_categorias);
+
+    //return response()->json($request);
+
+    //return response()->json($id_categorias);
+    // for ($i = 0; $i < count($id_categorias); $i++) {
+    //   \Bumsgames\Articulo_Categoria::create([
+    //     'id_articulo' => $id_articulo,
+    //     'id_categoria' => $id_categorias[$i]
+    //   ]);
+    // }
+
 
     //si es cuenta digital 
     if ($pos !== false && strlen($searchterm) + $pos == strlen($variable)) {
@@ -638,6 +653,7 @@ class ArticleController extends Controller
         "data" => "El precio subrayado no puede ser menor al precio unitario.\n\n\nPrecio Unitario: " . $request->price_in_dolar . " $.\n\nPrecio de subrayado: " . $request->offer_price . " $",
       ]);
     }
+
     $variable = $request->category_nombre;
     $searchterm = "Cupo Digital";
     $pos = strrpos($variable, $searchterm);
@@ -675,7 +691,6 @@ class ArticleController extends Controller
       $cantidad_que_tenia = $art->sum('quantity');
     }
 
-
     $comprobante_disponibilidad =
       \Bumsgames\Article::where('quantity', '>', '0')
       ->where('name', '=', $refer->name)
@@ -689,12 +704,10 @@ class ArticleController extends Controller
     $articulo = \Bumsgames\Article::find($request->id_articulo);
 
     $articulo->fill($request->all());
+
     
     //guardando, modifica el mas reciente, tambien precio
 
-
-
-    
     //Actualiza el costo del producto con el mismo email y nickname
     /*if(in_array($articulo->category,[1,2])){
       if($articulo->category == 1){
@@ -710,6 +723,7 @@ class ArticleController extends Controller
         ->first();
       }
     }
+
     if(in_array($articulo->category,[8,9])){
       if($articulo->category == 8){
         $artref = \Bumsgames\Article::where('articles.email', $request->email)
@@ -724,6 +738,7 @@ class ArticleController extends Controller
         ->first();
       }
     }
+
     if(isset($artref)){
       $artref->costo = $request->costo;
       $artref->save();
@@ -748,20 +763,25 @@ class ArticleController extends Controller
       $algo->save();
     }
 
+    //Guarda registros
     $articulo->save();
+    //Actualiza categorias en tabla pivote
+    $articulo->categorias()->sync($id_categorias);
 
     // cambio de oferta de todos los que son iguales
-    if (1 == 1) {
-      $temporal =  \Bumsgames\Article::where('name', $articulo->name)
-        ->where('category', $articulo->category)
-        ->get();
+    // if (1 == 1) {
+    //   $temporal =  \Bumsgames\Article::where('name', $articulo->name)
+    //     ->where('category', $articulo->category)
+    //     ->get();
 
-      foreach ($temporal as $x) {
-        $algo = \Bumsgames\Article::find($x->id);
-        $algo->fill(['oferta' => $request->oferta]);
-        $algo->save();
-      }
-    }
+    //   foreach ($temporal as $x) {
+    //     $algo = \Bumsgames\Article::find($x->id);
+    //     $algo->fill(['oferta' => $request->oferta]);
+    //     $algo->save();
+    //   }
+    // }
+
+    /*
     //Se cambian todos los trailers
     if (isset($request->trailer)) {
       if($request->category == 1 || $request->category == 2){
@@ -845,7 +865,7 @@ class ArticleController extends Controller
     }
 
     //Cambio de la nota en los mismos correos en PS4 en base a PS3
-    /* if($articulo->category == 5){
+      if($articulo->category == 5){
           $temporal =  \Bumsgames\Article::where('email',$articulo->email)
           ->where('category',1)
           ->get();
@@ -864,7 +884,7 @@ class ArticleController extends Controller
             $algo->save();
           }
           
-        }*/
+      }
     //Cambio de la cuenta secundaria de Xbox One si se cambio la primaria
     if ($articulo->category == 8) {
       $temporal =  \Bumsgames\Article::where('email', $articulo->email)
@@ -904,6 +924,8 @@ class ArticleController extends Controller
         $algo->save();
       }
     }
+
+    */
     // fin modificacion
 
     if ($request->cambio_password >= 1) {
@@ -961,6 +983,8 @@ class ArticleController extends Controller
         'porcentaje' => $porcentaje[$i]
       ]);
     }
+
+
 
     return response()->json([
       "message" => "Success"

@@ -89,7 +89,7 @@
 							</div>
 							
 							<div class="col-12 col-lg">
-								<div class="form-group">
+								{{-- <div class="form-group">
 									<label for=""><strong>Categoria</strong></label>
 									<select 
 									class="form-control form-control-sm" name="category" 
@@ -97,10 +97,52 @@
 
 
 									<option value="{{$articulo->category}}">{{ $articulo->pertenece_category->category}}</option>
+
 									@foreach($categories as $category)
-									<option value="{{$category->id}}">{{$category->category}}</option>
+										<option value="{{$category->id}}">{{$category->category}}</option>
 									@endforeach
+
 								</select>
+
+								<button class="btn btn-primary mt-3" id="agregarCategoria">Agregar categoria</button>
+
+								<div id="esribir_categoria">
+
+								</div> --}}
+
+								<div class="form-group">
+									<label for=""><strong>Categoria</strong></label>
+									<select class="form-control form-control-sm cd" name="categoria_opc" id="categoria_opc">
+										@foreach($categories as $category)
+											<option value="{{$category->id}}">{{$category->category}}</option>
+										@endforeach
+									</select>
+
+								</select>
+
+								<button class="btn btn-primary mt-3 mb-4" id="agregarCategoria">Agregar categoria</button>
+
+								<div>
+									@foreach ($categoriesArt as $category)
+										<table>
+											<tr>
+												<td>
+													<input type="text" class="form-control form-control-sm categoria_marca num_cat" readonly value='{{$category->id}}'>
+												</td>
+												<td>
+													<input type="text" class="form-control form-control-sm" readonly value='{{$category->category}}'>
+												</td>
+												<td>
+													<button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" 
+													onclick="quitar_categoria('{{$category->id}}', '{{$category->category}}');">Quitar</button>
+												</td>
+											</tr>
+										</table>
+									@endforeach
+								</div>
+
+
+								<div id="esribir_categoria"></div> 
 							</div>
 						</div>
 						<div class="col-12 col-lg">

@@ -97,8 +97,10 @@ class WebController extends Controller
 		//Crea una visita
 		\Bumsgames\Visita::create(['tipo' => 'General']);
 
+		//dd($noticias->toArray());
 
 		return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'portal1', 'portal2', 'portal3', 'comentarios', 'noticias', 'encuesta'));
+		//return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'comentarios', 'encuesta'));
 	}
 
 	

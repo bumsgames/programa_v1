@@ -9,4 +9,9 @@ class Category extends Model
     protected $fillable = [
         'category',
     ];
+
+    public function articles() {
+        return $this->belongsToMany(Article::class);
+    }
+
 }

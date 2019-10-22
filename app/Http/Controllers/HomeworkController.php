@@ -97,6 +97,19 @@ class HomeworkController extends Controller
 
         $id = $request->id_art;
         $articulo = \Bumsgames\Article::find($id);
+        //$articulo = \Bumsgames\Article::with('categorias')->where('id', $id)->get();
+
+        
+        
+        $articuloConCategory = \Bumsgames\Article::with('categorias')->where('id', $id)->first();
+
+        //dd($articuloConCategory->toArray());
+        //dd($articuloConCategory["categorias"]->toArray());
+        $categoriesArt = $articuloConCategory['categorias'];
+
+        //dd($articuloConCategory->toArray(), $categoriesArt);
+        
+
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
             ->where(function ($query) {
                 $query->where('verificado', '<=', 0)
@@ -107,9 +120,14 @@ class HomeworkController extends Controller
             })->get();
         // $users = \Bumsgames\BumsUser::All();
         $categories = \Bumsgames\Category::All();
+
+        foreach ($categoriesArt as $category) {
+            //dd($categories[$category->id - 1]->id);
+            unset($categories[$category->id - 1]);
+        }
         
         if(Auth::user()->level >= 7 || in_array($articulo->category,[3,4,6,7,10,11,13,14,15])){
-            return view('admin.article.formulario_Art', compact('pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales'));
+            return view('admin.article.formulario_Art', compact('pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales', 'categoriesArt'));
         }
         else{
             return redirect('404');

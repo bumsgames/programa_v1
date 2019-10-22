@@ -24,21 +24,24 @@
 							<input class="form-control form-control-sm" type="text" placeholder="" name="id_creator" value="{{ isset(Auth::user()->id) ? Auth::user()->id : 'USUARIO NO LOGUEADO' }}"
 							readonly id="id_creator">
 						</div>
+
 						<div class="col-6 col-lg">
 							<h3 class="fixed">DUENNO(S)</h3>
 							<div class="form-group">
 								{{-- <label for=""><strong>Dueño(s) del Articulo</strong></label> --}}
 								<select class="form-control form-control-sm cd" name="primary_owner" id="primary_owner">
 									@foreach($users as $user)
-									<option value="{{$user->id}}">{{$user->name}} {{$user->lastname}}</option>
+										<option value="{{$user->id}}">{{$user->name}} {{$user->lastname}}</option>
 									@endforeach
 								</select>
 							</div>
 							<button class="btn btn-primary" id="agregarDuenno">Agregar dueño</button>
 							<br><br>
+
 							<div id="xxx">
 
 							</div>
+							
 							<br>
 						</div>
 						<div class="col-6 col-lg">
@@ -64,12 +67,13 @@
 							<div class="col-12 col-lg-12">
 								<div class="form-group">
 									<label for=""><strong>- Nombre del Articulo</strong></label>
-									<input maxlength="80" class="form-control form-control-sm" type="text" name="name" id="name" placeholder="" autocomplete="off" onkeyup="countChar(this)">
+									<input maxlength="80" class="form-control form-control-sm" type="text" name="name" id="name" placeholder="" autocomplete="off" 
+									onkeyup="countChar(this)">
 									<small class="float-left" id="counter">0</small>
 
 								</div>
-								{!!$errors->first('name','<span class="help-block">:message</span>')!!} {!!$errors->first('nickname','
-								<span class="help-block">:message</span>')!!}
+								{!!$errors->first('name','<span class="help-block">:message</span>')!!} 
+								{!!$errors->first('nickname','<span class="help-block">:message</span>')!!}
 							</div>
 
 							<div class="col-12 col-lg-12">
@@ -78,7 +82,7 @@
 									<select class="form-control form-control-sm" name="category" id="category">
 										<option value="0">Sin categoria</option>
 										@foreach($categories as $category)
-										<option value="{{$category->id}}">{{$category->category}}</option>
+											<option value="{{$category->id}}">{{$category->category}}</option>
 										@endforeach
 									</select>
 								</div>
@@ -86,7 +90,7 @@
 						</div>
 					</div>
 
-					<div id="tablacoincidenciaart" class="table-responsive" style="display:none">
+					{{-- <div id="tablacoincidenciaart" class="table-responsive" style="display:none">
 						<table class="table">
 							<thead>
 								<tr>
@@ -107,17 +111,16 @@
 							</tbody>
 						</table>
 					</div>
-					<hr>
+					<hr> --}}
 
 					<hr>
 					<h1>Zona de prueba</h1>
 					
 					<h3 class="fixed">CATEGORIA(S)</h3>
 					<div class="form-group">
-						{{-- <label for=""><strong>Dueño(s) del Articulo</strong></label> --}}
 						<select class="form-control form-control-sm cd" name="categoria_opc" id="categoria_opc">
 							@foreach($categories as $category)
-							<option value="{{$category->id}}">{{$category->category}}</option>
+								<option value="{{$category->id}}">{{$category->category}}</option>
 							@endforeach
 						</select>
 					</div>
@@ -125,7 +128,7 @@
 
 					<div id="esribir_categoria">
 
-							</div>
+					</div>
 					{{-- <button class="btn btn-primary" type="submit" id="registrar_articulo">Registrar articulo</button> --}}
 					<hr>
 

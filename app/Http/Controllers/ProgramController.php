@@ -534,6 +534,8 @@ class ProgramController extends Controller
 		foreach ($categories as $category) {
 			$cat[$category->id] = $category->category;
 		}
+
+		//dd($categories->toArray());
 		return view('admin.article.registrar_articulo', compact('users', 'comments_por_aprobar', 'categories', 'cat', 'tutoriales', 'pago_sin_confirmar'));
 	}
 	public function Modificar_Articulo()
