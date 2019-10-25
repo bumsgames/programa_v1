@@ -29,7 +29,8 @@ class Article extends Model
         'oferta',
         'costo',
         'estado',
-        'trailer'
+        'trailer',
+        'ubicacion'
     ];
 
     public function categorias()
@@ -56,7 +57,7 @@ class Article extends Model
     public function duennos()
     {
         return $this->belongsToMany('Bumsgames\BumsUser', 'bums_user_articles', 'id_article', 'id_bumsuser')
-            ->withPivot('porcentaje');;
+            ->withPivot('porcentaje');
     }
 
 
@@ -135,6 +136,11 @@ class Article extends Model
     public function ventas_del_articulo()
     {
         return $this->belongsToMany('Bumsgames\Sales', 'pertenece_clientes', 'id_article', 'id_venta');
+    }
+
+    public function ubicacion()
+    {
+        return $this->hasOne('Bumsgames\Ubicacion', 'ubicacion', 'id');
     }
 
 

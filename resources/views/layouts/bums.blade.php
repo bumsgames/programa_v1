@@ -91,17 +91,21 @@
 
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_carrito" style="background-color: black;">
-        Carrito
+        Carrito 
+        <span id="cantCarrito">({{count($carrito)}})</span> 
       </button>
-
-
 
       <li class="nav-item">
         <div class="d-flex">
           <div class="dropdown mr-1">
+
             <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-              <label class="menu car" for="check"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> <span class="badge badge-light" id="badge2" style="color: black !important;">{{ count(Session::get('carrito_admin')) }}</span>  </label>
+              <label class="menu car" for="check">
+                <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> 
+                <span class="badge badge-light" id="badge2" style="color: black !important;">{{ count(Session::get('carrito_admin')) }}</span>  
+              </label>
             </button>
+
             <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
               <a class="dropdown-item" href="#">Action</a>
               <a class="dropdown-item" href="#">Another action</a>
@@ -166,7 +170,7 @@
   </header>
   <!-- Modal -->
   <div class="modal fade" id="modal_carrito" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-scrollable" role="document" style="max-width: 650px !important;">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalScrollableTitle">Carrito de compras</h5>
@@ -176,15 +180,27 @@
         </div>
         <div class="modal-body">
 
-          <table class="table table-hover">
-            <tbody id="tablaCarrito2">
+          <table class="table table-hover" id="tableLyon">
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>Nombre</th>
+                <th>Categorias</th>
+                <th>Dueños</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+              </tr>
+            </thead>
+            {{-- <tbody id="tablaCarrito2"> --}}
+            <tbody id="tablaCarritoNew">
               <?php $i = 1; ?>
               <?php $precio = 0; ?>
 
 
               @foreach( $carrito as $item )
-              <tr>
+              <tr id="fila_{{$item->articulo->id}}">
                 <th>
+
                   <?php echo $i++; ?>.
                 </th>
                 <th>
@@ -192,10 +208,15 @@
                 </th>
                 <th>
                   @foreach($item->articulo->categorias as $categoria)
-                  {{ $categoria->category }}
-                  <br>
-                  <br>
-
+                    {{ $categoria->category }}
+                    <br>
+                    <br>
+                  @endforeach
+                </th>
+                <th>
+                  @foreach($item->articulo->duennos as $duenno)
+                    {{ $duenno->name }} {{ $duenno->lastname }}
+                    <br>
                   @endforeach
                 </th>
                 <th>
@@ -205,7 +226,6 @@
                   {{ $item->articulo->price_in_dolar }} $
                 </th>
               </tr>
-
               @endforeach
 
 
@@ -213,7 +233,10 @@
           </table>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar carrito</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="BorrarTodoCarro_admin();">
+            Cancelar carrito
+          </button>
+
           <button type="button" class="btn btn-primary">Proceder compra</button>
         </div>
       </div>

@@ -25,6 +25,7 @@ class Articulo extends Model
 		'reset_button',
 		'note',
 		'fondo',
-		'oferta'
+		'oferta',
+		'ubicacion'
 	];
 }

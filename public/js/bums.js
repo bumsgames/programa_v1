@@ -591,7 +591,7 @@ $("#modificar_articulo").click(function(){
         categoria_array.push(categoria_marca[i].value);
     }
 
-    console.log("categoria_array" ,categoria_array);
+    //console.log("categoria_array" ,categoria_array);
     //return;
 
     //ARTICLE CONTROLLER
@@ -604,6 +604,10 @@ $("#modificar_articulo").click(function(){
     }
 
     var form_data = new FormData();  
+
+    form_data.append('ubicacion', $("#ubicacion").val());
+    //console.log("ubicacion", $("#ubicacion").val());
+
     categoria_nombre = $("#category").find('option:selected').text();  
     form_data.append('primary_owner', $("#primary_owner").val());
     form_data.append('name', $("#name").val());
@@ -665,11 +669,11 @@ $("#modificar_articulo").click(function(){
                 swal(data.data);  
             }else{
                 $("#password_viejo").val($("#password").val());
-                //swal("El articulo: "+$("#name").val()+" || "+categoria_nombre+". \n\n\nFue modificado con exito.");
-                // setTimeout(function() 
-                // {
-                //     location.reload(); 
-                // }, 2000);
+                swal("El articulo: "+$("#name").val()+". \n\n\nFue modificado con exito.");
+                setTimeout(function() 
+                {
+                    location.reload(); 
+                }, 2000);
             }     
         },
         error:function(msj){
@@ -737,7 +741,7 @@ $("#registrar_articulo").click(function(){
 
     }
 
-    if( $("#category").val() == 0){
+    if( categoria_array.length == 0 ){
         swal('El articulo debe pertenecer a una categoria');
         return;
     }
@@ -752,10 +756,18 @@ $("#registrar_articulo").click(function(){
     form_data.append('secondary_owner', $("#secondary_owner").val());
     form_data.append('name', $("#name").val());
     form_data.append('description', $("#description").val());
-    form_data.append('category', $("#category").val());
-    form_data.append('oferta', $("#oferta").val());
-    categoria_nombre = $("#category").find('option:selected').text();
+    
+    form_data.append('category', "2");
+    categoria_nombre = "Tabla Categoria sin uso";
     form_data.append('category_nombre', categoria_nombre);
+
+    form_data.append('ubicacion', $("#ubicacion").val());
+
+    //form_data.append('category_nombre', categoria_nombre);
+    //form_data.append('category', $("#category").val());
+    //categoria_nombre = $("#category").find('option:selected').text();
+    
+    form_data.append('oferta', $("#oferta").val());
     form_data.append('price_in_dolar', $("#price_in_dolar").val());
     form_data.append('offer_price', $("#offer_price").val());
     form_data.append('quantity', $("#quantity").val());
@@ -799,7 +811,8 @@ $("#registrar_articulo").click(function(){
             if(data.tipo == 1){
                 swal(data.data);  
             }else{
-                swal("El articulo: "+$("#name").val()+" | "+categoria_nombre+". Fue registrado con exito.");
+                console.log(data);
+                swal("El articulo: "+$("#name").val()+". Fue registrado con exito.");
             }
         },
         error:function(msj){
@@ -1719,12 +1732,13 @@ function agregaCarro(id,a,b,c,d, e, f){
     });
 }
 
-function agregaCarro_admin(id,nombre,categoria,precio,imagen){
+function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
+
     var token = $('#token').val(); 
     var form_data = new FormData();  
     form_data.append('id_articulo', id);
     form_data.append('articulo', nombre);
-    form_data.append('categoria', categoria);
+    //form_data.append('categoria', categoria);
     form_data.append('precio', precio);
     form_data.append('imagen', imagen);
     var route = 'agregaCarro_admin';
@@ -1738,30 +1752,98 @@ function agregaCarro_admin(id,nombre,categoria,precio,imagen){
         contentType: false, 
         processData: false,
         success:function(data){
-            var tablaDatos = $("#tablaCarrito2");
-            tablaDatos.empty();
-            var i = 0;
-            var numero = 0;
-            acumulado = 0;
 
-            precioAcumulado = 0;
-            var badge = $("#badge2");
-            badge.empty();
+            console.log(data);
 
-            $.each(data, function(i, item) {
-                numero++;
-                i++;
-                acumulado++;
-                borrado = i;
-                // precioAcumulado+= Number(item.precio) * Number(e) ;
-                alert(item.name);
-                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+            data.forEach(element => {
+                $("#fila_" + element.id_articulo).remove();
             });
-            $("#nArt").val(numero);
-            // tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
-            badge.append(acumulado);
+
+            let i = 1;
+
+            
+            data.forEach(element => {
+                var catagoryString = '';
+                element.articulo.categorias.forEach(element => {
+                    catagoryString = catagoryString + ''+ element.category + '<br>'
+                });
+
+                var duennosString = '';
+                element.duennos.forEach(element => {
+                    duennosString = duennosString + ''+ element.name + ' ' + element.lastname + '<br>'
+                });
+
+                var htmlTags = 
+                '<tr>'+
+                    '<td>' + i + '</td>'+
+                    '<td>' + element.articulo.name + '</td>'+
+                    '<td>' + catagoryString + '</td>'+
+                    '<td>' + duennosString + '</td>'+
+                    '<td>' + element.cantidad + '</td>'+
+                    '<td>' + element.articulo.costo + '</td>'+
+                '</tr>';
+                $('#tableLyon tbody').append(htmlTags);
+                i++;
+            });
+            
+            let art = data.find(carrito => carrito.articulo.id == id && carrito.cantidad > 1);
+            console.log("encontro el articulo en lalista", art);
+            if(!art){
+                $('#cantCarrito').text(data.length);
+            }
+            
+            // var tablaDatos = $("#tablaCarrito2");
+
+            // tablaDatos.empty();
+
+            // var i = 0;
+            // var numero = 0;
+            // acumulado = 0;
+
+            // precioAcumulado = 0;
+            // var badge = $("#badge2");
+            // badge.empty();
+
+            // $.each(data, function(i, item) {
+            //     numero++;
+            //     i++;
+            //     acumulado++;
+            //     borrado = i;
+            //     // precioAcumulado+= Number(item.precio) * Number(e) ;
+            //     alert(item.name);
+
+            //     tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");       
+
+            // });
+            // $("#nArt").val(numero);
+            // // tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
+            // badge.append(acumulado);
             
 
+        }
+    });
+}
+
+function BorrarTodoCarro_admin(){
+
+    var form_data = new FormData(); 
+    var token = $('#token').val(); 
+    var route = 'eliminaTodoCarro_admin';
+
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        dataType:   'json',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+        success:function(data){
+            console.log(data);
+            data.forEach(element => {
+                $("#fila_" + element.id_articulo).remove();
+            });
+            $('#cantCarrito').text(0);
         }
     });
 }

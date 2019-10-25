@@ -419,15 +419,25 @@
 									</form>
 									
 									<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" Onclick="mandaridM({{$article->id}})">Eliminar</button>
-									<button class="btn btn-primary botonCarta"
-									onclick="agregaCarro_admin('{{ $article->id }}', '{{ $article->name }}', 
+									
+									{{-- <button class="btn btn-primary botonCarta"
+										onclick="agregaCarro_admin('{{ $article->id }}', '{{ $article->name }}', 
 										'{{ $article->pertenece_category->category }}', 
 										{{ $article->price_in_dolar }},
 										'{{ $article->fondo }}');">
 										<img width="50" src="{{ url('img/carrito crash.png') }}">
-									</button>
+									</button> --}}
 
-									
+									<button class="btn btn-primary botonCarta"
+										onclick="agregaCarro_admin(
+										'{{ $article->id }}',
+										'{{ $article->name }}', 
+										{{ $article->categorias }}, 
+										{{ $article->price_in_dolar }},
+										'{{ $article->fondo }}',
+										{{ $article->duennos }});">
+										<img width="50" src="{{ url('img/carrito crash.png') }}">
+									</button>
 									
 								</div>
 								<br>

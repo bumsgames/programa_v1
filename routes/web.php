@@ -100,6 +100,9 @@ Route::post('/colocar_comision','ProgramController@colocar_comision');
 Route::post('/realizar_modificacion','ProgramController@modificacion_rapida');
 Route::post('/realizar_modificacion_cliente','ProgramController@realizar_modificacion_cliente');
 Route::post('/agregaCarro_admin','ProgramController@agregaCarro_admin');
+Route::post('/eliminaTodoCarro_admin','ProgramController@deleteAllCart_admin');
+
+
 
 Route::post('/guardar_reporte','ProgramController@guardar_reporte');
 Route::post('/realizar_movimiento_financiero','ProgramController@realizar_movimiento_financiero');
