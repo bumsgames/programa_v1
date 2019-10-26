@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Envio_Pago extends Model
 {
-	protected $table = 'envio__pagos';
+	protected $table = 'envios';
 
 	protected $fillable = [
 		'empresa',

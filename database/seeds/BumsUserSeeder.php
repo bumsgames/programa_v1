@@ -17,7 +17,11 @@ class BumsUserSeeder extends Seeder
         	'lastname' => 'Duarte',
         	'nickname' => 'crack',
         	'email' => 'davik.1010@gmail.com',
-        	'level' => '10'
+        	'level' => '10',
+            'porcentaje_ventaPropia' => '0.10',
+            'porcentaje_ventaParcial' => '0.04',
+            'porcentaje_ventaAjena' => '0.02',
+
         ]);
 
         DB::table('bums_users')->insert([
@@ -25,7 +29,10 @@ class BumsUserSeeder extends Seeder
             'lastname' => 'Duarte',
             'nickname' => 'crack2',
             'email' => 'davik.1010@gmail.com2',
-            'level' => '1'
+            'level' => '1',
+            'porcentaje_ventaPropia' => '0.10',
+            'porcentaje_ventaParcial' => '0.04',
+            'porcentaje_ventaAjena' => '0.02',
         ]);
 
         DB::table('bums_users')->insert([
@@ -33,7 +40,10 @@ class BumsUserSeeder extends Seeder
             'lastname' => 'Moreno',
             'nickname' => 'crack3',
             'email' => 'davik.1010@gmail.com3',
-            'level' => '1'
+            'level' => '1',
+            'porcentaje_ventaPropia' => '0.10',
+            'porcentaje_ventaParcial' => '0.04',
+            'porcentaje_ventaAjena' => '0.02',
         ]);
 
     }

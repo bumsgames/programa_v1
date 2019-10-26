@@ -59,6 +59,12 @@ class Article extends Model
             ->withPivot('porcentaje');;
     }
 
+    public function duennos_prueba($index)
+    {
+        return $this->belongsToMany('Bumsgames\BumsUser', 'bums_user_articles', 'id_article', 'id_bumsuser')->where('bums_user_articles.id_bumsuser', $index)
+            ->withPivot('porcentaje');;
+    }
+
 
     public function setImageAttribute($image)
     {

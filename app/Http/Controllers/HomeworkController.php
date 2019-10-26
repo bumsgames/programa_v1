@@ -97,11 +97,12 @@ class HomeworkController extends Controller
 
         $id = $request->id_art;
         $articulo = \Bumsgames\Article::find($id);
-        $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        // $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+        //     // ->where(function ($query) {
+        //     //     $query->where('verificado', '<=', 0)
+        //     //         ->orWhere('entregado', '<=', 0);
+        //     // })
+        //     ->get();
         $users = \Bumsgames\BumsUser::whereNotIn('id', function ($q) use ($id) {
                 $q->select('id_bumsuser')->from('bums_user_articles')->where('id_article', $id);
             })->get();
