@@ -76,7 +76,7 @@
 								{!!$errors->first('nickname','<span class="help-block">:message</span>')!!}
 							</div>
 
-							<div class="col-12 col-lg-12">
+							{{-- <div class="col-12 col-lg-12">
 								<div class="form-group">
 									<label for=""><strong>- Categoria</strong></label>
 									<select class="form-control form-control-sm" name="category" id="category">
@@ -86,7 +86,7 @@
 										@endforeach
 									</select>
 								</div>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 
@@ -114,22 +114,39 @@
 					<hr> --}}
 
 					<hr>
-					<h1>Zona de prueba</h1>
+					{{-- <h1>Zona de prueba</h1> --}}
 					
-					<h3 class="fixed">CATEGORIA(S)</h3>
-					<div class="form-group">
-						<select class="form-control form-control-sm cd" name="categoria_opc" id="categoria_opc">
-							@foreach($categories as $category)
-								<option value="{{$category->id}}">{{$category->category}}</option>
-							@endforeach
-						</select>
-					</div>
-					<button class="btn btn-primary" id="agregarCategoria">Agregar categoria</button>
+					<div class="row">
 
-					<div id="esribir_categoria">
+						<div class="col-6">
+							<h3 class="fixed">CATEGORIA(S)</h3>
+							<div class="form-group">
+								<select class="form-control form-control-sm cd" name="categoria_opc" id="categoria_opc">
+									@foreach($categories as $category)
+										<option value="{{$category->id}}">{{$category->category}}</option>
+									@endforeach
+								</select>
+							</div>
+							<button class="btn btn-primary" id="agregarCategoria">Agregar categoria</button>
 
+							<div id="esribir_categoria">
+
+							</div>
+						</div>
+
+						<div class="col-6">
+							<h3>Ubicación Del Articulo</h3>
+							<div class="form-group">
+								{{-- <label for=""><strong>- Ubicacion del Articulo</strong></label> --}}
+								<select class="form-control form-control-sm" name="ubicacion" id="ubicacion">
+									@foreach ($ubicaciones as $ubicacion)
+										<option value="{{$ubicacion->id}}">{{$ubicacion->nombre_ubicacion}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
 					</div>
-					{{-- <button class="btn btn-primary" type="submit" id="registrar_articulo">Registrar articulo</button> --}}
+
 					<hr>
 
 					<div class="row">

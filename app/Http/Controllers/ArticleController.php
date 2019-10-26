@@ -291,7 +291,12 @@ class ArticleController extends Controller
         'id_categoria' => $id_categorias[$i]
       ]);
     }
-    return $request->all();
+
+    //guardo ubicacion 
+    $articulo->ubicacion =  $request->ubicacion;
+    $articulo->save();
+
+    return $articulo;
   }
 
    /*
@@ -704,7 +709,8 @@ class ArticleController extends Controller
     $articulo = \Bumsgames\Article::find($request->id_articulo);
 
     $articulo->fill($request->all());
-
+    //$articulo->ubicacion =  $request->ubicacion;
+    //$articulo->save();
     
     //guardando, modifica el mas reciente, tambien precio
 

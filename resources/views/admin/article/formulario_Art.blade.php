@@ -301,6 +301,16 @@
 							<input class="form-control form-control-sm" type="text" value="{{$articulo->trailer}}" name="trailer" id="trailer">
 						</div>
 					</div>
+					<div class="col-12 col-lg">
+						<div class="form-group">
+							<label for=""><strong>- Ubicacion del Articulo</strong></label>
+							<select class="form-control form-control-sm" name="ubicacion" id="ubicacion">
+								@foreach ($ubicaciones as $ubicacion)
+									<option value="{{$ubicacion->id}}" {{ ( $ubicacion->id == $articulo->ubicacion) ? 'selected' : '' }}>{{$ubicacion->nombre_ubicacion}}</option>
+								@endforeach
+							</select>
+						</div>
+					</div>
 					<div class="col-12 col-lg-12">
 						<div class="form-group">
 							<label for="description"><strong>Descripción</strong></label>
