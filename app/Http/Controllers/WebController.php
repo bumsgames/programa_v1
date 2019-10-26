@@ -533,7 +533,7 @@ class WebController extends Controller
 		$numero = $articulos->count();
 		if (Session::has('id_coin')) {
 			$id_coin = Session::get('id_coin');
-		} else {
+		} else  {
 			$id_coin = 1;
 		}
 

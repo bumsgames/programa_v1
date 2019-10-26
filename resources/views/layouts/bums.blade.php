@@ -182,6 +182,7 @@
               <?php $precio = 0; ?>
 
 
+             @if(@isset ($carrito))
               @foreach( $carrito as $item )
               <tr>
                 <th>
@@ -207,6 +208,8 @@
               </tr>
 
               @endforeach
+                 
+             @endif
 
 
             </tbody>
@@ -214,7 +217,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar carrito</button>
-          <button type="button" class="btn btn-primary">Proceder compra</button>
+          <a href="{{ url('facturacion') }}"><button type="button" class="btn btn-primary">Proceder compra</button></a>
+          
         </div>
       </div>
     </div>
@@ -346,7 +350,7 @@
                 <li><a class="treeview-item" href="/comentariosrechazados"><i class="icon fa fa-circle-o"></i>Comentarios rechazados</a></li>
               </ul>
             </li>
-            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-handshake-o"></i>
+            {{-- <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-handshake-o"></i>
               <span class="app-menu__label">Ofertas de Clientes &nbsp;       
                 <span class="badge badge-light">{{ \Bumsgames\Oferta::where('estado','0')->count() }}</span>
               </span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -356,7 +360,7 @@
                 <li><a class="treeview-item" href="/ofertas_cliente_aprobadas"><i class="icon fa fa-circle-o"></i>Ofertas aprobadas</a></li>
                 <li><a class="treeview-item" href="/ofertas_cliente_rechazadas"><i class="icon fa fa-circle-o"></i>Ofertas rechazadas</a></li>
               </ul>
-            </li>
+            </li> --}}
             <li>
               <a class="app-menu__item" href="/pago_cliente"><i class="app-menu__icon fa fa-dashboard"></i>
                 <span class="app-menu__label">Pago de Clientes &nbsp; 

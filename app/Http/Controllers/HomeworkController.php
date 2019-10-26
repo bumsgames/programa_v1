@@ -99,8 +99,6 @@ class HomeworkController extends Controller
         $articulo = \Bumsgames\Article::find($id);
         //$articulo = \Bumsgames\Article::with('categorias')->where('id', $id)->get();
 
-        
-        
         $articuloConCategory = \Bumsgames\Article::with('categorias')->where('id', $id)->first();
 
         //dd($articuloConCategory->toArray());

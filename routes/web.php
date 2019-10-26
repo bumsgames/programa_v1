@@ -26,6 +26,8 @@ Route::post('/logueo','BumsUserController@logueo');
 
 // ProgramController GET
 Route::get('/ventas','ProgramController@ventas')->name('ventas');
+Route::get('/mostrar_ventas','ProgramController@mostrar_ventas');
+Route::get('/mostrar_ventas2','ProgramController@mostrar_ventas2');
 Route::get('/obtener_ventas','ProgramController@obtenerVentas')->name('obtener_ventas');
 Route::post('/filtrar_ventas','ProgramController@filtrarVentas')->name('filtrar_ventas');
 Route::get('/filtrar_ventas/{id_usuario}/{fecha_inicio}/{fecha_final}','ProgramController@obtenerVentas')->name('obtener_filtrar_ventas');
@@ -36,6 +38,7 @@ Route::get('/ordenes', 'ProgramController@ordenes');
 Route::get('/configurar_tu_user', 'ProgramController@configurar_tu_user');
 //Route::get('/clientes_totales', 'ProgramController@clientes_totales');
 Route::post('/devolver_articulo', 'ProgramController@devolver_articulo');
+Route::get('/facturacion','ProgramController@facturacion');
 Route::get('/mis_clientes','ProgramController@mis_clientes');
 Route::get('/movimientos_tuyos','ProgramController@movimientos_tuyos');
 Route::get('/buscar_sale/{id}','ProgramController@buscar_sale');
@@ -72,6 +75,7 @@ Route::get('/prueba','ProgramController@prueba');
 Route::get('/portal','ProgramController@portal');
 Route::get('modo_ml','ProgramController@modo_ml');
 Route::get('misArticles_lista_escrita','ProgramController@misArticles_lista_escrita');
+Route::get('facuracion_coin', 'WebController@facuracion_coin');
 // Route::get('/entrega/{nombre_cliente}/{apellido_cliente}/{articulo}/{email}/{password}/{category_id}',function($nombre_cliente, $apellido_cliente,$articulo,$email,$password,$category_id){
 // 	return view('entrega', compact('nombre_cliente','apellido_cliente','articulo','email','password','category_id'));
 // });
@@ -94,6 +98,7 @@ Route::post('/registrar_orden','ProgramController@registrar_orden');
 Route::post('/coincidencia','ProgramController@coincidencia');
 Route::post('/coincidenciaArticulo','ProgramController@coincidenciaArticulo');
 Route::post('/realizar_venta','ProgramController@realizar_venta');
+Route::post('/realizarVenta_v2','ProgramController@realizarVenta_v2');
 Route::post('/ver_articulos','ProgramController@ver_articulos');
 Route::post('/ordenes_cuenta','ProgramController@ordenes_cuenta')->name('ordenes_cuenta');
 Route::post('/colocar_comision','ProgramController@colocar_comision');

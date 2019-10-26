@@ -20,6 +20,7 @@ class Client extends Authenticatable
         'name',
         'lastname',
         'nickname',
+        'cedula',
         'email',
         'image',
         'password',

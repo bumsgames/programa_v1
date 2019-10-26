@@ -8,6 +8,68 @@ $("#comprarCarrito").click(function(){
     //     "Para concretar su compra debe comunicarse con nosotros a nuestro What'sApp y proceder al pago de sus articulos, una vez verificado su pago se le hará el envio del producto o los productos comprados. \n  \n Puede comunicarse con nosotros al: \n\n (David Salazar)+58-0414-987-50-29 \n\n (Genesis Moreno)+58-0412-796-43-49\n\n (Daniel Duarte)+58-0412-11-92-379 \n\n (Brazil)+58-414-772-74-21 \n\n(Argentina)+54 9 11 3359-3681 \n\n\n Estamos a su orden.");
 });
 
+$(document).ready(function(){
+    $('#opcionesVenta').change(function(){
+        if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
+            $('#zona_multiple').css("display", "none");
+            $('#zona_unica').css("display", "block");
+
+        }else{
+            $('#zona_multiple').css("display", "block");
+            $('#zona_unica').css("display", "none");
+
+
+        }
+    });  
+
+    $('#banco_emisor').change(function(){
+        var string = $(this).find(":selected").val();
+        var result = string.match(/parte de pago/i);
+
+        if (result){
+            $('#texto_parte_pago').css("display", "block");
+
+        }else{
+            $('#texto_parte_pago').css("display", "none");
+        }
+    });
+
+
+    $( ".select_bancoEmisor" ).change(function(){
+
+        var string = $(this).find(":selected").val();
+        var result = string.match(/parte de pago/i);
+
+        if (result){
+            $("#textoAlerta_"+$(this).attr("name")).css("display", "block");
+            
+
+        }else{
+            $("#textoAlerta_"+$(this).attr("name")).css("display", "none");
+        }
+
+
+        
+        // var string = $(this).find(":selected").val();
+        // var result = string.match(/parte de pago/i);
+        // alert(1);
+
+        // if (result){
+        //     $('#texto_parte_pago').show();
+
+        // }else{
+        //     $('#texto_parte_pago').hide();
+        // }
+    });
+
+
+
+    // function texto_alerta(a){
+    //     alert(222);
+    // }
+
+});
+
 // function comprar(i){
 //     if((i - 1) == 0){
 //         swal('Su carrito esta vacio.');
@@ -123,6 +185,14 @@ $("#boxchecked").click(function (){
         $("#hidden").hide();
     }              
 });
+
+$("#checked_envio").click(function (){
+    if ($("#checked_envio").prop("checked")){
+        $("#zona_envio").css("display", "block");
+    }else{
+     $("#zona_envio").css("display", "none");           
+ }              
+});
 /* */
 
 
@@ -158,19 +228,19 @@ $('#inputFile2').on('change',function(){
             });
 
 $('#select_user').on('change',function(){
- $("#pertenece_user").val($("#select_user").find('option:selected').val());
+   $("#pertenece_user").val($("#select_user").find('option:selected').val());
 });
 
 $("#agregar_tarea").click(function(){
- var route = '/homeworkAdd';
- var token = $('#token').val();
- var form_data = new FormData();  
- form_data.append('de_usuario', $("#de_usuario").val());   
- form_data.append('para_usuario', $("#para_usuario").val());
- form_data.append('mensaje', $("#mensaje").val());
- form_data.append('status', $("#status").val());
+   var route = '/homeworkAdd';
+   var token = $('#token').val();
+   var form_data = new FormData();  
+   form_data.append('de_usuario', $("#de_usuario").val());   
+   form_data.append('para_usuario', $("#para_usuario").val());
+   form_data.append('mensaje', $("#mensaje").val());
+   form_data.append('status', $("#status").val());
 
- $.ajax({
+   $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -201,7 +271,7 @@ $("#agregar_tarea").click(function(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- console.log("Estamos aca");
+   console.log("Estamos aca");
 });
 
 $("#modificar_tarea").click(function(){
@@ -331,10 +401,10 @@ function eliminar_nota(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-       var route = "/delete_duties/"+id+"";
+     var route = "/delete_duties/"+id+"";
 
-       var token = $('#token').val();
-       $.ajax({
+     var token = $('#token').val();
+     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -352,7 +422,7 @@ function eliminar_nota(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
-   }else{
+ }else{
     alert('Clave no autorizada');
 }
 }
@@ -367,12 +437,12 @@ function mostrar_actuales(id, a, b){
     de += b;
     var route = "/actuales/"+id+"";
     $.get(route, function(data){
-       $("#id").val(data.id);
-       $("#de_usuarioM").val(de);
-       $("#para_usuarioM").val(data.para_usuario);
-       $("#mensajeM").val(data.mensaje);
-       $("#statusM").val(data.status);
-   });
+     $("#id").val(data.id);
+     $("#de_usuarioM").val(de);
+     $("#para_usuarioM").val(data.para_usuario);
+     $("#mensajeM").val(data.mensaje);
+     $("#statusM").val(data.status);
+ });
 }
 
 function modal_orden(id, cuenta, entidad){
@@ -496,6 +566,11 @@ $.ajax({
     }
 });
 
+$('#borrar').off().click(function(e) {
+
+   alert(111);
+
+}); 
 
 
 });
@@ -1044,6 +1119,7 @@ $("#borrar_client_venta").click(function(){
     $("#name_client").val('');
     $("#lastname_client").val('');
     $("#num_contact").val('');
+    $("#cedula_cliente").val('');
     $("#note").val('');
 });
 $("#name").on('keyup', function(){
@@ -1094,7 +1170,7 @@ function divFunctionArt(name, category, oferta, price_in_dolar, offer_price, pes
 
     $.get( "/descripcionArticulo/"+description, function( data ) {
         $( "#description" ).html( data.mensaje.description );
-      });
+    });
 
     $("#tablacoincidenciaart").hide();
 }
@@ -1122,6 +1198,283 @@ function divFunction2(id, name, lastname, contact){
     $("#table_client2 td").remove();
 }
 
+$("#realizarVenta_v2").click(function(){
+
+    // alert($("#items_cantidad").val());
+
+    // if ($("#items_cantidad").val() <= 0) {
+    //     swal("Tu carrito Admin se encuentra vacio.");
+    //     return;
+    // }
+
+
+
+    var route = '/realizarVenta_v2';
+    var form_data = new FormData();  
+    var token = $('#token').val();
+
+    //Envio
+    if ($("#boxchecked").prop("checked")){
+        if($("#empresa").val() == ""){
+            alert("Envio / Falta la Empresa de encomienda.");
+            return;
+        }
+
+        if($("#direccion").val() == ""){
+            alert("Envio / Falta la Direccion de envio.");
+            return;
+        }
+
+        if($("#destinario").val() == ""){
+            alert("Envio / Falta el destinario.");
+            return;
+        }
+
+        if($("#cedula_destinario").val() == ""){
+            alert("Envio / Falta el Cedula del destinario.");
+            return;
+        }
+
+        if($("#telefono").val() == ""){
+            alert("Envio / Falta el telefono del Destinario.");
+            return;
+        }
+        
+        form_data.append('envio', 'si');
+
+        form_data.append('empresa', $("#empresa").val());
+        form_data.append('direccion', $("#direccion").val());
+        form_data.append('destinario',$("#destinario").val());
+        form_data.append('cedula_destinario', $("#cedula_destinario").val());
+        form_data.append('telefono', $("#telefono").val());
+
+        form_data.append('envio', 'si');
+
+    }   else{
+        form_data.append('envio', 'no');
+    }
+
+
+//     if($("#id_client").val() == ""){
+
+//         if($("#name_client").val() == ""){
+//             alert("Cliente / Falta nombre del cliente.");
+//             return;
+//         }
+
+//         if($("#lastname_client").val() == ""){
+//             alert("Cliente / Falta nombre del cliente.");
+//             return;
+//         }
+
+//         if($("#cedula_cliente").val() == ""){
+//             alert("Cliente / Falta cedula del cliente.");
+//             return;
+//         }
+
+//         if($("#num_contact").val() == ""){
+//             alert("Cliente / Falta telefono del cliente.");
+//             return;
+//         }
+
+//         form_data.append('name',  $("#name_client").val());
+//         form_data.append('lastname', $("#lastname_client").val());
+//         if( $("#nickname").val() ){
+//            form_data.append('nickname', $("#nickname").val());
+//        }else{
+//         var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
+//         nickname = nickname.replace(/\s/g,'');;
+//         form_data.append('nickname', nickname);
+//     }
+//     form_data.append('num_contact', $("#num_contact").val());
+//     form_data.append('note', $("#note").val());
+// }
+
+    //Cliente
+    form_data.append('id', $("#id_client").val());   
+    form_data.append('name', "Angel");
+    form_data.append('lastname', "Duarte");
+    if( $("#nickname").val() ){
+        alert(10);
+        form_data.append('nickname', $("#nickname").val());
+    }else{
+        var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
+        nickname = nickname.replace(/\s/g,'');;
+        form_data.append('nickname', nickname);
+    }
+    form_data.append('num_contact', "0414-98750-29");
+
+    //FIN cliente
+
+
+// Parte Facturacion
+form_data.append('total', $("#total").val());
+form_data.append('inversion_total', $("#inversion_total").val());
+
+if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
+    form_data.append('metodoEstandar', 1);
+
+    let monto = document.querySelectorAll('.monto');
+    let id_coin = document.querySelectorAll('.id_coin');
+    let bancoEmisor = document.querySelectorAll('.bancoEmisor');
+    let referencia = document.querySelectorAll('.referencia');
+    let nota_venta = document.querySelectorAll('.nota_venta');
+
+    // alert(numero_de_categorias.length);
+    var porcentaje_array = new Array();
+    var categoria_array = new Array();
+
+    var monto_array =  new Array();
+    var id_coin_array =  new Array();
+    var bancoEmisor_array =  new Array();
+    var referencia_array = new Array();
+    var nota_venta_array = new Array();
+
+    if(monto.length == 0){
+        swal('No hay Pagos registrados');
+        return;
+    }
+
+    // Guarda cateorias en 1 array
+    for (var i = 0; i <monto.length; i++) {
+        monto_array.push(monto[i].value);
+        id_coin_array.push(id_coin[i].value);
+        bancoEmisor_array.push(bancoEmisor[i].value);
+        referencia_array.push(referencia[i].value);
+        nota_venta_array.push(nota_venta[i].value);
+    }
+
+    form_data.append('monto_array', JSON.stringify(monto_array));
+    form_data.append('id_coin_array', JSON.stringify(id_coin_array));
+    form_data.append('bancoEmisor_array', JSON.stringify(bancoEmisor_array));
+    form_data.append('referencia_array', JSON.stringify(referencia_array));
+    form_data.append('nota_venta_array', JSON.stringify(nota_venta_array));
+
+
+    form_data.append('opcion_involucrado',  $("input[name='OPCinvolucrado_-1']:checked").val());
+    alert($("input[name='OPCinvolucrado_-1']:checked").val());
+    form_data.append('involucradoAgenteSelect', $("#involucradoAgenteSelect_-1").val());
+    if($("input[name='OPCinvolucrado_-1']:checked").val() == 4){
+        var porcentaje_voluntad = $("#porcentaje_voluntad").val();
+        if ( porcentaje_voluntad == 0 || porcentaje_voluntad ==null || porcentaje_voluntad > 100) {
+            swal("Problemas en el Porcentaje Voluntad");
+            return;
+        }
+        form_data.append('porcentaje_voluntad', $("#porcentaje_voluntad").val());
+    }
+
+}else{
+    form_data.append('metodoEstandar', 0);
+    numero_items = $("#numero_items").val();
+    var monto_array =  new Array();
+    var id_coin_array =  new Array();
+    var bancoEmisor_array =  new Array();
+    var referencia_array = new Array();
+    var nota_venta_array = new Array();
+
+    var opcion_involucrado_array = new Array();
+    var involucradoAgenteSelect_array = new Array();
+    // i = artiuclo
+    // j = monto numero
+    for (var i = 0; i <numero_items; i++) {
+        monto_array[i] = new Array();
+        id_coin_array[i] =  new Array();
+        bancoEmisor_array[i] =  new Array();
+        referencia_array[i] = new Array();
+        nota_venta_array[i] = new Array();
+
+        // let involucradoSelect = document.querySelectorAll('.involucradoSelect_'+i);
+        opcion_involucrado = $("input[name='OPCinvolucrado_"+i+"']:checked").val();
+        involucradoAgenteSelect = $("#involucradoAgenteSelect_"+i).val();
+
+        // opcion_involucrado_array[i].push(opcion_involucrado);
+        opcion_involucrado_array[i] = opcion_involucrado;
+        involucradoAgenteSelect_array[i] = involucradoAgenteSelect;
+        // involucradoAgenteSelect_array[i].push(involucradoAgenteSelect);
+
+        let monto = document.querySelectorAll('.monto_'+i);
+        let coin = document.querySelectorAll('.coin_'+i);
+        let bancoEmisor = document.querySelectorAll('.bancoEmisor_'+i);
+        let referencia = document.querySelectorAll('.referencia_'+i);
+        let nota_venta = document.querySelectorAll('.nota_venta_'+i);
+
+        // if(monto.length == 0){
+        //     alert("PAGO / El articulo numero: "+(i+1)+" le falta el Monto.");
+        //     return;
+        // }
+
+
+        for (var j = 0; j <monto.length; j++) {
+            monto_array[i].push(monto[j].value);
+            id_coin_array[i].push(coin[j].value);
+            bancoEmisor_array[i].push(bancoEmisor[j].value);
+            referencia_array[i].push(referencia[j].value);
+            nota_venta_array[i].push(nota_venta[j].value);
+        }
+
+    }
+
+    form_data.append('monto_array', JSON.stringify(monto_array));
+    form_data.append('id_coin_array', JSON.stringify(id_coin_array));
+    form_data.append('bancoEmisor_array', JSON.stringify(bancoEmisor_array));
+    form_data.append('referencia_array', JSON.stringify(referencia_array));
+    form_data.append('nota_venta_array', JSON.stringify(nota_venta_array));
+
+    form_data.append('opcion_involucrado_array', JSON.stringify(opcion_involucrado_array));
+    form_data.append('involucradoAgenteSelect_array', JSON.stringify(involucradoAgenteSelect_array));
+
+    // monto_array[0][0] = 25;
+    // monto_array[0][1] = 12;
+    // monto_array[0][2] = 12;
+    // monto_array[0][3] = 12;
+
+    // alert(monto_array[0].length);
+
+
+    // for (var i = 0; i <numero_items; i++) {
+    //     for (var j = 0; j <numero_items; j++) {
+
+    //     }
+    // }
+
+
+    // let prueba = document.querySelectorAll('.monto_0');
+    // alert(prueba.length);
+    
+    
+}
+
+alert("Listo para entrar");
+
+//venta
+
+
+
+
+
+$.ajax({
+    url:        route,
+    headers:    {'X-CSRF-TOKEN':token},
+    type:       'POST',
+    dataType:   'json',
+    data:       form_data,
+    contentType: false, 
+    processData: false,
+    success: function(data){
+        alert("Bien");
+
+    },
+    error:function(msj){
+        var errormessages = "";
+        $.each(msj.responseJSON, function(i, field){
+            errormessages+="\n"+field+"\n";
+        });
+        swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+    }
+});
+
+});
+
 // vender_articulo
 $("#realizar_venta").click(function(){
     var route = '/realizar_venta';
@@ -1135,8 +1488,8 @@ $("#realizar_venta").click(function(){
     form_data.append('name', nombre_cliente);
     form_data.append('lastname', apellido_cliente);
     if( $("#nickname").val() ){
-     form_data.append('nickname', $("#nickname").val());
- }else{
+       form_data.append('nickname', $("#nickname").val());
+   }else{
     var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
     nickname = nickname.replace(/\s/g,'');;
     form_data.append('nickname', nickname);
@@ -1164,7 +1517,7 @@ if($("#note_sale").val()){
 }
 id_articulo = $("#id_articulo").val();
 form_data.append('id_article', id_articulo);
- 
+
 //ENVIO
 if ($("#boxchecked").prop("checked")){
     form_data.append('empresa', $("#empresa").val());
@@ -1348,14 +1701,14 @@ function colocar_comision(id){
 }
 
 $("#colocar_comision").click(function(){
-   var route = '/colocar_comision';
-   var token = $('#token').val();
+ var route = '/colocar_comision';
+ var token = $('#token').val();
 
-   var form_data = new FormData();  
-   form_data.append('id',  $("#id_sale").val());   
-   form_data.append('commission', $("#commission").val());
+ var form_data = new FormData();  
+ form_data.append('id',  $("#id_sale").val());   
+ form_data.append('commission', $("#commission").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -2144,7 +2497,7 @@ function cambiaBandera(algo){
                                 $("#cupon_creador").html("-");
                                 $("#cupon_codigo").html("-");
                             }
-                          
+
                             $("#pago_fecha").html(item.fecha);
                             if(item.verificado != 0){
                                 $("#pago_ver").html("<span class='fa fa-check text-success'></span>")
@@ -2272,10 +2625,10 @@ function cambiaBandera(algo){
                 }
 
                 function eliminar_orden(id){
-                   var route = "/eliminar_orden/"+id+"";
+                 var route = "/eliminar_orden/"+id+"";
 
-                   var token = $('#token').val();
-                   $.ajax({
+                 var token = $('#token').val();
+                 $.ajax({
                     url:        route,
                     headers:    {'X-CSRF-TOKEN':token},
                     type:       'post',
@@ -2294,11 +2647,11 @@ function cambiaBandera(algo){
                     }
                 });
 
-               }
+             }
 
 
 
-               function AvoidSpace(event) {
+             function AvoidSpace(event) {
                 var k = event ? event.which : window.event.keyCode;
                 if (k == 32) return false;
             }
