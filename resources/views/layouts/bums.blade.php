@@ -95,7 +95,7 @@
         <span id="cantCarrito">({{count($carrito)}})</span> 
       </button>
 
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <div class="d-flex">
           <div class="dropdown mr-1">
 
@@ -112,15 +112,14 @@
               <a class="dropdown-item" href="#">Something else here</a>
               <table class="table table-hover">
                 <tbody id="tablaCarrito2">
-                  <?php $i = 1; ?>
-                  <?php $precio = 0; ?>
+                  
                   @if(Session::has('carrito_admin'))
 
 
                   @foreach( Session::get('carrito_admin') as $x )
                   <tr>
                     <th>
-                      <?php echo $i++; ?>
+                      
                     </th>
                     <td>
                       <input autocomplete="off" type='text' class='id_articulo' value='{{ $x['id'] }}' hidden="">
@@ -128,7 +127,7 @@
                     </td>
                     <td class="columna_precio">
                       {{  number_format($x['precio'], 2, ',', '.') }} $
-                      <?php $precio += $x['precio']; ?>
+                      
                     </td>
                     <td>
                       <img src="img/{{ $x['imagen'] }}" width="40" height="45" alt="">
@@ -165,7 +164,7 @@
           </div>
 
         </div>
-      </li>
+      </li> --}}
     </ul>
   </header>
   <!-- Modal -->
@@ -183,7 +182,7 @@
           <table class="table table-hover" id="tableLyon">
             <thead>
               <tr>
-                <th>id</th>
+                <th>#</th>
                 <th>Nombre</th>
                 <th>Categorias</th>
                 <th>Dueños</th>
@@ -224,11 +223,31 @@
                   {{ $item->cantidad }}
                 </th>
                 <th>
-                  {{ $item->articulo->price_in_dolar }} $
+                  {{ $item->cantidad * $item->articulo->price_in_dolar }} $
+                  <?php $precio = $precio + ($item->cantidad * $item->articulo->price_in_dolar); ?>
                 </th>
               </tr>
               @endforeach
-                 
+              <tr id="carritoTotal">
+                <th>
+                  
+                </th>
+                <th>
+                  
+                </th>
+                <th>
+                  
+                </th>
+                <th>
+
+                </th>
+                <th>
+                  Total:
+                </th>
+                <th>
+                  {{$precio}} $
+                </th>
+              </tr>
              @endif
 
 
@@ -237,8 +256,14 @@
         </div>
         <div class="modal-footer">
           
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="BorrarTodoCarro_admin();">Cancelar carrito</button>
-          <a href="{{ url('facturacion') }}"><button type="button" class="btn btn-primary">Proceder compra</button></a>
+          <button id="cancelarCompraAdmin" type="button" class="btn btn-secondary" 
+          data-dismiss="modal" onclick="BorrarTodoCarro_admin();" @if(count($carrito)==0) style="display:none;" @endif>
+            Cancelar carrito
+          </button>
+          
+          <a id="procederCompraAdmin" href="{{ url('facturacion') }}" @if(count($carrito)==0) style="display:none;" @endif >
+            <button type="button" class="btn btn-primary">Proceder compra</button>
+          </a>
 
         </div>
       </div>

@@ -2234,6 +2234,15 @@ function agregaCarro(id,a,b,c,d, e, f){
 }
 
 function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
+    
+    var cantidadCero = $('#cantidadDisponible_'+ id).text();
+    
+    console.log(cantidadCero);
+    
+    if(cantidadCero=='0'){
+        alert("No se puede agregar al carrito ya que no hay mas disponibilidad del mismo.");
+        return;
+    }
 
     var token = $('#token').val(); 
     var form_data = new FormData();  
@@ -2261,8 +2270,8 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
             });
 
             let i = 1;
+            let precioTotal = 0;
 
-            
             data.forEach(element => {
                 var catagoryString = '';
                 element.articulo.categorias.forEach(element => {
@@ -2275,6 +2284,7 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
                 });
 
                 var htmlTags = 
+<<<<<<< HEAD
                 '<tr>'+
                 '<td>' + i + '</td>'+
                 '<td>' + element.articulo.name + '</td>'+
@@ -2282,16 +2292,50 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
                 '<td>' + duennosString + '</td>'+
                 '<td>' + element.cantidad + '</td>'+
                 '<td>' + element.articulo.costo + '</td>'+
+=======
+                '<tr id="fila_'+ element.id_articulo +'">'+
+                    '<td>' + i + '</td>'+
+                    '<td>' + element.articulo.name + '</td>'+
+                    '<td>' + catagoryString + '</td>'+
+                    '<td>' + duennosString + '</td>'+
+                    '<td>' + element.cantidad + '</td>'+
+                    '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
+>>>>>>> a7681c3e2f771f3d35f60207d485915e8e7e1bd8
                 '</tr>';
                 $('#tableLyon tbody').append(htmlTags);
                 i++;
+                precioTotal = precioTotal + (element.articulo.price_in_dolar * element.cantidad);
+
+                $('#cantidadDisponible_'+ element.id_articulo).text(element.articulo.quantity);                
             });
+
+            if(i>=2){
+                console.log("se activa el boton");
+                $("#procederCompraAdmin").css("display", "block");
+                $("#cancelarCompraAdmin").css("display", "block");
+            }
+
+            //borro precio total para colocar el nuevo
+            $("#carritoTotal").remove(); 
+            var htmlPrecio = 
+            '<tr id="carritoTotal">'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td>Total:</td>'+
+                '<td>' + precioTotal + ' $</td>'+
+            '</tr>';
+            $('#tableLyon tbody').append(htmlPrecio);
             
+
             let art = data.find(carrito => carrito.articulo.id == id && carrito.cantidad > 1);
             console.log("encontro el articulo en lalista", art);
             if(!art){
                 $('#cantCarrito').text(data.length);
             }
+
+            
             
             // var tablaDatos = $("#tablaCarrito2");
 
@@ -2327,26 +2371,62 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
 
 function BorrarTodoCarro_admin(){
 
-    var form_data = new FormData(); 
-    var token = $('#token').val(); 
-    var route = 'eliminaTodoCarro_admin';
+    var opcion = confirm("¿Seguro que desea cancelar el carrito? Se eliminaran todos los productos del carrito.");
+    if (opcion == true) {
 
-    $.ajax({
-        url:        route,
-        headers:    {'X-CSRF-TOKEN':token},
-        type:       'POST',
-        dataType:   'json',
-        data:       form_data,
-        contentType: false, 
-        processData: false,
-        success:function(data){
-            console.log(data);
-            data.forEach(element => {
-                $("#fila_" + element.id_articulo).remove();
-            });
-            $('#cantCarrito').text(0);
-        }
-    });
+        console.log("selecciono aceptar");
+
+        var form_data = new FormData(); 
+        var token = $('#token').val(); 
+        var route = 'eliminaTodoCarro_admin';
+
+        $.ajax({
+            url:        route,
+            headers:    {'X-CSRF-TOKEN':token},
+            type:       'POST',
+            dataType:   'json',
+            data:       form_data,
+            contentType: false, 
+            processData: false,
+            success:function(data){
+                console.log(data);
+
+                //borro cada fila de la tabla
+                data.forEach(element => {
+                    $("#fila_" + element.id_articulo).remove();
+                    $('#cantidadDisponible_'+ element.id_articulo).text(element.articulo.quantity); 
+                });
+
+                //quito la fila del precio total
+                $("#carritoTotal").remove(); 
+                var htmlPrecio = 
+                '<tr id="carritoTotal">'+
+                    '<td></td>'+
+                    '<td></td>'+
+                    '<td></td>'+
+                    '<td></td>'+
+                    '<td>Total:</td>'+
+                    '<td> 0 $</td>'+
+                '</tr>';
+                
+                //La agrego nuevamente
+                $('#tableLyon tbody').append(htmlPrecio);
+                
+                //coloco cantidad cero en navbar
+                $('#cantCarrito').text(0);
+
+                //quito boton de proceder y cancelar compra
+                $("#procederCompraAdmin").css("display", "none");
+                $("#cancelarCompraAdmin").css("display", "none");
+            }
+        });
+
+	} else {
+        console.log("selecciono cancelar");
+	    return;
+    }
+    
+    
 }
 
 function nicknameAleatorio(nombre_cliente, apellido_cliente){

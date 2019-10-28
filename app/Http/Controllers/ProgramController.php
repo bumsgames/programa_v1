@@ -3968,7 +3968,12 @@ class ProgramController extends Controller
 
 		foreach ($item_carrito as $item) {
 			$item->delete();
+
+			$item['articulo'] = \Bumsgames\Article::where('id', $item->id_articulo)->first();
+			$item['articulo']->fill(['quantity' => $item['articulo']->quantity + $item->cantidad]);
+			$item['articulo']->save();
 		}
+
 		return response()->json($item_carrito);
 	}
 
