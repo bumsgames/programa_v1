@@ -2284,15 +2284,6 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
                 });
 
                 var htmlTags = 
-<<<<<<< HEAD
-                '<tr>'+
-                '<td>' + i + '</td>'+
-                '<td>' + element.articulo.name + '</td>'+
-                '<td>' + catagoryString + '</td>'+
-                '<td>' + duennosString + '</td>'+
-                '<td>' + element.cantidad + '</td>'+
-                '<td>' + element.articulo.costo + '</td>'+
-=======
                 '<tr id="fila_'+ element.id_articulo +'">'+
                     '<td>' + i + '</td>'+
                     '<td>' + element.articulo.name + '</td>'+
@@ -2300,7 +2291,6 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
                     '<td>' + duennosString + '</td>'+
                     '<td>' + element.cantidad + '</td>'+
                     '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
->>>>>>> a7681c3e2f771f3d35f60207d485915e8e7e1bd8
                 '</tr>';
                 $('#tableLyon tbody').append(htmlTags);
                 i++;
