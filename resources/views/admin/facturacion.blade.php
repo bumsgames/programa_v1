@@ -25,273 +25,265 @@
 
 </head>
 
+<style type="text/css">
+.shadow_ligero{
+	-webkit-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+	-moz-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+	box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+}
+</style>
+
 
 <body>
 	<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-	Carrito de <div style="color: red;">{{ Auth::user()->name }} {{ Auth::user()->lastname }}</div>
+	<style type="text/css">
+	.container {max-width: 90% !important;}
+</style>
+<br>
+<br>
+<div class="container">
+	<div class="card text-center shadow_ligero">
+	<div class="card-header">
+
+		<center>
+			<form class="form-inline margin" action="{{  url('prueba') }}" method="get">
+				<select class="form-control selectCoin" onchange="this.form.submit()" name="id_coin" id="id_coin" style="border: solid; border-color: #808080;">
+					<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
+					@foreach($coins as $coin)
+					<option class="form-control" value="{{ $coin->id }}">{{ $coin->coin }}</option>
+					@endforeach
+				</select>
+				&nbsp;
+				@if( $moneda_actual->id != 2)
+
+				Tasa: {{ number_format($moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+				@endif
+			</form>	
+		</center>
+		<h3>Facturacion de {{ Auth::user()->name }} {{ Auth::user()->lastname }}</h3>
+		<a href="">Cancelar facturacion</a>
+
+	</div>
+	<div class="card-body">
+		<table class="table" style="font-size: 10px;">
+			<tbody id="tablaCarrito2">
+				<?php $i = 1; ?>
+				<?php $precio = 0; ?>
+				<?php $inversion_total = 0; ?>
+				<?php $items_cantidad = 0; ?>
 
 
-	<hr>	
+				@foreach( $carrito as $item )
+				<tr>
+					<th>
+						<?php echo $i++; ?>.
+						<?php $precio += $item->articulo->price_in_dolar * $item->cantidad; ?>
+						<?php $inversion_total += $item->articulo->costo * $item->cantidad; ?>
+						<?php $items_cantidad++; ?>
+					</th>
+					<th>	
+						<img class="img-top imagen newImg" src="{{ url('img/'.$item->articulo->fondo) }}" alt="Card image cap" width="30">
+					</th>
+					<th>
+						{{ $item->articulo->name }}
+					</th>
+					<th>
+						@foreach($item->articulo->categorias as $categoria)
+						{{ $categoria->category }}
+						<br>
+						<br>
 
+						@endforeach
+					</th>
+					<th>	
+						@foreach($item->articulo->duennos->sortBy('porcentaje') as $duenno)
+						<strong>
+							Dueño:
+						</strong>
+						<br>
+						<div class="dufiltrar">{{ $duenno->name }} {{ $duenno->lastname }}</div>
+
+						<br>
+						<strong>
+							Acciones:
+						</strong>
+						<br>
+						{{ $duenno->pivot->porcentaje }} %
+
+
+						<br>	
+						<br>	
+						@endforeach	
+					</th>
+					<th>
+						{{ $item->cantidad }} Unidad(es)
+					</th>
+					<th>
+						<div style="font-size: 15px;">
+							{{ $item->articulo->price_in_dolar * $item->cantidad }} $ (Unidad: {{ $item->articulo->price_in_dolar }} $)
+						</div>
+						<br>
+						<br>
+						@if( $moneda_actual->id != 2)
+						{{ number_format($item->articulo->price_in_dolar * $item->cantidad * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+
+						({{ number_format($item->articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }})
+						@endif							
+					</th>
+				</tr>
+
+
+				@endforeach
+
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer ">
+		<table class="table" style="font-size: 15px;">
+			<tbody>
+				<tr>
+					<th>
+
+					</th>
+					<th>
+					</th>
+					<th>	
+
+					</th>
+					<th>
+					</th>
+					<th>
+
+					</th>
+					<th>	
+					</th>
+					<th>
+
+					</th>
+					<th>
+
+					</th>
+					<th>
+
+					</th>
+					<th>
+
+					</th>
+
+
+					<th>
+						TOTAL: {{ number_format($precio, 2, ',', '.') }} $
+						<br>
+						@if( $moneda_actual->id != 2)
+						{{ number_format($precio * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+						@endif		
+						<input type="" name="" id="inversion_total" value="{{ $inversion_total }}" hidden="">
+						<input type="" value=" {{ $precio }}" name="" id="total" hidden="">
+						<input type="" value="{{ $items_cantidad }}" id="items_cantidad" hidden="">				
+					</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+
+<br>
+<div class="container">
 	<div class="row">
 		<div class="col-7">
-			<div class="col-12 col-lg-3">
-				<div class="form-group">
-					<form class="form-inline margin" action="{{  url('prueba') }}" method="get">
-						<select class="form-control selectCoin" onchange="this.form.submit()" name="id_coin" id="id_coin" style="border: solid; border-color: #808080;">
-							<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
-							@foreach($coins as $coin)
-							<option class="form-control" value="{{ $coin->id }}">{{ $coin->coin }}</option>
-							@endforeach
-						</select>
-						&nbsp;
-
-						<img id="my_image" src="{{  url('img/'.$moneda_actual->imagen) }}" alt="" width="40">
-					</form>
-					@if( $moneda_actual->id != 2)
-
-					Tasa: {{ number_format($moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
-					@endif
+			<div class="card text-center shadow_ligero">
+				<div class="card-header">
+					<center>
+						DATOS DEL CLIENTE
+					</center>
 				</div>
-			</div>
-			<table class="table table-hover" style="font-size: 10px;">
-				<tbody id="tablaCarrito2">
-					<?php $i = 1; ?>
-					<?php $precio = 0; ?>
-					<?php $inversion_total = 0; ?>
-					<?php $items_cantidad = 0; ?>
+				<div class="card-body">
+					<div class="row">
+						<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+						<input name="id_articulo" id="id_articulo" hidden="">
+						<input type="text" id="articulo_venta" hidden>
+						<input type="text" id="email_articulo_venta" hidden>
+						<input type="text" id="password_articulo_venta" hidden>
+						<input type="text" id="category_id_articulo_venta" hidden>
+						<input name="id_user" id="id_user" value="{{ Auth::user()->id }}" hidden="">
 
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for=""><strong>N# Cliente</strong></label>
+								<input class="form-control form-control-sm" 
+								type="text"
+								name="id_client" 
+								id="id_client" 
+								placeholder=""
+								autocomplete="off"
+								readonly="">
 
-					@foreach( $carrito as $item )
-					<tr>
-						<th>
-							<?php echo $i++; ?>.
-							<?php $precio += $item->articulo->price_in_dolar * $item->cantidad; ?>
-							<?php $inversion_total += $item->articulo->costo * $item->cantidad; ?>
-							<?php $items_cantidad++; ?>
-						</th>
-						<th>	
-							<img class="img-top imagen newImg" src="{{ url('img/'.$item->articulo->fondo) }}" alt="Card image cap" width="30">
-						</th>
-						<th>
-							{{ $item->articulo->name }}
-						</th>
-						<th>
-							@foreach($item->articulo->categorias as $categoria)
-							{{ $categoria->category }}
-							<br>
-							<br>
-
-							@endforeach
-						</th>
-						<th>	
-							@foreach($item->articulo->duennos->sortBy('porcentaje') as $duenno)
-							<strong>
-								Dueño:
-							</strong>
-							<br>
-							<div class="dufiltrar">{{ $duenno->name }} {{ $duenno->lastname }}</div>
-
-							<br>
-							<strong>
-								Acciones:
-							</strong>
-							<br>
-							{{ $duenno->pivot->porcentaje }} %
-
-
-							<br>	
-							<br>	
-							@endforeach	
-						</th>
-						<th>
-							{{ $item->cantidad }} Unidad(es)
-						</th>
-						<th>
-							<div style="font-size: 15px;">
-								{{ $item->articulo->price_in_dolar * $item->cantidad }} $ (Unidad: {{ $item->articulo->price_in_dolar }} $)
 							</div>
-							<br>
-							<br>
-							@if( $moneda_actual->id != 2)
-							{{ number_format($item->articulo->price_in_dolar * $item->cantidad * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 
-							({{ number_format($item->articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }})
-							@endif							
-						</th>
-					</tr>
+						</div>
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for=""><strong>N° Documento Identidad</strong></label>
+								<input class="form-control form-control-sm" 
+								id="cedula_cliente" 
+								autocomplete="off"
+								>
+							</div>
+						</div>
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for=""><strong>Nickname</strong></label>
+								<input class="form-control form-control-sm" 
+								type="text"
+								name="nickname" 
+								id="nickname" 
+								placeholder=""
+								autocomplete="off"
+								>
+							</div>
+						</div>		
+					</div>
+					<div class="row">
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for=""><strong>Nombre</strong></label>
+								<input class="form-control form-control-sm" 
+								type="text"
+								id="name_client" 
+								placeholder=""
+								autocomplete="off"
+								>
 
+							</div>
 
-					@endforeach
-
-				</tbody>
-			</table>
-			TOTAL: {{ number_format($precio, 2, ',', '.') }} $
-			<input type="" name="" id="inversion_total" value="{{ $inversion_total }}" hidden="">
-			<input type="" value=" {{ $precio }}" name="" id="total" hidden="">
-			<input type="" value="{{ $items_cantidad }}" id="items_cantidad" hidden="">
-			<br>
-			<br>
-
-			@if( $moneda_actual->id != 2)
-			{{ number_format($precio * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
-			@endif		
-			<br>
-			<br>
-			<div class="container" style="font-size: 9px;">	
-				<label>
-					<input type="checkbox" value="checkbox" id="checked_envio" />
-					Incluye envio.
-				</label>	
-				<div class="row" id="zona_envio" style="display: none;">
-					<div class="col-12 col-lg">
-						<div class="form-group">
-							<label for="" ><strong>Empresa de encomienda</strong></label>
-							<input class="form-control form-control-sm" 
-							type="text"
-							id="empresa" 
-							value="Tealca" 
-							placeholder=""
-							autocomplete="off">
+						</div>
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for=""><strong>Apellido</strong></label>
+								<input class="form-control form-control-sm" 
+								type="text"
+								name="lastname_client" 
+								id="lastname_client" 
+								placeholder=""
+								autocomplete="off"
+								>
+							</div>
 						</div>
 					</div>
-					<div class="col-12 col-lg">
-						<div class="form-group">
-							<label for=""><strong>Direccion de envio</strong></label>
-							<input class="form-control form-control-sm" 
-							type="text"
-							id="direccion" 
-							placeholder=""
-							value="Alta Vista, Poz" 
-							autocomplete="off">
+					<div class="row">
+						<div class="col-12 col-lg">
+							<div class="form-group">
+								<label for=""><strong>Contacto</strong></label>
+								<input class="form-control form-control-sm" 
+								type="text"
+								name="num_contact" 
+								id="num_contact" 
+								placeholder=""
+								autocomplete="off"
+								>
+							</div>		
 						</div>
-					</div>
-					<div class="col-12 col-lg">
-						<div class="form-group">
-							<label for=""><strong>Destinario</strong></label>
-							<input class="form-control form-control-sm" 
-							type="text"
-							id="destinario" 
-							placeholder=""
-							value="David Salazar" 
-							autocomplete="off">
-						</div>
-					</div>
-					<div class="col-12 col-lg">
-						<div class="form-group">
-							<label for=""><strong>Cedula</strong></label>
-							<input class="form-control form-control-sm" 
-							type="text"
-							id="cedula_destinario" 
-							placeholder=""
-							value="24559480" 
-							autocomplete="off">
-						</div>
-					</div>
-					<div class="col-12 col-lg">
-						<div class="form-group">
-							<label for=""><strong>Telefono</strong></label>
-							<input class="form-control form-control-sm" 
-							type="text"
-							id="telefono" 
-							placeholder=""
-							value="04149875029" 
-							autocomplete="off">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-5">
-			<center>
-				PARTE CLIENTE
-			</center>
-			<hr>
-			<div class="row">
-				<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-				<input name="id_articulo" id="id_articulo" hidden="">
-				<input type="text" id="articulo_venta" hidden>
-				<input type="text" id="email_articulo_venta" hidden>
-				<input type="text" id="password_articulo_venta" hidden>
-				<input type="text" id="category_id_articulo_venta" hidden>
-				<input name="id_user" id="id_user" value="{{ Auth::user()->id }}" hidden="">
-
-				<div class="col-12 col-lg">
-					<div class="form-group">
-						<label for=""><strong>N# Cliente</strong></label>
-						<input class="form-control form-control-sm" 
-						type="text"
-						name="id_client" 
-						id="id_client" 
-						placeholder=""
-						autocomplete="off"
-						readonly="">
-
-					</div>
-
-				</div>
-				<div class="col-12 col-lg">
-					<div class="form-group">
-						<label for=""><strong>Cedula</strong></label>
-						<input class="form-control form-control-sm" 
-						id="cedula_cliente" 
-						autocomplete="off"
-						>
-					</div>
-				</div>
-				<div class="col-12 col-lg">
-					<div class="form-group">
-						<label for=""><strong>Nickname</strong></label>
-						<input class="form-control form-control-sm" 
-						type="text"
-						name="nickname" 
-						id="nickname" 
-						placeholder=""
-						autocomplete="off"
-						>
-					</div>
-				</div>		
-			</div>
-			<div class="row">
-				<div class="col-12 col-lg">
-					<div class="form-group">
-						<label for=""><strong>Nombre</strong></label>
-						<input class="form-control form-control-sm" 
-						type="text"
-						id="name_client" 
-						placeholder=""
-						autocomplete="off"
-						>
-
-					</div>
-
-				</div>
-				<div class="col-12 col-lg">
-					<div class="form-group">
-						<label for=""><strong>Apellido</strong></label>
-						<input class="form-control form-control-sm" 
-						type="text"
-						name="lastname_client" 
-						id="lastname_client" 
-						placeholder=""
-						autocomplete="off"
-						>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-lg">
-					<div class="form-group">
-						<label for=""><strong>Contacto</strong></label>
-						<input class="form-control form-control-sm" 
-						type="text"
-						name="num_contact" 
-						id="num_contact" 
-						placeholder=""
-						autocomplete="off"
-						>
-					</div>		
-				</div>
 							{{--
 							<div class="col-12 col-lg">
 								<div class="form-group">
@@ -312,8 +304,8 @@
 								<thead>
 									<tr>
 										<th scope="col">Nombre y Apellido</th>
+										<th scope="col">N° Identidad</th>
 										<th scope="col">Nickname</th>
-										<th scope="col">Boton</th>
 									</tr>
 								</thead>
 								<tbody id="table_client">
@@ -322,14 +314,89 @@
 							</table>
 						</div>
 						<button class="btn btn-primary" id="borrar_client_venta">Cliente Nuevo</button>
-						<br>
-						<br>
-						<hr>
-						<center>
-							PAGO
-						</center>
-						<hr>
-						<form id="opcionesVenta">
+					</div>
+					<div class="card-footer text-muted">
+						<label>
+							<input type="checkbox" value="checkbox" id="checked_envio" />
+							Incluye envio.
+						</label>	
+						<div class="card" style="">
+							<div class="container">
+								<div class="row" id="zona_envio" style="display: none;">
+									<br>
+									<br>
+									<center>
+										<button id="copia_envio">Seleccionar mismos datos cliente</button>
+									</center>
+									<br>
+									<br>
+									<div class="col-12 col-lg">
+										<div class="form-group">
+											<label for="" ><strong>Empresa de encomienda</strong></label>
+											<input class="form-control form-control-sm" 
+											type="text"
+											id="empresa" 
+
+											placeholder=""
+											autocomplete="off">
+										</div>
+									</div>
+									<div class="col-12 col-lg">
+										<div class="form-group">
+											<label for=""><strong>Direccion de envio</strong></label>
+											<input class="form-control form-control-sm" 
+											type="text"
+											id="direccion" 
+											placeholder=""
+
+											autocomplete="off">
+										</div>
+									</div>
+									<div class="col-12 col-lg">
+										<div class="form-group">
+											<label for=""><strong>Destinario</strong></label>
+											<input class="form-control form-control-sm" 
+											type="text"
+											id="destinario" 
+											placeholder=""
+											autocomplete="off">
+										</div>
+									</div>
+									<div class="col-12 col-lg">
+										<div class="form-group">
+											<label for=""><strong>Cedula</strong></label>
+											<input class="form-control form-control-sm" 
+											type="text"
+											id="cedula_destinario" 
+											placeholder=""
+
+											autocomplete="off">
+										</div>
+									</div>
+									<div class="col-12 col-lg">
+										<div class="form-group">
+											<label for=""><strong>Telefono</strong></label>
+											<input class="form-control form-control-sm" 
+											type="text"
+											id="telefono" 
+											placeholder=""
+
+											autocomplete="off">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-5">
+				<div class="card text-center shadow_ligero">
+					<div class="card-header">
+						DATOS DE PAGO
+					</div>
+					<div class="card-body">
+						<form id="opcionesVenta" hidden="">
 							<div class="form-check">
 								<input class="form-check-input" type="radio" name="opciones_venta" id="exampleRadios1" value="1" checked>
 								<label class="form-check-label" for="exampleRadios1">
@@ -343,40 +410,48 @@
 								</label>
 							</div>
 						</form>
-
+						TOTAL: {{ number_format($precio, 2, ',', '.') }} $
+						<br>
+						@if( $moneda_actual->id != 2)
+						{{ number_format($precio * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+						@endif	
+						{{-- Zona unica --}}
 						<div class="col-12 col-lg" id="zona_unica">
 							<hr>
-							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" value="1"  name="OPCinvolucrado_-1" id="involucradoSelect1_-1" checked>
+							<div class="form-check form-check-inline holaaas">
+								<input class="form-check-input venta_tipo" type="radio" value="1"  name="OPCinvolucrado_-1" id="involucradoSelect1_-1" checked>
 								<label class="form-check-label" for="involucradoSelect1_-1">Venta propia de: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaPropia * 100 }} %)</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" value="2" name="OPCinvolucrado_-1" id="involucradoSelect2_-1">
+								<input class="form-check-input venta_tipo" type="radio" value="2" name="OPCinvolucrado_-1" id="involucradoSelect2_-1">
 								<label class="form-check-label" for="involucradoSelect2_-1">Venta Parcial: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaParcial * 100 }} %)</label>
 							</div>
+
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" value="3" name="OPCinvolucrado_-1" id="involucradoSelect3_-1">
+								<input class="form-check-input venta_tipo" type="radio" value="3" name="OPCinvolucrado_-1" id="involucradoSelect3_-1">
 								<label class="form-check-label" for="involucradoSelect3_-1">Venta Ajena: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaAjena * 100 }} %) </label>
 							</div>
-
-
-
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" value="4" name="OPCinvolucrado_-1" id="involucradoSelect4_-1">
+								<input class="form-check-input venta_tipo" type="radio" value="4" name="OPCinvolucrado_-1" id="involucradoSelect4_-1">
 								<label class="form-check-label" for="involucradoSelect4_-1">Porcentaje a voluntad: {{ Auth::user()->name }} {{ Auth::user()->lastname }} (Tu decides el %) </label>
 							</div>
-							<div>
+							<br>
+							<br>
+							<div style="font-size: 11px;" id="area_porcentaje_voluntad">
 								<label>
-									Porcentaje
-									<input type="number" id="porcentaje_voluntad">
+									Porcentaje (%): 
+									<input class="form-control form-control-sm" type="number" id="porcentaje_voluntad">
 								</label>
 							</div>
+							<div id="area_involucradoAgenteSelect_-1">
+								<div style="font-size: 11px;">Involucrado</div>
+								<select class="form-control form-control-sm" id="involucradoAgenteSelect_-1">
 
-							<select class="form-control form-control-sm" id="involucradoAgenteSelect_-1">
-								@foreach($users_opc as $user_opc)
-								<option value="{{ $user_opc->id }}">{{ $user_opc->name }} {{ $user_opc->lastname }}</option>
-								@endforeach
-							</select>
+									@foreach($users_opc as $user_opc)
+									<option value="{{ $user_opc->id }}">{{ $user_opc->name }} {{ $user_opc->lastname }}</option>
+									@endforeach
+								</select>
+							</div>
 							<hr>
 							<input type="text" hidden="" id="articulo_venta">
 							<div class="row" hidden="">
@@ -399,7 +474,7 @@
 							<div class="col-12 col-lg-3">
 								<div class="form-group">
 									<label for=""><strong>Monto</strong></label>
-									<input class="form-control form-control-sm" 
+									<input class="form-control form-control-sm numero_separador" 
 									type="text"
 									id="monto" 
 									placeholder=""
@@ -462,156 +537,159 @@
 							name="note_sale" 
 							id="note_sale" 
 							placeholder=""
-							autocomplete="off">
-						</textarea>
-						<small class="text-danger" id="texto_parte_pago" style="display: none;">
-							<strong>
-								*En caso de recibir juego digital como parte de pago, colocar el correo del mismo y su respectiva categoria (primario, secundario...)*
-								<br>
-								<br>
-								*En caso de recibir Juego Fisico como parte de Pago, especificar el nombre y el estado del Juego (Sellado, Destapado)...*
-							</strong>
-						</small>
+							autocomplete="off" placeholder=""></textarea>
+
+							<small class="text-danger" id="texto_parte_pago" style="display: none;">
+								<strong>
+									*En caso de recibir juego digital como parte de pago, colocar el correo del mismo y su respectiva categoria (primario, secundario...)*
+									<br>
+									<br>
+									*En caso de recibir Juego Fisico como parte de Pago, especificar el nombre y el estado del Juego (Sellado, Destapado)...*
+								</strong>
+							</small>
+						</div>
+
+					</div>
+					<br>
+					<button id="agregarPago">Agregar otro Pago</button>
+					<br>
+					<br>
+					<div id="ProSelected"></div>
+
+
+				</div>
+
+				{{-- ZONA MULTIPLE --}}
+				<div id="zona_multiple" style="display: none;">
+
+					<?php $i = 0; ?>
+					<?php $precio = 0; ?>
+
+
+					@foreach( $carrito as $item )
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" value="1"  name="OPCinvolucrado_{{ $i }}" id="involucradoSelect1_{{ $i }}" checked>
+						<label class="form-check-label" for="involucradoSelect1_{{ $i }}">Venta propia de: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaPropia * 100 }} %)</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" value="2" name="OPCinvolucrado_{{ $i }}" id="involucradoSelect2_{{ $i }}">
+						<label class="form-check-label" for="involucradoSelect2_{{ $i }}">Venta Parcial: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaParcial * 100 }} %)</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" value="3" name="OPCinvolucrado_{{ $i }}" id="involucradoSelect3_{{ $i }}">
+						<label class="form-check-label" for="involucradoSelect3_{{ $i }}">Venta Ajena: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaAjena * 100 }} %) </label>
 					</div>
 
-				</div>
-				<button id="agregarPago">Agregar otro Pago</button>
-				<div id="ProSelected"></div>
-
-
-			</div>
-			
-			{{-- ZONA MULTIPLE --}}
-			<div id="zona_multiple" style="display: none;">
-
-				<?php $i = 0; ?>
-				<?php $precio = 0; ?>
-
-
-				@foreach( $carrito as $item )
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" value="1"  name="OPCinvolucrado_{{ $i }}" id="involucradoSelect1_{{ $i }}" checked>
-					<label class="form-check-label" for="involucradoSelect1_{{ $i }}">Venta propia de: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaPropia * 100 }} %)</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" value="2" name="OPCinvolucrado_{{ $i }}" id="involucradoSelect2_{{ $i }}">
-					<label class="form-check-label" for="involucradoSelect2_{{ $i }}">Venta Parcial: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaParcial * 100 }} %)</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" value="3" name="OPCinvolucrado_{{ $i }}" id="involucradoSelect3_{{ $i }}">
-					<label class="form-check-label" for="involucradoSelect3_{{ $i }}">Venta Ajena: {{ Auth::user()->name }} {{ Auth::user()->lastname }} ({{ Auth::user()->porcentaje_ventaAjena * 100 }} %) </label>
-				</div>
-
-				<select class="form-control form-control-sm" id="involucradoAgenteSelect_{{ $i }}">
-					@foreach($users_opc as $user_opc)
-					<option value="{{ $user_opc->id }}">{{ $user_opc->name }} {{ $user_opc->lastname }}</option>
-					@endforeach
-				</select>
-
-				<hr>
-				<tr>
-					<th>
-						<?php echo $i + 1.; ?>.
-					</th>
-					<th>
-						
-						<?php $precio += $item->articulo->price_in_dolar * $item->cantidad; ?>
-					</th>
-					<th>
-						{{ $item->articulo->name }}
-					</th>
-					<th>
-						@foreach($item->articulo->categorias as $categoria)
-						{{ $categoria->category }}
-						<br>
-						<br>
-
+					<select class="form-control form-control-sm" id="involucradoAgenteSelect_{{ $i }}">
+						@foreach($users_opc as $user_opc)
+						<option value="{{ $user_opc->id }}">{{ $user_opc->name }} {{ $user_opc->lastname }}</option>
 						@endforeach
-					</th>
-					<th>	
-						@foreach($item->articulo->duennos->sortBy('porcentaje') as $duenno)
-						<strong>
-							Dueño:
-						</strong>
-						<br>
-						<div class="dufiltrar">{{ $duenno->name }} {{ $duenno->lastname }}</div>
+					</select>
 
-						<br>
-						<strong>
-							Acciones:
-						</strong>
-						<br>
-						{{ $duenno->pivot->porcentaje }} %
-
-
-						<br>	
-						<br>	
-						@endforeach	
-					</th>
-					<th>
-						Cantidad: {{ $item->cantidad }}
-					</th>
-					<th>
-						<div style="font-size: 15px;">
-							{{ $item->articulo->price_in_dolar * $item->cantidad }} $ (Unidad: {{ $item->articulo->price_in_dolar }} $)
-						</div>
-						<br>
-						<br>
-						@if( $moneda_actual->id != 2)
-						{{ number_format($item->articulo->price_in_dolar * $item->cantidad * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
-
-						({{ number_format($item->articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }})
-						@endif							
-					</th>
-				</tr>
-
-
-				<div class="col-12 col-lg">
 					<hr>
-					<div class="row" hidden="">
-						<div class="col-12 col-lg">
+					<tr>
+						<th>
+							<?php echo $i + 1.; ?>.
+						</th>
+						<th>
+
+							<?php $precio += $item->articulo->price_in_dolar * $item->cantidad; ?>
+						</th>
+						<th>
+							{{ $item->articulo->name }}
+						</th>
+						<th>
+							@foreach($item->articulo->categorias as $categoria)
+							{{ $categoria->category }}
+							<br>
+							<br>
+
+							@endforeach
+						</th>
+						<th>	
+							@foreach($item->articulo->duennos->sortBy('porcentaje') as $duenno)
+							<strong>
+								Dueño:
+							</strong>
+							<br>
+							<div class="dufiltrar">{{ $duenno->name }} {{ $duenno->lastname }}</div>
+
+							<br>
+							<strong>
+								Acciones:
+							</strong>
+							<br>
+							{{ $duenno->pivot->porcentaje }} %
+
+
+							<br>	
+							<br>	
+							@endforeach	
+						</th>
+						<th>
+							Cantidad: {{ $item->cantidad }}
+						</th>
+						<th>
+							<div style="font-size: 15px;">
+								{{ $item->articulo->price_in_dolar * $item->cantidad }} $ (Unidad: {{ $item->articulo->price_in_dolar }} $)
+							</div>
+							<br>
+							<br>
+							@if( $moneda_actual->id != 2)
+							{{ number_format($item->articulo->price_in_dolar * $item->cantidad * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+
+							({{ number_format($item->articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }})
+							@endif							
+						</th>
+					</tr>
+
+
+					<div class="col-12 col-lg">
+						<hr>
+						<div class="row" hidden="">
+							<div class="col-12 col-lg">
+								<div class="form-group">
+									<label for=""><strong>Tipo de Transaccion</strong></label>
+									<select 
+									class="form-control form-control-sm" 
+									name="type" 
+									id="type">
+									<option value="Venta">Venta</option>
+									<option value="Cambio">Cambio</option>
+								</select>
+							</div>
+							<label for=""><strong>Si es cambio, dejar nota y anotar si hay diferencia.</strong>
+							</label>	
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 col-lg-3">
 							<div class="form-group">
-								<label for=""><strong>Tipo de Transaccion</strong></label>
-								<select 
-								class="form-control form-control-sm" 
-								name="type" 
-								id="type">
-								<option value="Venta">Venta</option>
-								<option value="Cambio">Cambio</option>
-							</select>
-						</div>
-						<label for=""><strong>Si es cambio, dejar nota y anotar si hay diferencia.</strong>
-						</label>	
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-lg-3">
-						<div class="form-group">
-							<label for=""><strong>Monto</strong></label>
-							<input class="form-control form-control-sm" 
-							type="text"
-							id="monto_{{ $i }}" 
-							placeholder=""
-							autocomplete="off">
+								<label for=""><strong>Monto</strong></label>
+								<input class="form-control form-control-sm" 
+								type="text"
+								id="monto_{{ $i }}" 
+								placeholder=""
+								autocomplete="off">
 
+							</div>
 						</div>
-					</div>
 
-					<div class="col-12 col-lg-3">
-						<div class="form-group">
-							<label for=""><strong>Moneda</strong></label>
+						<div class="col-12 col-lg-3">
+							<div class="form-group">
+								<label for=""><strong>Moneda</strong></label>
 
-							<select class="form-control form-control-sm select_coin" id="coin_{{ $i }}">
-								<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
-								@foreach($coins as $coin)
-								<option value="{{ $coin->id }}">{{ $coin->coin }} ({{ $coin->sign }})</option>
-								@endforeach
-							</select>
+								<select class="form-control form-control-sm select_coin" id="coin_{{ $i }}">
+									<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
+									@foreach($coins as $coin)
+									<option value="{{ $coin->id }}">{{ $coin->coin }} ({{ $coin->sign }})</option>
+									@endforeach
+								</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-12 col-lg-6">
-						<div class="form-group">
-							<label for=""><strong>Banco Emisor</strong></label>
+						<div class="col-12 col-lg-6">
+							<div class="form-group">
+								<label for=""><strong>Banco Emisor</strong></label>
 								<select class="form-control form-control-sm select_bancoEmisor" name="{{ $i }}" id="banco_emisor_{{ $i }}">
 									@foreach($bancos as $banco)
 									<option value="{{ $banco->banco }}">{{ $banco->banco }}</option>
@@ -658,24 +736,49 @@
 				<?php $i++; ?>.
 				<br>
 				<br>
-				
+
 
 
 			</div>
-
-
-			<hr>
-			@endforeach
-			<input type="text" name="" value="{{ $i }}" id="numero_items" hidden="">
 		</div>
+		<div class="card-footer text-muted">
+			<button type="button" class="btn btn-primary" style="margin-top: 10px; font-size: 18px;" id="realizarVenta_v2">Realizar venta</button>
+		</div>
+	</div>
+</div>
+</div>
+</div>	
+
+<div class="container">
+
+
+
+
+	<hr>	
+
+	<div class="row">
+
 
 
 	</div>
+	<div class="col-5">
+		<hr>
+		<hr>
 
-	<hr>
 
-	<br>
-	<br>
+
+		<hr>
+		@endforeach
+		<input type="text" name="" value="{{ $i }}" id="numero_items" hidden="">
+	</div>
+
+
+</div>
+
+<hr>
+
+<br>
+<br>
 
 					{{-- <div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar carrito</button>
@@ -684,72 +787,74 @@
 					</div> --}}
 
 				</div>
+				<hr>	
+				
 			</div>
 
 
-			<hr>	
-			<br>
-			<button type="button" class="btn btn-primary" style="margin-top: 10px;" id="realizarVenta_v2">Realizar venta</button>
+			
+		</div>
 
 
 
-		</body>
+	</body>
 
-		
-		<script src="{{ url('js/jquery3.min.js') }}"></script>
-		<script type="text/javascript">
-			$("#agregarPago").click(function(){
-				if($("#banco_emisor").val() == null){
-					swal(" Pago / Debe agregar el Banco Emisor.");
-					return;
-				}
-				if($("#monto").val() == ""){
-					swal("Pago / Debe ingresar el Monto.");
-					return;
-				}
 
-				
+	<script src="{{ url('js/jquery3.min.js') }}"></script>
+	<script type="text/javascript">
+		$("#agregarPago").click(function(){
+			if($("#banco_emisor").val() == null){
+				swal(" Pago / Debe agregar el Banco Emisor.");
+				return;
+			}
+			if($("#monto").val() == ""){
+				swal("Pago / Debe ingresar el Monto.");
+				return;
+			}
+
+
 				// Colocar otro Formulariobu,m
 				var newtr = '<tr class="item"  data-id="0">';
-				newtr = newtr + '<td > <input  class="form-control monto" value="'+$("#monto").val()+'" /></td>';
-				newtr = newtr + '<td> <input  class="form-control id_coin"  value="'+$("#coin_venta").val()+'" required /></td>';
-				newtr = newtr + '<td> <input  class="form-control bancoEmisor" hidden value="'+$("#banco_emisor").val()+'" required /></td>';
-				newtr = newtr + '<td> <input  class="form-control"  value="'+$("#banco_emisor").find('option:selected').text()+'" required /></td>';
-				newtr = newtr + '<td> <input  class="form-control referencia"  value="'+$("#reference").val()+'" required /></td>';
-				newtr = newtr + '<td> <input  class="form-control nota_venta" id="mal"  value="'+$("#note_sale").val()+'" required /></td>';
+				newtr = newtr + '<td > <input readonly=""  class="form-control monto" value="'+$("#monto").val()+'" /></td>';
+				newtr = newtr + '<td> <input readonly=""  class="form-control id_coin"  value="'+$("#coin_venta").val()+'" required hidden/></td>';
+				newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#coin_venta").find('option:selected').text()+'" required /></td>';
+				newtr = newtr + '<td> <input  readonly="" class="form-control bancoEmisor" hidden value="'+$("#banco_emisor").val()+'" required /></td>';
+				newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#banco_emisor").find('option:selected').text()+'" required /></td>';
+				newtr = newtr + '<td> <input readonly=""  class="form-control referencia"  value="'+$("#reference").val()+'" required /></td>';
+				newtr = newtr + '<td> <input readonly=""  class="form-control nota_venta" id="mal"  value="'+$("#note_sale").val()+'" required /></td>';
 				newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
 				$('#ProSelected').append(newtr);
 
 			});
 
 
-			$(function () {
-				$(document).on('click', '.borrar', function (event) {
-					event.preventDefault();
-					$(this).closest('tr').remove();
-				});
-
-				$(document).on('click', '.agregarPago_zonaMultiple', function (event) {
-					event.preventDefault();
-					numero = $(this).val();
-					var newtr = '<tr class="item"  data-id="0">';
-					newtr = newtr + '<td > <input  class="form-control monto_'+numero+'" value="'+$("#monto_"+numero).val()+'" /></td>';
-					newtr = newtr + '<td> <input  class="form-control coin_'+numero+'"  value="'+$("#coin_"+numero).val()+'" required /></td>';
-					newtr = newtr + '<td> <input  class="form-control bancoEmisor_'+numero+'"  value="'+$("#banco_emisor_"+numero).val()+'" required /></td>';
-					newtr = newtr + '<td> <input  class="form-control referencia_'+numero+'"  value="'+$("#reference_"+numero).val()+'" required /></td>';
-					newtr = newtr + '<td> <input  class="form-control nota_venta_'+numero+'" id="mal"  value="'+$("#note_sal_e+numero").val()+'" required /></td>';
-					newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
-					$("#zona_pega_"+$(this).val()).append(newtr);
-				});
-
-
-
-
-
-				$('#zona_multiple').hide();
+		$(function () {
+			$(document).on('click', '.borrar', function (event) {
+				event.preventDefault();
+				$(this).closest('tr').remove();
 			});
 
-			
+			$(document).on('click', '.agregarPago_zonaMultiple', function (event) {
+				event.preventDefault();
+				numero = $(this).val();
+				var newtr = '<tr class="item"  data-id="0">';
+				newtr = newtr + '<td > <input  class="form-control monto_'+numero+'" value="'+$("#monto_"+numero).val()+'" /></td>';
+				newtr = newtr + '<td> <input  class="form-control coin_'+numero+'"  value="'+$("#coin_"+numero).val()+'" required /></td>';
+				newtr = newtr + '<td> <input  class="form-control bancoEmisor_'+numero+'"  value="'+$("#banco_emisor_"+numero).val()+'" required /></td>';
+				newtr = newtr + '<td> <input  class="form-control referencia_'+numero+'"  value="'+$("#reference_"+numero).val()+'" required /></td>';
+				newtr = newtr + '<td> <input  class="form-control nota_venta_'+numero+'" id="mal"  value="'+$("#note_sal_e+numero").val()+'" required /></td>';
+				newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
+				$("#zona_pega_"+$(this).val()).append(newtr);
+			});
+
+
+
+
+
+			$('#zona_multiple').hide();
+		});
+
+
 
 
 			// function quitar_pago(){

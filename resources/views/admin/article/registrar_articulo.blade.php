@@ -161,14 +161,14 @@
 							<div class="col-12 col-lg">
 								<div class="form-group">
 									<label for="costo"><strong>- Costo de Inversión ($)</strong></label>
-									<input value="0" class="form-control form-control-sm" type="number" autocomplete="off" name="costo" id="costo"
+									<input value="0" class="form-control form-control-sm numero_separador" type="text" autocomplete="off" name="costo" id="costo"
 									value="100" placeholder="" min="0" required>
 								</div>
 							</div>
 							<div class="col-12 col-lg">
 								<div class="form-group">
 									<label for=""><strong>- Precio Venta ($)</strong></label>
-									<input class="form-control form-control-sm" type="number" autocomplete="off" name="price_in_dolar" id="price_in_dolar" placeholder="">
+									<input class="form-control form-control-sm numero_separador" type="text" autocomplete="off" name="price_in_dolar" id="price_in_dolar" placeholder="">
 								</div>
 							</div>
 							<br>
@@ -185,7 +185,7 @@
 							<div class="col-12 col-lg">
 								<div class="form-group">
 									<label for=""><strong> Precio Subrayado ($). SOLO OFERTA</strong></label>
-									<input value="0" class="form-control form-control-sm" type="number" autocomplete="off" name="offer_price" id="offer_price"
+									<input value="0" class="form-control form-control-sm numero_separador" type="text" autocomplete="off" name="offer_price" id="offer_price"
 									value="100" placeholder="">
 								</div>
 							</div>
@@ -217,7 +217,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-6 col-lg">
+						<div class="col-6 col-lg" id="zona_cuenta_digital">
 							<h3 class="fixed">DATOS DE CUENTA DIGITAL</h3>
 							<div class="col-12 col-lg">
 								<div class="form-group">

@@ -28,4 +28,9 @@ class VentaPago extends Model
 		return $this->belongsTo('Bumsgames\Coin', 'id_coin'); // Le indicamos que se va relacionar con el atributo id
 	}
 
+	public function banco()
+	{
+		return $this->belongsTo('Bumsgames\banco_emisor', 'id_bancoEmisor'); // Le indicamos que se va relacionar con el atributo id
+	}
+
 }

@@ -131,340 +131,340 @@ class ProgramController extends Controller
 			->limit(50)
 			->get();*/
 
-		$articulo_agregados_recientemente = \Bumsgames\Article::where('quantity', '>', 0)
-		->where('id', '!=', '2')
-		->groupBy('name', 'category')
-		->orderBy('ultimo_agregado', 'desc')
-		->limit(25)
-		->get();
+			$articulo_agregados_recientemente = \Bumsgames\Article::where('quantity', '>', 0)
+			->where('id', '!=', '2')
+			->groupBy('name', 'category')
+			->orderBy('ultimo_agregado', 'desc')
+			->limit(25)
+			->get();
 
-		$articulo_registrado_recientemente = \Bumsgames\Article::where('id', '!=', '2')
-		->orderBy('created_at', 'desc')
-		->limit(25)
-		->get();
+			$articulo_registrado_recientemente = \Bumsgames\Article::where('id', '!=', '2')
+			->orderBy('created_at', 'desc')
+			->limit(25)
+			->get();
 
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
 
-		$coins = \Bumsgames\Coin::All();
+			$coins = \Bumsgames\Coin::All();
 
-		$tutoriales = \Bumsgames\tutorial::All();
+			$tutoriales = \Bumsgames\tutorial::All();
 
-		return view('layouts.menu', compact(
-			'users',
-			'comments_por_aprobar',
-			'mejor_vendedores_hoy',
-			'mejor_vendedores_semana',
-			'articulo_mas_vendido_hoy',
-			'articulo_mas_vendido_semana',
-			'coins',
-			'articulo_agregados_recientemente',
-			'tutoriales',
-			'pago_sin_confirmar',
-			'articles_off',
-			'articulo_registrado_recientemente'
-		));
-	} 
+			return view('layouts.menu', compact(
+				'users',
+				'comments_por_aprobar',
+				'mejor_vendedores_hoy',
+				'mejor_vendedores_semana',
+				'articulo_mas_vendido_hoy',
+				'articulo_mas_vendido_semana',
+				'coins',
+				'articulo_agregados_recientemente',
+				'tutoriales',
+				'pago_sin_confirmar',
+				'articles_off',
+				'articulo_registrado_recientemente'
+			));
+		} 
 
-	public function guia()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		return view('guia', compact('tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar'));
-	}
-
-	public function menu_usuario()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		$users = \Bumsgames\BumsUser::All();
-		return view('admin.users.menu_usuario', compact('users', 'comments_por_aprobar', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function clientes()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$clientes = \Bumsgames\Client::orderby('created_at', 'desc')->paginate(75);
-		$clientes_cantidad = \Bumsgames\Client::orderby('name')->get();
-		$clientes_cantidad = $clientes_cantidad->count();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		return view('admin.clientes.clientes', compact('clientes', 'comments_por_aprobar', 'clientes_cantidad', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function clientesFilt()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$nombre = Input::get('nombre');
-		$apellido = Input::get('apellido');
-		$buscador  = Input::get('buscador');
-
-		if(isset($buscador)){
-			$clientes = \Bumsgames\Client::orderby('name')
-			->where('name', 'like', '%' . $nombre . '%')
-			->where('lastname', 'like', '%' . $apellido . '%')
+		public function guia()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
 			->where(function ($query) {
-				$buscador  = Input::get('buscador');
-				$query->where('nickname', 'like', '%' . $buscador . '%')
-				->orwhere('email', 'like', '%' . $buscador . '%')
-				->orwhere('num_contact', 'like', '%' . $buscador . '%');
-			})->paginate(50);
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			return view('guia', compact('tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar'));
+		}
 
-			$clientes_cantidad = \Bumsgames\Client::orderby('name')
-			->where('name', 'like', '%' . $nombre . '%')
-			->where('lastname', 'like', '%' . $apellido . '%')
+		public function menu_usuario()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
 			->where(function ($query) {
-				$buscador  = Input::get('buscador');
-				$query->where('nickname', 'like', '%' . $buscador . '%')
-				->orwhere('email', 'like', '%' . $buscador . '%')
-				->orwhere('num_contact', 'like', '%' . $buscador . '%');
-			})->count();
-		}
-		else{
-			$clientes = \Bumsgames\Client::orderby('name')
-			->where('name', 'like', '%' . $nombre . '%')
-			->where('lastname', 'like', '%' . $apellido . '%')->paginate(50);
-
-			$clientes_cantidad = \Bumsgames\Client::orderby('name')
-			->where('name', 'like', '%' . $nombre . '%')
-			->where('lastname', 'like', '%' . $apellido . '%')->count();
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			$users = \Bumsgames\BumsUser::All();
+			return view('admin.users.menu_usuario', compact('users', 'comments_por_aprobar', 'tutoriales', 'pago_sin_confirmar'));
 		}
 
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		return view('admin.clientes.clientes', compact('clientes', 'comments_por_aprobar', 'clientes_cantidad', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function mis_clientes()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-
-		$clientes = \Bumsgames\Sales::join('clients', 'id_client', '=', 'clients.id')
-		->where('id_vendedor', Auth::id())
-		->groupby('id_client')
-		->orderby('clients.created_at', 'DESC')
-		->paginate(75);
-
-		$clientes_cantidad = \Bumsgames\Sales::join('clients', 'id_client', '=', 'clients.id')
-		->where('id_vendedor', Auth::id())
-		->groupby('id_client')
-		->orderby('clients.name')
-		->get();
-		$clientes_cantidad = $clientes_cantidad->count();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		return view('admin.clientes.clientes', compact('clientes', 'comments_por_aprobar', 'clientes_cantidad', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function ventas()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		$sales = \Bumsgames\Sales::orderby('created_at', 'desc')->get();
-		$title = 'Ventas generales';
-		$usuarios = \Bumsgames\BumsUser::All();
-		return view('ventas', compact('title', 'comments_por_aprobar', 'sales', 'usuarios', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function obtenerVentas($id_usuario = false, $fecha_inicio = false, $fecha_final = false)
-	{
-		if ($id_usuario != 0 && $fecha_inicio && $fecha_final) {
-			$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->where('id_vendedor', $id_usuario)->get();
-		} elseif ($id_usuario == 0 && $fecha_inicio && $fecha_final) {
-			$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->get();
-		} elseif ($id_usuario && !$fecha_inicio && !$fecha_final) {
-			$sales = Sales::orderby('created_at', 'desc')->where('id_vendedor', $id_usuario)->get();
-		} else {
-			$sales = Sales::orderby('created_at', 'desc')->get();
+		public function clientes()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$clientes = \Bumsgames\Client::orderby('created_at', 'desc')->paginate(75);
+			$clientes_cantidad = \Bumsgames\Client::orderby('name')->get();
+			$clientes_cantidad = $clientes_cantidad->count();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			return view('admin.clientes.clientes', compact('clientes', 'comments_por_aprobar', 'clientes_cantidad', 'tutoriales', 'pago_sin_confirmar'));
 		}
 
-		$sales_list = [];
-		$count_sales = 1;
-		foreach ($sales as $key => $sale) {
+		public function clientesFilt()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$nombre = Input::get('nombre');
+			$apellido = Input::get('apellido');
+			$buscador  = Input::get('buscador');
 
-			$duennos = "";
-			foreach ($sale->articulo->duennos as $duenno) {
-				$duennos = $duenno->name . " " . $duenno->lastname;
+			if(isset($buscador)){
+				$clientes = \Bumsgames\Client::orderby('name')
+				->where('name', 'like', '%' . $nombre . '%')
+				->where('lastname', 'like', '%' . $apellido . '%')
+				->where(function ($query) {
+					$buscador  = Input::get('buscador');
+					$query->where('nickname', 'like', '%' . $buscador . '%')
+					->orwhere('email', 'like', '%' . $buscador . '%')
+					->orwhere('num_contact', 'like', '%' . $buscador . '%');
+				})->paginate(50);
+
+				$clientes_cantidad = \Bumsgames\Client::orderby('name')
+				->where('name', 'like', '%' . $nombre . '%')
+				->where('lastname', 'like', '%' . $apellido . '%')
+				->where(function ($query) {
+					$buscador  = Input::get('buscador');
+					$query->where('nickname', 'like', '%' . $buscador . '%')
+					->orwhere('email', 'like', '%' . $buscador . '%')
+					->orwhere('num_contact', 'like', '%' . $buscador . '%');
+				})->count();
+			}
+			else{
+				$clientes = \Bumsgames\Client::orderby('name')
+				->where('name', 'like', '%' . $nombre . '%')
+				->where('lastname', 'like', '%' . $apellido . '%')->paginate(50);
+
+				$clientes_cantidad = \Bumsgames\Client::orderby('name')
+				->where('name', 'like', '%' . $nombre . '%')
+				->where('lastname', 'like', '%' . $apellido . '%')->count();
 			}
 
-			$sales_list[] = [$count_sales, $sale->user->name . " " . $sale->user->lastname, "<strong>Artículo: </strong>" . $sale->articulo->name . "<br> <strong>Categoría: </strong>" . $sale->articulo->pertenece_category->category . "<br><br> <strong>Dueño(s): </strong>" . $duennos, "<strong>Cliente: </strong>" . $sale->cliente->name . " " . $sale->cliente->lastname . "<br> <strong>Cantidad: </strong>" . $sale->movimiento->cantidad . "<br> <strong>Precio unitario: </strong>" . $sale->movimiento->price . " " . $sale->movimiento->moneda->coin . "<br><br> <strong>Total: </strong>" . number_format($sale->movimiento->price * $sale->movimiento->cantidad, 0, ',', '.') . " | " . $sale->movimiento->moneda->coin . " | " . $sale->movimiento->entidad, $sale->created_at->format('d M Y ') . "<br>" . $sale->created_at->diffForHumans()];
-			$count_sales++;
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			return view('admin.clientes.clientes', compact('clientes', 'comments_por_aprobar', 'clientes_cantidad', 'tutoriales', 'pago_sin_confirmar'));
 		}
 
-		return response()->json(['data' => $sales_list]);
-	}
+		public function mis_clientes()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
 
-	public function filtrarVentas(Request $request)
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
+			$clientes = \Bumsgames\Sales::join('clients', 'id_client', '=', 'clients.id')
+			->where('id_vendedor', Auth::id())
+			->groupby('id_client')
+			->orderby('clients.created_at', 'DESC')
+			->paginate(75);
 
-		$id_usuario = $request->get("id_usuario");
-		$fecha_inicio = $request->get("fecha_inicio");
-		$fecha_final = $request->get("fecha_final");
-
-		if ($id_usuario) {
-			$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->where('id_vendedor', $id_usuario)->get();
-		} else {
-			$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->get();
-		}
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		$title = 'Ventas generales';
-		$usuarios = \Bumsgames\BumsUser::All();
-		return view('admin.ventas.ventas_filtradas', compact('title', 'comments_por_aprobar', 'tutoriales', 'sales', 'usuarios', 'id_usuario', 'fecha_inicio', 'fecha_final', 'pago_sin_confirmar'));
-	}
-
-	public function ventas_mias()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		$sales = Sales::orderby('created_at', 'desc')->where('id_vendedor', Auth::id())->get();
-		$usuarios = \Bumsgames\BumsUser::All();
-		$title = 'Tus ventas';
-		return view('admin.ventas.ventas_mias', compact('title', 'comments_por_aprobar', 'sales', 'usuarios', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function ordenes()
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		$ordenes = \Bumsgames\Orden_Envio::All();
-		return view('admin.cuentas.ordenes', compact('ordenes', 'comments_por_aprobar', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function ordenes_cuenta(Request $request)
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		$ordenes = \Bumsgames\Orden_Envio::where('id_cuenta', $request->id)
-		->orderby('created_at', 'desc')->get();
-		$moneda = 'Bs';
-		return view('admin.cuentas.ordenes_cuenta', compact('ordenes', 'comments_por_aprobar', 'moneda', 'tutoriales', 'pago_sin_confirmar'));
-	}
-
-	public function configurar_tu_user(Request $request)
-	{
-		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
-		->get();
-		return view('admin.users.configurar_tu_user', compact('tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar'));
-	}
-
-	public function registrar_orden(Request $request)
-	{
-
-		$cuenta = \Bumsgames\Cuenta::find($request->id_cuenta);
-
-		$dinero_en_cuenta = $cuenta->ordenes->sum('price');
-
-		if (($dinero_en_cuenta - $request->price) < 0) {
-			return response()->json([
-				"tipo" => 1,
-				"data" => "No se puede hacer la consulta, tienes menos saldo de lo que vas a gastar."
-			]);
+			$clientes_cantidad = \Bumsgames\Sales::join('clients', 'id_client', '=', 'clients.id')
+			->where('id_vendedor', Auth::id())
+			->groupby('id_client')
+			->orderby('clients.name')
+			->get();
+			$clientes_cantidad = $clientes_cantidad->count();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			return view('admin.clientes.clientes', compact('clientes', 'comments_por_aprobar', 'clientes_cantidad', 'tutoriales', 'pago_sin_confirmar'));
 		}
 
-		$price = $request->price * -1;
-		$request->request->add(['price' => $price]);
-		$request->request->add(['description' => 'Orden de cuenta']);
-		$request->request->add(['note_movimiento' => 'Orden de cuenta']);
-		$request->request->add(['type' => 'bums']);
-		$request->request->add(['id_coin' => $cuenta->id_coin]);
-		$request->request->add(['entidad' => $cuenta->entidad]);
-		$request->request->add(['porcentaje' => '100']);
+		public function ventas()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			$sales = \Bumsgames\Sales::orderby('created_at', 'desc')->get();
+			$title = 'Ventas generales';
+			$usuarios = \Bumsgames\BumsUser::All();
+			return view('ventas', compact('title', 'comments_por_aprobar', 'sales', 'usuarios', 'tutoriales', 'pago_sin_confirmar'));
+		}
 
-		$movimiento = \Bumsgames\Movimiento::create($request->all());
+		public function obtenerVentas($id_usuario = false, $fecha_inicio = false, $fecha_final = false)
+		{
+			if ($id_usuario != 0 && $fecha_inicio && $fecha_final) {
+				$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->where('id_vendedor', $id_usuario)->get();
+			} elseif ($id_usuario == 0 && $fecha_inicio && $fecha_final) {
+				$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->get();
+			} elseif ($id_usuario && !$fecha_inicio && !$fecha_final) {
+				$sales = Sales::orderby('created_at', 'desc')->where('id_vendedor', $id_usuario)->get();
+			} else {
+				$sales = Sales::orderby('created_at', 'desc')->get();
+			}
 
-		$request->request->add(['id_cuenta' => $request->id_cuenta]);
-		$request->request->add(['id_recibeUsuario' => Auth::id()]);
-		$request->request->add(['id_creadoUsuario' => Auth::id()]);
-		$request->request->add(['id_movimiento' => $movimiento->id]);
+			$sales_list = [];
+			$count_sales = 1;
+			foreach ($sales as $key => $sale) {
 
-		$orden = \Bumsgames\Orden_Envio::create($request->all());
+				$duennos = "";
+				foreach ($sale->articulo->duennos as $duenno) {
+					$duennos = $duenno->name . " " . $duenno->lastname;
+				}
 
-		$request->request->add(['porcentaje' => 100]);
-		$request->request->add(['descripcion_movimiento' => 'Orden de cuenta']);
-		$request->request->add(['permiso' => '1']);
-		$request->request->add(['movimiento_usuario' => Auth::id()]);
-		$request->request->add(['id_movimiento' => $movimiento->id]);
-		\Bumsgames\BumsUser_Movimiento::create($request->all());
+				$sales_list[] = [$count_sales, $sale->user->name . " " . $sale->user->lastname, "<strong>Artículo: </strong>" . $sale->articulo->name . "<br> <strong>Categoría: </strong>" . $sale->articulo->pertenece_category->category . "<br><br> <strong>Dueño(s): </strong>" . $duennos, "<strong>Cliente: </strong>" . $sale->cliente->name . " " . $sale->cliente->lastname . "<br> <strong>Cantidad: </strong>" . $sale->movimiento->cantidad . "<br> <strong>Precio unitario: </strong>" . $sale->movimiento->price . " " . $sale->movimiento->moneda->coin . "<br><br> <strong>Total: </strong>" . number_format($sale->movimiento->price * $sale->movimiento->cantidad, 0, ',', '.') . " | " . $sale->movimiento->moneda->coin . " | " . $sale->movimiento->entidad, $sale->created_at->format('d M Y ') . "<br>" . $sale->created_at->diffForHumans()];
+				$count_sales++;
+			}
 
-		return $request->all();
-	}
+			return response()->json(['data' => $sales_list]);
+		}
+
+		public function filtrarVentas(Request $request)
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+
+			$id_usuario = $request->get("id_usuario");
+			$fecha_inicio = $request->get("fecha_inicio");
+			$fecha_final = $request->get("fecha_final");
+
+			if ($id_usuario) {
+				$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->where('id_vendedor', $id_usuario)->get();
+			} else {
+				$sales = Sales::orderby('created_at', 'desc')->where('created_at', '>=', $fecha_inicio)->where('created_at', '<=', $fecha_final)->get();
+			}
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			$title = 'Ventas generales';
+			$usuarios = \Bumsgames\BumsUser::All();
+			return view('admin.ventas.ventas_filtradas', compact('title', 'comments_por_aprobar', 'tutoriales', 'sales', 'usuarios', 'id_usuario', 'fecha_inicio', 'fecha_final', 'pago_sin_confirmar'));
+		}
+
+		public function ventas_mias()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			$sales = Sales::orderby('created_at', 'desc')->where('id_vendedor', Auth::id())->get();
+			$usuarios = \Bumsgames\BumsUser::All();
+			$title = 'Tus ventas';
+			return view('admin.ventas.ventas_mias', compact('title', 'comments_por_aprobar', 'sales', 'usuarios', 'tutoriales', 'pago_sin_confirmar'));
+		}
+
+		public function ordenes()
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			$ordenes = \Bumsgames\Orden_Envio::All();
+			return view('admin.cuentas.ordenes', compact('ordenes', 'comments_por_aprobar', 'tutoriales', 'pago_sin_confirmar'));
+		}
+
+		public function ordenes_cuenta(Request $request)
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			$ordenes = \Bumsgames\Orden_Envio::where('id_cuenta', $request->id)
+			->orderby('created_at', 'desc')->get();
+			$moneda = 'Bs';
+			return view('admin.cuentas.ordenes_cuenta', compact('ordenes', 'comments_por_aprobar', 'moneda', 'tutoriales', 'pago_sin_confirmar'));
+		}
+
+		public function configurar_tu_user(Request $request)
+		{
+			$tutoriales = \Bumsgames\tutorial::All();
+			$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+			->where(function ($query) {
+				$query->where('verificado', '<=', 0)
+				->orWhere('entregado', '<=', 0);
+			})->get();
+			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+			->orderby('created_at', 'desc')
+			->get();
+			return view('admin.users.configurar_tu_user', compact('tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar'));
+		}
+
+		public function registrar_orden(Request $request)
+		{
+
+			$cuenta = \Bumsgames\Cuenta::find($request->id_cuenta);
+
+			$dinero_en_cuenta = $cuenta->ordenes->sum('price');
+
+			if (($dinero_en_cuenta - $request->price) < 0) {
+				return response()->json([
+					"tipo" => 1,
+					"data" => "No se puede hacer la consulta, tienes menos saldo de lo que vas a gastar."
+				]);
+			}
+
+			$price = $request->price * -1;
+			$request->request->add(['price' => $price]);
+			$request->request->add(['description' => 'Orden de cuenta']);
+			$request->request->add(['note_movimiento' => 'Orden de cuenta']);
+			$request->request->add(['type' => 'bums']);
+			$request->request->add(['id_coin' => $cuenta->id_coin]);
+			$request->request->add(['entidad' => $cuenta->entidad]);
+			$request->request->add(['porcentaje' => '100']);
+
+			$movimiento = \Bumsgames\Movimiento::create($request->all());
+
+			$request->request->add(['id_cuenta' => $request->id_cuenta]);
+			$request->request->add(['id_recibeUsuario' => Auth::id()]);
+			$request->request->add(['id_creadoUsuario' => Auth::id()]);
+			$request->request->add(['id_movimiento' => $movimiento->id]);
+
+			$orden = \Bumsgames\Orden_Envio::create($request->all());
+
+			$request->request->add(['porcentaje' => 100]);
+			$request->request->add(['descripcion_movimiento' => 'Orden de cuenta']);
+			$request->request->add(['permiso' => '1']);
+			$request->request->add(['movimiento_usuario' => Auth::id()]);
+			$request->request->add(['id_movimiento' => $movimiento->id]);
+			\Bumsgames\BumsUser_Movimiento::create($request->all());
+
+			return $request->all();
+		}
 
 	/*
 	public function clientes_totales(){
@@ -521,12 +521,12 @@ class ProgramController extends Controller
 	public function formulario_registrar_articulo()
 	{
 		$tutoriales = \Bumsgames\tutorial::All();
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		// ->where(function ($query) {
-		// 	$query->where('verificado', '<=', 0)
-		// 	->orWhere('entregado', '<=', 0);
-		// })
-		->get();
+		// $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+		// // ->where(function ($query) {
+		// // 	$query->where('verificado', '<=', 0)
+		// // 	->orWhere('entregado', '<=', 0);
+		// // })
+		// ->get();
 		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 		->orderby('created_at', 'desc')
 		->get();
@@ -537,9 +537,11 @@ class ProgramController extends Controller
 		}
 
 		$ubicaciones = \Bumsgames\Ubicacion::All();
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
 
 		//dd($ubicaciones->toArray());
-		return view('admin.article.registrar_articulo', compact('users', 'comments_por_aprobar', 'categories', 'cat', 'tutoriales', 'pago_sin_confirmar','ubicaciones'));
+		return view('admin.article.registrar_articulo', compact('users', 'comments_por_aprobar', 'categories', 'cat', 'tutoriales', 'pago_sin_confirmar','ubicaciones','carrito'));
 	}
 	public function Modificar_Articulo()
 	{
@@ -813,8 +815,7 @@ class ProgramController extends Controller
 		$articles = \Bumsgames\Article::where('quantity', '>=', '-1000')
 		->where("id", "!=", "2")
 		->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso, costo, estado"))
-		->orderby('email')
-		->orderby('category')
+		->orderby('id','desc')
 		->paginate(40);
 
 
@@ -1509,7 +1510,11 @@ class ProgramController extends Controller
 
 	public function coincidencia(Request $request)
 	{
-		$coincidencia = \Bumsgames\Client::where('name', 'like', '%' . $request->name_client . '%')->where('lastname', 'like', '%' . $request->lastname_client . '%')->get();
+
+		$coincidencia = \Bumsgames\Client::where('name', 'like', '%' . $request->name_client . '%')
+		->where('lastname', 'like', '%' . $request->lastname_client . '%')
+		->where('documento_identidad', 'like', '%' . $request->documento_identidad . '%')
+		->get();
 		return response()->json([
 			"mensaje" => $coincidencia
 		]);
@@ -1575,6 +1580,21 @@ class ProgramController extends Controller
 	
 	public function realizarVenta_v2(Request $request)
 	{
+		//Si algun dolar dia es 0, no prodeceder
+		$id_coin_array = json_decode($request->id_coin_array);
+		for ($i = 0; $i < count($id_coin_array); $i++) {
+			$moneda = \Bumsgames\Coin::find($id_coin_array[$i]);
+			$dolardia = $moneda->valor;
+
+			if ($dolardia == 0) {
+				return response()->json([
+					"tipo" => "1",
+					"data" => "Moneda con Valor del Dia en 0, no se puede realizar la Venta, colocarle valor a la Moneda o realizar la venta con otro Tipo de Moneda.",
+				]);
+			}
+		}
+
+		//Registrar envio
 		if ($request->envio == 'si') {
 			$ultimo_envio = \Bumsgames\Envio_Pago::create($request->all());
 		}
@@ -1584,13 +1604,29 @@ class ProgramController extends Controller
 			$request->request->add(['id_envio' => $ultimoID_envio]);
 		}
 
+		//Registrar cliente
+		try {
+			$cliente = \Bumsgames\Client::where('id', '=', $request->id_client)->first();
+			if (isset($cliente)) {
+				$cliente->fill($request->all());
+				$cliente->save();
+			} else {
+				$cliente = \Bumsgames\Client::create($request->all());
+			}
+		} catch (\Illuminate\Database\QueryException $e) {
+			// var_dump($e->errorInfo);
+			return \Response::json(array(
+				'error' => true,
+				'data' => array('mensaje' => $e->getMessage())),
+			500
+		);
+		}
 
-		$ultimo_cliente = \Bumsgames\Client::create($request->all());
-		$ultimoID_cliente = $ultimo_cliente->id;
-
+		$ultimoID_cliente = $cliente->id;
 		$request->request->add(['id_cliente' => $ultimoID_cliente]);
 		$request->request->add(['id_vendedor' => Auth::id()]);
 
+		//Registrar venta
 		$ultima_venta = \Bumsgames\Venta::create($request->all());
 
 		$carrito_admin = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())
@@ -1622,10 +1658,26 @@ class ProgramController extends Controller
 			}
 
 			$total_porcentajeAccion = 1;
+			$aux_porcentaje = 1;
 			
 			foreach ($carrito_admin as $item) {
+				//empareja cliente a Juego Digital //arreglar porcentaje
 				print_r($total_porcentajeAccion);
 				$articulo = \Bumsgames\Article::find($item->id_articulo);
+
+				$nombre_categoria = $articulo->categorias[0]->category;
+				$searchterm = "Cuenta Digital";
+				$pos = strrpos( $nombre_categoria, $searchterm);
+
+				//Si es Articulo Cuenta Digital / Agregar Dueño al articulo
+				if ($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)) {
+					$request->request->add(['id_cliente' => $ultimoID_cliente]);
+					$request->request->add(['id_article' => $item->id_articulo]);
+					$request->request->add(['id_venta' => $ultima_venta->id]);
+					$request->request->add(['informacion' => 'Compra de Articulo.']);
+					\Bumsgames\PerteneceCliente::create($request->all());
+				}
+				$item->delete();
 
 				$ultimo_articuloVenta = \Bumsgames\VentaArticulos::create([
 					'id_venta' => $ultima_venta->id,
@@ -1649,6 +1701,7 @@ class ProgramController extends Controller
 					]);
 
 					$total_porcentajeAccion -= auth()->user()->porcentaje_ventaPropia;
+					$aux_porcentaje -= auth()->user()->porcentaje_ventaPropia;
 
 					break;
 
@@ -1664,6 +1717,7 @@ class ProgramController extends Controller
 					]);
 
 					$total_porcentajeAccion -= auth()->user()->porcentaje_ventaParcial;
+					$aux_porcentaje -= auth()->user()->porcentaje_ventaParcial;
 
 						//INVOLUCRADO
 
@@ -1677,6 +1731,7 @@ class ProgramController extends Controller
 					]);
 
 					$total_porcentajeAccion -= $involucrado->porcentaje_ventaParcial;
+					$aux_porcentaje -= $involucrado->porcentaje_ventaParcial;
 
 					break;
 
@@ -1692,6 +1747,7 @@ class ProgramController extends Controller
 					]);
 
 					$total_porcentajeAccion -= auth()->user()->porcentaje_ventaAjena;
+					$aux_porcentaje -= auth()->user()->porcentaje_ventaAjena;
 
 						//INVOLUCRADO
 
@@ -1705,6 +1761,7 @@ class ProgramController extends Controller
 					]);
 
 					$total_porcentajeAccion -= $involucrado->porcentaje_ventaPorOtraPersona;
+					$aux_porcentaje -= $involucrado->porcentaje_ventaPorOtraPersona;
 
 					break;
 
@@ -1719,6 +1776,7 @@ class ProgramController extends Controller
 					]);
 
 					$total_porcentajeAccion -= $request->porcentaje_voluntad / 100;
+					$aux_porcentaje -= $request->porcentaje_voluntad / 100;
 
 						//INVOLUCRADO
 
@@ -1731,14 +1789,23 @@ class ProgramController extends Controller
 				}
 					//dueños
 				foreach($item->articulo->duennos->sortBy('porcentaje') as $duenno){
+					if($total_porcentajeAccion * ($duenno->pivot->porcentaje / 100) >= $aux_porcentaje){
+						$pocentaje_a_guardar = $total_porcentajeAccion * ($duenno->pivot->porcentaje / 100);
+						$porcentaje_a_guardar =  $pocentaje_a_guardar - ($pocentaje_a_guardar - $aux_porcentaje);
+					}else{
+						$pocentaje_a_guardar = $total_porcentajeAccion * ($duenno->pivot->porcentaje / 100);
+					}
 					\Bumsgames\Venta_PagoInvolucrados::create([
 						'id_ventaArticulo' =>  $ultimo_articuloVenta->id,
 						'id_agente' => $duenno->id,
-						'porcentajeInvolucrado' => $total_porcentajeAccion * ($duenno->pivot->porcentaje / 100),
+						'porcentajeInvolucrado' => $pocentaje_a_guardar,
 						'descripcionInvolucrado' => 3,
 						'porcentajeInversion' => ($duenno->pivot->porcentaje / 100),
 					]);
+					$aux_porcentaje -= $pocentaje_a_guardar;
 				}
+
+				$aux_porcentaje = 1;
 				$total_porcentajeAccion = 1;
 				
 			}
@@ -1894,11 +1961,9 @@ class ProgramController extends Controller
 		
 		// Borrar item de carrito
 
-
-		
-
-
-		dd($request->all());
+		return Response::json([
+			'message' => 'Exito'
+		]);
 
 		// $cliente = \Bumsgames\Client::where('id', '=', $request->id)->first();
 		// if (isset($cliente)) {
@@ -1958,7 +2023,6 @@ class ProgramController extends Controller
 			]);
 		}
 
-		
 		
 
 		$article->fill(['quantity' => $quantity]);
@@ -3707,6 +3771,34 @@ class ProgramController extends Controller
 		$tutorial = \Bumsgames\tutorial::find($id);
 		$tutorial->delete();
 		return redirect('/ver_tutoriales')->with('success', 'Tutorial Eliminado');
+	}
+
+	public function factura($id){
+		$venta = \Bumsgames\Venta::find($id);
+		$precio_carrito = \Bumsgames\VentaArticulos::selectRaw('sum(cantidad * precio_venta) as precio_carrito')
+		->where('id_venta',$id)
+		->get();
+
+		$pago_total = \Bumsgames\VentaPago::selectRaw('sum(monto / dolardia) as pago_total')
+		->where('id_venta',$id)
+		->get();
+
+		$venta = \Bumsgames\Venta::find($id);
+		$precio_carrito = \Bumsgames\VentaArticulos::selectRaw('sum(cantidad * precio_venta) as precio_carrito')
+		->where('id_venta',$id)
+		->get();
+
+		$articulos_factura = \Bumsgames\VentaArticulos::
+
+		where('id_venta',$id)
+		->leftjoin('articles','articles.id','venta_articulos.id_articulo')
+		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+		->leftjoin('categories','categories.id','articulo_categorias.id')
+		->groupby('venta_articulos.id_articulo')
+		->orderby('id_categoria')
+		->get();
+
+		return view('admin.factura', compact('venta','precio_carrito','pago_total','articulos_factura'));
 	}
 
 	public function misArticles_lista_escrita()

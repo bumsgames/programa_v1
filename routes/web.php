@@ -25,6 +25,7 @@ Route::post('/actualizar_user','BumsUserController@actualizar_user');
 Route::post('/logueo','BumsUserController@logueo');
 
 // ProgramController GET
+Route::get('/factura/{id}','ProgramController@factura');
 Route::get('/ventas','ProgramController@ventas')->name('ventas');
 Route::get('/mostrar_ventas','ProgramController@mostrar_ventas');
 Route::get('/mostrar_ventas2','ProgramController@mostrar_ventas2');

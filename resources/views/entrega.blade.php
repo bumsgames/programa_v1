@@ -62,35 +62,7 @@
 	Categoria: 	{{ $articulo->pertenece_category->category }}
 	<br>
 	<br>
-	ATENCION, OJO: Bajo ninguna circunstancia cambiar el APODO, NICKNAME de la cuenta proporcionada, puede significar la expulsion inmediata sin reembolso del JUEGO.
-	<br>	
-	<br>	
-	*VIDEOTUTORIAL PARA DESCARGAR:* https://www.youtube.com/watch?v=5vXs4Gnxxi0&t=12s
-	<br>
-	<br>	
-	*VIDEOTUTORIAL para jugar:* https://www.youtube.com/watch?v=lD2_neiQM0c
-	<br>
-	<br>	
-	*VIDEOTUTORIAL fallo (muy poco frecuente):* https://www.youtube.com/watch?v=2RcHgtIshzQ 
-	<br>
-	<br>
-	Sabia que algunos juegos secundario de PlayStation 4 se puede jugar desde cualquier usuario, mira este tutorial e intentalo a ver si puedes jugar desde tu usuario personal.
-	<br>
-	*VIDEOTUTORIAL para jugar desde nuestro usuario:* https://www.youtube.com/watch?v=X0Ha1McuIto 
-	<br>
-	<br>	
-	RECORDATORIO: Usted cuenta con garantia de por vida, siempre y cuando cumpla las normativas y tambien puede utilizar este producto como PARTE DE PAGO por otros articulos de nosotros. 
-	<br>
-	<br>
-	*REGLAS (OBLIGATORIO):* No activarse como PRIMARIO por ninguna razon, no cambiar o modificar datos de la CUENTA. (Hay sanciones en caso de que no se cumplan las mismas)
-	<br>
-	<br>	
-	Cualquier duda realizarla a su vendedor, gracias por su compra.
-	<br>
-	<br>	
-	Echale un vistazo a nuestro Instagram: https://www.instagram.com/bumsgames/
-	<br>
-	*Aqui nuestra pagina web, visitala ya:* www.bumsgames.com.ve
+	
 	@endif
 
 	{{-- PlayStation 3 Cupo Digital --}}
