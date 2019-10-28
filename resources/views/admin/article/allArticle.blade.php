@@ -372,8 +372,9 @@
 									@endif 	
 								</td>
 								<td>	
-									Cantidad: {{ $article->quantity }}
-									{{-- <div class="disponibilidad">{{ $article->quantity }}</div>  --}}
+									<span class="font-weight-bold">Cantidad:</span> 
+									<br>
+									<span id="cantidadDisponible_{{ $article->id }}">{{ $article->quantity }}</span>
 									<br>	
 									<br>
 									<strong>Precio: </strong>
