@@ -10,7 +10,8 @@ class PerteneceCliente extends Model
         'id_cliente',
         'id_article',
         'id_venta',
-        'informacion'
+        'informacion',
+        'id_venta_oficial',
     ];
 
     public function cliente()

@@ -217,10 +217,11 @@
 									<strong>
 										Categoria: 
 									</strong>
-									<br>	
+									{{-- categoria vieja --}}
+									{{-- <br>	
 									<div class="catefiltrar">{{ $article->pertenece_category->category }}</div>
 									<br>
-									<br>
+									<br> --}}
 									<strong>
 										Agregado por: 
 									</strong>
@@ -229,7 +230,7 @@
 									<br>
 									<br>
 									<strong>
-										Nota: 
+										No31233ta: 
 									</strong>
 									<?php echo $article->note; ?> 
 									<br>

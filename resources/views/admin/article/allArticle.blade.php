@@ -248,10 +248,9 @@
 											<br>
 										@endforeach
 									</div>
-									
-									{{-- <div class="catefiltrar">{{ $article->pertenece_category->category }}</div> --}}
+
 									<br>	
-									<br>	
+									<br>	 
 									<strong>
 										Condición: 
 									</strong>
@@ -328,13 +327,7 @@
 									@endif
 									@endif
 
-									{{-- Categorias
-									@foreach($article->categorias as $categoria)
-									<br>
-									<br>
-									{{ $categoria->category }}
-
-									@endforeach --}}
+									
 								</td>
 								<td>
 									@if(Auth::user()->level >= 7)

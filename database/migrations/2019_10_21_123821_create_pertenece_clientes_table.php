@@ -30,6 +30,11 @@ class CreatePerteneceClientesTable extends Migration
             $table->foreign('id_venta')->references('id')->on('sales')
             ->onDelete('cascade');
 
+            $table->integer('id_venta_oficial')->unsigned()->nullable();            
+            $table->foreign('id_venta_oficial')->references('id')->on('ventas')
+            ->onDelete('cascade');
+
+            
             $table->string('informacion')->default('Sin informacion');
 
             $table->timestamps();

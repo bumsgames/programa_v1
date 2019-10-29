@@ -518,6 +518,21 @@ class ProgramController extends Controller
 		return view('admin.cuentas.cuentas', compact('title', 'coins', 'comments_por_aprobar', 'cuentas_tuyas', 'tutoriales', 'pago_sin_confirmar'));
 	}
 
+	public function buscador_inteligente(){
+		$categories = \Bumsgames\Category::All();
+
+		if (Session::has('id_coin')) {
+			$id_coin = Session::get('id_coin');
+		} else {
+			$id_coin = 1;
+		}
+		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
+
+		$moneda_actual = \Bumsgames\Coin::find($id_coin);
+
+		return view('admin.buscador_inteligente', compact('categories','moneda_actual','coins'));
+	}
+
 	public function formulario_registrar_articulo()
 	{
 		$tutoriales = \Bumsgames\tutorial::All();
@@ -1510,7 +1525,6 @@ class ProgramController extends Controller
 
 	public function coincidencia(Request $request)
 	{
-
 		$coincidencia = \Bumsgames\Client::where('name', 'like', '%' . $request->name_client . '%')
 		->where('lastname', 'like', '%' . $request->lastname_client . '%')
 		->where('documento_identidad', 'like', '%' . $request->documento_identidad . '%')
@@ -1519,6 +1533,30 @@ class ProgramController extends Controller
 			"mensaje" => $coincidencia
 		]);
 	}
+
+	public function coincidencia_buscador_inteligente(Request $request)
+	{	
+
+		$coincidencia = \Bumsgames\Article::
+		leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+		->where('name', 'like', '%' . $request->nombre_articulo . '%')
+		->where('articulo_categorias.id_categoria', $request->categoria_articulo)
+		->groupby('name','articulo_categorias.id_categoria')
+		->get();
+
+		if ($coincidencia->count()) {
+			return response()->json([
+				"articulos" => $coincidencia
+			]);
+		}else{
+			return response()->json([
+				"articulos" => 0
+			]);
+		}
+
+		
+	}
+
 	public function coincidenciaArticulo(Request $request)
 	{
 		$coincidencia = \Bumsgames\Article::where('name', 'like', '%' . $request->name . '%')->groupBy('name', 'category')
@@ -1580,6 +1618,7 @@ class ProgramController extends Controller
 	
 	public function realizarVenta_v2(Request $request)
 	{
+		
 		//Si algun dolar dia es 0, no prodeceder
 		$id_coin_array = json_decode($request->id_coin_array);
 		for ($i = 0; $i < count($id_coin_array); $i++) {
@@ -1611,7 +1650,9 @@ class ProgramController extends Controller
 				$cliente->fill($request->all());
 				$cliente->save();
 			} else {
+
 				$cliente = \Bumsgames\Client::create($request->all());
+
 			}
 		} catch (\Illuminate\Database\QueryException $e) {
 			// var_dump($e->errorInfo);
@@ -1662,7 +1703,7 @@ class ProgramController extends Controller
 			
 			foreach ($carrito_admin as $item) {
 				//empareja cliente a Juego Digital //arreglar porcentaje
-				print_r($total_porcentajeAccion);
+				
 				$articulo = \Bumsgames\Article::find($item->id_articulo);
 
 				$nombre_categoria = $articulo->categorias[0]->category;
@@ -1673,11 +1714,11 @@ class ProgramController extends Controller
 				if ($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)) {
 					$request->request->add(['id_cliente' => $ultimoID_cliente]);
 					$request->request->add(['id_article' => $item->id_articulo]);
-					$request->request->add(['id_venta' => $ultima_venta->id]);
+					$request->request->add(['id_venta_oficial' => $ultima_venta->id]);
 					$request->request->add(['informacion' => 'Compra de Articulo.']);
 					\Bumsgames\PerteneceCliente::create($request->all());
 				}
-				$item->delete();
+				// $item->delete();
 
 				$ultimo_articuloVenta = \Bumsgames\VentaArticulos::create([
 					'id_venta' => $ultima_venta->id,
@@ -1691,7 +1732,7 @@ class ProgramController extends Controller
 				switch ($request->opcion_involucrado) {
 					//venta propia
 					case 1:
-					print_r("caso 1");
+					
 
 					\Bumsgames\Venta_PagoInvolucrados::create([
 						'id_ventaArticulo' => $ultimo_articuloVenta->id,
@@ -1708,7 +1749,7 @@ class ProgramController extends Controller
 					//venta parcial
 					case 2:
 						//vendedor
-					print_r("caso 2");
+					
 					\Bumsgames\Venta_PagoInvolucrados::create([
 						'id_ventaArticulo' => $ultimo_articuloVenta->id,
 						'id_agente' => Auth::id(),
@@ -1737,7 +1778,7 @@ class ProgramController extends Controller
 
 					//venta ajena
 					case 3:
-					print_r("caso 3");
+					
 
 					\Bumsgames\Venta_PagoInvolucrados::create([
 						'id_ventaArticulo' => $ultimo_articuloVenta->id,
@@ -1767,7 +1808,7 @@ class ProgramController extends Controller
 
 					//porcentaje voluntad
 					case 4:
-					print_r("caso 4");
+					
 					\Bumsgames\Venta_PagoInvolucrados::create([
 						'id_ventaArticulo' => $ultimo_articuloVenta->id,
 						'id_agente' => Auth::id(),
@@ -1784,7 +1825,7 @@ class ProgramController extends Controller
 					break;
 
 					default:
-					print_r("no entro");
+					
 					break;
 				}
 					//dueños
@@ -1811,172 +1852,10 @@ class ProgramController extends Controller
 			}
 		}
 
-// EN ESTOS MOMENTOS NO SE USA ESTE CODE /  No borrarlo
-		else{
-			$monto_array = json_decode($request->monto_array);
-			$id_coin_array = json_decode($request->id_coin_array);
-			$bancoEmisor_array = json_decode($request->bancoEmisor_array);
-			$referencia_array = json_decode($request->referencia_array);
-			$id_bumsuser = json_decode($request->id_bumsuser);
-
-			$opcion_involucrado_array = json_decode($request->opcion_involucrado_array);
-			$involucradoAgenteSelect_array = json_decode($request->involucradoAgenteSelect_array);
-
-			$i=0;
-
-			
-
-			foreach ($carrito_admin as $item) {
-				$articulo = \Bumsgames\Article::find($item->id_articulo);
-
-				$ultimo_articuloVenta = \Bumsgames\VentaArticulo::create([
-					'id_venta' => $ultimoID_venta,
-					'id_articulo' => $item->id_articulo,
-					'cantidad' => $item->cantidad,
-					'inversionIndividual' => $articulo->costo,
-				]);
-
-
-
-
-				for ($j = 0; $j < count($monto_array[$i]); $j++) {
-					$total_porcentajeAccion = 1;
-
-					$moneda = \Bumsgames\Coin::find($id_coin_array[$i][$j]);
-					$dolardia = $moneda->valor;
-
-					$ultimoPago = \Bumsgames\Pagos::create([
-						'id_ventaArticulo' => $ultimo_articuloVenta->id,
-						'monto' => $monto_array[$i][$j],
-						'bancoEmisor' => $bancoEmisor_array[$i][$j],
-						'referencia' => $referencia_array[$i][$j],
-						'id_coin' => $id_coin_array[$i][$j],
-						'dolardia' => $dolardia,
-					]);
-
-					\Bumsgames\PagoCompleto::create([
-						'id_venta' => $ultimoID_venta,
-						'monto' => $monto_array[$i][$j],
-						'bancoEmisor' => $bancoEmisor_array[$i][$j],
-						'referencia' => $referencia_array[$i][$j],
-						'id_coin' => $id_coin_array[$i][$j],
-						'dolardia' => $dolardia,
-					]);
-
-
-					// vendedor e involucrado
-					switch ($opcion_involucrado_array[$i]) {
-					//venta propia
-						case 1:
-						print_r("caso 1");
-
-						\Bumsgames\Venta_PagoInvolucrados::create([
-							'id_pago' => $ultimoPago->id,
-							'id_agente' => Auth::id(),
-							'porcentajeInvolucrado' => auth()->user()->porcentaje_ventaPropia,
-							'descripcionInvolucrado' => 1,
-						]);
-
-						$total_porcentajeAccion -= auth()->user()->porcentaje_ventaPropia;
-
-						break;
-
-					//venta parcial
-						case 2:
-						//vendedor
-						print_r("caso 2");
-						\Bumsgames\Venta_PagoInvolucrados::create([
-							'id_pago' => $ultimoPago->id,
-							'id_agente' => Auth::id(),
-							'porcentajeInvolucrado' => auth()->user()->porcentaje_ventaParcial,
-							'descripcionInvolucrado' => 2,
-						]);
-
-						$total_porcentajeAccion -= auth()->user()->porcentaje_ventaParcial;
-
-						//INVOLUCRADO
-
-						$involucrado = \Bumsgames\BumsUser::find($involucradoAgenteSelect_array[$i]);
-
-						\Bumsgames\Venta_PagoInvolucrados::create([
-							'id_pago' => $ultimoPago->id,
-							'id_agente' => $involucrado->id,
-							'porcentajeInvolucrado' => $involucrado->porcentaje_ventaParcial,
-							'descripcionInvolucrado' => 2,
-						]);
-
-						$total_porcentajeAccion -= $involucrado->porcentaje_ventaParcial;
-
-						break;
-
-					//venta ajena
-						case 3:
-						print_r("caso 3");
-
-						\Bumsgames\Venta_PagoInvolucrados::create([
-							'id_pago' => $ultimoPago->id,
-							'id_agente' => Auth::id(),
-							'porcentajeInvolucrado' => auth()->user()->porcentaje_ventaAjena,
-							'descripcionInvolucrado' => 4,
-						]);
-
-						$total_porcentajeAccion -= auth()->user()->porcentaje_ventaAjena;
-
-						//INVOLUCRADO
-
-						$involucrado = \Bumsgames\BumsUser::find($involucradoAgenteSelect_array[$i]);
-
-						\Bumsgames\Venta_PagoInvolucrados::create([
-							'id_pago' => $ultimoPago->id,
-							'id_agente' => $involucrado->id,
-							'porcentajeInvolucrado' => $involucrado->porcentaje_ventaPorOtraPersona,
-							'descripcionInvolucrado' => 5,
-						]);
-
-						$total_porcentajeAccion -= $involucrado->porcentaje_ventaPorOtraPersona;
-
-						break;
-
-						default:
-						print_r("no entro");
-						break;
-					}
-
-					//dueños
-					foreach($item->articulo->duennos->sortBy('porcentaje') as $duenno){
-						\Bumsgames\Venta_PagoInvolucrados::create([
-							'id_pago' => $ultimoPago->id,
-							'id_agente' => $duenno->id,
-							'porcentajeInvolucrado' => $total_porcentajeAccion * ($duenno->pivot->porcentaje / 100),
-							'descripcionInvolucrado' => 3,
-							'porcentajeInversion' => ($duenno->pivot->porcentaje / 100),
-						]);
-					}
-				}
-				$i++;
-			}
-		}
-
-
-		
-		// Borrar item de carrito
-
-		return Response::json([
-			'message' => 'Exito'
+		return response()->json([
+			"data" => "Concretado",
+			"id_venta" => $ultima_venta->id,
 		]);
-
-		// $cliente = \Bumsgames\Client::where('id', '=', $request->id)->first();
-		// if (isset($cliente)) {
-		// 	$cliente->fill($request->all());
-		// 	$cliente->save();
-		// } else {
-		// 	$cliente = \Bumsgames\Client::create($request->all());
-		// }
-
-		dd("Bien");
-
-
-
 	}
 
 	public function realizar_venta(Request $request)

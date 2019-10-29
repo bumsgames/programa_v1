@@ -124,7 +124,6 @@ class ArticleController extends Controller
   ->where('name', $request->name)
   ->where('articulo_categorias.id_categoria', $id_categorias[0])
   ->get();
-
     // NOTIFICACIONES
 
   //Guarda nombre de categoria en Temporal

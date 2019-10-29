@@ -28,6 +28,7 @@ Route::post('/logueo','BumsUserController@logueo');
 Route::get('/factura/{id}','ProgramController@factura');
 Route::get('/ventas','ProgramController@ventas')->name('ventas');
 Route::get('/mostrar_ventas','ProgramController@mostrar_ventas');
+Route::get('/buscador_inteligente','ProgramController@buscador_inteligente');
 Route::get('/mostrar_ventas2','ProgramController@mostrar_ventas2');
 Route::get('/obtener_ventas','ProgramController@obtenerVentas')->name('obtener_ventas');
 Route::post('/filtrar_ventas','ProgramController@filtrarVentas')->name('filtrar_ventas');
@@ -94,6 +95,7 @@ Route::get('/tutorial/editar/{id}','ProgramController@editarTutorial');
 Route::get('/descripcionArticulo/{id}','ProgramController@DescripcionArticulo');
 
 // ProgramController POST
+Route::post('/coincidencia_buscador_inteligente','ProgramController@coincidencia_buscador_inteligente');
 Route::post('/registrar_cuenta','ProgramController@registrar_cuenta');
 Route::post('/registrar_orden','ProgramController@registrar_orden');
 Route::post('/coincidencia','ProgramController@coincidencia');

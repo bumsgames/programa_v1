@@ -25,7 +25,8 @@ class Client extends Authenticatable
         'image',
         'password',
         'num_contact',
-        'note'
+        'note',
+        'documento_identidad',
 
     ];
 

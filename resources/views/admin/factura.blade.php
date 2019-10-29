@@ -22,78 +22,104 @@
 
 </head>
 
+<style type="text/css">
+.shadow_ligero{
+	-webkit-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+	-moz-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+	box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+}
+</style>
+
 <body>
 	@php $total = 0; @endphp
-	<div style="width: 500px;">
-		<center>
-			BUMSGAMES
-			<br>
-			<br>
-			<p>Centro Comercial: Ciudad Alta Vista II
+	<br>
+	<div class="card shadow_ligero" style="width: 500px;" style="">
+		<div class="card-header">
+			<center>
+				BUMSGAMES
 				<br>
-				2do Piso / Local #22
-			</p>
-			Ingresa en: www.bumsgames.com.ve
+				<br>
+				<p>Centro Comercial: Ciudad Alta Vista II
+					<br>
+					2do Piso / Local #22
+				</p>
+				Ingresa en: www.bumsgames.com.ve
+				<br>
+			</center>
 			<br>
+		</div>
+		<div class="card-body" style="margin: 10px;">
+			Venta N#: {{ $venta->id }}
+			<br>
+			Fecha: {{ $venta->created_at->format('d - m - Y ') }}
+		<br>
+		Hora: {{ $venta->created_at->format('H:i:s') }}
+		<br>
+		<br>
+		<br>
+		Vendedor: <b>{{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}</b>
+		<br>
+		Nombre de cliente: <b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }} </b>
+		<br>
+		Documento de Identidad: <b>{{ $venta->ventaCliente->documento_identidad }}</b>
+		<br>
+		<br>  
+		--------------------------------------------------------------------------
+		<br>
+		<b>DATOS</b>
+		<br>
+		--------------------------------------------------------------------------
+		<br>
+		@foreach ($venta->articulos as $articulo)
+		@php $pago_articulo =  ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total @endphp
+		Cantidad: {{ $articulo->cantidad }}	({{ $pago_articulo  }} $)
+		<br>
+		{{-- {{ $pago_articulo }} --}}
+		<br>
+		Articulo: {{ $articulo->articulo->name }}	
+		<br>
+		{{ $articulo->articulo->categorias[0]->category }}	
+		<br>
+		<br>
+
+		Pago: {{ $total +=  $pago_articulo * $articulo->cantidad }} $
+		@endforeach
+		<br>
+		<br>
+		<h3>Total: {{ $total }} $</h3>
+		<br>
+		------------------------------------------------------------------------
+		<br>
+		------------------------------------------------------------------------
+		<br>
+		PAGOS:
+		<br>
+		@foreach ($venta->pagos as $pago)
+		@php $dolardia = $pago->dolardia; @endphp
+
+		<br>
+		{{ $pago->banco->banco }} = @if ($dolardia == 0)
+		No se incluye monto, por error en programa (division entre 0).
+		@else
+		{{ $pago->monto / $dolardia }} $
+		@endif
+		@endforeach
+		<br>
+		<br>
+		<center>
+			** Politicas BumsGames en nuestra Pagina Web **
 		</center>
 		<br>
-		Venta N#: {{ $venta->id }}
+		</div>
+
+		
 	</div>
+</div>
+<br>
 
-	Fecha: {{ $venta->created_at->format('d - m - Y ') }}
-	<br>
-	Hora: {{ $venta->created_at->format('H:i:s') }}
-	<br>
-	<br>
-	<br>
-	Vendedor: <b>{{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}</b>
-	<br>
-	Nombre de cliente: <b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }} </b>
-	<br>
-	Documento de Identidad: <b>{{ $venta->ventaCliente->documento_identidad }}</b>
-	<br>
-	<br>  
-	--------------------
-	<br>
-	DATOS
-	<br>
-	--------------------
-	<br>
-	@foreach ($venta->articulos as $articulo)
-	Cantidad: {{ $articulo->cantidad }}	({{ ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total / $articulo->cantidad }} $)
-	<br>
-	Articulo: {{ $articulo->articulo->name }}	
-	<br>
-	{{ $articulo->articulo->categorias[0]->category }}	
-	<br>
-	<br>
+<div style="width: 500px;">
 
-	{{ $total += ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total }} $
-	@endforeach
-	<br>
-	<br>
-	<h3>Total: {{ $total }} $</h3>
-	<br>
-	------------------------
-	<br>
-	------------------------
-	<br>
-	PAGOS:
-	<br>
-	@foreach ($venta->pagos as $pago)
-	@php $dolardia = $pago->dolardia; @endphp
 
-	<br>
-	{{ $pago->banco->banco }} = @if ($dolardia == 0)
-	No se incluye monto, por error en programa (division entre 0).
-	@else
-	{{ $pago->monto / $dolardia }} $
-	@endif
-	@endforeach
-	<center>
-		** Politicas BumsGames en nuestra Pagina Web **
-	</center>
-	<br>
 	<hr>
 	@foreach ($articulo->articulo->categorias->groupby('id') as $element)
 	Agrupaje <br>
@@ -226,7 +252,7 @@
 	@php $aux1 = $articulo_factura->id_categoria; @endphp
 	@endif
 
-		
+
 
 	@if ($aux1 == 2)
 	{{-- Instrucciones PlayStation 4 Secundario  --}}
