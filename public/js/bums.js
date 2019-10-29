@@ -224,8 +224,8 @@ $("#checked_envio").click(function (){
     if ($("#checked_envio").prop("checked")){
         $("#zona_envio").css("display", "block");
     }else{
-       $("#zona_envio").css("display", "none");           
-   }              
+     $("#zona_envio").css("display", "none");           
+ }              
 });
 /* */
 
@@ -262,19 +262,19 @@ $('#inputFile2').on('change',function(){
             });
 
 $('#select_user').on('change',function(){
- $("#pertenece_user").val($("#select_user").find('option:selected').val());
+   $("#pertenece_user").val($("#select_user").find('option:selected').val());
 });
 
 $("#agregar_tarea").click(function(){
- var route = '/homeworkAdd';
- var token = $('#token').val();
- var form_data = new FormData();  
- form_data.append('de_usuario', $("#de_usuario").val());   
- form_data.append('para_usuario', $("#para_usuario").val());
- form_data.append('mensaje', $("#mensaje").val());
- form_data.append('status', $("#status").val());
+   var route = '/homeworkAdd';
+   var token = $('#token').val();
+   var form_data = new FormData();  
+   form_data.append('de_usuario', $("#de_usuario").val());   
+   form_data.append('para_usuario', $("#para_usuario").val());
+   form_data.append('mensaje', $("#mensaje").val());
+   form_data.append('status', $("#status").val());
 
- $.ajax({
+   $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -305,7 +305,7 @@ $("#agregar_tarea").click(function(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- console.log("Estamos aca");
+   console.log("Estamos aca");
 });
 
 $("#modificar_tarea").click(function(){
@@ -435,10 +435,10 @@ function eliminar_nota(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-       var route = "/delete_duties/"+id+"";
+     var route = "/delete_duties/"+id+"";
 
-       var token = $('#token').val();
-       $.ajax({
+     var token = $('#token').val();
+     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -456,7 +456,7 @@ function eliminar_nota(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
-   }else{
+ }else{
     alert('Clave no autorizada');
 }
 }
@@ -471,12 +471,12 @@ function mostrar_actuales(id, a, b){
     de += b;
     var route = "/actuales/"+id+"";
     $.get(route, function(data){
-       $("#id").val(data.id);
-       $("#de_usuarioM").val(de);
-       $("#para_usuarioM").val(data.para_usuario);
-       $("#mensajeM").val(data.mensaje);
-       $("#statusM").val(data.status);
-   });
+     $("#id").val(data.id);
+     $("#de_usuarioM").val(de);
+     $("#para_usuarioM").val(data.para_usuario);
+     $("#mensajeM").val(data.mensaje);
+     $("#statusM").val(data.status);
+ });
 }
 
 function modal_orden(id, cuenta, entidad){
@@ -602,7 +602,7 @@ $.ajax({
 
 $('#borrar').off().click(function(e) {
 
- alert(111);
+   alert(111);
 
 }); 
 
@@ -1122,6 +1122,54 @@ $("#actualizar_uss2").click(function(){
     });
 });
 
+
+$("#name_buscador_inteligente").on('keyup', function(){
+    if($("#name_buscador_inteligente").val().length > 0 && ($("#name_buscador_inteligente").val().length % 3) == 0){
+
+        var token = $('#token').val(); 
+        var form_data = new FormData(); 
+
+        form_data.append('nombre_articulo', $("#name_buscador_inteligente").val());
+        form_data.append('categoria_articulo', $("#category_buscador_inteligente").val());
+
+        var route = '/coincidencia_buscador_inteligente';
+        $.ajax({
+            url:        route,
+            headers:    {'X-CSRF-TOKEN':token},
+            type:       'POST',
+            dataType:   'json',
+            data:       form_data,
+            contentType: false, 
+            processData: false,
+
+            success:function(data){
+                if (data.articulos == 0) {
+                    $("#table_client td").remove();
+                    var nuevaFila;
+                    nuevaFila+="<tr><td>No hemos encontrado ningun Articulo en esta categoria ("+$("#category_buscador_inteligente").find('option:selected').text()+").</td>";
+                    nuevaFila+="</tr>";
+                    $("#table_client").append(nuevaFila);
+                }else{
+                    $("#table_client td").remove();
+                    var nuevaFila;
+                    contador = 0;
+                    $.each(data.articulos, function(i, item) {
+                        contador++;
+                        console.log(item.name);
+                        var angel = item.name;
+                        nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name+"</td>";
+                        nuevaFila+="<td>"+item.price_in_dolar+" $</td><td>"+item.price_in_dolar * $("#tasa").val()+" "+$("#signo").val()+"</td></tr>";
+                    });
+                    $("#table_client").append(nuevaFila);
+                }
+                
+            }
+        });
+    }
+});
+
+
+
 $("#name_client2").on('keyup', function(){
     if($("#name_client2").val().length > 0 && ($("#name_client2").val().length % 3) == 0){
         var token = $('#token').val(); 
@@ -1406,8 +1454,8 @@ $("#realizarVenta_v2").click(function(){
         form_data.append('name',  $("#name_client").val());
         form_data.append('lastname', $("#lastname_client").val());
         if( $("#nickname").val() ){
-           form_data.append('nickname', $("#nickname").val());
-       }else{
+         form_data.append('nickname', $("#nickname").val());
+     }else{
         var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
         nickname = nickname.replace(/\s/g,'');;
         form_data.append('nickname', nickname);
@@ -1466,6 +1514,10 @@ $("#realizarVenta_v2").click(function(){
 
 
 // Parte Facturacion
+if ($("#total").val() <= 0) {
+    swal("El total es 0, no se puede facturar.");
+    return;
+}
 form_data.append('total', $("#total").val());
 form_data.append('inversion_total', $("#inversion_total").val());
 
@@ -1605,13 +1657,7 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
     
 }
 
-alert("Listo para entrar");
-
 //venta
-
-
-
-
 
 $.ajax({
     url:        route,
@@ -1622,8 +1668,22 @@ $.ajax({
     contentType: false, 
     processData: false,
     success: function(data){
-        alert("Bien");
+        if(data.tipo == 1){
+            swal(data.data);
+        }else{
+            swal('Venta registrada.');
+            $(".modal-backdrop").remove(); 
+            $(".modal").hide();
+            $(".modal").trigger("click");
 
+            $("#carritoTotal").remove(); 
+            $('#cantCarrito').text(0);
+            $("#procederCompraAdmin").css("display", "none");
+            $("#cancelarCompraAdmin").css("display", "none");
+            
+            window.open("factura/"+data.id_venta,+ "_blank");
+
+        }       
     },
     error:function(msj){
         var errormessages = "";
@@ -1649,8 +1709,8 @@ $("#realizar_venta").click(function(){
     form_data.append('name', nombre_cliente);
     form_data.append('lastname', apellido_cliente);
     if( $("#nickname").val() ){
-     form_data.append('nickname', $("#nickname").val());
- }else{
+       form_data.append('nickname', $("#nickname").val());
+   }else{
     var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
     nickname = nickname.replace(/\s/g,'');;
     form_data.append('nickname', nickname);
@@ -1862,14 +1922,14 @@ function colocar_comision(id){
 }
 
 $("#colocar_comision").click(function(){
-   var route = '/colocar_comision';
-   var token = $('#token').val();
+ var route = '/colocar_comision';
+ var token = $('#token').val();
 
-   var form_data = new FormData();  
-   form_data.append('id',  $("#id_sale").val());   
-   form_data.append('commission', $("#commission").val());
+ var form_data = new FormData();  
+ form_data.append('id',  $("#id_sale").val());   
+ form_data.append('commission', $("#commission").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -2234,7 +2294,7 @@ function agregaCarro(id,a,b,c,d, e, f){
 }
 
 function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
-    
+
     var cantidadCero = $('#cantidadDisponible_'+ id).text();
     
     console.log(cantidadCero);
@@ -2285,12 +2345,12 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
 
                 var htmlTags = 
                 '<tr id="fila_'+ element.id_articulo +'">'+
-                    '<td>' + i + '</td>'+
-                    '<td>' + element.articulo.name + '</td>'+
-                    '<td>' + catagoryString + '</td>'+
-                    '<td>' + duennosString + '</td>'+
-                    '<td>' + element.cantidad + '</td>'+
-                    '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
+                '<td>' + i + '</td>'+
+                '<td>' + element.articulo.name + '</td>'+
+                '<td>' + catagoryString + '</td>'+
+                '<td>' + duennosString + '</td>'+
+                '<td>' + element.cantidad + '</td>'+
+                '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
                 '</tr>';
                 $('#tableLyon tbody').append(htmlTags);
                 i++;
@@ -2309,12 +2369,12 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
             $("#carritoTotal").remove(); 
             var htmlPrecio = 
             '<tr id="carritoTotal">'+
-                '<td></td>'+
-                '<td></td>'+
-                '<td></td>'+
-                '<td></td>'+
-                '<td>Total:</td>'+
-                '<td>' + precioTotal + ' $</td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td>Total:</td>'+
+            '<td>' + precioTotal + ' $</td>'+
             '</tr>';
             $('#tableLyon tbody').append(htmlPrecio);
             
@@ -2391,12 +2451,12 @@ function BorrarTodoCarro_admin(){
                 $("#carritoTotal").remove(); 
                 var htmlPrecio = 
                 '<tr id="carritoTotal">'+
-                    '<td></td>'+
-                    '<td></td>'+
-                    '<td></td>'+
-                    '<td></td>'+
-                    '<td>Total:</td>'+
-                    '<td> 0 $</td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td>Total:</td>'+
+                '<td> 0 $</td>'+
                 '</tr>';
                 
                 //La agrego nuevamente
@@ -2411,9 +2471,9 @@ function BorrarTodoCarro_admin(){
             }
         });
 
-	} else {
+    } else {
         console.log("selecciono cancelar");
-	    return;
+        return;
     }
     
     
@@ -2925,10 +2985,10 @@ function cambiaBandera(algo){
                 }
 
                 function eliminar_orden(id){
-                   var route = "/eliminar_orden/"+id+"";
+                 var route = "/eliminar_orden/"+id+"";
 
-                   var token = $('#token').val();
-                   $.ajax({
+                 var token = $('#token').val();
+                 $.ajax({
                     url:        route,
                     headers:    {'X-CSRF-TOKEN':token},
                     type:       'post',
@@ -2947,11 +3007,11 @@ function cambiaBandera(algo){
                     }
                 });
 
-               }
+             }
 
 
 
-               function AvoidSpace(event) {
+             function AvoidSpace(event) {
                 var k = event ? event.which : window.event.keyCode;
                 if (k == 32) return false;
             }
