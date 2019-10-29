@@ -61,8 +61,7 @@
 			</form>	
 		</center>
 		<h3>Facturacion de {{ Auth::user()->name }} {{ Auth::user()->lastname }}</h3>
-		<a href="">Cancelar facturacion</a>
-
+		<a href="#" id="cancelarFacturacion" >Cancelar facturacion</a>
 	</div>
 	<div class="card-body">
 		<table class="table" style="font-size: 10px;">
@@ -802,6 +801,16 @@
 
 	<script src="{{ url('js/jquery3.min.js') }}"></script>
 	<script type="text/javascript">
+
+		$('#cancelarFacturacion').click(function(){
+			var opcion = confirm("¿Seguro que desea cancelar la facturación?.");
+			if (opcion == true) {
+				window.location.href='/allArticles';
+			}else{
+				return;
+			}
+		});
+
 		$("#agregarPago").click(function(){
 			if($("#banco_emisor").val() == null){
 				swal(" Pago / Debe agregar el Banco Emisor.");
@@ -813,19 +822,19 @@
 			}
 
 
-				// Colocar otro Formulariobu,m
-				var newtr = '<tr class="item"  data-id="0">';
-				newtr = newtr + '<td > <input readonly=""  class="form-control monto" value="'+$("#monto").val()+'" /></td>';
-				newtr = newtr + '<td> <input readonly=""  class="form-control id_coin"  value="'+$("#coin_venta").val()+'" required hidden/></td>';
-				newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#coin_venta").find('option:selected').text()+'" required /></td>';
-				newtr = newtr + '<td> <input  readonly="" class="form-control bancoEmisor" hidden value="'+$("#banco_emisor").val()+'" required /></td>';
-				newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#banco_emisor").find('option:selected').text()+'" required /></td>';
-				newtr = newtr + '<td> <input readonly=""  class="form-control referencia"  value="'+$("#reference").val()+'" required /></td>';
-				newtr = newtr + '<td> <input readonly=""  class="form-control nota_venta" id="mal"  value="'+$("#note_sale").val()+'" required /></td>';
-				newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
-				$('#ProSelected').append(newtr);
+			// Colocar otro Formulariobu,m
+			var newtr = '<tr class="item"  data-id="0">';
+			newtr = newtr + '<td > <input readonly=""  class="form-control monto" value="'+$("#monto").val()+'" /></td>';
+			newtr = newtr + '<td> <input readonly=""  class="form-control id_coin"  value="'+$("#coin_venta").val()+'" required hidden/></td>';
+			newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#coin_venta").find('option:selected').text()+'" required /></td>';
+			newtr = newtr + '<td> <input  readonly="" class="form-control bancoEmisor" hidden value="'+$("#banco_emisor").val()+'" required /></td>';
+			newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#banco_emisor").find('option:selected').text()+'" required /></td>';
+			newtr = newtr + '<td> <input readonly=""  class="form-control referencia"  value="'+$("#reference").val()+'" required /></td>';
+			newtr = newtr + '<td> <input readonly=""  class="form-control nota_venta" id="mal"  value="'+$("#note_sale").val()+'" required /></td>';
+			newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
+			$('#ProSelected').append(newtr);
 
-			});
+		});
 
 
 		$(function () {
@@ -846,10 +855,6 @@
 				newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
 				$("#zona_pega_"+$(this).val()).append(newtr);
 			});
-
-
-
-
 
 			$('#zona_multiple').hide();
 		});

@@ -227,7 +227,7 @@
 							</tr>
 						</thead>
 						<?php $i=1; ?>
-						<tbody>
+						<tbody id="articlesAll">
 							@foreach($articles as $article)
 							<tr class="prod">
 								<th scope="row">
@@ -238,10 +238,18 @@
 									<br>	
 									<br>	
 									<strong>
-										Categoria: 
+										Categorias: 
 									</strong>
 									<br>	
-									<div class="catefiltrar">{{ $article->pertenece_category->category }}</div>
+									
+									<div class="catefiltrar">
+										@foreach($article->categorias as $categoria)
+											<span>{{ $categoria->category }}</span>
+											<br>
+										@endforeach
+									</div>
+									
+									{{-- <div class="catefiltrar">{{ $article->pertenece_category->category }}</div> --}}
 									<br>	
 									<br>	
 									<strong>
@@ -320,13 +328,13 @@
 									@endif
 									@endif
 
-									Categorias
+									{{-- Categorias
 									@foreach($article->categorias as $categoria)
 									<br>
 									<br>
 									{{ $categoria->category }}
 
-									@endforeach
+									@endforeach --}}
 								</td>
 								<td>
 									@if(Auth::user()->level >= 7)
