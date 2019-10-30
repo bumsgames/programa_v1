@@ -37,7 +37,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($category->articles as $hola)
+                                    @foreach ($category["articlesRioAro"] as $hola)
                                         <tr>
                                             <td>
                                                 {{$hola->name}}
