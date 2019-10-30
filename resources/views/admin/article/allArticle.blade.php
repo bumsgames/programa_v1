@@ -227,7 +227,7 @@
 							</tr>
 						</thead>
 						<?php $i=1; ?>
-						<tbody>
+						<tbody id="articlesAll">
 							@foreach($articles as $article)
 							<tr class="prod">
 								<th scope="row">
@@ -238,20 +238,19 @@
 									<br>	
 									<br>	
 									<strong>
-										Categoria: 
+										Categorias: 
 									</strong>
-									@foreach($article->categorias as $categoria)
-									<br>
-									{{ $categoria->category }}
-
-									@endforeach
-									<br>
-									<br>
-									{{-- categoria viejas --}}
-									{{-- <br>	
-									<div class="catefiltrar">{{ $article->pertenece_category->category }}</div>
 									<br>	
-									<br>	 --}}
+									
+									<div class="catefiltrar">
+										@foreach($article->categorias as $categoria)
+											<span>{{ $categoria->category }}</span>
+											<br>
+										@endforeach
+									</div>
+
+									<br>	
+									<br>	 
 									<strong>
 										Condición: 
 									</strong>

@@ -324,6 +324,7 @@
           <li><a class="treeview-item" href="{{ url('articles_web') }}"><i class="icon fa fa-circle-o"></i> Articulos en la Pagina Web</a></li>
           <li><a class="treeview-item" href="{{ url('articulosSinImagen') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Imagenes</a></li>
           <li><a class="treeview-item" href="{{ url('articulosSinPeso') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Peso</a></li>
+          <li><a class="treeview-item" href="{{ url('inventario') }}"><i class="icon fa fa-circle-o"></i> Inventario</a></li>
         </ul>
       </li>
       {{-- @if(Auth::user()->level >= 7)

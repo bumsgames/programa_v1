@@ -86,11 +86,28 @@ $( "#buscador" ).on('keyup', function() {
 
 $("#selcat").on( "change", function(){
     $('.prod').show();
+
+    if($( "#selcat option:selected" ).text()=='No filtrar'){
+        $('.prod').show();
+        return;
+    }
+
     $('.prod').filter(function(){
-        return !($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar').text());
+        spans = $(this).find('.catefiltrar span');
+        let aux = 0;
+        for (let index = 0; index < spans.length; index++) {
+            //console.log(spans[index].textContent);
+            if(($( "#selcat option:selected" ).text() === spans[index].textContent)){
+                aux++
+            }
+        }
+        if(aux>0){
+            return false;
+        }
+        return !($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar span').text());
     }).hide();
     $('.prod').filter(function(){
-        return ($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar').text());
+        return ($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar span').text());
     }).show();
 });
 
@@ -409,7 +426,7 @@ function comprocontinuar80(){
 $('#category_btn').click(function(){
     $('#dropanchor').trigger('click');
     $("#down_icon").toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
-})
+});
 
 function oferta_filt_show(){
     if($('#oferta_filt').is(':checked')){
