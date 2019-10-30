@@ -80,11 +80,10 @@ class ArticleController extends Controller
     $pos = strrpos( $nombre_categoria, $searchterm);
     $pos2 = strrpos( $nombre_categoria, $searchterm2);
 
+
     // Verificar si es Articulo Cuenta Digital o Cupo Digital que no haya otro Articulo de esa misma categoria con el mismo Correo
     if (($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)) || 
       ($pos2 !== false && strlen($searchterm2) + $pos2 == strlen($nombre_categoria))) {
-      print_r("Es cuenta Digital");
-    print_r("Es cupo");
 
       // vericar que la cantidad no sea mayor a 1
     $art = \Bumsgames\Article::
@@ -97,7 +96,7 @@ class ArticleController extends Controller
     if ($art->count() >= 1) {
       return response()->json([
         "tipo" => "1",
-        "data" => "Este articulo digital ya ha sido registrado con ese mismo correo.\n\n\n Correo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
+        "data" => "Este articulo digital ya ha sido registrado con este mismo correo.\n\n\n Correo: " . $request->email . " para esta categoria. ",
       ]);
     }
   }
@@ -111,10 +110,10 @@ class ArticleController extends Controller
   }
 
     // No numero negativo en Inversion // Aqui falta que los otros montos tampoco sean negativos, si pueden ser 0
-  if (($request->costo < 0)) {
+  if (($request->costo < 0) && ($request->price_in_dolar < 0) && ($request->offer_price < 0)) {
     return response()->json([
       "tipo" => "1",
-      "data" => "El costo de inversión no puede ser menor a 0.\n\n\Costo de Inversión: " . $request->costo . "$",
+      "data" => "Existen montos con Saldo Negativo. Articulo NO Registrado",
     ]);
   }
 

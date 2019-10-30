@@ -34,6 +34,13 @@ class WebController extends Controller
 		->orderBy('ultimo_agregado', 'desc')
 		->take(20)
 		->get();
+		
+		$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
+		->where('level', '>=', '7')
+		->orderBy('id', 'asc')
+		->get();
+
+
 		$numero = $articulos->count();
 		//Descomentar el codigo que esta abajo si se quiere mostrar los productos mas recientes en un orden random
 		/*
@@ -50,6 +57,7 @@ class WebController extends Controller
 		}
 
 		$categorias = \Bumsgames\Category::All();
+		$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
 		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
 		$moneda_actual = \Bumsgames\Coin::find($id_coin);
 
@@ -99,7 +107,7 @@ class WebController extends Controller
 
 		//dd($noticias->toArray());
 
-		return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'portal1', 'portal2', 'portal3', 'comentarios', 'noticias', 'encuesta'));
+		return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'portal1', 'portal2', 'portal3', 'comentarios', 'noticias', 'encuesta','categorias_sub','agentes_activos'));
 		//return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'comentarios', 'encuesta'));
 	}
 
@@ -224,6 +232,12 @@ class WebController extends Controller
 
 	function articulos_web(Request $request)
 	{
+		$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
+		->where('level', '>=', '7')
+		->orderBy('id', 'asc')
+		->get();
+
+		$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
 
 		$articulos = \Bumsgames\Article::select('id','name','category','fondo','estado','offer_price','price_in_dolar','oferta')
 		->where('quantity', '>', 0)
@@ -260,7 +274,7 @@ class WebController extends Controller
 		$title = 'ARTICULOS RECIENTES | TOP 100';
 		$buscador_ruta = 'articulos_web';
 		\Bumsgames\Visita::create(['tipo' => 'General']);
-		return view('webuser.article.articulos_web', compact('categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
+		return view('webuser.article.articulos_web', compact('categorias_sub','agentes_activos','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
 	}
 
 	function articulos_web_cat(Request $request, $id)
@@ -885,16 +899,9 @@ class WebController extends Controller
 			$moneda_actual = \Bumsgames\Coin::find($id_coin);
 
 
-			$ultimo_pago = \Bumsgames\Pago::orderby('created_at', 'DESC')->take(1)->get();
-			if (!(isset($ultimo_pago->id))) {
-				$ultimo_pago = 0;
-			} else {
-				$ultimo_pago = $ultimo_pago->id;
-			}
-
 			$date = Carbon::now();
 
-			return view('webuser.pago.orden_a_pagar', compact('coins', 'moneda_actual', 'ultimo_pago', 'date'));
+			return view('webuser.pago.orden_a_pagar', compact('coins', 'moneda_actual', 'date'));
 		}
 
 		public function reportar_pago(Request $request)
@@ -1078,7 +1085,7 @@ class WebController extends Controller
 		// 	->orderby('sales.created_at', 'desc')
 		// 	->take(10)
 		// 	->pluck('articles.name')->toArray();
-			
+
 
 		// 	$recomendados = \Bumsgames\Article::whereIn('articles.name',$article_mas_vendidos)
 		// 	->where('articles.quantity','>',0)
@@ -1088,7 +1095,7 @@ class WebController extends Controller
 		// 	->groupBy('articles.name')
 		// 	->take(4)
 		// 	->get();
-			
+
 		// }
 
 		$comentarios = DB::table('comment')
@@ -1139,31 +1146,64 @@ class WebController extends Controller
 		return view('webuser.article.articulos_web', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos','comprofilt'));
 	}
 
-
-
-	public function error404($url)
-	{
-
-		if (Session::has('id_coin')) {
-			$id_coin = Session::get('id_coin');
-		} else {
-			$id_coin = 1;
+	public function coincidencia_buscador_inteligente(Request $request)
+	{	
+		if($request->categoria_articulo == 0){
+			$coincidencia = \Bumsgames\Article::
+			leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+			->where('name', 'like', '%' . $request->nombre_articulo . '%')
+			->groupby('name','articulo_categorias.id_categoria')
+			->get();
+		}else{
+			$coincidencia = \Bumsgames\Article::
+			leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+			->where('name', 'like', '%' . $request->nombre_articulo . '%')
+			->where('articulo_categorias.id_categoria', $request->categoria_articulo)
+			->groupby('name','articulo_categorias.id_categoria')
+			->get();
 		}
+		
 
-		$comentarios = DB::table('comment')
-		->where('aprobado', '1')
-		->leftjoin('clients', 'comment.id_comentario', '=', 'clients.id')
-		->orderby('fecha_comentado', 'desc')
-		->take(10)
-		->get();
 
-		$categorias = \Bumsgames\Category::All();
-		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
-		$moneda_actual = \Bumsgames\Coin::find($id_coin);
+		if ($coincidencia->count()) {
+			return response()->json([
+				"articulos" => $coincidencia
+			]);
+		}else{
+			return response()->json([
+				"articulos" => 0
+			]);
+		}
+		
 
-		$title = 'Pagina no encontrada';
-		$buscador_ruta = 'buscar_articulo_bums';
-		\Bumsgames\Visita::create(['tipo' => 'General']);
-		return view('errors.404', compact('categorias','comentarios', 'coins', 'moneda_actual', 'title', 'buscador_ruta'));
+		
 	}
+
+
+
+	// public function error404($url)
+	// {
+
+	// 	if (Session::has('id_coin')) {
+	// 		$id_coin = Session::get('id_coin');
+	// 	} else {
+	// 		$id_coin = 1;
+	// 	}
+
+	// 	$comentarios = DB::table('comment')
+	// 	->where('aprobado', '1')
+	// 	->leftjoin('clients', 'comment.id_comentario', '=', 'clients.id')
+	// 	->orderby('fecha_comentado', 'desc')
+	// 	->take(10)
+	// 	->get();
+
+	// 	$categorias = \Bumsgames\Category::All();
+	// 	$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
+	// 	$moneda_actual = \Bumsgames\Coin::find($id_coin);
+
+	// 	$title = 'Pagina no encontrada';
+	// 	$buscador_ruta = 'buscar_articulo_bums';
+	// 	\Bumsgames\Visita::create(['tipo' => 'General']);
+	// 	return view('errors.404', compact('categorias','comentarios', 'coins', 'moneda_actual', 'title', 'buscador_ruta'));
+	// }
 }

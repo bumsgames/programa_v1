@@ -407,13 +407,7 @@
 
 										@if(Auth::user()->level >= 7 || in_array($article->category,[3,4,6,7,10,11,13,14,15]))
 
-										<button type="button" 
-										class="btn btn-secondary" 
-										data-toggle="modal" data-target=".bd-example-modal-lg"	
-										value="{{ $article->id }} "
-										Onclick='vender_articulo({{ $article->id }},"{{ $article->name }}", "{{ $article->email }}", "{{ $article->password }}","{{ $article->pertenece_category->category }}",{{ $article->category }});'>
-										Vender
-									</button>
+										
 
 									<form action="/buscar_articulo" method="post" target="_blank">
 										<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">

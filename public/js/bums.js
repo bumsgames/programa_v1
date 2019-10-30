@@ -619,7 +619,7 @@ $("#agregarDuenno").click(function(){
     nombre_html=nombre.trim().replace(/ /g, '&nbsp;');
     
     $("#primary_owner").find('option:selected').remove();
-    $( "#xxx" ).append('<tr><td><input type="text" class="form-control form-control-sm id_duenno" readonly value='+id+'></td><td><input type="text" class="form-control form-control-sm" readonly value='+nombre_html+'></td><td><div class="col-auto"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text">%</div></div><input placeholder="Coloque su porcentaje" type="text" class="form-control form-control-sm duenno_porcentaje" id="inlineFormInputGroup" ></div></div></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="abc" onclick="myFunction('+id+', \'' + nombre + '\');">Quitar</button></td></tr>"');
+    $( "#xxx" ).append('<tr><td><input type="text" class="form-control form-control-sm id_duenno" hidden readonly value='+id+'></td><td><input type="text" class="form-control form-control-sm" readonly value='+nombre_html+'></td><td><div class="col-auto"><div class="input-group mb-2"><div class="input-group-prepend"><div class="input-group-text">%</div></div><input placeholder="Coloque su porcentaje" type="text" class="form-control form-control-sm duenno_porcentaje" id="inlineFormInputGroup" ></div></div></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="abc" onclick="myFunction('+id+', \'' + nombre + '\');">Quitar</button></td></tr>"');
 
     //     +'"+
     //     +"</td><td><button type='button' class='btn btn-danger btn-sm borrar' id='abc' onclick='myFunction("+id+", '"+nombre+"', '"+nombre+"');'>Quitar</button></td></tr>");
@@ -652,12 +652,12 @@ var result_codigo = nombre.match(/codigo/i);
 let numero_de_categorias = document.querySelectorAll('.num_cat');
 
 if(result_codigo && numero_de_categorias.length >= 1 ){
-    alert("No se puede agregar Codigo como categoria.");
+    swal("No se puede agregar Codigo como categoria.");
     return;
 }
 
 if((result_cupo_digital || result_cuenta) && numero_de_categorias.length >= 1 ){
-    alert("No se puede agregar Cuenta Digital o Cupo Digital como categoria.");
+    swal("No se puede agregar Cuenta Digital o Cupo Digital como categoria.");
     return;
 }
 
@@ -675,12 +675,11 @@ for (var i = 0; i <numero_de_categorias.length; i++) {
     var result_cupo_digital = nombre.match(/cupo/i);
     var result_codigo = nombre.match(/codigo/i);
     if(result_cuenta || result_cupo_digital || result_codigo){
-        alert("No se puede agregar otra categoria.");
+        swal("No se puede agregar otra categoria.");
         return;
     }
 }
 
-alert(aux_digital);
 
 if(aux_digital >= 1){
     $('#zona_cuenta_digital').css("display", "block");
@@ -689,7 +688,7 @@ if(aux_digital >= 1){
 }
 
 $("#categoria_opc").find('option:selected').remove();
-$( "#esribir_categoria" ).append('<tr><td><input type="text" class="form-control form-control-sm categoria_marca num_cat" readonly value='+id+'></td><td><input type="text" class="form-control form-control-sm categoria_nombre" readonly value='+nombre_html+'></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" onclick="quitar_categoria('+id+', \'' + nombre + '\');">Quitar</button></td></tr>"');
+$( "#esribir_categoria" ).append('<tr><td><input type="text" class="form-control form-control-sm categoria_marca num_cat" hidden readonly value='+id+'></td><td><input type="text" class="form-control form-control-sm categoria_nombre" readonly value='+nombre_html+'></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" onclick="quitar_categoria('+id+', \'' + nombre + '\');">Quitar</button></td></tr>"');
 
     //     +'"+
     //     +"</td><td><button type='button' class='btn btn-danger btn-sm borrar' id='abc' onclick='myFunction("+id+", '"+nombre+"', '"+nombre+"');'>Quitar</button></td></tr>");
@@ -848,6 +847,10 @@ $("#modificar_articulo").click(function(){
 
 
 $("#registrar_articulo").click(function(){
+    if($("#quantity").val() < 0){
+        swal("No se puede registrar articulo con cantidad negativa");
+        return;
+    }
     let duenno = document.querySelectorAll('.id_duenno');
     let porcentaje = document.querySelectorAll('.duenno_porcentaje');
 
@@ -1116,56 +1119,79 @@ $("#actualizar_uss2").click(function(){
             $.each(msj.responseJSON, function(i, field){
                 errormessages+="\n"+field+"\n";
             });
-
             swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
 });
 
+function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
+    var token = $('#token').val(); 
+    var form_data = new FormData(); 
+
+    form_data.append('nombre_articulo', nombre);
+    form_data.append('categoria_articulo',  id_categoria);
+    var route = '/coincidencia_buscador_inteligente';
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        dataType:   'json',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+
+        success:function(data){
+            $("#tabla-fondo").css("display", "block");
+            if (data.articulos == 0) {
+                $("#table_client td").remove();
+                var nuevaFila;
+                nuevaFila+="<tr><td>No hemos encontrado ningun Articulo con nombre parecido a: "+nombre+" en esta categoria (<b>"+nombre_categoria+"</b>).</td>";
+                nuevaFila+="</tr>";
+                $("#table_client").append(nuevaFila);
+            }else{
+                $("#table_client td").remove();
+                var nuevaFila;
+                contador = 0;
+                $.each(data.articulos, function(i, item) {
+                    contador++;
+                    console.log(item.name);
+                    var angel = item.name;
+                    nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name+"</td>";
+                    nuevaFila+="<td>"+item.price_in_dolar+" $</td><td>"+item.price_in_dolar * $("#tasa").val()+" "+$("#signo").val()+"</td></tr>";
+                });
+                $("#table_client").append(nuevaFila);
+            }
+
+        }
+    });
+}
+
+$("#name_buscador_inteligente").on('keydown', function(){
+   nombre = $("#name_buscador_inteligente").val();
+   id_categoria = $("#category_buscador_inteligente").val();
+   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+
+   if ( nombre.length <= 3 ) {
+    $("#table_client td").remove();
+    $("#tabla-fondo").css("display", "none");
+    return;
+}
+// if(  (nombre.length % 4 == 0) && nombre.length > 0){
+//     coincidencia_articulo(nombre, id_categoria, nombre_categoria);
+// }
+});
 
 $("#name_buscador_inteligente").on('keyup', function(){
-    if($("#name_buscador_inteligente").val().length > 0 && ($("#name_buscador_inteligente").val().length % 3) == 0){
+   nombre = $("#name_buscador_inteligente").val();
+   id_categoria = $("#category_buscador_inteligente").val();
+   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
-        var token = $('#token').val(); 
-        var form_data = new FormData(); 
-
-        form_data.append('nombre_articulo', $("#name_buscador_inteligente").val());
-        form_data.append('categoria_articulo', $("#category_buscador_inteligente").val());
-
-        var route = '/coincidencia_buscador_inteligente';
-        $.ajax({
-            url:        route,
-            headers:    {'X-CSRF-TOKEN':token},
-            type:       'POST',
-            dataType:   'json',
-            data:       form_data,
-            contentType: false, 
-            processData: false,
-
-            success:function(data){
-                if (data.articulos == 0) {
-                    $("#table_client td").remove();
-                    var nuevaFila;
-                    nuevaFila+="<tr><td>No hemos encontrado ningun Articulo en esta categoria ("+$("#category_buscador_inteligente").find('option:selected').text()+").</td>";
-                    nuevaFila+="</tr>";
-                    $("#table_client").append(nuevaFila);
-                }else{
-                    $("#table_client td").remove();
-                    var nuevaFila;
-                    contador = 0;
-                    $.each(data.articulos, function(i, item) {
-                        contador++;
-                        console.log(item.name);
-                        var angel = item.name;
-                        nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name+"</td>";
-                        nuevaFila+="<td>"+item.price_in_dolar+" $</td><td>"+item.price_in_dolar * $("#tasa").val()+" "+$("#signo").val()+"</td></tr>";
-                    });
-                    $("#table_client").append(nuevaFila);
-                }
-                
-            }
-        });
-    }
+   if(nombre.length % 3 == 0  && nombre.length > 0){
+    var token = $('#token').val(); 
+    var form_data = new FormData(); 
+    nombre_articulo = $("#name_buscador_inteligente").val()
+    coincidencia_articulo(nombre, id_categoria, nombre_categoria);
+}
 });
 
 
@@ -1395,27 +1421,27 @@ $("#realizarVenta_v2").click(function(){
     //Envio
     if ($("#boxchecked").prop("checked")){
         if($("#empresa").val() == ""){
-            alert("Envio / Falta la Empresa de encomienda.");
+            swal("Envio / Falta la Empresa de encomienda.");
             return;
         }
 
         if($("#direccion").val() == ""){
-            alert("Envio / Falta la Direccion de envio.");
+            swal("Envio / Falta la Direccion de envio.");
             return;
         }
 
         if($("#destinario").val() == ""){
-            alert("Envio / Falta el destinario.");
+            swal("Envio / Falta el destinario.");
             return;
         }
 
         if($("#cedula_destinario").val() == ""){
-            alert("Envio / Falta el Cedula del destinario.");
+            swal("Envio / Falta el Cedula del destinario.");
             return;
         }
 
         if($("#telefono").val() == ""){
-            alert("Envio / Falta el telefono del Destinario.");
+            swal("Envio / Falta el telefono del Destinario.");
             return;
         }
         
@@ -1501,7 +1527,7 @@ $("#realizarVenta_v2").click(function(){
     // form_data.append('name', "Angel");
     // form_data.append('lastname', "Duarte");
     // if( $("#nickname").val() ){
-    //     alert(10);
+    //     swal(10);
     //     form_data.append('nickname', $("#nickname").val());
     // }else{
     //     var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
@@ -1530,7 +1556,7 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
     let referencia = document.querySelectorAll('.referencia');
     let nota_venta = document.querySelectorAll('.nota_venta');
 
-    // alert(numero_de_categorias.length);
+    // swal(numero_de_categorias.length);
     var porcentaje_array = new Array();
     var categoria_array = new Array();
 
@@ -1565,7 +1591,6 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
 
 
     form_data.append('opcion_involucrado',  $("input[name='OPCinvolucrado_-1']:checked").val());
-    alert($("input[name='OPCinvolucrado_-1']:checked").val());
     form_data.append('involucradoAgenteSelect', $("#involucradoAgenteSelect_-1").val());
     if($("input[name='OPCinvolucrado_-1']:checked").val() == 4){
         var porcentaje_voluntad = $("#porcentaje_voluntad").val();
@@ -1576,85 +1601,6 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
         form_data.append('porcentaje_voluntad', $("#porcentaje_voluntad").val());
     }
 
-}else{
-    form_data.append('metodoEstandar', 0);
-    numero_items = $("#numero_items").val();
-    var monto_array =  new Array();
-    var id_coin_array =  new Array();
-    var bancoEmisor_array =  new Array();
-    var referencia_array = new Array();
-    var nota_venta_array = new Array();
-
-    var opcion_involucrado_array = new Array();
-    var involucradoAgenteSelect_array = new Array();
-    // i = artiuclo
-    // j = monto numero
-    for (var i = 0; i <numero_items; i++) {
-        monto_array[i] = new Array();
-        id_coin_array[i] =  new Array();
-        bancoEmisor_array[i] =  new Array();
-        referencia_array[i] = new Array();
-        nota_venta_array[i] = new Array();
-
-        // let involucradoSelect = document.querySelectorAll('.involucradoSelect_'+i);
-        opcion_involucrado = $("input[name='OPCinvolucrado_"+i+"']:checked").val();
-        involucradoAgenteSelect = $("#involucradoAgenteSelect_"+i).val();
-
-        // opcion_involucrado_array[i].push(opcion_involucrado);
-        opcion_involucrado_array[i] = opcion_involucrado;
-        involucradoAgenteSelect_array[i] = involucradoAgenteSelect;
-        // involucradoAgenteSelect_array[i].push(involucradoAgenteSelect);
-
-        let monto = document.querySelectorAll('.monto_'+i);
-        let coin = document.querySelectorAll('.coin_'+i);
-        let bancoEmisor = document.querySelectorAll('.bancoEmisor_'+i);
-        let referencia = document.querySelectorAll('.referencia_'+i);
-        let nota_venta = document.querySelectorAll('.nota_venta_'+i);
-
-        // if(monto.length == 0){
-        //     alert("PAGO / El articulo numero: "+(i+1)+" le falta el Monto.");
-        //     return;
-        // }
-
-
-        for (var j = 0; j <monto.length; j++) {
-            monto_array[i].push(monto[j].value);
-            id_coin_array[i].push(coin[j].value);
-            bancoEmisor_array[i].push(bancoEmisor[j].value);
-            referencia_array[i].push(referencia[j].value);
-            nota_venta_array[i].push(nota_venta[j].value);
-        }
-
-    }
-
-    form_data.append('monto_array', JSON.stringify(monto_array));
-    form_data.append('id_coin_array', JSON.stringify(id_coin_array));
-    form_data.append('bancoEmisor_array', JSON.stringify(bancoEmisor_array));
-    form_data.append('referencia_array', JSON.stringify(referencia_array));
-    form_data.append('nota_venta_array', JSON.stringify(nota_venta_array));
-
-    form_data.append('opcion_involucrado_array', JSON.stringify(opcion_involucrado_array));
-    form_data.append('involucradoAgenteSelect_array', JSON.stringify(involucradoAgenteSelect_array));
-
-    // monto_array[0][0] = 25;
-    // monto_array[0][1] = 12;
-    // monto_array[0][2] = 12;
-    // monto_array[0][3] = 12;
-
-    // alert(monto_array[0].length);
-
-
-    // for (var i = 0; i <numero_items; i++) {
-    //     for (var j = 0; j <numero_items; j++) {
-
-    //     }
-    // }
-
-
-    // let prueba = document.querySelectorAll('.monto_0');
-    // alert(prueba.length);
-    
-    
 }
 
 //venta
@@ -1669,7 +1615,7 @@ $.ajax({
     processData: false,
     success: function(data){
         if(data.tipo == 1){
-            swal(data.data);
+            
         }else{
             swal('Venta registrada.');
             $(".modal-backdrop").remove(); 
@@ -2300,7 +2246,7 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
     console.log(cantidadCero);
     
     if(cantidadCero=='0'){
-        alert("No se puede agregar al carrito ya que no hay mas disponibilidad del mismo.");
+        swal("No se puede agregar el articulo al carrito, cantidad es 0");
         return;
     }
 

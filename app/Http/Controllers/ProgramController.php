@@ -1537,6 +1537,8 @@ class ProgramController extends Controller
 	public function coincidencia_buscador_inteligente(Request $request)
 	{	
 
+		dd(1);
+
 		$coincidencia = \Bumsgames\Article::
 		leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
 		->where('name', 'like', '%' . $request->nombre_articulo . '%')
@@ -3674,7 +3676,7 @@ class ProgramController extends Controller
 		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
 		->leftjoin('categories','categories.id','articulo_categorias.id')
 		->groupby('venta_articulos.id_articulo')
-		->orderby('id_categoria')
+		->orderby('articulo_categorias.id_categoria')
 		->get();
 
 		return view('admin.factura', compact('venta','precio_carrito','pago_total','articulos_factura'));

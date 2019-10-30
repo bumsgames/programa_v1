@@ -95,7 +95,7 @@ Route::get('/tutorial/editar/{id}','ProgramController@editarTutorial');
 Route::get('/descripcionArticulo/{id}','ProgramController@DescripcionArticulo');
 
 // ProgramController POST
-Route::post('/coincidencia_buscador_inteligente','ProgramController@coincidencia_buscador_inteligente');
+// Route::post('/coincidencia_buscador_inteligente','ProgramController@coincidencia_buscador_inteligente');
 Route::post('/registrar_cuenta','ProgramController@registrar_cuenta');
 Route::post('/registrar_orden','ProgramController@registrar_orden');
 Route::post('/coincidencia','ProgramController@coincidencia');
@@ -176,6 +176,7 @@ Route::post('/modificar_Articulo', 'ArticleController@modificar_Articulo');
 
 // WebController 
 //Route::get('/categorias', 'WebController@categorias');
+Route::post('/coincidencia_buscador_inteligente','WebController@coincidencia_buscador_inteligente');
 Route::get('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos_web_cat/{id}/{categoria?}', 'WebController@articulos_web_cat');
 Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');
