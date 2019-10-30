@@ -146,7 +146,8 @@ class Article extends Model
 
     public function ubicacion()
     {
-        return $this->hasOne('Bumsgames\Ubicacion', 'ubicacion', 'id');
+        return $this->belongsTo('Bumsgames\Ubicacion','id');
+        //return $this->hasOne('Bumsgames\Ubicacion', 'ubicacion', 'id');
     }
 
 

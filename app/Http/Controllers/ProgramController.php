@@ -818,6 +818,33 @@ class ProgramController extends Controller
 		return view('admin.article.allArticle', compact('title', 'carrito', 'bancos', 'comments_por_aprobar', 'pago_sin_confirmar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales', 'busqueda'));
 	}
 
+	public function inventarioList()
+	{
+		$categories = \Bumsgames\Category::with('articles')->get();
+
+		foreach ($categories as $category) {
+
+			$new_array1 = array_filter($category->articles->toArray(), function($article){
+				if ($article['ubicacion'] == 1) return true;
+			});
+
+			$category->articlesRioAro = $new_array1;
+
+			// $new_array2 = array_filter($category->articles->toArray(), function($article){
+			// 	if ($article['ubicacion'] == 2) return true;
+			// });
+
+			// $category->articlesAltaVista = $new_array2;
+		}
+
+		//dd($categories->toArray());
+		$ubicaciones = \Bumsgames\Ubicacion::All();
+
+		//dd($ubicaciones->toArray());
+
+		return view('admin.article.inventarioList', compact('categories', 'ubicaciones'));
+	}
+
 	public function allArticle()
 	{
 		// 		$articles = \Bumsgames\Article::
