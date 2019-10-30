@@ -203,7 +203,7 @@ duration: 450000,
 
 
 <div class="modal fade" id="carritoModal">
-	<div class="modal-dialog  modal-lg modal-responsive"  style="width: 3000px !important;">
+	<div class="modal-dialog  modal-lg modal-responsive"  style="width: 100% !important; max-width: 50% !important;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h1 class="modal-title"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> CARRITO DE COMPRA</h1>
