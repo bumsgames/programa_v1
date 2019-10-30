@@ -823,18 +823,8 @@ class ProgramController extends Controller
 		$categories = \Bumsgames\Category::with('articles')->get();
 
 		foreach ($categories as $category) {
-
-			$new_array1 = array_filter($category->articles->toArray(), function($article){
-				if ($article['ubicacion'] == 1) return true;
-			});
-
-			$category->articlesRioAro = $new_array1;
-
-			// $new_array2 = array_filter($category->articles->toArray(), function($article){
-			// 	if ($article['ubicacion'] == 2) return true;
-			// });
-
-			// $category->articlesAltaVista = $new_array2;
+			$category['rioAro'] = $category->articles->where("ubicacion",1);
+			$category['altaVista'] = $category->articles->where("ubicacion",2);
 		}
 
 		//dd($categories->toArray());

@@ -2365,6 +2365,22 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
     });
 }
 
+function activar_inventario(id) {
+    console.log(id);
+
+    if(id == 1){
+        console.log("se activa rioAro");
+        $("#tableRioAro").css("display", "block");
+        $("#tableAltaVista").css("display", "none");
+    }
+    
+    if(id == 2){
+        console.log("se activa altavista");
+        $("#tableRioAro").css("display", "none");
+        $("#tableAltaVista").css("display", "block");
+    }
+}
+
 function BorrarTodoCarro_admin(){
 
     var opcion = confirm("¿Seguro que desea cancelar el carrito? Se eliminaran todos los productos del carrito.");

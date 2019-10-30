@@ -56,13 +56,12 @@
 					&nbsp;
 					@if( $moneda_actual->id != 2)
 
-<<<<<<< HEAD
 					Tasa: {{ number_format($moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 					@endif
 				</form>	
 			</center>
 			<h3>Facturacion de {{ Auth::user()->name }} {{ Auth::user()->lastname }}</h3>
-			<a href="">Cancelar facturacion</a>
+			<a href="#" id="cancelarFacturacion" >Cancelar facturacion</a>
 
 		</div>
 		<div class="card-body">
@@ -72,43 +71,6 @@
 					<?php $precio = 0; ?>
 					<?php $inversion_total = 0; ?>
 					<?php $items_cantidad = 0; ?>
-=======
-				Tasa: {{ number_format($moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
-				@endif
-			</form>	
-		</center>
-		<h3>Facturacion de {{ Auth::user()->name }} {{ Auth::user()->lastname }}</h3>
-		<a href="#" id="cancelarFacturacion" >Cancelar facturacion</a>
-	</div>
-	<div class="card-body">
-		<table class="table" style="font-size: 10px;">
-			<tbody id="tablaCarrito2">
-				<?php $i = 1; ?>
-				<?php $precio = 0; ?>
-				<?php $inversion_total = 0; ?>
-				<?php $items_cantidad = 0; ?>
-
-
-				@foreach( $carrito as $item )
-				<tr>
-					<th>
-						<?php echo $i++; ?>.
-						<?php $precio += $item->articulo->price_in_dolar * $item->cantidad; ?>
-						<?php $inversion_total += $item->articulo->costo * $item->cantidad; ?>
-						<?php $items_cantidad++; ?>
-					</th>
-					<th>	
-						<img class="img-top imagen newImg" src="{{ url('img/'.$item->articulo->fondo) }}" alt="Card image cap" width="30">
-					</th>
-					<th>
-						{{ $item->articulo->name }}
-					</th>
-					<th>
-						@foreach($item->articulo->categorias as $categoria)
-						{{ $categoria->category }}
-						<br>
-						<br>
->>>>>>> ea8652ffc9237f2ecee0905ff53f8a9bd876d746
 
 
 					@foreach( $carrito as $item )
