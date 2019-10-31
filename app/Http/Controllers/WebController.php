@@ -775,7 +775,13 @@ class WebController extends Controller
 			->orderby('sales.created_at', 'desc')
 			->limit(4)
 			->get();
-			return view('webuser.article.articulos_web', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
+
+			$carrito = Session::get('carrito');
+
+			//dd($carrito);
+
+			return view('webuser.article.articulos_web', 
+				compact('categorias', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos', 'carrito'));
 		}
 
 		public function articulos_oferta_opc(Request $request){

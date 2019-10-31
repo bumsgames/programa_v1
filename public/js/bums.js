@@ -2212,6 +2212,9 @@ function agregaCarro(id,a,b,c,d, e, f){
         contentType: false, 
         processData: false,
         success:function(data){
+
+            $('#comprarCarrito').css("display", "block");
+
             var tablaDatos = $("#tablaCarrito");
             tablaDatos.empty();
             var i = 0;

@@ -251,6 +251,23 @@
 									<input type="date" class="form-control form-control-sm" name="reset_button" id="reset_button" autocomplete="off">
 								</div>
 							</div>
+
+							{{-- <div class="col-12 col-lg">
+								<div class="form-group">
+									<label for="image">
+										<strong>
+											<label for="image">- Imagen del Articulo (Maximo 100 KB)</label>
+										</strong>
+									</label>
+									<div class="custom-file">
+										<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es">
+										<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+
+										<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
+									</div>
+									<img id="img2" width="175"><br/>
+								</div>
+							</div> --}}
 						</div>
 						<hr>
 						<div class="row" id="tohide">
