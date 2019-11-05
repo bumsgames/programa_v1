@@ -824,6 +824,7 @@ class ProgramController extends Controller
 		print_r($categories->toArray());
 		dd(1);
 
+<<<<<<< HEAD
 		// foreach ($categories as $category) {
 
 		// 	$new_array1 = array_filter($category->articles->toArray(), function($article){
@@ -838,6 +839,19 @@ class ProgramController extends Controller
 
 		// 	// $category->articlesAltaVista = $new_array2;
 		// }
+=======
+		foreach ($categories as $category) {
+			$category['rioAro'] = $category->articles->where("ubicacion",1);
+			$category['altaVista'] = $category->articles->where("ubicacion",2);
+		}
+
+		//->where('categoria.id', $request->categoria_articulo)
+		//->groupby('name','categorias.id')
+		//->get();
+
+
+		//dd($coincidencia);
+>>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
 
 		// //dd($categories->toArray());
 		// $ubicaciones = \Bumsgames\Ubicacion::All();

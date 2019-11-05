@@ -40,6 +40,7 @@ class Article extends Model
         ]);
     }
 
+<<<<<<< HEAD
     public function categorias_prueba()
     {
         return $this->belongsToMany(Category::class, 'articulo_categorias','id_articulo', 'id_categoria') 
@@ -48,6 +49,13 @@ class Article extends Model
 
 
 
+=======
+    public function images()
+    {
+        return $this->belongsToMany(Image::class, 'articles_images','article_id', 'image_id');
+    }
+
+>>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
     //Coloca un valor default al peso al usar create
     //Se debe usar esto debido a que la funcion Article::create() no toma el default de la bd y hay que forzarlo
     public static function boot()

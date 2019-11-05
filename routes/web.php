@@ -176,6 +176,7 @@ Route::resource('/registrar_articulo', 'ArticleController');
 Route::post('/modificar_Articulo', 'ArticleController@modificar_Articulo');
 
 
+
 // WebController 
 //Route::get('/categorias', 'WebController@categorias');
 Route::post('/coincidencia_buscador_inteligente','WebController@coincidencia_buscador_inteligente');
