@@ -827,6 +827,13 @@ class ProgramController extends Controller
 			$category['altaVista'] = $category->articles->where("ubicacion",2);
 		}
 
+		//->where('categoria.id', $request->categoria_articulo)
+		//->groupby('name','categorias.id')
+		//->get();
+
+
+		//dd($coincidencia);
+
 		//dd($categories->toArray());
 		$ubicaciones = \Bumsgames\Ubicacion::All();
 

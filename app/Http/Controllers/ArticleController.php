@@ -65,9 +65,13 @@ class ArticleController extends Controller
   // ArticleRequest // REGISTRAR ARTICULO
   public function store(ArticleRequest $request)
   {
+
+    //$images = $request->images;
+    //return response()->json($request->images);
+
     $this->validate($request, [
       'image' => 'nullable|max:100',
-      'fondo' => 'nullable|max:100',
+      //'fondo' => 'nullable|max:100',
     ]);
 
     //verificar si es cuenta digital 
@@ -158,21 +162,23 @@ class ArticleController extends Controller
     $request->request->add(['ultimo_agregado' => Carbon::now()]);
   }
 
-    // crea el articulo
+  
+  // crea el articulo
   if ($request->ajax()) {
     $articulo = \Bumsgames\Article::create($request->all());
   }
 
-    //Actualiza el costo del producto con el mismo email y nickname
+  //Actualiza el costo del producto con el mismo email y nickname
 
-//Articulos mismo nombre e id
+  //Articulos mismo nombre e id
   $temporal =  \Bumsgames\Article::
   leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
   ->where('name', $articulo->name)
   ->where('articulo_categorias.id_categoria', $id_categorias[0])
   ->get();
 
-      // cambiando precio de todas las coincidencias con misma categoria
+  
+  // cambiando precio de todas las coincidencias con misma categoria
   foreach ($temporal as $x) {
     $algo = \Bumsgames\Article::find($x->id_articulo);
     if ($request->price_in_dolar < $x->price_in_dolar) {
@@ -189,11 +195,15 @@ class ArticleController extends Controller
   if (!isset($request->fondo) && isset($imagentodos)) {
     DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $articulo->id . ' ');
   }
-    //Actualizar imagenes de productos con mismo nombre y categoria
+
+  //Actualizar imagenes de productos con mismo nombre y categoria
   foreach ($temporal as $x) {
     $algo = \Bumsgames\Article::find($x->id_articulo);
     if (isset($request->fondo)) {
+
       DB::statement('UPDATE articles SET fondo="' . $articulo->fondo . '" WHERE id=' . $algo->id . ' ');
+
+
     } else if ($algo->fondo == 'fondo_nada.jpg' && isset($imagentodos)) {
       DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $algo->id . ' ');
     }
@@ -250,7 +260,65 @@ class ArticleController extends Controller
   $articulo->ubicacion =  $request->ubicacion;
   $articulo->save();
 
+
   return $articulo;
+}
+
+public function fotoMultiple(Request $request){
+
+  $file = $request->file('image');
+  //$file = $request->images;
+
+  $name = Carbon::now()->day . $file->getClientOriginalName();
+
+  $image = new \Bumsgames\Image;
+  $image->numero = $request->number;
+  $image->file = $name;
+  $image->save();
+
+  \Storage::disk('local')->put($name, \File::get($file));
+
+  \Bumsgames\Article_Image::create([
+    'article_id' => $request->article_id,
+    'image_id' => $image->id
+  ]);
+  return response()->json(["se guardo la imagen"=>$image]);
+}
+
+public function fotoMultipleMod(Request $request){
+
+  $articleID=$request->article_id;
+
+  $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
+  $images = $articulo->images;
+  //dd($articulo->toArray());
+  
+  if($request->index==0 && count($images)>0){
+    
+    foreach ($images as $image) {
+      \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
+      $image->delete();
+    }
+    
+  }
+
+  $file = $request->file('image');
+  //$file = $request->images;
+  $name = Carbon::now()->second . $file->getClientOriginalName();
+
+  $image = new \Bumsgames\Image;
+  $image->numero = $request->number;
+  $image->file = $name;
+  $image->save();
+
+  \Storage::disk('local')->put($name, \File::get($file));
+
+  \Bumsgames\Article_Image::create([
+    'article_id' => $request->article_id,
+    'image_id' => $image->id
+  ]);
+
+  return response()->json(["se guardo la imagen"=>$image]);
 }
 
    /*
@@ -947,7 +1015,8 @@ class ArticleController extends Controller
 
 
     return response()->json([
-      "message" => "Success"
+      "message" => "Success",
+      "article_id" => $articulo->id
     ]);
   }
 

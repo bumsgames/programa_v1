@@ -102,6 +102,8 @@ $(document).ready(function(){
 // function quitar(id_duenno, nombre_duenno, apellido_duenno){
 //     alert(apellido_duenno);
 // }
+
+
 function myFunction2(a, b, c){
     $('#primary_owner').append('<option selected value='+a+'>'+b+' '+c+'</option>');
 }
@@ -128,26 +130,126 @@ function quitar_categoria(a, b){
 //     pauseOnHover: true
 // });;;;;;
 
+
+
 function init() {  
     var inputFile2 = document.getElementById('inputFile2');
-    inputFile2.addEventListener('change', mostrarImagen2, false);
+    if(inputFile2){
+        inputFile2.addEventListener('change', mostrarImagen2, false);
+    }
+    
 
     var inputFile = document.getElementById('inputFile1');
-    inputFile.addEventListener('change', mostrarImagen, false);
+    if(inputFile){
+        inputFile.addEventListener('change', mostrarImagen, false);
+    }
+    
 
-
+    var inputFileMod = document.getElementById('inputFileMod');
+    if(inputFileMod){
+        inputFileMod.addEventListener('change', mostrarImagenMod, false);
+    }
     
 }
 
-function mostrarImagen2(event) {
-    var file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onload = function(event) {
-        var img2 = document.getElementById('img2');
-        img2.src= event.target.result;
+//Eliminar foto del frontend
+function removePhotoDiv(number) {
+
+    //Recorro fotos en memoria y la elimino
+    if(fotosMod.length>0){
+        let borro=false;
+        for (let i = 0; i < fotosMod.length; i++) {
+            if(fotosMod[i].index == number){
+                console.log("index a borrar", i);
+                fotosMod.splice(i, 1);
+                console.log("se borro ", fotosMod);
+                borro=true;
+            }
+            if(borro){
+                fotosMod[i].index = fotosMod[i].index-1;
+            }
+        }
     }
-    reader.readAsDataURL(file);
+    console.log("queda en memoria ", fotosMod);
+
+    //Elimino todos del front
+    let ImagesCount=$("#images_mod")[0].childElementCount;
+    let imagesUrl = [];
+    for (let index = 0; index < ImagesCount; index++) {
+        if(index != number){
+            imagesUrl.push($('#img_'+index).attr('src'));
+        }
+        $("#div_"+ index).remove();
+    }
+    console.log("Se borro todo y guardo urls: " ,imagesUrl);
+
+    //Vuelvo a colocarlos en el front pero sin la que elimine y reordeno el index.
+    for (let index = 0; index < imagesUrl.length; index++) {
+        var htmlTagImage = 
+        '<div class="col" id="div_'+index+'">' +
+            '<img id="img_'+index+'" class="img"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
+            '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+index+');" >'+
+                'Eliminar'+
+            '</button>'+
+        '</div>';
+        $('#images_mod').append(htmlTagImage);
+    }
 }
+
+function mostrarImagenMod(event) {
+    //Obtengo el file del input
+    var file = event.target.files[0];
+    console.log("file", file);
+
+    //Creo un objeto de la nueva foto que coloque e ira en memoria
+    let image = {
+        index:$("#images_mod")[0].childElementCount,
+        name:file.name
+    }
+
+    //Guardo en memoria la foto nueva que agrego
+    fotosMod.push(image);
+    console.log('fotos guardada en memoria', fotosMod);
+    
+    //Agrego la nueva foto en el Front
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => { 
+        //console.log(event);    
+        prueba = event.target.result
+        
+        let indexImage=$("#images_mod")[0].childElementCount;
+        console.log('el index de la imagen debe ser', indexImage);
+
+        var htmlTagImage = 
+        '<div class="col" id="div_'+indexImage+'">' +
+            
+            '<img id="img_'+indexImage+'" class="img" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
+            '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
+                'Eliminar'+
+            '</button>'+
+            
+        '</div>';
+        $('#images_mod').append(htmlTagImage);
+    }
+}
+
+function mostrarImagen2(event) {
+    var files = event.target.files;
+    console.log("file", files);
+
+    for (let i = 0; i < files.length; i++) {
+        let reader = new FileReader();
+        reader.readAsDataURL(files[i]); 
+        reader.onload = (event) => { 
+            console.log(event);    
+            prueba = event.target.result
+            var htmlTags = '<img id="img_'+ i +'" width="175"  src="'+event.target.result+'">';
+            $('#images').append(htmlTags);
+        }
+    }
+}
+
 
 function mostrarImagen(event) {
     var file = event.target.files[0];
@@ -158,6 +260,41 @@ function mostrarImagen(event) {
     }
     reader.readAsDataURL(file);
 }
+
+//Get image data url in JavaScript?
+function getBase64Image(img) {
+    // Create an empty canvas element
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to
+    // guess the original format, but be aware the using "image/jpg"
+    // will re-encode the image.
+    var dataURL = canvas.toDataURL("image/png");
+    
+    return dataURL;
+    //data:image/png;base64,
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+}
+
+function dataURLtoFile(dataurl, filename) {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+}
+    
+//Usage example:
+//var file = dataURLtoFile('data:image/png;base64,....', 'filename.png');
+//console.log(file);
 
 //ready ready ready
 $( document ).ready(function() {
@@ -784,10 +921,10 @@ $("#modificar_articulo").click(function(){
     form_data.append('costo',$('#costo').val());
     form_data.append('estado',$('#estado').val());
     form_data.append('trailer',$('#trailer').val().replace("watch?v=", "embed/"))
-    if($('#inputFile2').prop('files')[0]){
-        form_data.append('fondo', $('#inputFile2').prop('files')[0]);
+    // if($('#inputFile2').prop('files')[0]){
+    //     form_data.append('fondo', $('#inputFile2').prop('files')[0]);
         
-    }   
+    // }   
     var cambio_email_o_category = 0;
     var cambio_password = 0;
     a = ($("#email").val() != $("#email_viejo").val());
@@ -824,6 +961,8 @@ $("#modificar_articulo").click(function(){
             if(data.tipo == 1){
                 swal(data.data);  
             }else{
+
+                subirFotoMod(data);
                 $("#password_viejo").val($("#password").val());
                 swal("El articulo: "+$("#name").val()+". \n\n\nFue modificado con exito.");
                 setTimeout(function() 
@@ -845,8 +984,94 @@ $("#modificar_articulo").click(function(){
 
 });
 
+fotosMod = [];
+
+function subirFotoMod(params) {
+    console.log("params", params);
+
+    console.log("cantidad de fotos", $("#images_mod")[0].childElementCount);
+    let imagesCount=$("#images_mod")[0].childElementCount;
+
+    for (let index = 0; index < imagesCount; index++) {
+
+        
+        console.log("///////////////////////////////// nueva imagen //////////////////////////////////");
+        console.log("/////////////////////////////////////////////////////////////////////////////");
+
+        //Saco le etiqueta img que quiero extraer
+        imageHtml = $('#img_'+index)[0];
+        console.log("html", imageHtml);
+
+        //saco el src del img para sacarle el nombre al file
+        imageSrc = $('#img_'+index).attr('src');
+        console.log("source", imageSrc);
+
+        //Si el src viene derl servidor 
+        if(imageSrc.substr(0,4)== 'img/'){
+            console.log('si es url src');
+
+            //Se convierte la imagen desde la etiqueta en dara URl
+            imageDataUrl = getBase64Image(imageHtml);
+            //console.log("DataUrl", imageDataUrl);
+
+            //Sacamos el nombre del server
+            imageName = imageSrc.substr(4);
+            //console.log('image name',imageName);
+
+            //Creamos el File a partir de la DataUrl y el nombre.
+            imageFile = dataURLtoFile(imageDataUrl,imageName);
+            //console.log("File " + index, imageFile);
+
+        }else{
+
+            console.log('es un data url src, index ', index);
+            imageName = '';
+            fotosMod.forEach(element => {
+                if(element.index == index){
+                    console.log("encontre ",element);
+                    imageName = element.name;
+                }
+            });
+
+            imageFile = dataURLtoFile(imageSrc, imageName == '' ? undefined : imageName);
+            console.log("File " + index, imageFile);
+        }
+
+       
+        if(imageFile){
+            var route = '/api/fotoMultipleMod';
+            var form_data = new FormData(); 
+            form_data.append('image', imageFile);
+            form_data.append('article_id', params.article_id);
+            form_data.append('number', index+1);
+            form_data.append('index', index);
+
+            $.ajax({    
+                url:        route,
+                headers:    {'X-CSRF-TOKEN':token},
+                type:       'POST',
+                data:       form_data,
+                contentType: false, 
+                processData: false,
+                success:function(data){
+                    console.log("Se guardo la foto ", data);
+                },
+                error:function(msj){
+                    console.log(msj);
+                    //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                }
+            });
+        }
+        
+    }
+
+   
+}
+
 
 $("#registrar_articulo").click(function(){
+
+
     if($("#quantity").val() < 0){
         swal("No se puede registrar articulo con cantidad negativa");
         return;
@@ -883,11 +1108,8 @@ $("#registrar_articulo").click(function(){
 
 
         if(result_cuenta && ($("#quantity").val() > 1)){
-
             alert("El maximo de cantidad para un Articulo de tipo Cuenta Digital es: 1.");
             return;
-            
-            
         }
 
         if(result_cupo_digital && ($("#quantity").val()> 4)){
@@ -904,7 +1126,6 @@ $("#registrar_articulo").click(function(){
 
         
     }
-
 
 
 
@@ -982,19 +1203,25 @@ $("#registrar_articulo").click(function(){
         form_data.append('image', $('#inputFile1').prop('files')[0]);
     }  */
 
-    if($('#inputFile2').prop('files')[0]){
-        form_data.append('fondo', $('#inputFile2').prop('files')[0]);      
-    }  
+    // if($('#inputFile2').prop('files')[0]){
+    //     form_data.append('fondo', $('#inputFile2').prop('files')[0]);      
+    // }  
+
+    // var files = $('#inputFile2').prop('files');
+    // console.log("files a subir", files);
+    // if(files){
+    //     form_data.append('images', files); 
+    // }  
 
     //form_data.append('fondo', "$('#inputFiletext').val()");
-
-
     // Arrays
     form_data.append('id_categorias', JSON.stringify(categoria_array));
     form_data.append('id_bumsuser', JSON.stringify(duenno_array));
     form_data.append('porcentaje', JSON.stringify(porcentaje_array));
 
-    $.ajax({
+    console.log("a subir", form_data);
+
+    $.ajax({    
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'POST',
@@ -1006,7 +1233,9 @@ $("#registrar_articulo").click(function(){
             if(data.tipo == 1){
                 swal(data.data);  
             }else{
-                console.log(data);
+                console.log("response articulo register: ", data);
+                subirFoto(data);
+
                 swal("El articulo: "+$("#name").val()+". Fue registrado con exito.");
             }
         },
@@ -1021,6 +1250,40 @@ $("#registrar_articulo").click(function(){
     });
 
 });
+
+function subirFoto(params) {
+    var files = $('#inputFile2').prop('files');
+    console.log("files a subir", files);
+    if(files){
+
+        for (let index = 0; index < files.length; index++) {
+            var route = '/api/fotoMultiple';
+            var form_data = new FormData(); 
+            form_data.append('image', files[index]);
+            form_data.append('article_id', params.id);
+            form_data.append('number', index+1);
+
+            $.ajax({    
+                url:        route,
+                headers:    {'X-CSRF-TOKEN':token},
+                type:       'POST',
+                data:       form_data,
+                contentType: false, 
+                processData: false,
+        
+                success:function(data){
+                    console.log("Se guardo la foto ", data);
+                },
+                error:function(msj){
+                    console.log(msj);
+        
+                    //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                }
+            });
+        }
+        
+    }  
+}
 
 //ventana tipo lista
 $("#actualizar_uss").click(function(){

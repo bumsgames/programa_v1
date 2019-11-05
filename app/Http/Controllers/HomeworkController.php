@@ -93,10 +93,13 @@ class HomeworkController extends Controller
 
     public function buscar_articulo(Request $request)
     {
+
         $tutoriales = \Bumsgames\tutorial::all();
 
         $id = $request->id_art;
         $articulo = \Bumsgames\Article::find($id);
+
+        //dd($articulo->images);
         //$articulo = \Bumsgames\Article::with('categorias')->where('id', $id)->get();
 
         //dd($articulo->toArray());
