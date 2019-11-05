@@ -1265,12 +1265,7 @@ $("#registrar_articulo").click(function(){
 
 
         if(result_cuenta && ($("#quantity").val() > 1)){
-<<<<<<< HEAD
-
             swal("El maximo de cantidad para un Articulo de tipo Cuenta Digital es: 1.");
-=======
-            alert("El maximo de cantidad para un Articulo de tipo Cuenta Digital es: 1.");
->>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
             return;
         }
 
@@ -2643,11 +2638,11 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
         contentType: false, 
         processData: false,
         success:function(data){
-<<<<<<< HEAD
             if(data.tipo == 1){
                 swal(data.data);
                 
             }else{
+                $('#comprarCarrito').css("display", "block");
                 var tablaDatos = $("#tablaCarrito");
                 tablaDatos.empty();
                 var i = 0;
@@ -2670,35 +2665,6 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
                 tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
                 badge.append(acumulado);
             }
-            
-=======
-
-            $('#comprarCarrito').css("display", "block");
-
-            var tablaDatos = $("#tablaCarrito");
-            tablaDatos.empty();
-            var i = 0;
-            var numero = 0;
-            acumulado = 0;
-
-            precioAcumulado = 0;
-            var badge = $("#badge");
-            badge.empty();
-
-            $.each(data, function(i, item) {
-                numero++;
-                i++;
-                acumulado++;
-                borrado = i;
-                precioAcumulado+= Number(item.precio) * Number(e) ;
-                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
-            });
-            $("#nArt").val(numero);
-            tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
-            badge.append(acumulado);
->>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
-            
-
         }
     });
 }
