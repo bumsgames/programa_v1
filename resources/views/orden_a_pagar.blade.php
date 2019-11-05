@@ -102,7 +102,7 @@ hr {
 							<hr>
 							<p>Esta orden expira en 30 minutos. (Los contactaremos via What'sApp lo antes posible una vez procesado su pago).</p>
 								
-							<h3>Cuentas Bancarias:</h3>
+							<h2>OPCIONES DE PAGO</h2>
 					
 							<div class="panel-group" id="accordion">
 								<div class="panel panel-default">

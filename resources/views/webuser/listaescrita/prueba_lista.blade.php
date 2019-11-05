@@ -5,11 +5,11 @@
 <br>
 <br>
 
-<div class="container" >
+<div class="container">
 	<div class="fondotituloEscrito2" >
 		<h2 class="col-8 titulobumsEscrito2">Lista escrita</h2>
 	</div>
-	<div class="tile fondoBlanco shadow_ligero">
+	<div class="tile fondoBlanco" >
 		<div class="row">	
 			<div id="accordion" class="col-lg-3 col-12">
 				<div class="card menu_rev">
@@ -51,14 +51,14 @@
 						<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="infoherramienta"></h5>
 
 						<br>
-						{{-- <center>
+						<center>
 							<button type="button" onclick='CopyToClipboard("lista_1","LISTA PS4")' class="btn btn-primary btn-block"></i> Copiar Lista PS4</button>
 							<button type="button" onclick='CopyToClipboard("lista_2","LISTA PS3")' class="btn btn-primary btn-block"></i> Copiar Lista PS3</button>
 							<button type="button" onclick='CopyToClipboard("lista_3","LISTA XB1")' class="btn btn-primary btn-block"></i> Copiar Lista XB1</button>
 							<button type="button" onclick='CopyToClipboard("lista_4","LISTA NINTENDO")' class="btn btn-primary btn-block"></i> Copiar Lista Nintendo</button>
 							<button type="button" onclick='CopyToClipboard("lista_5","LISTA CELULARES")' class="btn btn-primary btn-block"></i> Copiar Lista Celulares</button>
 							<button type="button" onclick='CopyToClipboard("lista_6","LISTA OTROS")' class="btn btn-primary btn-block"></i> Copiar Lista Otros</button>
-						</center> --}}
+						</center>
 						<br>
 
 					</div>	
@@ -80,7 +80,6 @@
 								@endforeach
 							</div>
 						</div>
-
 					</div>
 					<br>
 					<br>
@@ -101,47 +100,39 @@
 
 			</div>
 			<div class="col-lg-8 col-12 tile_3">
-				<h5>Ordenar por:</h5>
+				<div class="col-12">
+					Ordenar por:
+					<form class="form-inline" action="{{ url('cambio_ordenador') }}" method="get">
+						<select class="form-control se letraPe" onchange="this.form.submit()" id="filtro_order" name="filtro" style="font-size: 14px; width: 100%;">
+							@if ($id_ordenador == 1)
+							<option value="1" selected="">Menor a mayor</option>
+							<option value="2">Mayor a menor</option>
+							<option value="4">Orden alfabetico ascendente</option>
+							<option value="3">Orden alfabetico descendente</option>
+							@else
+							@if ($id_ordenador == 2)
+							<option value="1">Menor a mayor</option>
+							<option value="2" selected="">Mayor a menor</option>
+							<option value="4">Orden alfabetico ascendente</option>
+							<option value="3">Orden alfabetico descendente</option>
+							@else
+							@if ($id_ordenador == 3)
+							<option value="1">Menor a mayor</option>
+							<option value="2">Mayor a menor</option>
+							<option value="4">Orden alfabetico ascendente</option>
+							<option value="3" selected="">Orden alfabetico descendente</option>
+							@else
+							<option value="1">Menor a mayor</option>
+							<option value="2">Mayor a menor</option>
+							<option value="4" selected="">Orden alfabetico ascendente</option>
+							<option value="3">Orden alfabetico descendente</option>
+							@endif
+							@endif
+							@endif
 
-				<div class="container responsive">	
-					<br>	
-					<div class="row">
-						<div class="col-12">
-							Ordenar por:
-							<form class="form-inline" action="{{ url('cambio_ordenador') }}" method="get">
-								<select class="form-control se letraPe" onchange="this.form.submit()" id="filtro_order" name="filtro" style="font-size: 14px; width: 100%;">
-									@if ($id_ordenador == 1)
-									<option value="1" selected="">Menor a mayor</option>
-									<option value="2">Mayor a menor</option>
-									<option value="4">Orden alfabetico ascendente</option>
-									<option value="3">Orden alfabetico descendente</option>
-									@else
-									@if ($id_ordenador == 2)
-									<option value="1">Menor a mayor</option>
-									<option value="2" selected="">Mayor a menor</option>
-									<option value="4">Orden alfabetico ascendente</option>
-									<option value="3">Orden alfabetico descendente</option>
-									@else
-									@if ($id_ordenador == 3)
-									<option value="1">Menor a mayor</option>
-									<option value="2">Mayor a menor</option>
-									<option value="4">Orden alfabetico ascendente</option>
-									<option value="3" selected="">Orden alfabetico descendente</option>
-									@else
-									<option value="1">Menor a mayor</option>
-									<option value="2">Mayor a menor</option>
-									<option value="4" selected="">Orden alfabetico ascendente</option>
-									<option value="3">Orden alfabetico descendente</option>
-									@endif
-									@endif
-									@endif
-
-								</select>
-							</form>
-						</div>
-					</div>
-
-				</div>	
+						</select>
+					</form>
+				</div>
 				<br>
 				
 				
@@ -149,55 +140,79 @@
 
 				<?php $i = 1; ?>
 				<?php $categoria = ''; ?>
-				<div class="row">
-					<div class="col">
-						@foreach($articulos as $articulo)
-						@if($articulo->category != $categoria)
-						@if($i != 1)
-					</div>
+				<?php $cat_count = 0; ?>
+				<?php $pasado = 0; ?>
+
+				{{-- recorre cada categoria --}}
+				<br>
+				<br>
+				@foreach ($articulos as $articulo)
+				@if($articulo->category != $categoria)
+
+
+				COMIENZO {{ $articulo->category }}
+				
+				<br>
+				<br>
+				<?php $categoria = $articulo->category; ?>
+				<?php $i = 1; ?>
+				@if ($cat_count == 0)
+				
+				@php $cat_count++ @endphp
+
+				@else
+
+				<br>
+				FIN DE VUELTA
+			
+				@endif
+
+				{{-- <div id="div_{{$articulo->id_categoria}}"> --}}
+
+					<h4><strong>{{ $articulo->category }}</strong></h4>
+
+					<button type="button" onclick='CopyToClipboard("div_{{$articulo->category}}","{{ $articulo->category }}")' class="btn btnbums sticky copy" style="top:180px; background-color: blue;">Copiar</button>
+
 					@endif
-					<?php $categoria = $articulo->category; ?>
-					<?php $i = 1; ?>
+
+					{{-- COMIENZO CICLO --}}
+
+					{{ $i }}. {{ $articulo->name }} 
+					<strong> {{ number_format((($articulo->price_in_dolar* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</strong> 
 					<br>
 					<br>
-					
-					<button type="button" onclick='CopyToClipboard("div_{{$articulo->id_categoria}}","{{ $articulo->category }}")' class="btn btnbums sticky copy" style="top:180px; background-color: blue;">Copiar</button>
-					{{-- LISTA PS4 COPIAR Y PEGAR --}}
+					@php $pasado = $i @endphp
+					@php $i++ @endphp
+
+					<br>
+
+					{{-- FIN CICLO --}}
+
+				{{-- @if($articulo->category == $categoria)
+
+				FIN __ CAT
 
 
-					
+				@endif
+				--}}
 
-					<div id="div_{{$articulo->id_categoria}}">
-						<h4><strong>{{ $articulo->category }}</strong></h4>
-						<br>
-						<br>
-						@endif
+				<br>
 
-
-						@if($articulo->id_categoria == 4 || $articulo->id_categoria == 6 || $articulo->id_categoria == 11 || $articulo->id_categoria == 14 || $articulo->id_categoria == 15 || $articulo->id_categoria == 16 )
-						<strong><?php echo $i++; ?></strong>. {{$articulo->name }} - {{ $articulo->estado}}.
-						
-						@else
-						<strong><?php echo $i++; ?></strong>. {{$articulo->name }}.
-						@endif
-						@if($articulo->oferta==1)
-						{{ $articulo->price_offer }}
-						<del>{{ number_format((($articulo->offer_price* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</del>
-						<strong class="precio_oferta"> {{ number_format((($articulo->price_in_dolar* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</strong>
-						@else    
-						<strong> {{ number_format((($articulo->price_in_dolar* $moneda_actual->valor) + $precio_cliente)*$precio_porcentaje, 2, ',', '.') }} {{ $moneda_actual->sign }}</strong>
-						@endif			    
-						<br><br>	
+				@endforeach
+			
+				
+				
 
 
-						@endforeach
-					</div>
+				
 
-				</div>
 			</div>
 		</div>
 		<br>
 		<br>
+{{-- 		<h3>
+			Articulos disponibles: {{ $articulos->count() }}
+		</h3> --}}
 
 	</div>
 

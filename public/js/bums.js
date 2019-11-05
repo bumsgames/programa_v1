@@ -8,7 +8,68 @@ $("#comprarCarrito").click(function(){
     //     "Para concretar su compra debe comunicarse con nosotros a nuestro What'sApp y proceder al pago de sus articulos, una vez verificado su pago se le hará el envio del producto o los productos comprados. \n  \n Puede comunicarse con nosotros al: \n\n (David Salazar)+58-0414-987-50-29 \n\n (Genesis Moreno)+58-0412-796-43-49\n\n (Daniel Duarte)+58-0412-11-92-379 \n\n (Brazil)+58-414-772-74-21 \n\n(Argentina)+54 9 11 3359-3681 \n\n\n Estamos a su orden.");
 });
 
+
 $(document).ready(function(){
+
+    Marquee3k.init();
+
+    $('#category_btn').click(function(){
+        $('body, html').animate({
+            scrollTop: '0px'
+        }, 300);
+    });
+
+    $(window).scroll(function(){
+        if( $(this).scrollTop() > 0 ){
+            $('.ir-arriba').slideDown(300);
+        } else {
+            $('.ir-arriba').slideUp(300);
+        }
+    });
+
+    var dd = $('.vticker').easyTicker({
+        direction: 'down',
+        easing: 'easeInOutBack',
+        speed: 'slow',
+        interval: 2000,
+        height: 'auto',
+        visible: 2,
+        mousePause: 0,
+        controls: {
+            up: '.up',
+            down: '.down',
+            toggle: '.toggle',
+            stopText: 'Stop !!!'
+        }
+    }).data('easyTicker');
+    
+    cc = 1;
+    $('.aa').click(function(){
+        $('.vticker ul').append('<li>' + cc + ' Triangles can be made easily using CSS also without any images. This trick requires only div tags and some</li>');
+        cc++;
+    });
+    
+    $('.vis').click(function(){
+        dd.options['visible'] = 3;
+        
+    });
+    
+    $('.visall').click(function(){
+        dd.stop();
+        dd.options['visible'] = 0 ;
+        dd.start();
+    });
+    
+});
+
+$(document).ready(function(){
+
+    $('.simple-marquee-container').SimpleMarquee();
+
+    $("#dejar_mensaje").click(function (){
+        alert(1);             
+    });
+
     $('#area_involucradoAgenteSelect_-1').css("display", "none");
     $('#area_porcentaje_voluntad').css("display", "none");
 
@@ -20,10 +81,106 @@ $(document).ready(function(){
         }else{
             $('#zona_multiple').css("display", "block");
             $('#zona_unica').css("display", "none");
-
-
         }
     });  
+
+ // $('.ceck_cat').change(function(){
+
+ //        filtrado();
+ //    });
+
+ $('#oferta_filt').change(function(){
+   if($("#oferta_filt").is(':checked')){
+    oferta_filt = 1;
+}else{
+    oferta_filt = 0;
+}
+
+url = $("#buscador_ruta").val();
+
+let id_categorias = document.querySelectorAll('.ceck_cat');
+let visible_cat   = document.querySelectorAll('.visible_cat');
+
+
+var id_categorias_array = new Array();
+var visible_cat_array   = new Array();
+
+for (var i = 0; i <id_categorias.length; i++) {
+
+    if (visible_cat[i].value == 1) {
+        id_categorias_array.push(id_categorias[i].value);
+    }
+}
+
+var string = url;
+var result = string.match(/buscar_articulo_bums/i);
+if(result){
+    window.location.href = '/'+url+'oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array); 
+}else{
+    window.location.href = '/'+url+'?oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array);  
+}
+});
+
+ $('.ceck_cat').change(function(){
+    if($("#oferta_filt").is(':checked')){
+        oferta_filt = 1;
+    }else{
+        oferta_filt = 0;
+    }
+
+    url = $("#buscador_ruta").val();
+
+    if($("#check_cat_"+$(this).val()).val() == 0){
+        $("#check_cat_"+$(this).val()).val(1);
+    }else{
+        $("#check_cat_"+$(this).val()).val(0);
+    }
+    
+    let id_categorias = document.querySelectorAll('.ceck_cat');
+    let visible_cat   = document.querySelectorAll('.visible_cat');
+
+    var id_categorias_array = new Array();
+    var visible_cat_array   = new Array();
+
+    for (var i = 0; i <id_categorias.length; i++) {
+
+        if (visible_cat[i].value == 1) {
+            id_categorias_array.push(id_categorias[i].value);
+        }
+    }
+    var string = url;
+    var result = string.match(/buscar_articulo_bums/i);
+    if(result){
+        window.location.href = '/'+url+'oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array); 
+    }else{
+        window.location.href = '/'+url+'?oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array);  
+    }
+});
+
+    // form_data.append('id_categorias', JSON.stringify(id_categorias_array));
+    // form_data.append('oferta_filt', $("#oferta_filt").val());
+    // // form_data.append('visible_cat', JSON.stringify(visible_cat_array));
+    // $.ajax({
+    //     url:        route,
+    //     headers:    {'X-CSRF-TOKEN':token},
+    //     type: 'GET',
+    //     dataType:   'json',
+    //     data:       form_data,
+    //     contentType: false, 
+    //     processData: false,
+    //     success: function(data){
+    //         alert(1);
+    //         window.open("orden_a_pagar", "_blank");
+    //     }
+    //     // ,
+    //     // error:function(msj){
+    //     //     var errormessages = "";
+    //     //     $.each(msj.responseJSON, function(i, field){
+    //     //         errormessages+="\n"+field+"\n";
+    //     //     });
+    //     //     swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+    //     // }
+    // });
 
     $('#banco_emisor').change(function(){
         var string = $(this).find(":selected").val();
@@ -224,8 +381,8 @@ $("#checked_envio").click(function (){
     if ($("#checked_envio").prop("checked")){
         $("#zona_envio").css("display", "block");
     }else{
-     $("#zona_envio").css("display", "none");           
- }              
+       $("#zona_envio").css("display", "none");           
+   }              
 });
 /* */
 
@@ -262,19 +419,19 @@ $('#inputFile2').on('change',function(){
             });
 
 $('#select_user').on('change',function(){
-   $("#pertenece_user").val($("#select_user").find('option:selected').val());
+ $("#pertenece_user").val($("#select_user").find('option:selected').val());
 });
 
 $("#agregar_tarea").click(function(){
-   var route = '/homeworkAdd';
-   var token = $('#token').val();
-   var form_data = new FormData();  
-   form_data.append('de_usuario', $("#de_usuario").val());   
-   form_data.append('para_usuario', $("#para_usuario").val());
-   form_data.append('mensaje', $("#mensaje").val());
-   form_data.append('status', $("#status").val());
+ var route = '/homeworkAdd';
+ var token = $('#token').val();
+ var form_data = new FormData();  
+ form_data.append('de_usuario', $("#de_usuario").val());   
+ form_data.append('para_usuario', $("#para_usuario").val());
+ form_data.append('mensaje', $("#mensaje").val());
+ form_data.append('status', $("#status").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -305,7 +462,7 @@ $("#agregar_tarea").click(function(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
-   console.log("Estamos aca");
+ console.log("Estamos aca");
 });
 
 $("#modificar_tarea").click(function(){
@@ -435,10 +592,10 @@ function eliminar_nota(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-     var route = "/delete_duties/"+id+"";
+       var route = "/delete_duties/"+id+"";
 
-     var token = $('#token').val();
-     $.ajax({
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -456,7 +613,7 @@ function eliminar_nota(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- }else{
+   }else{
     alert('Clave no autorizada');
 }
 }
@@ -471,12 +628,12 @@ function mostrar_actuales(id, a, b){
     de += b;
     var route = "/actuales/"+id+"";
     $.get(route, function(data){
-     $("#id").val(data.id);
-     $("#de_usuarioM").val(de);
-     $("#para_usuarioM").val(data.para_usuario);
-     $("#mensajeM").val(data.mensaje);
-     $("#statusM").val(data.status);
- });
+       $("#id").val(data.id);
+       $("#de_usuarioM").val(de);
+       $("#para_usuarioM").val(data.para_usuario);
+       $("#mensajeM").val(data.mensaje);
+       $("#statusM").val(data.status);
+   });
 }
 
 function modal_orden(id, cuenta, entidad){
@@ -602,7 +759,7 @@ $.ajax({
 
 $('#borrar').off().click(function(e) {
 
-   alert(111);
+ alert(111);
 
 }); 
 
@@ -884,20 +1041,20 @@ $("#registrar_articulo").click(function(){
 
         if(result_cuenta && ($("#quantity").val() > 1)){
 
-            alert("El maximo de cantidad para un Articulo de tipo Cuenta Digital es: 1.");
+            swal("El maximo de cantidad para un Articulo de tipo Cuenta Digital es: 1.");
             return;
             
             
         }
 
         if(result_cupo_digital && ($("#quantity").val()> 4)){
-            alert("El maximo de cantidad para un Articulo de tipo Cupo Digital PS3 es: 4.");
+            swal("El maximo de cantidad para un Articulo de tipo Cupo Digital PS3 es: 4.");
             return;
         }
 
         if(result_cuenta || result_cupo_digital){
             if ($("#email").val() == "" || $("#password").val() == "" || $("#nickname").val() == "" ) {
-                alert("Este articulo Digital, tiene campos Vacios (Email, Password o Nickname) / Datos de Cuenta.");
+                swal("Este articulo Digital, tiene campos Vacios (Email, Password o Nickname) / Datos de Cuenta.");
                 return;
             }
         }
@@ -1157,7 +1314,13 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
                     console.log(item.name);
                     var angel = item.name;
                     nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name+"</td>";
-                    nuevaFila+="<td>"+item.price_in_dolar+" $</td><td>"+item.price_in_dolar * $("#tasa").val()+" "+$("#signo").val()+"</td></tr>";
+                    nuevaFila+="<td><img src='img/"+item.fondo+"' width='40' height='45' alt=''></td>";
+                    nuevaFila+="<td>"+item.price_in_dolar+" $</td>";
+                    if(item.price_in_dolar != (item.price_in_dolar * $("#tasa").val())){
+                        nuevaFila+="<td>"+item.price_in_dolar * $("#tasa").val()+" "+$("#signo").val()+"</td>";
+                    }
+                    nuevaFila+="<td>"+item.category+"</td>";
+                    nuevaFila+="</tr>";
                 });
                 $("#table_client").append(nuevaFila);
             }
@@ -1167,11 +1330,11 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
 }
 
 $("#name_buscador_inteligente").on('keydown', function(){
-   nombre = $("#name_buscador_inteligente").val();
-   id_categoria = $("#category_buscador_inteligente").val();
-   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+ nombre = $("#name_buscador_inteligente").val();
+ id_categoria = $("#category_buscador_inteligente").val();
+ nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
-   if ( nombre.length <= 3 ) {
+ if ( nombre.length <= 3 ) {
     $("#table_client td").remove();
     $("#tabla-fondo").css("display", "none");
     return;
@@ -1182,11 +1345,11 @@ $("#name_buscador_inteligente").on('keydown', function(){
 });
 
 $("#name_buscador_inteligente").on('keyup', function(){
-   nombre = $("#name_buscador_inteligente").val();
-   id_categoria = $("#category_buscador_inteligente").val();
-   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+ nombre = $("#name_buscador_inteligente").val();
+ id_categoria = $("#category_buscador_inteligente").val();
+ nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
-   if(nombre.length % 3 == 0  && nombre.length > 0){
+ if(nombre.length % 3 == 0  && nombre.length > 0){
     var token = $('#token').val(); 
     var form_data = new FormData(); 
     nombre_articulo = $("#name_buscador_inteligente").val()
@@ -1480,8 +1643,8 @@ $("#realizarVenta_v2").click(function(){
         form_data.append('name',  $("#name_client").val());
         form_data.append('lastname', $("#lastname_client").val());
         if( $("#nickname").val() ){
-         form_data.append('nickname', $("#nickname").val());
-     }else{
+           form_data.append('nickname', $("#nickname").val());
+       }else{
         var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
         nickname = nickname.replace(/\s/g,'');;
         form_data.append('nickname', nickname);
@@ -1615,7 +1778,7 @@ $.ajax({
     processData: false,
     success: function(data){
         if(data.tipo == 1){
-            
+
         }else{
             swal('Venta registrada.');
             $(".modal-backdrop").remove(); 
@@ -1655,8 +1818,8 @@ $("#realizar_venta").click(function(){
     form_data.append('name', nombre_cliente);
     form_data.append('lastname', apellido_cliente);
     if( $("#nickname").val() ){
-       form_data.append('nickname', $("#nickname").val());
-   }else{
+     form_data.append('nickname', $("#nickname").val());
+ }else{
     var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
     nickname = nickname.replace(/\s/g,'');;
     form_data.append('nickname', nickname);
@@ -1868,14 +2031,14 @@ function colocar_comision(id){
 }
 
 $("#colocar_comision").click(function(){
- var route = '/colocar_comision';
- var token = $('#token').val();
+   var route = '/colocar_comision';
+   var token = $('#token').val();
 
- var form_data = new FormData();  
- form_data.append('id',  $("#id_sale").val());   
- form_data.append('commission', $("#commission").val());
+   var form_data = new FormData();  
+   form_data.append('id',  $("#id_sale").val());   
+   form_data.append('commission', $("#commission").val());
 
- $.ajax({
+   $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -2193,8 +2356,7 @@ $.ajax({
 }
 
 
-function agregaCarro(id,a,b,c,d, e, f){
-
+function agregaCarro(id,a,b,c,d, e, f, cantidad){
     var token = $('#token').val(); 
     var form_data = new FormData();  
     form_data.append('id', id);
@@ -2202,6 +2364,7 @@ function agregaCarro(id,a,b,c,d, e, f){
     form_data.append('categoria', b);
     form_data.append('precio', c);
     form_data.append('imagen', d);
+    form_data.append('cantidad', cantidad);
     var route = 'agregaCarro';
     $.ajax({
         url:        route,
@@ -2212,27 +2375,33 @@ function agregaCarro(id,a,b,c,d, e, f){
         contentType: false, 
         processData: false,
         success:function(data){
-            var tablaDatos = $("#tablaCarrito");
-            tablaDatos.empty();
-            var i = 0;
-            var numero = 0;
-            acumulado = 0;
+            if(data.tipo == 1){
+                swal(data.data);
+                
+            }else{
+                var tablaDatos = $("#tablaCarrito");
+                tablaDatos.empty();
+                var i = 0;
+                var numero = 0;
+                acumulado = 0;
 
-            precioAcumulado = 0;
-            var badge = $("#badge");
-            badge.empty();
+                precioAcumulado = 0;
+                var badge = $("#badge");
+                badge.empty();
 
-            $.each(data, function(i, item) {
-                numero++;
-                i++;
-                acumulado++;
-                borrado = i;
-                precioAcumulado+= Number(item.precio) * Number(e) ;
-                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
-            });
-            $("#nArt").val(numero);
-            tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
-            badge.append(acumulado);
+                $.each(data, function(i, item) {
+                    numero++;
+                    i++;
+                    acumulado++;
+                    borrado = i;
+                    precioAcumulado+= Number(item.precio * item.cantidad) * Number(e) ;
+                    tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e * item.cantidad)+"("+formatCurrency(item.precio * e )+")"+f+"</td><td>"+item.cantidad+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+                });
+                $("#nArt").val(numero);
+                tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
+                badge.append(acumulado);
+            }
+            
             
 
         }
@@ -2931,10 +3100,10 @@ function cambiaBandera(algo){
                 }
 
                 function eliminar_orden(id){
-                 var route = "/eliminar_orden/"+id+"";
+                   var route = "/eliminar_orden/"+id+"";
 
-                 var token = $('#token').val();
-                 $.ajax({
+                   var token = $('#token').val();
+                   $.ajax({
                     url:        route,
                     headers:    {'X-CSRF-TOKEN':token},
                     type:       'post',
@@ -2953,11 +3122,11 @@ function cambiaBandera(algo){
                     }
                 });
 
-             }
+               }
 
 
 
-             function AvoidSpace(event) {
+               function AvoidSpace(event) {
                 var k = event ? event.which : window.event.keyCode;
                 if (k == 32) return false;
             }

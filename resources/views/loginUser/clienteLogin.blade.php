@@ -36,7 +36,7 @@
                         <br>
                         
                         <div class="col">
-                            <button class="btn btn-primary btnbuscar" data-toggle="modal" data-target="#sirveReg">¿Para que sirve estar registrado?</button>
+                            <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#sirveReg">¿Para que sirve estar registrado?</button>
                         <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#modalReg">Registrate</button>
                         </div>
 

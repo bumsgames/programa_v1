@@ -58,43 +58,47 @@
 	
 	{{-- card --}}
 	<div class="cartaInicio	" style="overflow:hidden; margin-top: -30px;">	
-		<div class="" style="font-size: 40px; color: black;">
+		<div class="carta_titulo" style="font-size: 40px; color: black;">
 			<br>
 			<center>
-				@if ( strlen($articulo->name) >= 40)
-				<h3><strong>{{ str_limit($articulo->name,80	) }}</strong></h3>
+				@if ( strlen($articulo->name) >= 10)
+				<h3><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }}</strong></h3>
 				@else
-				<h2><strong>{{ str_limit($articulo->name,80	) }}</strong></h2>
+				<h2><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }}</strong></h2>
 				@endif
 				
 				{{-- <strong>{{ $articulo->name }}</strong> --}}
 			</center>
-			<div style="font-size: 12px;">
-				@if($articulo->category >= 1 && $articulo->category <= 7 )
-				<div>
-					<img src="{{ url('img/playstation.png') }}" alt="" style="max-height: 20px;" />{{ $articulo->pertenece_category->category }}
-				</div>
-				@else
-				@if($articulo->category >= 8 && $articulo->category <= 11 )
-				<img class="img_category" src="{{ url('img/icono_xbox.png') }}" alt="" style="max-height: 20px;">
-
-				@else
-				@if($articulo->category >= 12 && $articulo->category <= 14 )
-				<img class="img_category" src="{{ url('img/nintendo.png') }}" alt="" style="max-height: 20px;">
-				@else
-				@if($articulo->category >= 15 && $articulo->category <= 15 )
-				<img class="img_category" src="{{ url('img/celular (2).png') }}" alt="" style="max-height: 20px;">
-				@else
-				@if($articulo->category >= 16 && $articulo->category <= 16)
-				<img class="img_category" src="{{ url('img/otro (2).png') }}" alt="" style="max-height: 20px;">
-				@endif
-				@endif
-				@endif
-				@endif
-				@endif
-			</div>
-
+			({{ $articulo->cantidad }})
 		</div>
+
+		<div class="carta_categoria" style="color: black;">
+			@if($articulo->categorias[0]->id >= 1 && $articulo->categorias[0]->id <= 7 )
+			<div>
+				<img src="{{ url('img/playstation.png') }}" alt="" style="max-height: 20px;" />{{ $articulo->categorias[0]->category }}
+			</div>
+			@else
+			@if($articulo->category >= 8 && $articulo->category <= 11 )
+			<img class="img_category" src="{{ url('img/icono_xbox.png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+
+			@else
+			@if($articulo->category >= 12 && $articulo->category <= 14 )
+			<img class="img_category" src="{{ url('img/nintendo.png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+			@else
+			@if($articulo->category >= 15 && $articulo->category <= 15 )
+			<img class="img_category" src="{{ url('img/celular (2).png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+			@else
+			@if($articulo->category >= 16 && $articulo->category <= 16)
+			<img class="img_category" src="{{ url('img/otro (2).png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+			@endif
+			@endif
+			@endif
+			@endif
+			@endif
+			<br>
+		</div>
+{{ $articulo->categorias[0]->category }}
+		
 		
 		<center>
 			<div class="espaciom_img">
@@ -138,6 +142,12 @@
 								{{ number_format($articulo->offer_price * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 							</strong>
 						</del> 
+						@else
+						<del> 
+							<strong class="precio_rebajado">
+								
+							</strong>
+						</del>
 						@endif
 						<br>
 						<strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
@@ -153,6 +163,8 @@
 								{{ number_format($articulo->offer_price * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 							</strong>
 						</del> 
+						@else
+						<br>
 						@endif
 						<strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
 					</div>
@@ -166,6 +178,8 @@
 								{{ number_format($articulo->offer_price * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 							</strong>
 						</del> 
+						@else
+						<br>
 						@endif
 						
 						<strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
@@ -177,9 +191,9 @@
 			<div class="col-7">
 				<button class="btn btn-primary botonCarta"
 				onclick="agregaCarro('{{ $articulo->id }}', '{{ $articulo->name }}', 
-					'{{ $articulo->pertenece_category->category }}', 
+					'1', 
 					{{ $articulo->price_in_dolar }},
-					'{{ $articulo->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
+					'{{ $articulo->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}','{{ $articulo->cantidad }}');">
 					AGREGA AL CARRITO
 				</button>
 			</div>	

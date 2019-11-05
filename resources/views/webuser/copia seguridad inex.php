@@ -18,23 +18,7 @@
 					</h1>
 				</div>
 			</div> --}}
-			<a href="{{ url('ayuda') }}">
-				<div class="container top shadow_ligero" style="width: 500px; border-radius: 20px;">	
-				
-				<br>
-				<center>
-					<h3 style="color: black; "><strong>¿COMO COMPRAR EN BUMSGAMES?</strong></h3>
-					
-				</center>
-				<hr style="background-color: white !important; border: black 1px solid;">
-				<center>
-					<img class="img_top10" alt="Brand" src="{{ url('img/question.png') }}">
-				</center>		
-			</div>
-			</a>
-			<br>
 			<div class="container top shadow_ligero" style="width: 500px;">	
-
 				<br>
 				<center>
 					<div style="background-color: black;">
@@ -122,47 +106,38 @@
 
 <br>
 <br>
-<center>
-	<img class="shadow_ligero" src="{{ url('img/portada.jpg') }}" style="width: 100%; opacity: 0.9;">
-</center>
-<br>	
 
-<div style="  background: white;">
-	<div style=" width: 100%; background: rgb(168,169,180);
-	background: linear-gradient(13deg, rgba(168,169,180,1) 0%, rgba(255,255,255,1) 100%); padding: 1px;">
-	<h2 style="margin: 20px;">ULTIMOS ARTICULOS</h2>
-</div>
+<div style="border: 10px red solid; background: white;">
+	<div style="background-color: white; width: 100%;">
+		<h2>ULTIMOS ARTICULOS</h2>
+	</div>
 
-<div class="container" style="padding-bottom: 20px;">
+	<div class="container">
 
+		<div class="vticker">
+			<ul style="padding: 0;">
+				@foreach ($articulos as $articulo)
+				<li style="list-style: none;
+				border-bottom: 2px solid rgba(0,0,0,0.5);
+				padding: 10px;">
 
-	<div class="vticker">
-		<ul style="padding: 0;">
-			@foreach ($articulos as $articulo)
-			<li style="list-style: none;
-			border-bottom: 2px solid rgba(0,0,0,0.3);
-			padding: 10px;">
-
-			<div class="row">
-				<div class="col-12 col-lg-4">
-					<img src="{{ url('img/'.$articulo->fondo) }}" style="width:auto; max-height: 100px;" alt="">
+				<div class="row">
+					<div class="col-12 col-lg-4">
+						<img src="{{ url('img/'.$articulo->fondo) }}" style="width:auto; max-height: 100px;" alt="">
+					</div>
+					<div class="col-12 col-lg-8">
+						<h2>{{ $articulo->name }}</h2>
+						<h6>{{ $articulo->category }}</h6>
+					</div>
 				</div>
-				<div class="col-12 col-lg-8">
-					<h2>{{ $articulo->name }}</h2>
-					<h6>{{ $articulo->category }}</h6>
-				</div>
-			</div>
 
-		</li>
-		@endforeach
-	</ul>
-</div>
+			</li>
+			@endforeach
+		</ul>
+	</div>
 </div>
 
 </div>
-<br>
-<br>
-
 
 </div>
 
@@ -257,13 +232,16 @@
 				</div>
 			</div>
 		</center>
+		
 
 	</div>
 	<br>
 </div>
 
 </div>
-
+<div style="background-color: white; width: 100%;">
+	sasasd
+</div>
 <br>				
 <script>
 

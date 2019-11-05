@@ -79,6 +79,7 @@ Route::get('/portal','ProgramController@portal');
 Route::get('modo_ml','ProgramController@modo_ml');
 Route::get('misArticles_lista_escrita','ProgramController@misArticles_lista_escrita');
 Route::get('facuracion_coin', 'WebController@facuracion_coin');
+Route::get('probando', 'WebController@probando');
 // Route::get('/entrega/{nombre_cliente}/{apellido_cliente}/{articulo}/{email}/{password}/{category_id}',function($nombre_cliente, $apellido_cliente,$articulo,$email,$password,$category_id){
 // 	return view('entrega', compact('nombre_cliente','apellido_cliente','articulo','email','password','category_id'));
 // });
@@ -183,6 +184,7 @@ Route::get('/articulos_web_cat/{id}/{categoria?}', 'WebController@articulos_web_
 Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');
 Route::get('/send','ChatController@send2');
 Route::get('/lista_escrita', 'WebController@lista_escrita');
+Route::get('/prueba_lista_escrita', 'WebController@prueba_lista_escrita');
 Route::get('/articulos_oferta', 'WebController@articulos_oferta');
 Route::get('/articulos_oferta_opc', 'WebController@articulos_oferta_opc');
 Route::get('/ayuda', 'WebController@ayuda');
@@ -197,6 +199,9 @@ Route::get('/categoria_general','WebController@categoria_general');
 Route::get('/articulos', 'WebController@articulos');
 Route::get('/articulos2', 'WebController@articulos2');
 Route::get('/orden_a_pagar', 'WebController@orden_a_pagar');
+Route::get('/categoria/{id}', 'WebController@categoria');
+Route::get('/subcategoria/{id}','WebController@subcategoria');
+Route::get('/zona_prueba','WebController@zona_prueba');
 
 
 // WebControllerPost
@@ -209,6 +214,8 @@ Route::post('/articulos_oferta', 'WebController@articulos_oferta');
 Route::post('/articulos/{categoria}', 'WebController@articulos');
 Route::post('/categoria_general/{categoria}', 'WebController@categoria_general');
 Route::get('/prueba', 'WebController@prueba');
+Route::get('/n_paginacion', 'WebController@n_paginacion');
+Route::get('/cambio_ordenador', 'WebController@cambio_ordenador');
 Route::get('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
 Route::post('/agregaCarro','WebController@agregaCarro');
 Route::post('/categoria_general','WebController@categoria_general');
@@ -216,8 +223,11 @@ Route::post('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos', 'WebController@articulos');
 Route::post('/reportar_pago', 'WebController@reportar_pago');
 Route::post('/articulos', 'WebController@articulos');
+Route::get('/filtros_prueba', 'WebController@filtros_prueba');
+Route::post('/filtros_prueba', 'WebController@filtros_prueba');
 
-// Cliente Login Get
+
+// Cliente fofe Get
 Route::get('/login','WebController@login');
 
 // Cliente Login Post
@@ -264,6 +274,7 @@ Route::get('/cupones/eliminar/{id}','CuponesController@eliminar');
 */
 //Retorna la vista de un producto en especifico
 Route::post('/ver_mas','WebController@ver_mas');
+Route::get('/ver_mas/{id}','WebController@publicacion');
 
 //Retorna los articulos agotados
 Route::post('/agotados','WebController@Art_agotados');

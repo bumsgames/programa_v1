@@ -76,7 +76,8 @@
 	<br>	
 	<br>	
 	<br>	
-	<div class="container" style="width:80%">
+	<div class="container shadow_ligero border_ligero" style="width:80%; border-radius: 20px; ">
+		<br>	
 		<div class="row">
 			<div class="col">
 				<?php $i = 1; ?>
@@ -93,7 +94,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item active" id="b_20" aria-current="page">Carrito</li>
-						<li class="breadcrumb-item" id="b_40">Cuentas Bancarias</li>
+						<li class="breadcrumb-item" id="b_40">Opciones de pago</li>
 						<li class="breadcrumb-item" id="b_60">Datos del Comprador</li>
 						<li class="breadcrumb-item" id="b_80">Reportar pago</li>
 						<li class="breadcrumb-item" id="b_100">Resumen de Pago</li>
@@ -107,15 +108,15 @@
 						<div class="carousel-item active">
 							<div class="card text-center card-main-pago">
 								<div class="card-header">
-									<h4>Carrito de Compras</h4>
+									<h2>Carrito de Compras</h2>
 								</div>	
 								
 								<div class="card-body card-pago">
 									<div class="container">
 										<div class="row">
 											<div class="col-12 col-xl-10 offset-xl-1 table-responsive">
-												<!--<p>Modifique su compra en <a href="www.bumsgames.com.ve">www.bumsgames.com.ve</a></p>-->
-												<table class="table table-hover" id="tablaCarrito">
+												<p>Modifique su compra en <a href="www.bumsgames.com.ve">www.bumsgames.com.ve</a></p>
+												<table class="table" id="tablaCarrito" style="border: none !important;">
 													<tbody>
 														<?php $i = 1; ?>
 														<?php $precio = 0; ?> 
@@ -174,7 +175,7 @@
 
 										</div>
 										<div class="col-12 col-lg-2">
-											<div class="form-group"><input name="cupon" type="text" class="form-control cuponinput" id="cupon" maxlength="12" autocomplete="off"
+											<div class="form-group"><input name="cupon" type="text" class="form-control cuponinput border_ligero" id="cupon" maxlength="12" autocomplete="off"
 												placeholder="Codigo del cupon"> </div>
 
 											</div>
@@ -213,101 +214,73 @@
 							<div class="carousel-item">
 								<div class="card text-center card-main-pago">
 									<div class="card-header">
-										<h4>Cuentas Bancarias</h4>
+										<h2>Opciones de Pago</h2>
+										<p>Esta orden expira en 30 minutos. (Los contactaremos via What'sApp lo antes posible una vez procesado su pago).</p>
 									</div>
 									<div class="clase_que_no_existe card-pago">
 										<div class="clase_que_no_existe">
 											<div class="clase_que_no_existe">
 												<div class="clase_que_no_existe">
-													<p>Esta orden expira en 30 minutos. (Los contactaremos via What'sApp lo antes posible una vez procesado su pago).</p>
-													<h4>Opciones de pago</h4>
 													<div id="accordianId" role="tablist" aria-multiselectable="true">
-														<div class="card">
-															<a data-toggle="collapse" data-parent="#accordianId" href="#section1ContentId" aria-expanded="true" aria-controls="section1ContentId">
-																<div class="card-header" role="tab" id="section1HeaderId">
-																	<h5 class="mb-0">
-																		Cuentas Bancarias
-																	</h5>
-																</div>
-															</a>
-															<div id="section1ContentId" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
-																<div class="card-body card-pago">
-																	<div class="row">
-																		<div class="col-12 col-lg-4">
-																			<div class="card">
-																				<center>
-																					<img class="escondite" width="170" src="{{asset('img/provincial.png')}}" alt="">
-																				</center>
-																				
-																				<h4 class="card-title">Provincial</h4>
-																				<p class="card-text">
-																					Titular: Angel Duarte <br> CI: 24559480 <br> Cuenta: Corriente <br> 01080093510100154126
-																				</p>
-																				
-																			</div>
-																		</div>
-																		<div class="col-12 col-lg-4">
-																			<div class="card">
-																				<center>
-																					<img class="escondite" width="150" src="{{asset('img/banesco logo.jpg')}}" alt="">
-																				</center>
-																				<div class="">
-																					<h4 class="card-title">Banesco</h4>
-																					<p class="card-text">
-																						Titular: David Salazar <br> CI: 24559480 <br> Cuenta: Corriente <br> 01340946310001457909
-																					</p>
-																				</div>
-																			</div>
-																		</div>
-																		<div class="col-12 col-lg-4">
-																			<div class="card">
-																				<center>
-																					<img class="escondite" width="105" src="{{asset('img/mercantil.png')}}" alt="">
-																				</center>
-																				<div class="">
-																					<h4 class="card-title">Mercantil</h4>
-																					<p class="card-text">
-																						Titular: Sulay Salazar <br> CI: 10388731 <br> Cuenta: Corriente <br> 01050047801047427362
-																					</p>
-																				</div>
-																			</div>
-																		</div>
-																		<div class="col-12 col-lg-4">
-																			<div class="card">
-																				<center>
-																					<img class="escondite" width="110" src="{{asset('img/bdv.png')}}" alt="">
-																				</center>
-																				<div class="">
-																					<h4 class="card-title">Banco de Venezuela</h4>
-																					<p class="card-text">
-																						Titular: Sulay Salazar <br>CI: 10388731 <br>Cuenta: Corriente<br> 01020427570000222668
-																					</p>
-																				</div>
-																			</div>
-																		</div>
-																		<div class="col-12 col-lg-4">
-																			<div class="card">
-																				<center>
-																					<img class="escondite" width="110" src="{{asset('img/bnc.png')}}" alt="">
-																				</center>
-																				<div class="">
-																					<h4 class="card-title">BNC</h4>
-																					<p class="card-text">
-																						Titular: Alejandro Duarte <br>CI: 28530657 <br>Cuenta: Ahorro <br> 01910047261047026977
-																					</p>
-																				</div>
-																			</div>
+														@foreach ($todas_las_monedas as $moneda)
+														<a data-toggle="collapse" data-parent="#accordianId" href="#{{$moneda->coin }}" aria-expanded="true" aria-controls="{{ $moneda->coin }}">
+															<div class="card-header border_ligero card-cuentas" role="tab" id="section1HeaderId">
+																<h3 class="mb-0">
+																	Opciones de pago en {{ $moneda->coin }} ({{ $moneda->sign }})
+																</h3>
+															</div>
+														</a>
+														<br>	
+														<br>	
+														<div id="{{$moneda->coin}}" class="collapse in" role="tabpanel" aria-labelledby="section1HeaderId">
+															<div class="card-body card-pago">
+																<div class="row">
+																	@foreach (	$moneda->cuentas_bancarias as $cuentas_bancaria)
+																	<div class="col-12 col-lg-6">
+																		<div class="card">
+																			<center>
+																				<img class="escondite" width="170" 
+																				src="{{asset('img/bums'.$cuentas_bancaria->banco)}}" alt="">
+																			</center>
+
+																			<h2 class="card-title">{{ $cuentas_bancaria->banco }}</h2>
+																			<h4>	
+																				{{--  --}}
+																				@if ($cuentas_bancaria->tipo_cuenta)
+																				Tipo de cuenta: {{ $cuentas_bancaria->tipo_cuenta }}
+																				@endif
+																				<br>
+																				<br>
+																				{{--  --}}
+																				@if ($cuentas_bancaria->titular)
+																				Titular: {{ $cuentas_bancaria->titular }}
+																				@endif
+																				<br>	
+																				@if ($cuentas_bancaria->cedula)
+																				Cedula: {{ $cuentas_bancaria->cedula }}
+																				@endif
+
+																				<br>	
+																				@if ($cuentas_bancaria->cuentaBancaria)
+																				{{ $cuentas_bancaria->cuentaBancaria	 }}
+																				@endif
+																			</h4>
+
 																		</div>
 																	</div>
+
+																	@endforeach
+																	
 																</div>
 															</div>
 														</div>
+														@endforeach
 														<div class="card" >
 															<a data-toggle="collapse" data-parent="#accordianId" href="#section2ContentId" aria-expanded="true" aria-controls="section2ContentId" >
-																<div class="card-header" role="tab" id="section2HeaderId">
-																	<h5 class="mb-0">
+																<div class="card-header border_ligero card-cuentas" role="tab" id="section2HeaderId">
+																	<h4 class="mb-0">
 																		Otros metodos de pagos
-																	</h5>
+																	</h4>
 																</div>
 															</a>
 															<div id="section2ContentId" class="collapse in" role="tabpanel" aria-labelledby="section2HeaderId">
@@ -323,9 +296,11 @@
 															</div>
 														</div>
 													</div>
-													<center>
-														Total a Pagar <strong id="actualizar"> {{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong>
-													</center>
+													<h3>	
+														<center>
+															Total a Pagar <strong id="actualizar"> {{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong>
+														</center>
+													</h3>
 												</div>
 											</div>
 										</div>
@@ -352,37 +327,37 @@
 															<span aria-hidden="true">&times;</span>
 														</button>
 													</div>
-													<small class="form-text text-muted">*Entrega de juegos digitales 10 mins a 90 mins luego del pago* - Entregas personales colocarlo en nota.</small>
+													<p style="font-size: 20px;" class="form-text text-muted">*Entrega de juegos digitales 10 mins a 90 mins luego del pago* - Entregas personales colocarlo en nota.</p>
 													<br>
 
 													<div class="form-row">
 														<div class="form-group col-lg-4">
 															<label for="inputEmail4"><strong>Nombre</strong></label>
-															<input type="text" onkeyup="comprodesbloqueo60()" class="form-control letras" id="name" maxlength="30" autocomplete="off">
+															<input type="text" onkeyup="comprodesbloqueo60()" class="form-control letras border_ligero" id="name" maxlength="30" autocomplete="off">
 														</div>
 														<div class="form-group col-lg-4">
 															<label for="inputPassword4"><strong>Apellido</strong></label>
-															<input type="text" onkeyup="comprodesbloqueo60()" class="form-control letras" id="lastname" maxlength="30" autocomplete="off">
+															<input type="text" onkeyup="comprodesbloqueo60()" class="form-control letras border_ligero" id="lastname" maxlength="30" autocomplete="off">
 														</div>
 														<div class="form-group col-lg-4">
 															<img src="{{asset('img/ws.png')}}" height="35" alt="">
 															<label for="inputPassword4"><strong>Numero de WhatsApp</strong></label>
-															<input type="text" onkeyup="comprodesbloqueo60()" class="form-control ws" id="ws" maxlength="25" autocomplete="off">
+															<input type="text" onkeyup="comprodesbloqueo60()" class="form-control ws border_ligero" id="ws" maxlength="25" autocomplete="off">
 															<small class="form-text text-muted">Solo nos comunicamos a traves de WhatsApp.</small>
 														</div>
 													</div>
 													<div class="form-group">
 														<label for="exampleFormControlTextarea1"><strong>Nota adicional.</strong></label>
-														<textarea id="nota_adicional" class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3"></textarea>
+														<textarea id="nota_adicional" class="form-control border_ligero rounded-0" id="exampleFormControlTextarea1" rows="3"></textarea>
 													</div>
 													<div id="envio">
 														<div class="form-group">
-															<div class="form-check">
+															<div class="form-check" style="font-size: 25px;">
 																<input class="form-check-input" onchange="comprodesbloqueo60()" type="checkbox" id="gridCheck">
 																<label class="form-check-label" for="gridCheck">
 																	Incluye envio (Solo articulos fisicos).
 																</label>
-																<small class="form-text text-muted">Solo hacemos envios en Venezuela - Los envios se hacen 1 o 2 dias habiles luego de su respectivo pago.</small>
+																<small class="form-text text-muted">Solo hacemos envios en Venezuela.</small>
 															</div>
 														</div>
 														<div id="form-envio">
@@ -391,31 +366,32 @@
 															<br>
 															<br>
 															<strong><label for="">Empresa para realizar el envio:</label></strong>
-															<select class="form-control form-control-sm" id="select1">
+															<select class="form-control border_ligero" id="select1">
 																<option value="1">Tealca</option>
 																<option value="2">Domesa</option>
+																<option value="3">Zoom</option>
 															</select>
-															<small class="form-text text-muted">Los envios solo se realizan mediante estas 2 empresas.</small>
+															<small class="form-text text-muted" style="font-size: 20px;">Cualquier informacion adicional, coloquela en la parte de nota.</small>
 															<br>
 															<div class="form-row">
 																<div class="form-group col-lg-6">
 																	<label for="inputEmail4"><strong>Destinatario</strong></label>
-																	<input onkeyup="comprodesbloqueo60()" type="text" class="form-control letras" id="destinario">
+																	<input onkeyup="comprodesbloqueo60()" type="text" class="form-control letras border_ligero" id="destinario">
 																	<small class="form-text text-muted">Obligatorio</small>
 																</div>
 																<div class="form-group col-lg-6">
 																	<label for="inputPassword4"><strong>Documento de Identidad</strong></label>
-																	<input onkeyup="comprodesbloqueo60()" type="number" class="form-control" id="cedula_destinario">
+																	<input onkeyup="comprodesbloqueo60()" type="number" class="form-control border_ligero" id="cedula_destinario">
 																	<small class="form-text text-muted">Obligatorio</small>
 																</div>
 																<div class="form-group col-lg-6">
 																	<label for="inputPassword4"><strong>Oficina o Direccion</strong></label>
-																	<input onkeyup="comprodesbloqueo60()" type="textarea" class="form-control" id="direccion_destinario">
+																	<input onkeyup="comprodesbloqueo60()" type="textarea" class="form-control border_ligero" id="direccion_destinario">
 																	<small class="form-text text-muted">Obligatorio</small>
 																</div>
 																<div class="form-group col-lg-6">
 																	<label for="inputPassword4"><strong>Numero Telefonico</strong></label>
-																	<input onkeyup="comprodesbloqueo60()" type="text" class="form-control ws" id="numero_destinario">
+																	<input onkeyup="comprodesbloqueo60()" type="text" class="form-control ws border_ligero" id="numero_destinario">
 																	<small class="form-text text-muted">Obligatorio</small>
 																</div>
 															</div>
@@ -456,7 +432,7 @@
 													<br>
 													<br>
 													<strong>Tipo de Pago:</strong>
-													<select class="form-control form-control-sm" id="select2">
+													<select class="form-control border_ligero" id="select2">
 														<option value="1">Transferencia del mismo Banco</option>
 														<option value="2">Transferencia de otro Banco</option>
 													</select>
@@ -465,18 +441,18 @@
 													<div class="form-row">
 														<div class="form-group col-lg-12">
 															<label for="exampleInputEmail1"><strong>Banco Emisor:</strong></label>
-															<input onkeyup="comprodesbloqueo80()" type="text" class="form-control" id="banco_emisor">
-															<small id="emailHelp" class="form-text text-muted">Obligatorio</small>
+															<input onkeyup="comprodesbloqueo80()" type="text" class="form-control border_ligero" id="banco_emisor">
+															<small id="emailHelp" class="form-text text-muted " style="color: red !important;">Obligatorio</small>
 														</div>
 														<div class="form-group col-lg-12">
 															<label for="exampleInputEmail1"><strong>Cedula del titular</strong></label>
-															<input onkeyup="comprodesbloqueo80()" type="text" class="form-control" id="cedula_titular">
-															<small id="emailHelp" class="form-text text-muted">Obligatorio.</small>
+															<input onkeyup="comprodesbloqueo80()" type="text" class="form-control border_ligero" id="cedula_titular">
+															<small id="emailHelp" class="form-text text-muted" style="color: red !important;">Obligatorio.</small>
 														</div>
 														<div class="form-group col-lg-12">
 															<label for="exampleInputEmail1"><strong>Numero de Referencia</strong></label>
-															<input onkeyup="comprodesbloqueo80()" type="number" class="form-control" id="referencia">
-															<small id="emailHelp" class="form-text text-muted">Ogligatorio.</small>
+															<input onkeyup="comprodesbloqueo80()" type="number" class="form-control border_ligero" id="referencia">
+															<small id="emailHelp" class="form-text text-muted" style="color: red !important;">Obligatorio.</small>
 														</div>
 													</div>
 
@@ -484,14 +460,16 @@
 
 													<div class="form-group">
 														<label for="exampleInputEmail1"><strong>Fecha:</strong></label>
-														<input onchange="comprodesbloqueo80()" type="date" class="form-control" id="fecha">
-														<small id="emailHelp" class="form-text text-muted">Ogligatorio.</small>
+														<input onchange="comprodesbloqueo80()" type="date" class="form-control border_ligero" id="fecha">
+														<small id="emailHelp" class="form-text text-muted" style="color: red !important;">Obligatorio.</small>
 													</div>
 
 													<div class="form-group">
 														<label for="exampleFormControlFile1"><strong>Capture de la transferencia</strong></label>
 														<input onchange="comprodesbloqueo80()" type="file" class="form-control-file" id="image">
+														
 													</div>
+
 
 
 
@@ -771,11 +749,10 @@
 								</div>
 								<br>	
 
-								<div class="card-footer text-muted">
+								<div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
 									<a href="#carousel_pago" data-slide="prev" class="btn btn-info btn-pago float-left" onclick="actualizarbarra(80)"><span class="fa fa-lg fa-arrow-circle-left"></span> Anterior</a>
 									<a href="javascript:void(0)" id="bs_100" class="btn btn-success btn-pago float-right mt-responsive">Pagar <span class="fa fa-lg fa-cart-arrow-down"></span></a>
 									<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-
 								</div>
 								<br>	
 							</div>
@@ -787,9 +764,17 @@
 		</div>
 	</div>
 
-	<br>
-	<br>
 
+
+
+
+	<br>
+	<br>
+	{{-- <div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
+		<a href="#carousel_pago" data-slide="prev" class="btn btn-info btn-pago float-left" onclick="actualizarbarra(80)"><span class="fa fa-lg fa-arrow-circle-left"></span> Anterior</a>
+		<a href="javascript:void(0)" id="bs_100" class="btn btn-success btn-pago float-right mt-responsive">Pagar <span class="fa fa-lg fa-cart-arrow-down"></span></a>
+		<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+	</div> --}}
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -853,9 +838,18 @@
 
 		});
 		$("#bs_100").on("click", function(){
-			swal({ 
-				title: "Enviando Reporte", 
+			window.swal({
+				title: "Enviando reporte.",   
+				text: "Estamos enviando su Pago \n\n\n\n",   
+				type: "warning",   
+				showCancelButton: false,    
+				closeOnConfirm: false,   
+				closeOnCancel: false,
+				buttons: [""],
+				timer: 1500,
 			});
+
+			
 			var token = $('#token').val(); 
 			var form_data = new FormData();
 			var temp_id = 0;
@@ -889,8 +883,6 @@
 				form_data.append('direccion', $('#direccion_destinario').val());
 				form_data.append('telefono', $('#numero_destinario').val());
 			}
-
-
 
 
 
@@ -931,7 +923,7 @@
 						swal('Su pago se ha enviado con exito amig@: '+$('#name').val()+" "+$('#lastname').val());
 						setTimeout(function() {
 							window.close();	
-						}, 4000);
+						}, 5000);
 					}
 				},
 				error:function(msj){
@@ -940,7 +932,7 @@
 						errormessages+="\n"+field+"\n";
 					});
 					swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
-					
+					window.close();
 				},
 
 			});

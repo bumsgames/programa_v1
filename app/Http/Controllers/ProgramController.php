@@ -821,24 +821,26 @@ class ProgramController extends Controller
 	public function inventarioList()
 	{
 		$categories = \Bumsgames\Category::with('articles')->get();
+		print_r($categories->toArray());
+		dd(1);
 
-		foreach ($categories as $category) {
+		// foreach ($categories as $category) {
 
-			$new_array1 = array_filter($category->articles->toArray(), function($article){
-				if ($article['ubicacion'] == 1) return true;
-			});
+		// 	$new_array1 = array_filter($category->articles->toArray(), function($article){
+		// 		if ($article['ubicacion'] == 1) return true;
+		// 	});
 
-			$category->articlesRioAro = $new_array1;
+		// 	$category->articlesRioAro = $new_array1;
 
-			// $new_array2 = array_filter($category->articles->toArray(), function($article){
-			// 	if ($article['ubicacion'] == 2) return true;
-			// });
+		// 	// $new_array2 = array_filter($category->articles->toArray(), function($article){
+		// 	// 	if ($article['ubicacion'] == 2) return true;
+		// 	// });
 
-			// $category->articlesAltaVista = $new_array2;
-		}
+		// 	// $category->articlesAltaVista = $new_array2;
+		// }
 
-		//dd($categories->toArray());
-		$ubicaciones = \Bumsgames\Ubicacion::All();
+		// //dd($categories->toArray());
+		// $ubicaciones = \Bumsgames\Ubicacion::All();
 
 		//dd($ubicaciones->toArray());
 
@@ -856,7 +858,7 @@ class ProgramController extends Controller
 
 		$articles = \Bumsgames\Article::where('quantity', '>=', '-1000')
 		->where("id", "!=", "2")
-		->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso, costo, estado"))
+		// ->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso, costo, estado"))
 		->orderby('id','desc')
 		->paginate(40);
 
@@ -900,12 +902,7 @@ class ProgramController extends Controller
 		// 		->paginate(100);
 		$tutoriales = \Bumsgames\tutorial::All();
 
-		$articles = \Bumsgames\Article::where('quantity', '>=', '-1000')
-		->where("id", "!=", "2")
-		->select(\DB::raw("id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, note, offer_price, peso, costo, estado"))
-		->orderby('email')
-		->orderby('category')
-		->paginate(40);
+
 
 
 		// $articles_cantidad = \Bumsgames\Article::where('quantity', '>=', '0')
@@ -1684,6 +1681,8 @@ class ProgramController extends Controller
 
 			}
 		} catch (\Illuminate\Database\QueryException $e) {
+
+			dd($e->getMessage);
 			// var_dump($e->errorInfo);
 			return \Response::json(array(
 				'error' => true,

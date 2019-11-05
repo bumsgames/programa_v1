@@ -141,9 +141,9 @@ function Eliminar_articulo(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='1'){
-     var route = "/delete_articulo/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+       var route = "/delete_articulo/"+id+"";
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -158,10 +158,16 @@ function Eliminar_articulo(){
             // }, 2000);
         },
         error:function(msj){
-            swal("Error.", "Revisa los datos suministrados.", "error");
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
- }else{
+   }else{
     swal('Clave no autorizada');
 }
 }
@@ -169,9 +175,9 @@ function Eliminar_envios(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-     var route = "/delete_envios/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+       var route = "/delete_envios/"+id+"";
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -189,7 +195,7 @@ function Eliminar_envios(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- }else{
+   }else{
     swal('Clave no autorizada');
 }
 }
@@ -197,9 +203,9 @@ function Eliminar_cuenta(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-     var route = "/delete_account/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+       var route = "/delete_account/"+id+"";
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -218,7 +224,7 @@ function Eliminar_cuenta(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- }else{
+   }else{
     swal('Clave no autorizada');
 }
 }
@@ -226,9 +232,9 @@ function Eliminar_imagen(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-     var route = "/delete_imagen/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+       var route = "/delete_imagen/"+id+"";
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -247,7 +253,7 @@ function Eliminar_imagen(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- }else{
+   }else{
     swal('Clave no autorizada');
 }
 }
@@ -258,20 +264,20 @@ function mostrar_orden(id, a, b){
     de += b;
     var route = "/actualesOrden/"+id+"";
     $.get(route, function(data){
-       $("#id").val(data.id);
-       $("#de_usuarioM").val(de);
-       $("#trackingM").val(data.tracking);
-       $("#nameM").val(data.articulo);
-       $("#Costo").val(data.price);
-       $("#ordenM").val(data.type_orden);
-       $("#empresaM").val(data.empresa);
-       $("#direccionM").val(data.direccion);
-       $("#statusM").val(data.status);
-       $("#cedulaM").val(data.cedula);
-       $("#recibeM").val(data.recibe);
-       $("#numM").val(data.num_telefono);
-       console.log('este es el numer de telefono', data.num_telefono);
-   });
+     $("#id").val(data.id);
+     $("#de_usuarioM").val(de);
+     $("#trackingM").val(data.tracking);
+     $("#nameM").val(data.articulo);
+     $("#Costo").val(data.price);
+     $("#ordenM").val(data.type_orden);
+     $("#empresaM").val(data.empresa);
+     $("#direccionM").val(data.direccion);
+     $("#statusM").val(data.status);
+     $("#cedulaM").val(data.cedula);
+     $("#recibeM").val(data.recibe);
+     $("#numM").val(data.num_telefono);
+     console.log('este es el numer de telefono', data.num_telefono);
+ });
 
 }
 $("#modificar_envio").click(function(){
@@ -314,16 +320,16 @@ $("#modificar_envio").click(function(){
 function buscar_cuent(id){
     var route = "/actualCuent/"+id+"";
     $.get(route, function(data){
-       $("#idM").val(data.id);
-       $("#entidadM").val(data.entidad);
-       $("#correoM").val(data.correo);
-       $("#passwordM").val(data.password);
-       $("#id_bumsuserM").val(data.id_bumsuser);
-       $("#note_cuentaM").val(data.note_cuenta);
-       $("#coinM").val(data.id_coin);
-       $("#priceM").val(data.price);
+     $("#idM").val(data.id);
+     $("#entidadM").val(data.entidad);
+     $("#correoM").val(data.correo);
+     $("#passwordM").val(data.password);
+     $("#id_bumsuserM").val(data.id_bumsuser);
+     $("#note_cuentaM").val(data.note_cuenta);
+     $("#coinM").val(data.id_coin);
+     $("#priceM").val(data.price);
 
-   });
+ });
 }
 
 $("#modificar_cuenta").click(function(){
@@ -361,24 +367,24 @@ $("#modificar_cuenta").click(function(){
 
 $("#agregar_envio").click(function(){
 
-   var route = '/add_envios';
-   console.log("pasamos aca");
-   var token = $('#token').val();
-   var form_data = new FormData();  
+ var route = '/add_envios';
+ console.log("pasamos aca");
+ var token = $('#token').val();
+ var form_data = new FormData();  
 
-   form_data.append('articulo', $("#nombre").val());   
-   form_data.append('type_orden', $("#orden").val());
-   form_data.append('status', $("#status").val());
-   form_data.append('price', $("#price").val().split('.').join(''));
-   form_data.append('empresa', $("#empresa").val());   
-   form_data.append('direccion', $("#direccion").val());
-   form_data.append('num_telefono', $("#telefono").val());
-   form_data.append('cedula', $("#cedula").val());
-   form_data.append('recibe', $("#recibe").val());
-   form_data.append('tracking', $("#tracking").val());
-   form_data.append('id_creadoUsuario', $("#de_usuario").val());
+ form_data.append('articulo', $("#nombre").val());   
+ form_data.append('type_orden', $("#orden").val());
+ form_data.append('status', $("#status").val());
+ form_data.append('price', $("#price").val().split('.').join(''));
+ form_data.append('empresa', $("#empresa").val());   
+ form_data.append('direccion', $("#direccion").val());
+ form_data.append('num_telefono', $("#telefono").val());
+ form_data.append('cedula', $("#cedula").val());
+ form_data.append('recibe', $("#recibe").val());
+ form_data.append('tracking', $("#tracking").val());
+ form_data.append('id_creadoUsuario', $("#de_usuario").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -403,13 +409,13 @@ $("#agregar_envio").click(function(){
 });
 $("#agregar_imagenes").click(function(){
 
-   var route = '/add_imagenes';
-   console.log("pasamos aca");
-   var token = $('#token').val();
-   var form_data = new FormData();  
+ var route = '/add_imagenes';
+ console.log("pasamos aca");
+ var token = $('#token').val();
+ var form_data = new FormData();  
 
-   form_data.append('id_creator', $("#de_usuario").val());   
-   if($('#inputFile1').prop('files')[0]){
+ form_data.append('id_creator', $("#de_usuario").val());   
+ if($('#inputFile1').prop('files')[0]){
     form_data.append('imagen', $('#inputFile1').prop('files')[0]);
 }  
 $.ajax({

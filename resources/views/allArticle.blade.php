@@ -230,7 +230,7 @@
 									<br>
 									<br>
 									<strong>
-										No31233ta: 
+										Nota: 
 									</strong>
 									<?php echo $article->note; ?> 
 									<br>
@@ -290,6 +290,9 @@
 									<br>	
 									@endif
 									@endif
+									<br>
+									<br>
+									Ubicacion {{ $article }}
 
 								</td>
 								<td>
@@ -334,6 +337,8 @@
 									<br>	
 									@endif
 									@endif 	
+									<br>
+									<br>
 								</td>
 								<td>	
 									Cantidad: {{ $article->quantity }}

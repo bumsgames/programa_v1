@@ -387,7 +387,8 @@ function comprotodolleno80(){
         && $('#cedula_titular').val().length >= 1 
         && $('#referencia').val().length >= 1 
         && Date.parse($('#fecha').val()) 
-        && $('#image')[0].files.length != 0){
+        ){
+        // && $('#image')[0].files.length != 0
         return true;
 }
 else{

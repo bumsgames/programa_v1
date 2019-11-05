@@ -102,7 +102,7 @@ class ArticleController extends Controller
   }
 
     // Validacion Oferta
-  if (($request->offer_price <= $request->price_in_dolar) && ($request->oferta == 1)) {
+  if (($request->offer_price <= $request->price_in_dolar)) {
     return response()->json([
       "tipo" => "1",
       "data" => "El precio subrayado no puede ser menor o igual al precio de Venta (unitario).\n\n\nPrecio Unitario: " . $request->price_in_dolar . " $.\n\nPrecio de subrayado: " . $request->offer_price . " $",
@@ -677,7 +677,7 @@ class ArticleController extends Controller
         ->first();
       }
       else if($articulo->category == 2){
-        $artref = \Bumsgames\Article::where('articles.email', $request->email)
+        $artref = \Bumsgames\Article::where('articles.email', $request->email)|
         ->where('category','1')
         ->where('articles.nickname', $request->nickname)
         ->first();

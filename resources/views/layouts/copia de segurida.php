@@ -16,7 +16,6 @@
 	<script async custom-element="amp-auto-ads"
 	src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
 </script>
-<script src="{{ url('js/marquee3k.js') }}"></script>
 
 
 </head>
@@ -48,36 +47,124 @@
 
 
 
-<div style="background-color: rgba(0,0,0,1); padding: 1px;">	
+<div style="background-color: rgba(0,0,0,0.85); padding: 1px;">	
 	<div class="row">
-		<div class="col-1" style="color: white; font-size: 25px; z-index: 100; background-color: black;">
+		<div class="col-1" style="color: white; font-size: 25px;">
 			<div class="container">
+				<i class="fab fa-facebook-square" style="margin-right: 5px;"></i>
+				<i class="fab fa-instagram" style="margin-right: 5px;"></i>
 				<i class="fab fa-twitter-square" style="margin-right: 5px;"></i>
 				<i class="fab fa-twitch" style="margin-right: 5px;"></i>
-				<a href="https://www.facebook.com/bumsgamesoficial" style="color:white;"> <i class="fab fa-facebook-square" style="margin-right: 5px;"></i></a>
-				<a href="https://www.instagram.com/bumsgames/"  style="color:white;"><i class="fab fa-instagram" style="margin-right: 5px;"></i></a>
 			</div>
 		</div>
-		
-		<div class="col-11" style="background-color: black;">
-		<div class="marquee3k" 
-		data-speed="0.7"
-		data-reverse="" 
-		data-pausable="bool">
-		<div style="color: white;">
-			Wow!, Nueva actualizacion BumsGames..&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			@foreach($comentarios as $comentario) 
-			{{$comentario->nombre}}: </b> {{$comentario->texto}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			@endforeach
+		<div class="col">
+			@if(isset($comentarios))
+			<!DOCTYPE html>
+
+			<html>
+
+			<style type="text/css">
+
+
+
+			.marquee-sibling {
+				padding: 0;
+				background: rgb(53, 153, 220);
+				width: 20%;
+				height: 45px;
+				line-height: 42px;
+				font-size: 14px;
+				font-weight: bold;
+				color: #FFF;
+				text-align: center;
+				float: left;
+				left: 0;
+				z-index: 2000;
+			}
+
+			.marquee, *[class^="marquee"] {
+				display: inline-block;
+				white-space: nowrap;
+				position:absolute;
+			}
+
+			.marquee{
+				margin-left: 25%;
+			}
+
+			.marquee-content-items{
+				display: inline-block;
+				padding: 5px;
+				margin: 0;
+				height: 45px;
+				position: relative;
+			}
+
+			.marquee-content-items li{
+				display: inline-block;
+				line-height: 35px;
+				color: #272727;
+			}
+
+			.marquee-content-items li:after{
+				content: "|";
+				margin: 0 1em;
+			}
+		</style>
+		<body>
+			<br/>
+			<div class="content">
+				<div class="container">
+					<div class="marquee-sibling">
+						Latest News
+					</div>
+					<div class="marquee">
+						<ul class="marquee-content-items">
+							<li>Item 1</li>
+							<li>Item 2</li>
+							<li>Item 3</li>
+							<li>Item 4</li>
+							<li>Item 5</li>
+						</ul>
+					</div>
+				</div>
+				<footer>
+					
+
+					<script>
+						$(function (){
+
+							createMarquee({
+							});
+
+						//example of overwriting defaults: 
+						
+						// createMarquee({
+						// 		duration:30000, 
+						// 		padding:20, 
+						// 		marquee_class:'.example-marquee', 
+						// 		container_class: '.example-container', 
+						// 		sibling_class: '.example-sibling', 
+						// 		hover: false});
+						// });
+					});
+
+				</script>
+			</footer>
 		</div>
+	</body>
+	</html>
+
+			{{-- <marquee style="color: white; padding: 2px;">
+				@foreach($comentarios as $comentario)
+				<b>{{$comentario->nombre}}: </b> {{$comentario->texto}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="span_space"></span> 
+				@endforeach
+			</marquee> --}}
+			@endif
+		</div>
+
+
 	</div>
-	
-	
-
-</div>
-
-
-</div>
 
 
 
@@ -108,8 +195,9 @@ duration: 450000,
 
 
 	<h3 class="my-auto" style="margin-left: 20px;">
-		<a class="navbar-brand" href="{{ url('') }}" >
-			<img alt="Brand" src="{{ url('img/logo 2.png') }}" width="125">
+		<a class="navbar-brand" href="/" >
+			{{-- <img alt="Brand" src="{{ url('img/logo.png') }}" width="120"> --}}
+			BUMSGAMES
 		</a>
 	</h3>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
@@ -188,7 +276,7 @@ duration: 450000,
 
 
 			<li class="nav-item">
-				<a class="nav-link dropbtn linkBums2" href="{{ url('ayuda') }}" ><b>AYUDA</b></a>
+				<a class="nav-link dropbtn linkBums2" href="href="{{ url('ayuda') }}""><b>AYUDA</b></a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link dropbtn linkBums2" href="#" data-toggle="modal" data-target="#contactModal"><i class="fab fa-whatsapp"></i> <b>CONTACTANOS</b></a>
@@ -205,8 +293,11 @@ duration: 450000,
 					<span class="badge badge-light" id="badge" style="color: black !important;">{{ count(Session::get('carrito')) }}</span>	
 				</label>
 			</li>
+
 		</ul>
+
 	</div>
+
 </nav>
 
 
@@ -300,7 +391,7 @@ a:hover{
 	opacity: 0.8;
 }
 </style>
-<div class="dropdown-content2" id="dropdown-content2" style=" background: rgba(0, 0, 0, 0.95); padding: 20px; color: white; display: none;">
+<div class="dropdown-content2" id="dropdown-content2" style=" background: rgba(0, 7, 0, 0.95); padding: 20px; color: white; display: none;">
 	<div class="container">
 		<div class="row">
 			<div class="col-2">
@@ -314,9 +405,6 @@ a:hover{
 					</h2>
 					<a class="nav-link dropbtn linkBums2 btn-block" href="{{  url('articulos_web') }}">
 						<h3><button class="btn btn-block">ARTICULOS RECIENTES</button></h3>
-					</a>
-					<a class="nav-link dropbtn linkBums2 btn-block" href="{{  url('articulos_oferta') }}">
-						<h3><button class="btn btn-block">ARTICULOS EN OFERTA</button></h3>
 					</a>
 				</center>
 			</div>
@@ -585,6 +673,12 @@ data-ad-client="ca-pub-2298464716816209">
 	<script src="{{ url('js/jquery.min.js') }}" type="text/javascript"></script>
 	<script type="text/javascript" src="{{ url('js/jquery.easing.min.js') }}"></script>
 	<script type="text/javascript" src="{{ url('js/jquery.easy-ticker.js') }}"></script>
+	<script src="{{ url('js/marquee2.js') }}"></script>
+
+	{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
+	{{-- <script src="//code.jquery.com/jquery-1.11.2.min.js"></script> --}}
+
+	{{-- <script src="{{ url('js/marquee.js') }}"></script> --}}
 
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -621,9 +715,6 @@ data-ad-client="ca-pub-2298464716816209">
 		});
 
 
-	</script>
-	<script>
-		Marquee3k.init();
 	</script>
 
 	<!-- Footer -->

@@ -287,6 +287,9 @@
 									@endif
 								</td>
 								<td style="width: 20%;">
+									<b>Ubicacion:</b> {{ $article->ubicacion2->nombre_ubicacion }}
+									<br>
+									<br>
 									@foreach($article->duennos->sortBy('porcentaje') as $duenno)
 									<strong>
 										Dueño:
@@ -326,10 +329,19 @@
 									<br>	
 									@endif
 									@endif
+									<br>
+									<br>
+
+
 
 									
 								</td>
 								<td>
+									{{-- {{ $article->categorias[0]->category }} --}}
+									
+									@if ((strpos($article->categorias[0]->category,'Cuenta') !== false) 
+									|| (strpos($article->categorias[0]->category,'Cupo') !== false))
+
 									@if(Auth::user()->level >= 7)
 									<strong>
 										Correo: 
@@ -370,7 +382,11 @@
 									<br>
 									<br>	
 									@endif
-									@endif 	
+									@endif
+										
+									
+									@endif
+									 	
 								</td>
 								<td>	
 									<span class="font-weight-bold">Cantidad:</span> 
@@ -439,7 +455,7 @@
 								<br>
 								<br>
 								
-								<button type="button" 
+								{{-- <button type="button" 
 								class="btn btn-secondary" 
 								data-toggle="modal" 
 								data-target=".modal_rapido" 
@@ -453,7 +469,7 @@
 								"{{ $article->note }}",
 								"{{$article->reset_button}}")'>
 								Modificacion Rapida
-							</button>
+							</button> --}}
 							<br>
 							<br>
 							@endif
