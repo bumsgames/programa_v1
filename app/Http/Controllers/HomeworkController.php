@@ -93,7 +93,6 @@ class HomeworkController extends Controller
 
     public function buscar_articulo(Request $request)
     {
-
         $tutoriales = \Bumsgames\tutorial::all();
 
         $id = $request->id_art;
@@ -118,6 +117,7 @@ class HomeworkController extends Controller
             $query->where('verificado', '<=', 0)
             ->orWhere('entregado', '<=', 0);
         })->get();
+        
         $users = \Bumsgames\BumsUser::whereNotIn('id', function ($q) use ($id) {
             $q->select('id_bumsuser')->from('bums_user_articles')->where('id_article', $id);
         })->get();
@@ -131,8 +131,11 @@ class HomeworkController extends Controller
         
         $ubicaciones = \Bumsgames\Ubicacion::All();
 
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+
         if(Auth::user()->level >= 7 || in_array($articulo->category,[3,4,6,7,10,11,13,14,15])){
-            return view('admin.article.formulario_Art', compact('pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales', 'categoriesArt','ubicaciones'));
+            return view('admin.article.formulario_Art', compact('carrito','pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales', 'categoriesArt','ubicaciones'));
         }
         else{
             return redirect('404');

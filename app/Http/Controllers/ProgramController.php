@@ -151,7 +151,13 @@ class ProgramController extends Controller
 
 			$tutoriales = \Bumsgames\tutorial::All();
 
+			$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+			->get();
+
+
+
 			return view('layouts.menu', compact(
+				'carrito',
 				'users',
 				'comments_por_aprobar',
 				'mejor_vendedores_hoy',
@@ -818,9 +824,51 @@ class ProgramController extends Controller
 		return view('admin.article.allArticle', compact('title', 'carrito', 'bancos', 'comments_por_aprobar', 'pago_sin_confirmar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales', 'busqueda'));
 	}
 
-	public function inventarioList()
+	public function inventarioList(Request $request, $id)
 	{
-		$categories = \Bumsgames\Category::with('articles')->get();
+		if($id != 0 ){
+			$titulo = 'PROBANDO';
+		}else{
+			dd(0);
+		}
+
+
+
+
+
+		$articulos = \Bumsgames\Article::
+		leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
+		->where('articles.id','!=',2)
+		->where('ubicacion.id', $id)
+		->selectRaw('name, categories.category, sum(quantity) as quantity, ubicacion.nombre_ubicacion as ubicacion')
+		->where('articles.id','!=',2)
+		->leftJoin('articulo_categorias', function ($join) {
+			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
+		})
+		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		->groupby('name','categories.id')
+		->get();
+
+		// dd($articulos->toArray());
+
+		// // dd($request->all());
+		// $articulos = \Bumsgames\Article::
+		// leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
+		// // ->selectRaw('name, categories.category')
+		// ->where('articles.id','!=',2)
+		// // ->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
+		// ->join('articulo_categorias', function ($join) {
+		// 	$join->on( 'articles.id', '=', 'articulo_categorias.id_articulo')
+		// 	->limit(1);
+		// })
+		// ->orderby('articulo_categorias.id_categoria','asc')
+		// // ->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		// // ->groupby('name','categories.id')
+		// ->get();
+
+		// dd($articulos->toArray());
+		// $categories = \Bumsgames\Category::with('articles')->get();
+		// dd($categories->toArray());
 		//print_r($categories->toArray());
 		//dd(1);
 
@@ -838,10 +886,11 @@ class ProgramController extends Controller
 
 		// 	// $category->articlesAltaVista = $new_array2;
 		// }
-		foreach ($categories as $category) {
-			$category['rioAro'] = $category->articles->where("ubicacion",1);
-			$category['altaVista'] = $category->articles->where("ubicacion",2);
-		}
+
+		// foreach ($categories as $category) {
+		// 	$category['rioAro'] = $category->articles->where("ubicacion",1);
+		// 	$category['altaVista'] = $category->articles->where("ubicacion",2);
+		// }
 
 		//->where('categoria.id', $request->categoria_articulo)
 		//->groupby('name','categorias.id')
@@ -851,11 +900,16 @@ class ProgramController extends Controller
 		//dd($coincidencia);
 
 		// //dd($categories->toArray());
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+
 		$ubicaciones = \Bumsgames\Ubicacion::All();
+
+		$tutoriales = \Bumsgames\tutorial::All();
 
 		//dd($ubicaciones->toArray());
 
-		return view('admin.article.inventarioList', compact('categories', 'ubicaciones'));
+		return view('admin.article.inventarioList2', compact('articulos','titulo','carrito','tutoriales','categories', 'ubicaciones'));
 	}
 
 	public function allArticle()
@@ -899,7 +953,7 @@ class ProgramController extends Controller
 
 		//dd($carrito);
 
-		return view('admin.article.allArticle', compact('title', 'carrito','comments_por_aprobar', 'pago_sin_confirmar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales', 'bancos'));
+		return view('admin.article.allArticle', compact('titulo','title', 'carrito','comments_por_aprobar', 'pago_sin_confirmar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales', 'bancos'));
 	}
 
 

@@ -40,6 +40,11 @@ class Article extends Model
         ]);
     }
 
+    public function ubicaciones()
+    {
+        return $this->belongsTo('Bumsgames\Ubicacion', 'ubicacion');
+    }
+
     public function categorias_prueba()
     {
         return $this->belongsToMany(Category::class, 'articulo_categorias','id_articulo', 'id_categoria') 

@@ -66,7 +66,7 @@ Route::get('/menu','ProgramController@index')->name('menu');
 Route::get('/menu_usuario','ProgramController@menu_usuario');
 Route::get('/formulario_registrar_articulo','ProgramController@formulario_registrar_articulo');
 Route::get('/allArticles','ProgramController@allArticle');
-Route::get('/inventario','ProgramController@inventarioList');
+Route::get('/inventario/{id}','ProgramController@inventarioList');
 Route::get('/misArticles','ProgramController@misArticles');
 Route::get('articles_web','ProgramController@articles_web');
 Route::get('/movimientos_tipo_banco_tuyos', 'ProgramController@movimientos_tipo_banco_tuyos');
