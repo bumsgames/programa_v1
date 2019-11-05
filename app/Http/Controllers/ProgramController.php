@@ -821,10 +821,9 @@ class ProgramController extends Controller
 	public function inventarioList()
 	{
 		$categories = \Bumsgames\Category::with('articles')->get();
-		print_r($categories->toArray());
-		dd(1);
+		//print_r($categories->toArray());
+		//dd(1);
 
-<<<<<<< HEAD
 		// foreach ($categories as $category) {
 
 		// 	$new_array1 = array_filter($category->articles->toArray(), function($article){
@@ -839,7 +838,6 @@ class ProgramController extends Controller
 
 		// 	// $category->articlesAltaVista = $new_array2;
 		// }
-=======
 		foreach ($categories as $category) {
 			$category['rioAro'] = $category->articles->where("ubicacion",1);
 			$category['altaVista'] = $category->articles->where("ubicacion",2);
@@ -851,10 +849,9 @@ class ProgramController extends Controller
 
 
 		//dd($coincidencia);
->>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
 
 		// //dd($categories->toArray());
-		// $ubicaciones = \Bumsgames\Ubicacion::All();
+		$ubicaciones = \Bumsgames\Ubicacion::All();
 
 		//dd($ubicaciones->toArray());
 

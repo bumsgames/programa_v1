@@ -1338,26 +1338,23 @@ class WebController extends Controller
 			$buscador_ruta = 'articulos_oferta';
 			$filtrado_cat = '1';
 
+			$carrito = Session::get('carrito');
 
 			\Bumsgames\Visita::create(['tipo' => 'General']);
-			return view('webuser.article.articulos_web', compact('filtrado_cat','filtro_oferta','n_paginacion','filtros_activos','id_ordenador','ordenador','categorias_sub','agentes_activos','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
+			return view('webuser.article.articulos_web', compact('filtrado_cat','filtro_oferta','n_paginacion','filtros_activos','id_ordenador','ordenador','categorias_sub','agentes_activos','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos','carrito'));
 
-
-<<<<<<< HEAD
-=======
-			$ultimos_vendidos = \Bumsgames\Sales::join('articles', 'id_article', '=', 'articles.id')
-			->join('categories', 'articles.category', '=', 'categories.id')
-			->orderby('sales.created_at', 'desc')
-			->limit(4)
-			->get();
+			// $ultimos_vendidos = \Bumsgames\Sales::join('articles', 'id_article', '=', 'articles.id')
+			// ->join('categories', 'articles.category', '=', 'categories.id')
+			// ->orderby('sales.created_at', 'desc')
+			// ->limit(4)
+			// ->get();
 
 			$carrito = Session::get('carrito');
 
 			//dd($carrito);
 
-			return view('webuser.article.articulos_web', 
-				compact('categorias', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos', 'carrito'));
->>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
+			// return view('webuser.article.articulos_web', 
+			// 	compact('categorias', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos', 'carrito'));
 		}
 
 		public function articulos_oferta_opc(Request $request){
