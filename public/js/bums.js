@@ -1119,7 +1119,14 @@ $("#modificar_articulo").click(function(){
                 swal(data.data);  
             }else{
 
-                subirFotoMod(data);
+                let countImages = $("#images_mod")[0].childElementCount;
+                if(countImages>0){
+                    console.log("subo las fotos");
+                    subirFotoMod(data);
+                }else{
+                    borrarFotoArticulo(data);
+                }
+
                 $("#password_viejo").val($("#password").val());
                 swal("El articulo: "+$("#name").val()+". \n\n\nFue modificado con exito.");
                 setTimeout(function() 
@@ -1218,11 +1225,30 @@ function subirFotoMod(params) {
                     //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
                 }
             });
-        }
-        
+        }   
     }
+}
 
-   
+function borrarFotoArticulo(params) {
+    var route = '/api/borrarFotoArticulo';
+    var form_data = new FormData(); 
+    form_data.append('article_id', params.article_id);
+
+    $.ajax({    
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+        success:function(data){
+            console.log("Se eliminaron todas las fotos", data);
+        },
+        error:function(msj){
+            console.log(msj);
+            //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+        }
+    });
 }
 
 

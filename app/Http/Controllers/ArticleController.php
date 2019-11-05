@@ -264,62 +264,74 @@ class ArticleController extends Controller
   return $articulo;
 }
 
-public function fotoMultiple(Request $request){
+  public function fotoMultiple(Request $request){
 
-  $file = $request->file('image');
-  //$file = $request->images;
+    $file = $request->file('image');
+    //$file = $request->images;
 
-  $name = Carbon::now()->day . $file->getClientOriginalName();
+    $name = Carbon::now()->day . $file->getClientOriginalName();
 
-  $image = new \Bumsgames\Image;
-  $image->numero = $request->number;
-  $image->file = $name;
-  $image->save();
+    $image = new \Bumsgames\Image;
+    $image->numero = $request->number;
+    $image->file = $name;
+    $image->save();
 
-  \Storage::disk('local')->put($name, \File::get($file));
+    \Storage::disk('local')->put($name, \File::get($file));
 
-  \Bumsgames\Article_Image::create([
-    'article_id' => $request->article_id,
-    'image_id' => $image->id
-  ]);
-  return response()->json(["se guardo la imagen"=>$image]);
-}
+    \Bumsgames\Article_Image::create([
+      'article_id' => $request->article_id,
+      'image_id' => $image->id
+    ]);
+    return response()->json(["se guardo la imagen"=>$image]);
+  }
 
-public function fotoMultipleMod(Request $request){
-
-  $articleID=$request->article_id;
-
-  $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
-  $images = $articulo->images;
-  //dd($articulo->toArray());
-  
-  if($request->index==0 && count($images)>0){
+  public function fotoMultipleMod(Request $request){
+    $articleID=$request->article_id;
+    $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
+    $images = $articulo->images;
+    //dd($articulo->toArray());
     
+    if($request->index==0 && count($images)>0){
+      
+      foreach ($images as $image) {
+        \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
+        $image->delete();
+      }
+      
+    }
+
+    $file = $request->file('image');
+    //$file = $request->images;
+    $name = Carbon::now()->second . $file->getClientOriginalName();
+
+    $image = new \Bumsgames\Image;
+    $image->numero = $request->number;
+    $image->file = $name;
+    $image->save();
+
+    \Storage::disk('local')->put($name, \File::get($file));
+
+    \Bumsgames\Article_Image::create([
+      'article_id' => $request->article_id,
+      'image_id' => $image->id
+    ]);
+
+    return response()->json(["se guardo la imagen"=>$image]);
+  }
+
+  public function eliminarFotosArticulo(Request $request){
+
+    $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
+    $images = $articulo->images;
+    //dd($articulo->toArray());
+
     foreach ($images as $image) {
       \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
       $image->delete();
     }
-    
+
+    return response()->json(["se eliminaron las imagenes de"=>$articulo]);
   }
-
-  $file = $request->file('image');
-  //$file = $request->images;
-  $name = Carbon::now()->second . $file->getClientOriginalName();
-
-  $image = new \Bumsgames\Image;
-  $image->numero = $request->number;
-  $image->file = $name;
-  $image->save();
-
-  \Storage::disk('local')->put($name, \File::get($file));
-
-  \Bumsgames\Article_Image::create([
-    'article_id' => $request->article_id,
-    'image_id' => $image->id
-  ]);
-
-  return response()->json(["se guardo la imagen"=>$image]);
-}
 
    /*
   -------------------------------------
@@ -1011,8 +1023,6 @@ public function fotoMultipleMod(Request $request){
         'porcentaje' => $porcentaje[$i]
       ]);
     }
-
-
 
     return response()->json([
       "message" => "Success",
