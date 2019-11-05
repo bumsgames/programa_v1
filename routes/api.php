@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('fotoMultiple', 'ArticleController@fotoMultiple');
 
 Route::post('fotoMultipleMod', 'ArticleController@fotoMultipleMod');
+Route::post('borrarFotoArticulo', 'ArticleController@eliminarFotosArticulo');
