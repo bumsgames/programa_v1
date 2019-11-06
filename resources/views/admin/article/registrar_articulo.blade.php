@@ -185,8 +185,8 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-12 col-lg">
-								<div class="form-group">
+							<div class="col-12 col-lg" style="display:none;" id="offer_price_div">
+								<div class="form-group" >
 									<label for=""><strong> Precio Subrayado ($). SOLO OFERTA</strong></label>
 									<input value="0" class="form-control form-control-sm numero_separador" type="text" autocomplete="off" name="offer_price" id="offer_price"
 									value="100" placeholder="">

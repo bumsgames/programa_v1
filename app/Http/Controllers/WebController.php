@@ -1349,7 +1349,7 @@ class WebController extends Controller
 			// ->limit(4)
 			// ->get();
 
-			$carrito = Session::get('carrito');
+			//$carrito = Session::get('carrito');
 
 			//dd($carrito);
 

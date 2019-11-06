@@ -1254,11 +1254,11 @@ function borrarFotoArticulo(params) {
 
 $("#registrar_articulo").click(function(){
 
-
     if($("#quantity").val() < 0){
         swal("No se puede registrar articulo con cantidad negativa");
         return;
     }
+
     let duenno = document.querySelectorAll('.id_duenno');
     let porcentaje = document.querySelectorAll('.duenno_porcentaje');
 
@@ -1271,6 +1271,23 @@ $("#registrar_articulo").click(function(){
     var porcentaje_array = new Array();
     var categoria_array = new Array();
 
+    let ofert = $("#offer_price").val();
+    let price = $("#price_in_dolar").val();
+
+    if($("#oferta option:selected").text() == 'Si'){
+        if (ofert <= price){
+            swal("No se permite colocar precio de venta mayor al precio de oferta.");
+            return;
+        }
+    }
+    
+    // else{
+    //     if(!price){
+    //         swal("Ingrese un precio de venta.");
+    //         return;
+    //     }
+    // }
+
     if(porcentaje.length == 0){
         swal('El articulo no tiene dueño, por favor colocarlo');
         return;
@@ -1280,7 +1297,6 @@ $("#registrar_articulo").click(function(){
         swal('El articulo no pertenece a ninguna categoria');
         return;
     }
-
     
     // Guarda cateorias en 1 array
     for (var i = 0; i <numero_de_categorias.length; i++) {
@@ -1306,8 +1322,6 @@ $("#registrar_articulo").click(function(){
                 return;
             }
         }
-
-        
     }
 
 
@@ -1333,7 +1347,6 @@ $("#registrar_articulo").click(function(){
     if(temp_porcentaje != 100){
         swal('La suma de los porcentajes debe ser igual a 100% \n Porcentaje = '+temp_porcentaje+' %');
         return;
-
     }
 
     if( categoria_array.length == 0 ){
@@ -1368,7 +1381,11 @@ $("#registrar_articulo").click(function(){
 
     form_data.append('oferta', $("#oferta").val());
     form_data.append('price_in_dolar', price_in_dolar);
-    form_data.append('offer_price', offer_price);
+
+    if($("#oferta option:selected").text() == 'Si'){
+        form_data.append('offer_price', offer_price);
+    }
+    
     form_data.append('quantity', $("#quantity").val());
     form_data.append('peso', $("#peso").val());
     form_data.append('email', $("#email").val());
@@ -1402,7 +1419,7 @@ $("#registrar_articulo").click(function(){
     form_data.append('id_bumsuser', JSON.stringify(duenno_array));
     form_data.append('porcentaje', JSON.stringify(porcentaje_array));
 
-    console.log("a subir", form_data);
+    //console.log("a subir", form_data);
 
     $.ajax({    
         url:        route,

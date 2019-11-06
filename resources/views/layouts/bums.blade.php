@@ -327,6 +327,18 @@
           <li><a class="treeview-item" href="{{ url('inventario') }}"><i class="icon fa fa-circle-o"></i> Inventario</a></li>
         </ul>
       </li>
+
+      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          @foreach ($ubicaciones as $ubicacion)   
+            <li>
+              <a class="treeview-item" href="{{ url('inventario',$ubicacion->id) }}">
+                <i class="icon fa fa-circle-o"></i> {{$ubicacion->nombre_ubicacion}}
+              </a>
+            </li>
+          @endforeach
+        </ul>
+      </li>
       {{-- @if(Auth::user()->level >= 7)
       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Ordenes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
