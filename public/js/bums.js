@@ -311,7 +311,6 @@ function init() {
 
 //Eliminar foto del frontend
 function removePhotoDiv(number) {
-
     //Recorro fotos en memoria y la elimino
     if(fotosMod.length>0){
         let borro=false;
@@ -322,7 +321,7 @@ function removePhotoDiv(number) {
                 console.log("se borro ", fotosMod);
                 borro=true;
             }
-            if(borro){
+            if(borro &&  (i !=fotosMod.length)){
                 fotosMod[i].index = fotosMod[i].index-1;
             }
         }
@@ -344,7 +343,7 @@ function removePhotoDiv(number) {
     for (let index = 0; index < imagesUrl.length; index++) {
         var htmlTagImage = 
         '<div class="col" id="div_'+index+'">' +
-            '<img id="img_'+index+'" class="img"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
+            '<img id="img_'+index+'" class="img row text-center"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
             '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+index+');" >'+
                 'Eliminar'+
             '</button>'+
@@ -381,7 +380,7 @@ function mostrarImagenMod(event) {
         var htmlTagImage = 
         '<div class="col" id="div_'+indexImage+'">' +
             
-            '<img id="img_'+indexImage+'" class="img" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
+            '<img id="img_'+indexImage+'" class="img row text-center" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
             '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
                 'Eliminar'+
             '</button>'+
@@ -1229,6 +1228,80 @@ function subirFotoMod(params) {
     }
 }
 
+function subirFotoNew(params) {
+    console.log("params", params);
+
+    console.log("cantidad de fotos", $("#images_mod")[0].childElementCount);
+    let imagesCount=$("#images_mod")[0].childElementCount;
+
+    for (let index = 0; index < imagesCount; index++) {
+
+        console.log("///////////////////////////////// nueva imagen //////////////////////////////////");
+        console.log("/////////////////////////////////////////////////////////////////////////////");
+
+        //Saco le etiqueta img que quiero extraer
+        imageHtml = $('#img_'+index)[0];
+        console.log("html", imageHtml);
+
+        //saco el src del img para sacarle el nombre al file
+        imageSrc = $('#img_'+index).attr('src');
+        console.log("source", imageSrc);
+
+        //Si el src viene derl servidor 
+        if(imageSrc.substr(0,4)== 'img/'){
+            console.log('si es url src');
+
+            //Se convierte la imagen desde la etiqueta en dara URl
+            imageDataUrl = getBase64Image(imageHtml);
+            //console.log("DataUrl", imageDataUrl);
+
+            //Sacamos el nombre del server
+            imageName = imageSrc.substr(4);
+            //console.log('image name',imageName);
+
+            //Creamos el File a partir de la DataUrl y el nombre.
+            imageFile = dataURLtoFile(imageDataUrl,imageName);
+            //console.log("File " + index, imageFile);
+
+        }else{
+            console.log('es un data url src, index ', index);
+            imageName = '';
+            fotosMod.forEach(element => {
+                if(element.index == index){
+                    console.log("encontre ",element);
+                    imageName = element.name;
+                }
+            });
+            imageFile = dataURLtoFile(imageSrc, imageName == '' ? undefined : imageName);
+            console.log("File " + index, imageFile);
+        }
+       
+        if(imageFile){
+            var route = '/api/fotoMultiple';
+            var form_data = new FormData(); 
+            form_data.append('image', imageFile);
+            form_data.append('article_id', params.id);
+            form_data.append('number', index+1);
+
+            $.ajax({    
+                url:        route,
+                headers:    {'X-CSRF-TOKEN':token},
+                type:       'POST',
+                data:       form_data,
+                contentType: false, 
+                processData: false,
+                success:function(data){
+                    console.log("Se guardo la foto ", data);
+                },
+                error:function(msj){
+                    console.log(msj);
+                    //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                }
+            });
+        }   
+    }
+}
+
 function borrarFotoArticulo(params) {
     var route = '/api/borrarFotoArticulo';
     var form_data = new FormData(); 
@@ -1433,8 +1506,13 @@ $("#registrar_articulo").click(function(){
             if(data.tipo == 1){
                 swal(data.data);  
             }else{
-                console.log("response articulo register: ", data);
-                subirFoto(data);
+                //console.log("response articulo register: ", data);
+                //subirFoto(data);
+                let countImages = $("#images_mod")[0].childElementCount;
+                if(countImages>0){
+                    console.log("subo las fotos");
+                    subirFotoNew(data);
+                }
 
                 swal("El articulo: "+$("#name").val()+". Fue registrado con exito.");
             }
@@ -1454,35 +1532,31 @@ $("#registrar_articulo").click(function(){
 function subirFoto(params) {
     var files = $('#inputFile2').prop('files');
     console.log("files a subir", files);
-    if(files){
 
-        for (let index = 0; index < files.length; index++) {
-            var route = '/api/fotoMultiple';
-            var form_data = new FormData(); 
-            form_data.append('image', files[index]);
-            form_data.append('article_id', params.id);
-            form_data.append('number', index+1);
+    for (let index = 0; index < files.length; index++) {
+        var route = '/api/fotoMultiple';
+        var form_data = new FormData(); 
+        form_data.append('image', files[index]);
+        form_data.append('article_id', params.id);
+        form_data.append('number', index+1);
 
-            $.ajax({    
-                url:        route,
-                headers:    {'X-CSRF-TOKEN':token},
-                type:       'POST',
-                data:       form_data,
-                contentType: false, 
-                processData: false,
-        
-                success:function(data){
-                    console.log("Se guardo la foto ", data);
-                },
-                error:function(msj){
-                    console.log(msj);
-        
-                    //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
-                }
-            });
-        }
-        
-    }  
+        $.ajax({    
+            url:        route,
+            headers:    {'X-CSRF-TOKEN':token},
+            type:       'POST',
+            data:       form_data,
+            contentType: false, 
+            processData: false,
+    
+            success:function(data){
+                console.log("Se guardo la foto ", data);
+            },
+            error:function(msj){
+                console.log(msj);
+                //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+            }
+        });
+    }
 }
 
 //ventana tipo lista

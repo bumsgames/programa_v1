@@ -55,13 +55,17 @@
 										</strong>
 									</label>
 									<div class="custom-file">
-										<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es" multiple accept="image/*">
+										<input name="image" id="inputFileMod" type="file" class="custom-file-input" lang="es" accept="image/*">
 										<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
 										<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
 									</div>
 
-									<div id="images">
-										{{-- <img id="img2" width="175"><br/> --}}
+									{{-- <div id="images">
+										<img id="img2" width="175"><br/> 
+									</div> --}}
+
+									<div class="row" id="images_mod">
+
 									</div>
 									
 								</div>
