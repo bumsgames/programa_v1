@@ -2828,6 +2828,31 @@ class ProgramController extends Controller
 		}
 	}
 
+	public function ver_ventas(){
+		if (Session::has('n_paginacion')) {
+			$n_paginacion = Session::get('n_paginacion');
+		} else {
+			$n_paginacion = 50;
+		}
+		$ventas = \Bumsgames\Venta::
+			orderby('created_at','desc')
+		->paginate($n_paginacion);;
+
+
+
+		$bancos = \Bumsgames\banco_emisor::All();
+		$usuarios_sistema = \Bumsgames\BumsUser::All();
+		$title = 'VENTAS GENERALES';
+		$tutoriales = \Bumsgames\tutorial::All();
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+
+		
+
+
+		return view('admin.movimientos.ver_ventas', compact('n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos'));
+	}
+
 	public function filtrar_movimientos_bums(Request $request)
 	{
 		if (isset($request->fecha_inicio) && isset($request->fecha_final)) {

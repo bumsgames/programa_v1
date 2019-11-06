@@ -1866,6 +1866,7 @@ $("#copia_envio").click(function(){
 });
 
 $("#realizarVenta_v2").click(function(){
+
     var route = '/realizarVenta_v2';
     var form_data = new FormData();  
     var token = $('#token').val();
@@ -2023,17 +2024,23 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
         return;
     }
 
+    alert(1);
+
 
     // Guarda cateorias en 1 array
     for (var i = 0; i <monto.length; i++) {
+          alert(2.1);
         monto_aux = ((monto[i].value).split('.').join('')).split(',').join('.');
         monto_array.push(monto_aux);
-        id_coin_array.push(id_coin[i].value)
+        id_coin_array.push(id_coin[i].value);
         bancoEmisor_array.push(bancoEmisor[i].value);
         referencia_array.push(referencia[i].value);
+        
         nota_venta_array.push(nota_venta[i].value);
+        alert(2);
     }
 
+alert(3);
 
     form_data.append('monto_array', JSON.stringify(monto_array));
     form_data.append('id_coin_array', JSON.stringify(id_coin_array));
@@ -2041,12 +2048,14 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
     form_data.append('referencia_array', JSON.stringify(referencia_array));
     form_data.append('nota_venta_array', JSON.stringify(nota_venta_array));
 
+    alert(4);
+
 
     form_data.append('opcion_involucrado',  $("input[name='OPCinvolucrado_-1']:checked").val());
     form_data.append('involucradoAgenteSelect', $("#involucradoAgenteSelect_-1").val());
     if($("input[name='OPCinvolucrado_-1']:checked").val() == 4){
         var porcentaje_voluntad = $("#porcentaje_voluntad").val();
-        if ( porcentaje_voluntad == 0 || porcentaje_voluntad ==null || porcentaje_voluntad > 100) {
+        if ( porcentaje_voluntad < 0 || porcentaje_voluntad ==null || porcentaje_voluntad > 100) {
             swal("Problemas en el Porcentaje Voluntad");
             return;
         }
@@ -2054,6 +2063,8 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
     }
 
 }
+
+alert(5);
 
 //venta
 

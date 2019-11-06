@@ -56,23 +56,6 @@
 					&nbsp;
 					@if( $moneda_actual->id != 2)
 
-<<<<<<< HEAD
-				Tasa: {{ number_format($moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
-				@endif
-			</form>	
-		</center>
-		<h3>Facturacion de {{ Auth::user()->name }} {{ Auth::user()->lastname }}</h3>
-		<a href="#" id="cancelarFacturacion" >Cancelar facturacion</a>
-	</div>
-	<div class="card-body">
-		<table class="table" style="font-size: 10px;">
-			<tbody id="tablaCarrito2">
-				<?php $i = 1; ?>
-				<?php $precio = 0; ?>
-				<?php $inversion_total = 0; ?>
-				<?php $items_cantidad = 0; ?>
-
-=======
 					Tasa: {{ number_format($moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
 					@endif
 				</form>	
@@ -88,7 +71,7 @@
 					<?php $precio = 0; ?>
 					<?php $inversion_total = 0; ?>
 					<?php $items_cantidad = 0; ?>
->>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
+
 
 
 					@foreach( $carrito as $item )
@@ -209,7 +192,7 @@
 <br>
 <div class="container">
 	<div class="row">
-		<div class="col-7">
+		<div class="col-5">
 			<div class="card text-center shadow_ligero">
 				<div class="card-header">
 					<center>
@@ -408,7 +391,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-5">
+			<div class="col-7">
 				<div class="card text-center shadow_ligero">
 					<div class="card-header">
 						DATOS DE PAGO
@@ -455,14 +438,14 @@
 							</div>
 							<br>
 							<br>
-							<div style="font-size: 11px;" id="area_porcentaje_voluntad">
+							<div style="font-size: 11px; display: none;" id="area_porcentaje_voluntad">
 								<label>
 									Porcentaje (%): 
 									<input class="form-control form-control-sm" type="number" id="porcentaje_voluntad">
 								</label>
 							</div>
 							<div id="area_involucradoAgenteSelect_-1">
-								<div style="font-size: 11px;">Involucrado</div>
+								<div style="font-size: 11px; display: none;">Involucrado</div>
 								<select class="form-control form-control-sm" id="involucradoAgenteSelect_-1">
 
 									@foreach($users_opc as $user_opc)
@@ -573,9 +556,17 @@
 					<br>
 					<br>
 					<div id="ProSelected"></div>
+					<div id="total_pagado_v2"></div>
+
 					<div class="card-footer text-muted">
 						<button type="button" class="btn btn-primary" style="margin-top: 10px; font-size: 18px;" id="realizarVenta_v2">Realizar venta</button>
 					</div>
+					<br>	
+					
+					<input type="text" hidden="" name="" id="moneda_{{ $moneda_actual->id }}" value="{{ $moneda_actual->valor }}">
+					@foreach($coins as $coin)
+					<input type="text" hidden="" name="" id="moneda_{{ $coin->id }}" value="{{ $coin->valor }}">
+					@endforeach
 
 
 				</div>
@@ -626,6 +617,8 @@
 		});
 
 		$("#agregarPago").click(function(){
+			monto_aux = (($("#monto").val()).split('.').join('')).split(',').join('.');
+			var pagado = monto_aux / $("#moneda_"+$("#coin_venta").val()).val();
 			if($("#banco_emisor").val() == null){
 				swal(" Pago / Debe agregar el Banco Emisor.");
 				return;
@@ -638,23 +631,39 @@
 
 			// Colocar otro Formulariobu,m
 			var newtr = '<tr class="item"  data-id="0">';
-			newtr = newtr + '<td > <input readonly=""  class="form-control monto" value="'+$("#monto").val()+'" /></td>';
+			newtr = newtr + '<td>Pagado: <input readonly="" class="suma_pagado form-control" type="text" value="'+pagado+' $"></td>';
+			newtr = newtr + '<td >Monto: <input readonly=""  class="form-control monto" value="'+$("#monto").val()+'" /></td>';
 			newtr = newtr + '<td> <input readonly=""  class="form-control id_coin"  value="'+$("#coin_venta").val()+'" required hidden/></td>';
-			newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#coin_venta").find('option:selected').text()+'" required /></td>';
+			newtr = newtr + '<td>Moneda: <input readonly=""  class="form-control"  value="'+$("#coin_venta").find('option:selected').text()+'" required /></td>';
 			newtr = newtr + '<td> <input  readonly="" class="form-control bancoEmisor" hidden value="'+$("#banco_emisor").val()+'" required /></td>';
-			newtr = newtr + '<td> <input readonly=""  class="form-control"  value="'+$("#banco_emisor").find('option:selected').text()+'" required /></td>';
-			newtr = newtr + '<td> <input readonly=""  class="form-control referencia"  value="'+$("#reference").val()+'" required /></td>';
-			newtr = newtr + '<td> <input readonly=""  class="form-control nota_venta" id="mal"  value="'+$("#note_sale").val()+'" required /></td>';
-			newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
+			newtr = newtr + '<td>Banco: <input readonly=""  class="form-control"  value="'+$("#banco_emisor").find('option:selected').text()+'" required /></td>';
+			newtr = newtr + '<td>Referencia: <input readonly=""  class="form-control referencia"  value="'+$("#reference").val()+'" required /></td>';
+			newtr = newtr + '<td>Nota: <input readonly=""  class="form-control nota_venta" id="mal"  value="'+$("#note_sale").val()+'" required /></td>';
+			newtr = newtr + '<td>Eliminar:<button type="button" class="btn btn-danger btn-xs borrar"><i class="fa fa-times"></i></button></td></tr>';
+			
 			$('#ProSelected').append(newtr);
 
+			suma_pagado();
+
 		});
+
+		function suma_pagado(){
+			total_pagado = 0;
+			let suma_pagado = document.querySelectorAll('.suma_pagado');
+			
+			for (var i = 0; i <suma_pagado.length; i++) {
+				total_pagado += parseFloat(suma_pagado[i].value);
+			}
+			$("#total_pagado_v2 div").remove();
+			$('#total_pagado_v2').append("<div><br> Total pagado: "+total_pagado+" $</div>");
+		}
 
 
 		$(function () {
 			$(document).on('click', '.borrar', function (event) {
 				event.preventDefault();
 				$(this).closest('tr').remove();
+				suma_pagado();
 			});
 
 			$(document).on('click', '.agregarPago_zonaMultiple', function (event) {
@@ -666,7 +675,7 @@
 				newtr = newtr + '<td> <input  class="form-control bancoEmisor_'+numero+'"  value="'+$("#banco_emisor_"+numero).val()+'" required /></td>';
 				newtr = newtr + '<td> <input  class="form-control referencia_'+numero+'"  value="'+$("#reference_"+numero).val()+'" required /></td>';
 				newtr = newtr + '<td> <input  class="form-control nota_venta_'+numero+'" id="mal"  value="'+$("#note_sal_e+numero").val()+'" required /></td>';
-				newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" onclick="quitar_pago();"><i class="fa fa-times"></i></button></td></tr>';
+				newtr = newtr + '<td><button type="button" class="btn btn-danger btn-xs borrar" ><i class="fa fa-times"></i></button></td></tr>';
 				$("#zona_pega_"+$(this).val()).append(newtr);
 			});
 
@@ -726,6 +735,36 @@
   	<script src="{{ url('js/datatables-bootstrap.min.js') }}"></script>
   	<script src="{{ url('js/main.js') }}"></script>
   	<script src="{{ url('js/plugins/pace.min.js') }}"></script>
+  	<script type="text/javascript">
+  		$( ".venta_tipo" ).change(function(){
+  			var opc = $("input:radio[name=OPCinvolucrado_-1 ]:checked").val();
+  			switch(opc){
+  				case "1":
+
+  				$('#area_involucradoAgenteSelect_-1').css("display", "none");
+  				$('#area_porcentaje_voluntad').css("display", "none");
+  				break;
+
+  				case "2":
+
+  				$('#area_involucradoAgenteSelect_-1').css("display", "block");
+  				$('#area_porcentaje_voluntad').css("display", "none");
+  				break;
+
+  				case "3":
+
+  				$('#area_involucradoAgenteSelect_-1').css("display", "block");
+  				$('#area_porcentaje_voluntad').css("display", "none");
+  				break;
+
+  				case "4":
+
+  				$('#area_involucradoAgenteSelect_-1').css("display", "none");
+  				$('#area_porcentaje_voluntad').css("display", "block");
+  				break;
+  			}
+  		});
+  	</script>
   {{--
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>

@@ -26,7 +26,7 @@ Route::post('/logueo','BumsUserController@logueo');
 
 // ProgramController GET
 Route::get('/factura/{id}','ProgramController@factura');
-Route::get('/ventas','ProgramController@ventas')->name('ventas');
+Route::get('/ver_ventas','ProgramController@ver_ventas');
 Route::get('/mostrar_ventas','ProgramController@mostrar_ventas');
 Route::get('/buscador_inteligente','ProgramController@buscador_inteligente');
 Route::get('/mostrar_ventas2','ProgramController@mostrar_ventas2');

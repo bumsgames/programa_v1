@@ -335,17 +335,30 @@
         </ul>
       </li>
       @endif --}}
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+     {{--  <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           @if(Auth::user()->level >= 9)
           <li><a class="treeview-item" href="/movimientos"><i class="icon fa fa-circle-o"></i>Ventas Generales</a></li>
           @endif
           <li><a class="treeview-item" href="/movimientos_personal"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
-          {{--
+          
           <li><a class="treeview-item" href="/movimientos_tuyos"><i class="icon fa fa-circle-o"></i>Movimientos Personales (Generales)</a></li>
-          --}}
+          
+        </ul>
+      </li> --}}
+
+       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          @if(Auth::user()->level >= 9)
+          <li><a class="treeview-item" href="{{ url('ventas') }}"><i class="icon fa fa-circle-o"></i>Ventas Generales</a></li>
+          @endif
+          <li><a class="treeview-item" href="/movimientos_personal"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
+          
+          <li><a class="treeview-item" href="/movimientos_tuyos"><i class="icon fa fa-circle-o"></i>Movimientos Personales (Generales)</a></li>
+          
         </ul>
       </li>
+
 
       @if(Auth::user()->level >= 7)
       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Clientes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
