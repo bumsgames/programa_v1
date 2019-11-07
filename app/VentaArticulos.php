@@ -26,4 +26,8 @@ class VentaArticulos extends Model
     {
     	return $this->hasMany('Bumsgames\Venta_PagoInvolucrados','id_ventaArticulo');
     }
+
+    
+
+    
 }

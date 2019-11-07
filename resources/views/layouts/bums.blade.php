@@ -350,7 +350,7 @@
        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           @if(Auth::user()->level >= 9)
-          <li><a class="treeview-item" href="{{ url('ventas') }}"><i class="icon fa fa-circle-o"></i>Ventas Generales</a></li>
+          <li><a class="treeview-item" href="{{ url('ver_ventas') }}"><i class="icon fa fa-circle-o"></i>Ventas Generales</a></li>
           @endif
           <li><a class="treeview-item" href="/movimientos_personal"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
           
@@ -430,6 +430,15 @@
                 </span>
               </a>
             </li>
+            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Formulario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          <li><a class="treeview-item" href="{{ url('ubicacion') }}"><i class="icon fa fa-circle-o"></i>Ubicacion</a></li>
+          <li><a class="treeview-item" href="{{ url('bancoEmisor') }}"><i class="icon fa fa-circle-o"></i>Banco emisor</a></li>
+        </ul>
+      </li>
+      <li>
+        
+      </li>
             <!--<li><a class="app-menu__item" href="reporte"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Reporte</span></a></li>-->
      {{--  <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Imagenes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">

@@ -187,6 +187,140 @@ class ProgramController extends Controller
 			return view('guia', compact('tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar'));
 		}
 
+		public function filtrar_ventas_v2(Request $request){
+			if (Session::has('n_paginacion')) {
+				$n_paginacion = Session::get('n_paginacion');
+			} else {
+				$n_paginacion = 50;
+			}
+
+			// if ($request->select_vendedor == -1) {
+			// 	$request->merge(['select_vendedor' => null]);
+
+			// }
+
+			
+
+			
+			$cantidad_articulo = \Bumsgames\VentaArticulos::
+			leftjoin('articles','articles.id', '=', 'venta_articulos.id_articulo')
+			->selectRaw('sum(cantidad) as cantidad')
+			->whereHas('articulo', function($q)  use ($request) {
+				$q->where('name','like', '%' . $request->nombre_articulo . '%');
+				$q->ConCorreo($request->input_correo);
+				$q->ConUbicacion($request->select_ubicacion);
+			})
+			->whereHas('articulo.categorias', function($q)  use ($request) {
+				$q->ConCategoria($request->select_categoria);
+			})
+			->first();
+
+
+
+			$cantidad_pago = \Bumsgames\VentaPago::
+			ConBanco($request->select_banco)
+			->ConMoneda($request->select_moneda)
+			->where('referencia','like', '%' . $request->input_referencia . '%')
+			->where('notaPago','like', '%' . $request->input_notaPago . '%')
+			->first();	
+
+
+
+
+
+			// dd($cantidad_pago->count());
+			if ($cantidad_pago->count() == null) {
+				$cantidad_pago = 0;
+			}else{
+				$cantidad_pago = count($cantidad_pago);
+			}
+			
+			$cantidad_cobrado = -1;
+			$cantidad_no_cobrado = -1;
+
+			if ($request->select_involucrado != -1) {
+				$cantidad_cobrado = \Bumsgames\Venta_PagoInvolucrados::
+				ConInvolucrado($request->select_involucrado)
+				->where('porcentajeInvolucrado','>', 0)
+				->where('cobrado_boolean',1)
+				->get();
+
+				if ($cantidad_cobrado->count() == null) {
+					$cantidad_cobrado = 0;
+				}else{
+					$cantidad_cobrado = count($cantidad_cobrado);
+				}
+
+
+				$cantidad_no_cobrado = \Bumsgames\Venta_PagoInvolucrados::
+				ConInvolucrado($request->select_involucrado)
+				->where('porcentajeInvolucrado','>', 0)	
+				->where('cobrado_boolean',0)
+				->get();
+
+				if ($cantidad_no_cobrado->count() == null) {
+					$cantidad_no_cobrado = 0;
+				}else{
+					$cantidad_no_cobrado =count( $cantidad_no_cobrado);
+				}
+				
+			}
+			
+			// $cantidad_no_cobrado = 
+			
+			// dd($request->all());
+			
+			
+
+			$ventas = \Bumsgames\Venta::
+			whereHas('ventaCliente', function($q)  use ($request) {
+				$q->where('name','like', '%' . $request->nombre_cliente . '%');
+				$q->where('lastname','like', '%' . $request->apellido_cliente . '%');
+			})
+			->whereHas('pagos', function($q)  use ($request) {
+				$q->ConBanco($request->select_banco);
+				$q->ConMoneda($request->select_moneda);
+				$q->where('referencia','like', '%' . $request->input_referencia . '%');
+				$q->where('notaPago','like', '%' . $request->input_notaPago . '%');
+			})
+			->whereHas('articulos.articulo', function($q)  use ($request) {
+				$q->where('name','like', '%' . $request->nombre_articulo . '%');
+				$q->ConCorreo($request->input_correo);
+				$q->ConUbicacion($request->select_ubicacion);
+			})
+			->whereHas('articulos.articulo.categorias', function($q)  use ($request) {
+				$q->ConCategoria($request->select_categoria);
+			})
+			->whereHas('articulos.involucrados', function($q)  use ($request) {
+				$q->ConInvolucrado($request->select_involucrado);
+				$q->BooleanCobrado($request->select_cobrado);
+
+			})
+			->ConVendedor($request->select_vendedor)
+			->ConEnvio($request->select_envio)
+			->ConEnvio($request)
+			->orderby('created_at','desc')
+			->get();
+
+			dd($ventas->articulos()->count());
+			// ->paginate($n_paginacion);
+
+			// dd($ventas->toArray());
+
+			// $request = $request->all();
+
+
+			$bancos = \Bumsgames\banco_emisor::All();
+
+			$usuarios_sistema = \Bumsgames\BumsUser::All();
+			
+			$title = 'FILTRAR VENTAS';
+			$tutoriales = \Bumsgames\tutorial::All();
+			$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+			->get();
+			return view('admin.movimientos.movimientos_filtrados_v2', compact('cantidad_cobrado','cantidad_no_cobrado','cantidad_pago','cantidad_articulo','request','n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos','select_usuarios') );
+		}
+
 		public function menu_usuario()
 		{
 			$tutoriales = \Bumsgames\tutorial::All();
@@ -364,6 +498,7 @@ class ProgramController extends Controller
 			->get();
 			$title = 'Ventas generales';
 			$usuarios = \Bumsgames\BumsUser::All();
+
 			return view('admin.ventas.ventas_filtradas', compact('title', 'comments_por_aprobar', 'tutoriales', 'sales', 'usuarios', 'id_usuario', 'fecha_inicio', 'fecha_final', 'pago_sin_confirmar'));
 		}
 
@@ -1811,7 +1946,7 @@ class ProgramController extends Controller
 					$request->request->add(['informacion' => 'Compra de Articulo.']);
 					\Bumsgames\PerteneceCliente::create($request->all());
 				}
-				// $item->delete();
+				$item->delete();
 
 				$ultimo_articuloVenta = \Bumsgames\VentaArticulos::create([
 					'id_venta' => $ultima_venta->id,
@@ -2835,10 +2970,35 @@ class ProgramController extends Controller
 			$n_paginacion = 50;
 		}
 		$ventas = \Bumsgames\Venta::
-			orderby('created_at','desc')
-		->paginate($n_paginacion);;
+		orderby('created_at','desc')
+		->paginate($n_paginacion);
 
+		$day1 = \Carbon\Carbon::parse('last monday')->startOfDay()->format('Y-m-d');
+		$day2 = \Carbon\Carbon::parse('next sunday')->endOfDay()->format('Y-m-d');
+		
+		$pagado_hoy = \Bumsgames\VentaPago::
+		selectRaw('sum(monto / dolardia) as pagado')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereDate('ventas.created_at', \Carbon\Carbon::today())
+		->get();
 
+		$pagado_semana = \Bumsgames\VentaPago::
+		selectRaw('sum(monto / dolardia) as pagado')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereBetween('ventas.created_at',[$day1,$day2])
+		->get();
+
+		$invertido_hoy = \Bumsgames\VentaArticulos::
+		selectRaw('sum(costo_individual) as invertido')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereDate('ventas.created_at', \Carbon\Carbon::today())
+		->get();
+
+		$invertido_semana = \Bumsgames\VentaArticulos::
+		selectRaw('sum(costo_individual) as invertido')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereBetween('ventas.created_at',[$day1,$day2])
+		->get();
 
 		$bancos = \Bumsgames\banco_emisor::All();
 		$usuarios_sistema = \Bumsgames\BumsUser::All();
@@ -2847,10 +3007,17 @@ class ProgramController extends Controller
 		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
 		->get();
 
+		$select_usuarios =  \Bumsgames\BumsUser::where('level','>=','7')->get();
+
+		$bancos_emisores =  \Bumsgames\banco_emisor::All();
+		$monedas =  \Bumsgames\Coin::All();
+		$ubicaciones =  \Bumsgames\Ubicacion::All();
+		$categories =  \Bumsgames\Category::All();
+
 		
 
 
-		return view('admin.movimientos.ver_ventas', compact('n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos'));
+		return view('admin.movimientos.ver_ventas', compact('pagado_hoy','pagado_semana','invertido_hoy','invertido_semana','select_usuarios','n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos','bancos_emisores','monedas','ubicaciones','categories'));
 	}
 
 	public function filtrar_movimientos_bums(Request $request)

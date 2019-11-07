@@ -56,6 +56,7 @@ class Article extends Model
         return $this->belongsToMany(Image::class, 'articles_images','article_id', 'image_id');
     }
 
+
     //Coloca un valor default al peso al usar create
     //Se debe usar esto debido a que la funcion Article::create() no toma el default de la bd y hay que forzarlo
     public static function boot()
@@ -67,6 +68,7 @@ class Article extends Model
             }
         });
     }
+
     public function sale()
     {
         return $this->hasMany('Bumsgames\Sales', 'id_article');
@@ -184,6 +186,20 @@ class Article extends Model
     {
         return $this->belongsTo('Bumsgames\Ubicacion','ubicacion');
         //return $this->hasOne('Bumsgames\Ubicacion', 'ubicacion', 'id');
+    }
+
+    public function scopeConUbicacion($query, $p)
+    {   
+        if ($p != "-1") {
+            return $query->where('ubicacion',$p);
+        }
+    }
+
+    public function scopeConCorreo($query, $p)
+    {   
+        if ($p != "") {
+            return $query->where('email','like', '%' . $p . '%');
+        }
     }
 
 

@@ -349,6 +349,7 @@
 				form.action="{{route("filtrar_movimientos_bums")}}";
 				form.submit();
 		}
+		
 		function askForDavid() {
 			form.action="{{route("filtrar_movimientos_bums_david")}}";
 			form.submit();

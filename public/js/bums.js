@@ -90,35 +90,35 @@ $(document).ready(function(){
  //    });
 
  $('#oferta_filt').change(function(){
-   if($("#oferta_filt").is(':checked')){
-    oferta_filt = 1;
-}else{
-    oferta_filt = 0;
-}
-
-url = $("#buscador_ruta").val();
-
-let id_categorias = document.querySelectorAll('.ceck_cat');
-let visible_cat   = document.querySelectorAll('.visible_cat');
-
-
-var id_categorias_array = new Array();
-var visible_cat_array   = new Array();
-
-for (var i = 0; i <id_categorias.length; i++) {
-
-    if (visible_cat[i].value == 1) {
-        id_categorias_array.push(id_categorias[i].value);
+     if($("#oferta_filt").is(':checked')){
+        oferta_filt = 1;
+    }else{
+        oferta_filt = 0;
     }
-}
 
-var string = url;
-var result = string.match(/buscar_articulo_bums/i);
-if(result){
-    window.location.href = '/'+url+'oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array); 
-}else{
-    window.location.href = '/'+url+'?oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array);  
-}
+    url = $("#buscador_ruta").val();
+
+    let id_categorias = document.querySelectorAll('.ceck_cat');
+    let visible_cat   = document.querySelectorAll('.visible_cat');
+
+
+    var id_categorias_array = new Array();
+    var visible_cat_array   = new Array();
+
+    for (var i = 0; i <id_categorias.length; i++) {
+
+        if (visible_cat[i].value == 1) {
+            id_categorias_array.push(id_categorias[i].value);
+        }
+    }
+
+    var string = url;
+    var result = string.match(/buscar_articulo_bums/i);
+    if(result){
+        window.location.href = '/'+url+'oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array); 
+    }else{
+        window.location.href = '/'+url+'?oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array);  
+    }
 });
 
  $('.ceck_cat').change(function(){
@@ -344,10 +344,10 @@ function removePhotoDiv(number) {
     for (let index = 0; index < imagesUrl.length; index++) {
         var htmlTagImage = 
         '<div class="col" id="div_'+index+'">' +
-            '<img id="img_'+index+'" class="img"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
-            '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+index+');" >'+
-                'Eliminar'+
-            '</button>'+
+        '<img id="img_'+index+'" class="img"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
+        '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+index+');" >'+
+        'Eliminar'+
+        '</button>'+
         '</div>';
         $('#images_mod').append(htmlTagImage);
     }
@@ -380,12 +380,12 @@ function mostrarImagenMod(event) {
 
         var htmlTagImage = 
         '<div class="col" id="div_'+indexImage+'">' +
-            
-            '<img id="img_'+indexImage+'" class="img" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
-            '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
-                'Eliminar'+
-            '</button>'+
-            
+
+        '<img id="img_'+indexImage+'" class="img" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
+        '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
+        'Eliminar'+
+        '</button>'+
+
         '</div>';
         $('#images_mod').append(htmlTagImage);
     }
@@ -448,7 +448,7 @@ function dataURLtoFile(dataurl, filename) {
     }
     return new File([u8arr], filename, {type:mime});
 }
-    
+
 //Usage example:
 //var file = dataURLtoFile('data:image/png;base64,....', 'filename.png');
 //console.log(file);
@@ -518,8 +518,8 @@ $("#checked_envio").click(function (){
     if ($("#checked_envio").prop("checked")){
         $("#zona_envio").css("display", "block");
     }else{
-       $("#zona_envio").css("display", "none");           
-   }              
+     $("#zona_envio").css("display", "none");           
+ }              
 });
 /* */
 
@@ -556,19 +556,19 @@ $('#inputFile2').on('change',function(){
             });
 
 $('#select_user').on('change',function(){
- $("#pertenece_user").val($("#select_user").find('option:selected').val());
+   $("#pertenece_user").val($("#select_user").find('option:selected').val());
 });
 
 $("#agregar_tarea").click(function(){
- var route = '/homeworkAdd';
- var token = $('#token').val();
- var form_data = new FormData();  
- form_data.append('de_usuario', $("#de_usuario").val());   
- form_data.append('para_usuario', $("#para_usuario").val());
- form_data.append('mensaje', $("#mensaje").val());
- form_data.append('status', $("#status").val());
+   var route = '/homeworkAdd';
+   var token = $('#token').val();
+   var form_data = new FormData();  
+   form_data.append('de_usuario', $("#de_usuario").val());   
+   form_data.append('para_usuario', $("#para_usuario").val());
+   form_data.append('mensaje', $("#mensaje").val());
+   form_data.append('status', $("#status").val());
 
- $.ajax({
+   $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -599,7 +599,7 @@ $("#agregar_tarea").click(function(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- console.log("Estamos aca");
+   console.log("Estamos aca");
 });
 
 $("#modificar_tarea").click(function(){
@@ -729,10 +729,10 @@ function eliminar_nota(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-       var route = "/delete_duties/"+id+"";
+     var route = "/delete_duties/"+id+"";
 
-       var token = $('#token').val();
-       $.ajax({
+     var token = $('#token').val();
+     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -750,7 +750,7 @@ function eliminar_nota(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
-   }else{
+ }else{
     alert('Clave no autorizada');
 }
 }
@@ -765,12 +765,12 @@ function mostrar_actuales(id, a, b){
     de += b;
     var route = "/actuales/"+id+"";
     $.get(route, function(data){
-       $("#id").val(data.id);
-       $("#de_usuarioM").val(de);
-       $("#para_usuarioM").val(data.para_usuario);
-       $("#mensajeM").val(data.mensaje);
-       $("#statusM").val(data.status);
-   });
+     $("#id").val(data.id);
+     $("#de_usuarioM").val(de);
+     $("#para_usuarioM").val(data.para_usuario);
+     $("#mensajeM").val(data.mensaje);
+     $("#statusM").val(data.status);
+ });
 }
 
 function modal_orden(id, cuenta, entidad){
@@ -896,7 +896,7 @@ $.ajax({
 
 $('#borrar').off().click(function(e) {
 
- alert(111);
+   alert(111);
 
 }); 
 
@@ -1080,7 +1080,7 @@ $("#modificar_articulo").click(function(){
     form_data.append('trailer',$('#trailer').val().replace("watch?v=", "embed/"))
     // if($('#inputFile2').prop('files')[0]){
     //     form_data.append('fondo', $('#inputFile2').prop('files')[0]);
-        
+
     // }   
     var cambio_email_o_category = 0;
     var cambio_password = 0;
@@ -1158,7 +1158,7 @@ function subirFotoMod(params) {
 
     for (let index = 0; index < imagesCount; index++) {
 
-        
+
         console.log("///////////////////////////////// nueva imagen //////////////////////////////////");
         console.log("/////////////////////////////////////////////////////////////////////////////");
 
@@ -1201,7 +1201,7 @@ function subirFotoMod(params) {
             console.log("File " + index, imageFile);
         }
 
-       
+
         if(imageFile){
             var route = '/api/fotoMultipleMod';
             var form_data = new FormData(); 
@@ -1453,13 +1453,13 @@ function subirFoto(params) {
                 data:       form_data,
                 contentType: false, 
                 processData: false,
-        
+
                 success:function(data){
                     console.log("Se guardo la foto ", data);
                 },
                 error:function(msj){
                     console.log(msj);
-        
+
                     //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
                 }
             });
@@ -1619,11 +1619,11 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
 }
 
 $("#name_buscador_inteligente").on('keydown', function(){
- nombre = $("#name_buscador_inteligente").val();
- id_categoria = $("#category_buscador_inteligente").val();
- nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+   nombre = $("#name_buscador_inteligente").val();
+   id_categoria = $("#category_buscador_inteligente").val();
+   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
- if ( nombre.length <= 3 ) {
+   if ( nombre.length <= 3 ) {
     $("#table_client td").remove();
     $("#tabla-fondo").css("display", "none");
     return;
@@ -1634,11 +1634,11 @@ $("#name_buscador_inteligente").on('keydown', function(){
 });
 
 $("#name_buscador_inteligente").on('keyup', function(){
- nombre = $("#name_buscador_inteligente").val();
- id_categoria = $("#category_buscador_inteligente").val();
- nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+   nombre = $("#name_buscador_inteligente").val();
+   id_categoria = $("#category_buscador_inteligente").val();
+   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
- if(nombre.length % 3 == 0  && nombre.length > 0){
+   if(nombre.length % 3 == 0  && nombre.length > 0){
     var token = $('#token').val(); 
     var form_data = new FormData(); 
     nombre_articulo = $("#name_buscador_inteligente").val()
@@ -1858,6 +1858,37 @@ function divFunction2(id, name, lastname, contact){
     $("#table_client2 td").remove();
 }
 
+// $("#filtrar_ventas_v2").click(function(){
+//     alert(1);
+//     var route = '/filtrar_ventas_v2';
+//     var form_data = new FormData();  
+//     var token = $('#token').val();
+
+//     $.ajax({
+//         url:        route,
+//         headers:    {'X-CSRF-TOKEN':token},
+//         type:       'POST',
+//         dataType:   'json',
+//         data:       form_data,
+//         contentType: false, 
+//         processData: false,
+//         success: function(data){
+//             if(data.tipo == 1){
+
+//             }else{
+                
+//             }       
+//         },
+//         error:function(msj){
+//             var errormessages = "";
+//             $.each(msj.responseJSON, function(i, field){
+//                 errormessages+="\n"+field+"\n";
+//             });
+//             swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+//         }
+//     });
+// });
+
 $("#copia_envio").click(function(){
     $("#destinario").val($("#name_client").val()+" "+$("#lastname_client").val());
     $("#cedula_destinario").val($("#cedula_cliente").val());
@@ -1933,8 +1964,8 @@ $("#realizarVenta_v2").click(function(){
         form_data.append('name',  $("#name_client").val());
         form_data.append('lastname', $("#lastname_client").val());
         if( $("#nickname").val() ){
-           form_data.append('nickname', $("#nickname").val());
-       }else{
+         form_data.append('nickname', $("#nickname").val());
+     }else{
         var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
         nickname = nickname.replace(/\s/g,'');;
         form_data.append('nickname', nickname);
@@ -2029,38 +2060,38 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
 
     // Guarda cateorias en 1 array
     for (var i = 0; i <monto.length; i++) {
-          alert(2.1);
-        monto_aux = ((monto[i].value).split('.').join('')).split(',').join('.');
-        monto_array.push(monto_aux);
-        id_coin_array.push(id_coin[i].value);
-        bancoEmisor_array.push(bancoEmisor[i].value);
-        referencia_array.push(referencia[i].value);
-        
-        nota_venta_array.push(nota_venta[i].value);
-        alert(2);
+      alert(2.1);
+      monto_aux = ((monto[i].value).split('.').join('')).split(',').join('.');
+      monto_array.push(monto_aux);
+      id_coin_array.push(id_coin[i].value);
+      bancoEmisor_array.push(bancoEmisor[i].value);
+      referencia_array.push(referencia[i].value);
+
+      nota_venta_array.push(nota_venta[i].value);
+      alert(2);
+  }
+
+  alert(3);
+
+  form_data.append('monto_array', JSON.stringify(monto_array));
+  form_data.append('id_coin_array', JSON.stringify(id_coin_array));
+  form_data.append('bancoEmisor_array', JSON.stringify(bancoEmisor_array));
+  form_data.append('referencia_array', JSON.stringify(referencia_array));
+  form_data.append('nota_venta_array', JSON.stringify(nota_venta_array));
+
+  alert(4);
+
+
+  form_data.append('opcion_involucrado',  $("input[name='OPCinvolucrado_-1']:checked").val());
+  form_data.append('involucradoAgenteSelect', $("#involucradoAgenteSelect_-1").val());
+  if($("input[name='OPCinvolucrado_-1']:checked").val() == 4){
+    var porcentaje_voluntad = $("#porcentaje_voluntad").val();
+    if ( porcentaje_voluntad < 0 || porcentaje_voluntad ==null || porcentaje_voluntad > 100) {
+        swal("Problemas en el Porcentaje Voluntad");
+        return;
     }
-
-alert(3);
-
-    form_data.append('monto_array', JSON.stringify(monto_array));
-    form_data.append('id_coin_array', JSON.stringify(id_coin_array));
-    form_data.append('bancoEmisor_array', JSON.stringify(bancoEmisor_array));
-    form_data.append('referencia_array', JSON.stringify(referencia_array));
-    form_data.append('nota_venta_array', JSON.stringify(nota_venta_array));
-
-    alert(4);
-
-
-    form_data.append('opcion_involucrado',  $("input[name='OPCinvolucrado_-1']:checked").val());
-    form_data.append('involucradoAgenteSelect', $("#involucradoAgenteSelect_-1").val());
-    if($("input[name='OPCinvolucrado_-1']:checked").val() == 4){
-        var porcentaje_voluntad = $("#porcentaje_voluntad").val();
-        if ( porcentaje_voluntad < 0 || porcentaje_voluntad ==null || porcentaje_voluntad > 100) {
-            swal("Problemas en el Porcentaje Voluntad");
-            return;
-        }
-        form_data.append('porcentaje_voluntad', $("#porcentaje_voluntad").val());
-    }
+    form_data.append('porcentaje_voluntad', $("#porcentaje_voluntad").val());
+}
 
 }
 
@@ -2118,8 +2149,8 @@ $("#realizar_venta").click(function(){
     form_data.append('name', nombre_cliente);
     form_data.append('lastname', apellido_cliente);
     if( $("#nickname").val() ){
-     form_data.append('nickname', $("#nickname").val());
- }else{
+       form_data.append('nickname', $("#nickname").val());
+   }else{
     var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
     nickname = nickname.replace(/\s/g,'');;
     form_data.append('nickname', nickname);
@@ -2331,14 +2362,14 @@ function colocar_comision(id){
 }
 
 $("#colocar_comision").click(function(){
-   var route = '/colocar_comision';
-   var token = $('#token').val();
+ var route = '/colocar_comision';
+ var token = $('#token').val();
 
-   var form_data = new FormData();  
-   form_data.append('id',  $("#id_sale").val());   
-   form_data.append('commission', $("#commission").val());
+ var form_data = new FormData();  
+ form_data.append('id',  $("#id_sale").val());   
+ form_data.append('commission', $("#commission").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -3414,10 +3445,10 @@ function cambiaBandera(algo){
                 }
 
                 function eliminar_orden(id){
-                   var route = "/eliminar_orden/"+id+"";
+                 var route = "/eliminar_orden/"+id+"";
 
-                   var token = $('#token').val();
-                   $.ajax({
+                 var token = $('#token').val();
+                 $.ajax({
                     url:        route,
                     headers:    {'X-CSRF-TOKEN':token},
                     type:       'post',
@@ -3436,11 +3467,11 @@ function cambiaBandera(algo){
                     }
                 });
 
-               }
+             }
 
 
 
-               function AvoidSpace(event) {
+             function AvoidSpace(event) {
                 var k = event ? event.which : window.event.keyCode;
                 if (k == 32) return false;
             }
