@@ -231,10 +231,11 @@ class WebController extends Controller
 		// ->sortBy('prioridad');
 		//Crea una visita
 		\Bumsgames\Visita::create(['tipo' => 'General']);
+		$carrito = Session::get('carrito');
 
 		//dd($noticias->toArray());
 
-		return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'portal1', 'portal2', 'portal3', 'comentarios', 'noticias', 'encuesta','categorias_sub','agentes_activos'));
+		return view('webuser.index', compact('carrito','categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'portal1', 'portal2', 'portal3', 'comentarios', 'noticias', 'encuesta','categorias_sub','agentes_activos'));
 		//return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'comentarios', 'encuesta'));
 	}
 
@@ -317,8 +318,9 @@ class WebController extends Controller
 		\Bumsgames\Visita::create(['tipo' => 'General']);
 
 		$filtro_oferta = 1;
+		$carrito = Session::get('carrito');
 
-		return view('webuser.article.articulos_web', compact('filtro_oferta','n_paginacion','filtros_activos','id_ordenador','ordenador','categorias_sub','agentes_activos','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
+		return view('webuser.article.articulos_web', compact('carrito','filtro_oferta','n_paginacion','filtros_activos','id_ordenador','ordenador','categorias_sub','agentes_activos','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
 
 	}
 

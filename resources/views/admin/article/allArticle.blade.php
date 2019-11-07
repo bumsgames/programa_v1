@@ -244,8 +244,8 @@
 									
 									<div class="catefiltrar">
 										@foreach($article->categorias as $categoria)
-											<span>{{ $categoria->category }}</span>
-											<br>
+										<span>{{ $categoria->category }}</span>
+										<br>
 										@endforeach
 									</div>
 
@@ -383,10 +383,10 @@
 									<br>	
 									@endif
 									@endif
-										
+									
 									
 									@endif
-									 	
+									
 								</td>
 								<td>	
 									<span class="font-weight-bold">Cantidad:</span> 
@@ -424,14 +424,14 @@
 
 										
 
-									<form action="/buscar_articulo" method="post" target="_blank">
-										<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-										<input autocomplete="off" type="text" hidden="" value="{{ $article->id }}" name="id_art">
-										<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="" value="" Onclick="">Modificar</button>
-									</form>
-									
-									<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" Onclick="mandaridM({{$article->id}})">Eliminar</button>
-									
+										<form action="/buscar_articulo" method="post" target="_blank">
+											<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+											<input autocomplete="off" type="text" hidden="" value="{{ $article->id }}" name="id_art">
+											<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="" value="" Onclick="">Modificar</button>
+										</form>
+										
+										<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" Onclick="mandaridM({{$article->id}})">Eliminar</button>
+										
 									{{-- <button class="btn btn-primary botonCarta"
 										onclick="agregaCarro_admin('{{ $article->id }}', '{{ $article->name }}', 
 										'{{ $article->pertenece_category->category }}', 
@@ -441,7 +441,7 @@
 									</button> --}}
 
 									<button class="btn btn-primary botonCarta"
-										onclick="agregaCarro_admin(
+									onclick="agregaCarro_admin(
 										'{{ $article->id }}',
 										'{{ $article->name }}', 
 										{{ $article->categorias }}, 

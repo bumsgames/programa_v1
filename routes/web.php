@@ -110,7 +110,9 @@ Route::post('/colocar_comision','ProgramController@colocar_comision');
 Route::post('/realizar_modificacion','ProgramController@modificacion_rapida');
 Route::post('/realizar_modificacion_cliente','ProgramController@realizar_modificacion_cliente');
 Route::post('/agregaCarro_admin','ProgramController@agregaCarro_admin');
+Route::post('/deleteCart_admin','ProgramController@deleteCart_admin');
 Route::post('/eliminaTodoCarro_admin','ProgramController@deleteAllCart_admin');
+Route::post('/filtrar_ventas_v2','ProgramController@filtrar_ventas_v2');
 
 
 
@@ -153,6 +155,8 @@ Route::get('/Arecibir','HomeworkController@envios_actuales_recibir');
 Route::get('/imagenes','HomeworkController@imagenes');
 
 
+
+
 // HomeWorkController POST
 Route::post('/homeworkAdd','HomeworkController@store');
 Route::post('/homeworkEdit/{id}','HomeworkController@update2');
@@ -170,6 +174,28 @@ Route::post('/delete_imagen/{id}','HomeworkController@destroyImagen');
 Route::post('/delete_account/{id}','HomeworkController@destroyAcc');
 Route::post('/add_envios','HomeworkController@add_envios');
 Route::post('/add_imagenes','HomeworkController@add_imagenes');
+
+// GENESIS CONTROLLER
+Route::get('/ubicacion','geneController@ubicacion');
+Route::post('/agg_ubicacion','geneController@agg_ubicacion');
+Route::post('/del_ubicacion','geneController@del_ubicacion');
+Route::post('/mod_ubicacion','geneController@mod_ubicacion');
+Route::post('/modif_ubicacion','geneController@modif_ubicacion');
+
+//Controladores de Banco emisor
+Route::get('/bancoEmisor','geneController@bancoEmisor');
+
+Route::post('/agg_bancoE','geneController@agg_bancoE');
+Route::post('/del_bancos','geneController@del_bancos');
+Route::post('/mod_bancos','geneController@mod_bancos');
+Route::post('/modif_banco','geneController@modif_banco');
+
+
+
+
+
+//Cierre Genesis
+
 
 // ArticleController
 Route::resource('/registrar_articulo', 'ArticleController');

@@ -17,7 +17,6 @@
 			<li class="breadcrumb-item"><a href="#">{{ $title }}</a></li>
 		</ul>
 	</div>
-
 	
 
 
@@ -25,37 +24,37 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="tile">
-				<form action="{{url('aplicar_filtros_multiples')}}" method="POST" target="_blank">
-					{{ csrf_field() }}
-					<label>Nombre del articulo</label>
-					<input type="" name="">
-					<label>Categoria</label>
-					<input type="" name="">
-					<label>Ubicacion</label>
-					<input type="" name="">
-					<label>Vendedor</label>
-					<input type="" name="">
-					<label>Involucrado</label>
-					<input type="" name="">
-					<label>Banco Emisor</label>
-					<input type="" name="">
-					<label>Cobrado o No Cobrado</label>
-					<input type="" name="">
-					<label>Fecha</label>
-					<input type="" name="">
-					<label>ID Coin</label>
-					<input type="" name="">
-					<label>Referencia</label>
-					<input type="" name="">
-					<label>Nota Pago</label>
-					<input type="" name="">
-					<label>Cliente</label>
-					<input type="" name="">
-					<label>Envio</label>
-					<input type="" name="">
-					<label>Correo del Juego</label>
-					<input type="" name="">
-				</form>
+				
+				@include('admin.movimientos.filtros_ventas')
+
+
+				@if ( $pagado_semana[0]->pagado != null && $invertido_semana[0]->invertido != null)
+					<h3>SEMANA</h3>
+					Pagado: {{ $pagado_semana[0]->pagado }} $<br>
+					Invertido: {{ $invertido_semana[0]->invertido }} $<br>
+					Ganancia: {{ $pagado_semana[0]->pagado - $invertido_semana[0]->invertido}} $<br>
+				@endif
+
+				@if ( $pagado_hoy[0]->pagado != null && $invertido_hoy[0]->invertido != null)
+					<h3>HOY</h3>
+					Pagado: {{ $pagado_hoy[0]->pagado }} $<br>
+					Invertido: {{ $invertido_hoy[0]->invertido }} $<br>
+					Ganancia: {{ $pagado_hoy[0]->pagado - $invertido_hoy[0]->invertido}} $<br>
+				@endif
+{{-- 
+				@if (isset() && isset())
+					<h3>SEMANA</h3>
+					Pagado: <br>
+					Invertido: <br>
+					Ganancia: <br>
+				@endif --}}
+{{-- 				{{ $pagado_semana }}
+				{{ $invertido_semana }}
+				
+				{{ $pagado_hoy }}
+
+				
+				{{ $invertido_hoy }} --}}
 
 				<form class="form-inline margin" action="{{  url('n_paginacion') }}" method="get" style="float: right;">
 					<div class="form-inline">
@@ -170,9 +169,13 @@
 								<div style="border: solid 2px rgba(0,10,0,0.3); padding: 10px;">
 									<b>	Articulo:</b> {{ $articulo->articulo->name }}
 									<br>
+									<b>Ubicacion: </b>{{  $articulo->articulo->ubicacion2->nombre_ubicacion }}
+									<br>
 									@if (isset($articulo->articulo->email))
 									<b>Correo: </b> {{ $articulo->articulo->email }}
 									@endif
+
+
 									@foreach (	$articulo->articulo->categorias as $categoria)
 									<b>Categoria: </b>{{ $categoria->category }}
 									<br>	

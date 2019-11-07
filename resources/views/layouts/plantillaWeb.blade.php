@@ -284,7 +284,7 @@ duration: 450000,
       	<input type="number" id="nArt" value="{{ $i - 1}}" hidden="">
       	<div class="modal-footer">
 			<button class="shadow_ligero" type="button" id="comprarCarrito" class="btn back" 
-				style="padding: 20px; border: none;  @if(count($carrito)==0) display:none; @endif">
+			style="padding: 20px; border: none; @if(count(Session::get('carrito'))==0) display:none; @endif">
 				<img src="img/caja3.png" width="100">
 			</button>
       		{{-- <button type="button" id="cerrarCarro" class="btn back"><img src="img/back.png" width="100"></button> --}}

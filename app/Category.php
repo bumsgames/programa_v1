@@ -26,4 +26,11 @@ class Category extends Model
         return $this->belongsToMany(Article::class, 'articulo_categorias','id_categoria', 'id_articulo');
     }
 
+    public function scopeConCategoria($query, $p)
+    {   
+        if ($p != "-1") {
+            return $query->where('categories.id',$p);
+        }
+    }
+
 }
