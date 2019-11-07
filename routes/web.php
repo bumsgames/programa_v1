@@ -110,6 +110,7 @@ Route::post('/colocar_comision','ProgramController@colocar_comision');
 Route::post('/realizar_modificacion','ProgramController@modificacion_rapida');
 Route::post('/realizar_modificacion_cliente','ProgramController@realizar_modificacion_cliente');
 Route::post('/agregaCarro_admin','ProgramController@agregaCarro_admin');
+Route::post('/deleteCart_admin','ProgramController@deleteCart_admin');
 Route::post('/eliminaTodoCarro_admin','ProgramController@deleteAllCart_admin');
 Route::post('/filtrar_ventas_v2','ProgramController@filtrar_ventas_v2');
 

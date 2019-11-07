@@ -90,35 +90,35 @@ $(document).ready(function(){
  //    });
 
  $('#oferta_filt').change(function(){
-     if($("#oferta_filt").is(':checked')){
-        oferta_filt = 1;
-    }else{
-        oferta_filt = 0;
+   if($("#oferta_filt").is(':checked')){
+    oferta_filt = 1;
+}else{
+    oferta_filt = 0;
+}
+
+url = $("#buscador_ruta").val();
+
+let id_categorias = document.querySelectorAll('.ceck_cat');
+let visible_cat   = document.querySelectorAll('.visible_cat');
+
+
+var id_categorias_array = new Array();
+var visible_cat_array   = new Array();
+
+for (var i = 0; i <id_categorias.length; i++) {
+
+    if (visible_cat[i].value == 1) {
+        id_categorias_array.push(id_categorias[i].value);
     }
+}
 
-    url = $("#buscador_ruta").val();
-
-    let id_categorias = document.querySelectorAll('.ceck_cat');
-    let visible_cat   = document.querySelectorAll('.visible_cat');
-
-
-    var id_categorias_array = new Array();
-    var visible_cat_array   = new Array();
-
-    for (var i = 0; i <id_categorias.length; i++) {
-
-        if (visible_cat[i].value == 1) {
-            id_categorias_array.push(id_categorias[i].value);
-        }
-    }
-
-    var string = url;
-    var result = string.match(/buscar_articulo_bums/i);
-    if(result){
-        window.location.href = '/'+url+'oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array); 
-    }else{
-        window.location.href = '/'+url+'?oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array);  
-    }
+var string = url;
+var result = string.match(/buscar_articulo_bums/i);
+if(result){
+    window.location.href = '/'+url+'oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array); 
+}else{
+    window.location.href = '/'+url+'?oferta_filt='+oferta_filt+'&id_categorias='+JSON.stringify(id_categorias_array);  
+}
 });
 
  $('.ceck_cat').change(function(){
@@ -311,7 +311,6 @@ function init() {
 
 //Eliminar foto del frontend
 function removePhotoDiv(number) {
-
     //Recorro fotos en memoria y la elimino
     if(fotosMod.length>0){
         let borro=false;
@@ -322,7 +321,7 @@ function removePhotoDiv(number) {
                 console.log("se borro ", fotosMod);
                 borro=true;
             }
-            if(borro){
+            if(borro &&  (i !=fotosMod.length)){
                 fotosMod[i].index = fotosMod[i].index-1;
             }
         }
@@ -344,7 +343,7 @@ function removePhotoDiv(number) {
     for (let index = 0; index < imagesUrl.length; index++) {
         var htmlTagImage = 
         '<div class="col" id="div_'+index+'">' +
-        '<img id="img_'+index+'" class="img"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
+        '<img id="img_'+index+'" class="img row text-center"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
         '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+index+');" >'+
         'Eliminar'+
         '</button>'+
@@ -380,12 +379,10 @@ function mostrarImagenMod(event) {
 
         var htmlTagImage = 
         '<div class="col" id="div_'+indexImage+'">' +
-
-        '<img id="img_'+indexImage+'" class="img" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
+        '<img id="img_'+indexImage+'" class="img row text-center" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
         '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
         'Eliminar'+
         '</button>'+
-
         '</div>';
         $('#images_mod').append(htmlTagImage);
     }
@@ -518,8 +515,8 @@ $("#checked_envio").click(function (){
     if ($("#checked_envio").prop("checked")){
         $("#zona_envio").css("display", "block");
     }else{
-     $("#zona_envio").css("display", "none");           
- }              
+       $("#zona_envio").css("display", "none");           
+   }              
 });
 /* */
 
@@ -556,19 +553,19 @@ $('#inputFile2').on('change',function(){
             });
 
 $('#select_user').on('change',function(){
-   $("#pertenece_user").val($("#select_user").find('option:selected').val());
+ $("#pertenece_user").val($("#select_user").find('option:selected').val());
 });
 
 $("#agregar_tarea").click(function(){
-   var route = '/homeworkAdd';
-   var token = $('#token').val();
-   var form_data = new FormData();  
-   form_data.append('de_usuario', $("#de_usuario").val());   
-   form_data.append('para_usuario', $("#para_usuario").val());
-   form_data.append('mensaje', $("#mensaje").val());
-   form_data.append('status', $("#status").val());
+ var route = '/homeworkAdd';
+ var token = $('#token').val();
+ var form_data = new FormData();  
+ form_data.append('de_usuario', $("#de_usuario").val());   
+ form_data.append('para_usuario', $("#para_usuario").val());
+ form_data.append('mensaje', $("#mensaje").val());
+ form_data.append('status', $("#status").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -599,7 +596,7 @@ $("#agregar_tarea").click(function(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
-   console.log("Estamos aca");
+ console.log("Estamos aca");
 });
 
 $("#modificar_tarea").click(function(){
@@ -729,10 +726,10 @@ function eliminar_nota(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-     var route = "/delete_duties/"+id+"";
+       var route = "/delete_duties/"+id+"";
 
-     var token = $('#token').val();
-     $.ajax({
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -750,7 +747,7 @@ function eliminar_nota(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- }else{
+   }else{
     alert('Clave no autorizada');
 }
 }
@@ -765,12 +762,12 @@ function mostrar_actuales(id, a, b){
     de += b;
     var route = "/actuales/"+id+"";
     $.get(route, function(data){
-     $("#id").val(data.id);
-     $("#de_usuarioM").val(de);
-     $("#para_usuarioM").val(data.para_usuario);
-     $("#mensajeM").val(data.mensaje);
-     $("#statusM").val(data.status);
- });
+       $("#id").val(data.id);
+       $("#de_usuarioM").val(de);
+       $("#para_usuarioM").val(data.para_usuario);
+       $("#mensajeM").val(data.mensaje);
+       $("#statusM").val(data.status);
+   });
 }
 
 function modal_orden(id, cuenta, entidad){
@@ -896,7 +893,7 @@ $.ajax({
 
 $('#borrar').off().click(function(e) {
 
-   alert(111);
+ alert(111);
 
 }); 
 
@@ -1229,6 +1226,80 @@ function subirFotoMod(params) {
     }
 }
 
+function subirFotoNew(params) {
+    console.log("params", params);
+
+    console.log("cantidad de fotos", $("#images_mod")[0].childElementCount);
+    let imagesCount=$("#images_mod")[0].childElementCount;
+
+    for (let index = 0; index < imagesCount; index++) {
+
+        console.log("///////////////////////////////// nueva imagen //////////////////////////////////");
+        console.log("/////////////////////////////////////////////////////////////////////////////");
+
+        //Saco le etiqueta img que quiero extraer
+        imageHtml = $('#img_'+index)[0];
+        console.log("html", imageHtml);
+
+        //saco el src del img para sacarle el nombre al file
+        imageSrc = $('#img_'+index).attr('src');
+        console.log("source", imageSrc);
+
+        //Si el src viene derl servidor 
+        if(imageSrc.substr(0,4)== 'img/'){
+            console.log('si es url src');
+
+            //Se convierte la imagen desde la etiqueta en dara URl
+            imageDataUrl = getBase64Image(imageHtml);
+            //console.log("DataUrl", imageDataUrl);
+
+            //Sacamos el nombre del server
+            imageName = imageSrc.substr(4);
+            //console.log('image name',imageName);
+
+            //Creamos el File a partir de la DataUrl y el nombre.
+            imageFile = dataURLtoFile(imageDataUrl,imageName);
+            //console.log("File " + index, imageFile);
+
+        }else{
+            console.log('es un data url src, index ', index);
+            imageName = '';
+            fotosMod.forEach(element => {
+                if(element.index == index){
+                    console.log("encontre ",element);
+                    imageName = element.name;
+                }
+            });
+            imageFile = dataURLtoFile(imageSrc, imageName == '' ? undefined : imageName);
+            console.log("File " + index, imageFile);
+        }
+
+        if(imageFile){
+            var route = '/api/fotoMultiple';
+            var form_data = new FormData(); 
+            form_data.append('image', imageFile);
+            form_data.append('article_id', params.id);
+            form_data.append('number', index+1);
+
+            $.ajax({    
+                url:        route,
+                headers:    {'X-CSRF-TOKEN':token},
+                type:       'POST',
+                data:       form_data,
+                contentType: false, 
+                processData: false,
+                success:function(data){
+                    console.log("Se guardo la foto ", data);
+                },
+                error:function(msj){
+                    console.log(msj);
+                    //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                }
+            });
+        }   
+    }
+}
+
 function borrarFotoArticulo(params) {
     var route = '/api/borrarFotoArticulo';
     var form_data = new FormData(); 
@@ -1254,11 +1325,11 @@ function borrarFotoArticulo(params) {
 
 $("#registrar_articulo").click(function(){
 
-
     if($("#quantity").val() < 0){
         swal("No se puede registrar articulo con cantidad negativa");
         return;
     }
+
     let duenno = document.querySelectorAll('.id_duenno');
     let porcentaje = document.querySelectorAll('.duenno_porcentaje');
 
@@ -1271,6 +1342,23 @@ $("#registrar_articulo").click(function(){
     var porcentaje_array = new Array();
     var categoria_array = new Array();
 
+    let ofert = $("#offer_price").val();
+    let price = $("#price_in_dolar").val();
+
+    if($("#oferta option:selected").text() == 'Si'){
+        if (ofert <= price){
+            swal("No se permite colocar precio de venta mayor al precio de oferta.");
+            return;
+        }
+    }
+    
+    // else{
+    //     if(!price){
+    //         swal("Ingrese un precio de venta.");
+    //         return;
+    //     }
+    // }
+
     if(porcentaje.length == 0){
         swal('El articulo no tiene dueño, por favor colocarlo');
         return;
@@ -1280,7 +1368,6 @@ $("#registrar_articulo").click(function(){
         swal('El articulo no pertenece a ninguna categoria');
         return;
     }
-
     
     // Guarda cateorias en 1 array
     for (var i = 0; i <numero_de_categorias.length; i++) {
@@ -1306,8 +1393,6 @@ $("#registrar_articulo").click(function(){
                 return;
             }
         }
-
-        
     }
 
 
@@ -1333,7 +1418,6 @@ $("#registrar_articulo").click(function(){
     if(temp_porcentaje != 100){
         swal('La suma de los porcentajes debe ser igual a 100% \n Porcentaje = '+temp_porcentaje+' %');
         return;
-
     }
 
     if( categoria_array.length == 0 ){
@@ -1368,7 +1452,11 @@ $("#registrar_articulo").click(function(){
 
     form_data.append('oferta', $("#oferta").val());
     form_data.append('price_in_dolar', price_in_dolar);
-    form_data.append('offer_price', offer_price);
+
+    if($("#oferta option:selected").text() == 'Si'){
+        form_data.append('offer_price', offer_price);
+    }
+    
     form_data.append('quantity', $("#quantity").val());
     form_data.append('peso', $("#peso").val());
     form_data.append('email', $("#email").val());
@@ -1402,7 +1490,7 @@ $("#registrar_articulo").click(function(){
     form_data.append('id_bumsuser', JSON.stringify(duenno_array));
     form_data.append('porcentaje', JSON.stringify(porcentaje_array));
 
-    console.log("a subir", form_data);
+    //console.log("a subir", form_data);
 
     $.ajax({    
         url:        route,
@@ -1416,8 +1504,13 @@ $("#registrar_articulo").click(function(){
             if(data.tipo == 1){
                 swal(data.data);  
             }else{
-                console.log("response articulo register: ", data);
-                subirFoto(data);
+                //console.log("response articulo register: ", data);
+                //subirFoto(data);
+                let countImages = $("#images_mod")[0].childElementCount;
+                if(countImages>0){
+                    console.log("subo las fotos");
+                    subirFotoNew(data);
+                }
 
                 swal("El articulo: "+$("#name").val()+". Fue registrado con exito.");
             }
@@ -1437,35 +1530,54 @@ $("#registrar_articulo").click(function(){
 function subirFoto(params) {
     var files = $('#inputFile2').prop('files');
     console.log("files a subir", files);
-    if(files){
 
-        for (let index = 0; index < files.length; index++) {
-            var route = '/api/fotoMultiple';
-            var form_data = new FormData(); 
-            form_data.append('image', files[index]);
-            form_data.append('article_id', params.id);
-            form_data.append('number', index+1);
+    for (let index = 0; index < files.length; index++) {
+        var route = '/api/fotoMultiple';
+        var form_data = new FormData(); 
+        form_data.append('image', files[index]);
+        form_data.append('article_id', params.id);
+        form_data.append('number', index+1);
 
-            $.ajax({    
-                url:        route,
-                headers:    {'X-CSRF-TOKEN':token},
-                type:       'POST',
-                data:       form_data,
-                contentType: false, 
-                processData: false,
+        <<<<<<< HEAD
+        $.ajax({    
+            url:        route,
+            headers:    {'X-CSRF-TOKEN':token},
+            type:       'POST',
+            data:       form_data,
+            contentType: false, 
+            processData: false,
 
-                success:function(data){
-                    console.log("Se guardo la foto ", data);
-                },
-                error:function(msj){
-                    console.log(msj);
+            success:function(data){
+                console.log("Se guardo la foto ", data);
+            },
+            error:function(msj){
+                console.log(msj);
 
                     //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
                 }
             });
-        }
-        
-    }  
+    }
+
+}  
+=======
+$.ajax({    
+    url:        route,
+    headers:    {'X-CSRF-TOKEN':token},
+    type:       'POST',
+    data:       form_data,
+    contentType: false, 
+    processData: false,
+    
+    success:function(data){
+        console.log("Se guardo la foto ", data);
+    },
+    error:function(msj){
+        console.log(msj);
+                //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+            }
+        });
+}
+>>>>>>> 4a2403b2edcd6bf06b07ba10e567d3bbe34fe039
 }
 
 //ventana tipo lista
@@ -1619,11 +1731,11 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
 }
 
 $("#name_buscador_inteligente").on('keydown', function(){
-   nombre = $("#name_buscador_inteligente").val();
-   id_categoria = $("#category_buscador_inteligente").val();
-   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+ nombre = $("#name_buscador_inteligente").val();
+ id_categoria = $("#category_buscador_inteligente").val();
+ nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
-   if ( nombre.length <= 3 ) {
+ if ( nombre.length <= 3 ) {
     $("#table_client td").remove();
     $("#tabla-fondo").css("display", "none");
     return;
@@ -1634,11 +1746,11 @@ $("#name_buscador_inteligente").on('keydown', function(){
 });
 
 $("#name_buscador_inteligente").on('keyup', function(){
-   nombre = $("#name_buscador_inteligente").val();
-   id_categoria = $("#category_buscador_inteligente").val();
-   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+ nombre = $("#name_buscador_inteligente").val();
+ id_categoria = $("#category_buscador_inteligente").val();
+ nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
-   if(nombre.length % 3 == 0  && nombre.length > 0){
+ if(nombre.length % 3 == 0  && nombre.length > 0){
     var token = $('#token').val(); 
     var form_data = new FormData(); 
     nombre_articulo = $("#name_buscador_inteligente").val()
@@ -1876,7 +1988,7 @@ function divFunction2(id, name, lastname, contact){
 //             if(data.tipo == 1){
 
 //             }else{
-                
+
 //             }       
 //         },
 //         error:function(msj){
@@ -1964,8 +2076,8 @@ $("#realizarVenta_v2").click(function(){
         form_data.append('name',  $("#name_client").val());
         form_data.append('lastname', $("#lastname_client").val());
         if( $("#nickname").val() ){
-         form_data.append('nickname', $("#nickname").val());
-     }else{
+           form_data.append('nickname', $("#nickname").val());
+       }else{
         var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
         nickname = nickname.replace(/\s/g,'');;
         form_data.append('nickname', nickname);
@@ -2149,8 +2261,8 @@ $("#realizar_venta").click(function(){
     form_data.append('name', nombre_cliente);
     form_data.append('lastname', apellido_cliente);
     if( $("#nickname").val() ){
-       form_data.append('nickname', $("#nickname").val());
-   }else{
+     form_data.append('nickname', $("#nickname").val());
+ }else{
     var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
     nickname = nickname.replace(/\s/g,'');;
     form_data.append('nickname', nickname);
@@ -2362,14 +2474,14 @@ function colocar_comision(id){
 }
 
 $("#colocar_comision").click(function(){
- var route = '/colocar_comision';
- var token = $('#token').val();
+   var route = '/colocar_comision';
+   var token = $('#token').val();
 
- var form_data = new FormData();  
- form_data.append('id',  $("#id_sale").val());   
- form_data.append('commission', $("#commission").val());
+   var form_data = new FormData();  
+   form_data.append('id',  $("#id_sale").val());   
+   form_data.append('commission', $("#commission").val());
 
- $.ajax({
+   $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -2668,6 +2780,11 @@ $.ajax({
             precioAcumulado = 0;
             var badge = $("#badge");
             badge.empty();
+            console.log(data);
+            
+            if(data.length==0){
+                $('#comprarCarrito').css("display", "none");
+            }
 
             $.each(data, function(i, item) {
                 numero++;
@@ -2680,7 +2797,6 @@ $.ajax({
             $("#nArt").val(numero);
             tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td></tr>");
             badge.append(acumulado);
-
         }
     });
 
@@ -2795,6 +2911,11 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
                 '<td>' + duennosString + '</td>'+
                 '<td>' + element.cantidad + '</td>'+
                 '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
+                '<td>' + 
+                '<button type="button" class="close" onclick="removeArticleAdmin('+ i +','+ element.id_articulo +');">'+
+                '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+                '</td>'+
                 '</tr>';
                 $('#tableLyon tbody').append(htmlTags);
                 i++;
@@ -2879,6 +3000,101 @@ function activar_inventario(id) {
     }
 }
 
+function removeArticleAdmin(index,article_id) {
+    console.log(index,article_id);
+
+    var token = $('#token').val(); 
+    var form_data = new FormData();  
+    form_data.append('id_articulo', article_id);
+    var route = 'deleteCart_admin';
+    
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        dataType:   'json',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+        success:function(data){
+
+            console.log(data);
+            //return;
+            //borra la linea eliminada
+            $("#fila_" + data.articuloBorrado.id_articulo).remove();
+
+            //borra las que quedaron
+            data.articulosCarrito.forEach(element => {
+                $("#fila_" + element.id_articulo).remove();
+            });
+
+            let i = 1;
+            let precioTotal = 0;
+
+            data.articulosCarrito.forEach(element => {
+                var catagoryString = '';
+                element.articulo.categorias.forEach(element => {
+                    catagoryString = catagoryString + ''+ element.category + '<br>'
+                });
+
+                var duennosString = '';
+                element.duennos.forEach(element => {
+                    duennosString = duennosString + ''+ element.name + ' ' + element.lastname + '<br>'
+                });
+
+                var htmlTags = 
+                '<tr id="fila_'+ element.id_articulo +'">'+
+                '<td>' + i + '</td>'+
+                '<td>' + element.articulo.name + '</td>'+
+                '<td>' + catagoryString + '</td>'+
+                '<td>' + duennosString + '</td>'+
+                '<td>' + element.cantidad + '</td>'+
+                '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
+                '<td>' + 
+                '<button type="button" class="close" onclick="removeArticleAdmin('+ i +','+ element.id_articulo +');">'+
+                '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+                '</td>'+
+                '</tr>';
+                $('#tableLyon tbody').append(htmlTags);
+                i++;
+                precioTotal = precioTotal + (element.articulo.price_in_dolar * element.cantidad);                
+            });
+
+            cantidadArt = $('#cantidadDisponible_'+ data.articuloBorrado.id_articulo).text();
+            console.log("cantidad que tiene en la vista", cantidadArt);
+            console.log("cantidad que debe tener ahora", parseInt(cantidadArt) + data.articuloBorrado.cantidad);    
+            $('#cantidadDisponible_'+ data.articuloBorrado.id_articulo).text(parseInt(cantidadArt) + data.articuloBorrado.cantidad);
+
+            //activa el boton de suspender si hay mas de 1 articulo
+            if(i>=2){
+                console.log("se activa el boton");
+                $("#procederCompraAdmin").css("display", "block");
+                $("#cancelarCompraAdmin").css("display", "block");
+            }
+
+            //borro precio total para colocar el nuevo
+            $("#carritoTotal").remove(); 
+            var htmlPrecio = 
+            '<tr id="carritoTotal">'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td></td>'+
+            '<td>Total:</td>'+
+            '<td>' + precioTotal + ' $</td>'+
+            '</tr>';
+            $('#tableLyon tbody').append(htmlPrecio);
+            
+            //Actualiza la cantidad del badge
+            $('#cantCarrito').text(data.articulosCarrito.length);
+            
+            
+        }
+    });
+    
+}
+
 function BorrarTodoCarro_admin(){
 
     var opcion = confirm("¿Seguro que desea cancelar el carrito? Se eliminaran todos los productos del carrito.");
@@ -2935,8 +3151,6 @@ function BorrarTodoCarro_admin(){
         console.log("selecciono cancelar");
         return;
     }
-    
-    
 }
 
 function nicknameAleatorio(nombre_cliente, apellido_cliente){
@@ -3445,10 +3659,10 @@ function cambiaBandera(algo){
                 }
 
                 function eliminar_orden(id){
-                 var route = "/eliminar_orden/"+id+"";
+                   var route = "/eliminar_orden/"+id+"";
 
-                 var token = $('#token').val();
-                 $.ajax({
+                   var token = $('#token').val();
+                   $.ajax({
                     url:        route,
                     headers:    {'X-CSRF-TOKEN':token},
                     type:       'post',
@@ -3467,11 +3681,11 @@ function cambiaBandera(algo){
                     }
                 });
 
-             }
+               }
 
 
 
-             function AvoidSpace(event) {
+               function AvoidSpace(event) {
                 var k = event ? event.which : window.event.keyCode;
                 if (k == 32) return false;
             }

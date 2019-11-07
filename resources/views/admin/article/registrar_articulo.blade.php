@@ -55,13 +55,17 @@
 										</strong>
 									</label>
 									<div class="custom-file">
-										<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es" multiple accept="image/*">
+										<input name="image" id="inputFileMod" type="file" class="custom-file-input" lang="es" accept="image/*">
 										<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
 										<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
 									</div>
 
-									<div id="images">
-										{{-- <img id="img2" width="175"><br/> --}}
+									{{-- <div id="images">
+										<img id="img2" width="175"><br/> 
+									</div> --}}
+
+									<div class="row" id="images_mod">
+
 									</div>
 									
 								</div>
@@ -185,8 +189,8 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-12 col-lg">
-								<div class="form-group">
+							<div class="col-12 col-lg" style="display:none;" id="offer_price_div">
+								<div class="form-group" >
 									<label for=""><strong> Precio Subrayado ($). SOLO OFERTA</strong></label>
 									<input value="0" class="form-control form-control-sm numero_separador" type="text" autocomplete="off" name="offer_price" id="offer_price"
 									value="100" placeholder="">

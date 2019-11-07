@@ -154,7 +154,7 @@ class ProgramController extends Controller
 			$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
 			->get();
 
-
+			$ubicaciones = \Bumsgames\Ubicacion::All();
 
 			return view('layouts.menu', compact(
 				'carrito',
@@ -169,7 +169,8 @@ class ProgramController extends Controller
 				'tutoriales',
 				'pago_sin_confirmar',
 				'articles_off',
-				'articulo_registrado_recientemente'
+				'articulo_registrado_recientemente',
+				'ubicaciones'
 			));
 		} 
 
@@ -962,14 +963,13 @@ class ProgramController extends Controller
 	public function inventarioList(Request $request, $id)
 	{
 		if($id != 0 ){
-			$titulo = 'PROBANDO';
+			$titulo = 'Productos sin Categoria';
 		}else{
 			dd(0);
 		}
 
-
-
-
+		$ubicacion = \Bumsgames\Ubicacion::where('id', $id)->first();
+		//dd($ubicacion);
 
 		$articulos = \Bumsgames\Article::
 		leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
@@ -1044,7 +1044,7 @@ class ProgramController extends Controller
 
 		//dd($ubicaciones->toArray());
 
-		return view('admin.article.inventarioList2', compact('articulos','titulo','carrito','tutoriales','categories', 'ubicaciones'));
+		return view('admin.article.inventarioList2', compact('articulos','titulo','carrito','tutoriales','categories', 'ubicaciones','ubicacion'));
 	}
 
 	public function allArticle()
@@ -4143,6 +4143,28 @@ class ProgramController extends Controller
 
 	function deleteCart_admin(Request $request){
 
+		//return response()->json($request->All());
+		$item_carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())->where('id_articulo', $request->id_articulo)->first();
+		$item_carrito->delete();
+
+		//return response()->json($item_carrito);
+
+		//dd($item_carrito);
+
+		if($item_carrito){
+			$item = \Bumsgames\Article::where('id', $request->id_articulo)->first();
+			$item->fill(['quantity' => $item->quantity + $item_carrito->cantidad]);
+			$item->save();
+		}
+		
+		$items_carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())->get();
+
+		foreach ($items_carrito as $item) {
+			$item['articulo'] = \Bumsgames\Article::with('categorias')->where('id', $item->id_articulo)->first();
+			$item['duennos'] = $item['articulo']->duennos;
+		}
+
+		return response()->json(['articulosCarrito'=> $items_carrito,'articuloBorrado'=>$item_carrito]);
 	}
 
 	public function eliminarmodal($id)

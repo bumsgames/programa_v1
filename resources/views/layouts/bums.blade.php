@@ -188,6 +188,7 @@
                 <th>Dueños</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
+                <th></th>
               </tr>
             </thead>
             {{-- <tbody id="tablaCarrito2"> --}}
@@ -200,8 +201,7 @@
               @foreach( $carrito as $item )
               <tr id="fila_{{$item->articulo->id}}">
                 <th>
-
-                  <?php echo $i++; ?>.
+                  <?php echo $i; ?>.
                 </th>
                 <th>
                   {{ $item->articulo->name }}
@@ -226,7 +226,13 @@
                   {{ $item->cantidad * $item->articulo->price_in_dolar }} $
                   <?php $precio = $precio + ($item->cantidad * $item->articulo->price_in_dolar); ?>
                 </th>
+                <th>
+                  <button type="button" class="close" onclick="removeArticleAdmin({{$i}},{{$item->articulo->id}});">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </th>
               </tr>
+              <?php $i++; ?>
               @endforeach
               <tr id="carritoTotal">
                 <th>
@@ -325,6 +331,18 @@
           <li><a class="treeview-item" href="{{ url('articulosSinImagen') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Imagenes</a></li>
           <li><a class="treeview-item" href="{{ url('articulosSinPeso') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Peso</a></li>
           <li><a class="treeview-item" href="{{ url('inventario') }}"><i class="icon fa fa-circle-o"></i> Inventario</a></li>
+        </ul>
+      </li>
+
+      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          @foreach ($ubicaciones as $ubicacion)   
+            <li>
+              <a class="treeview-item" href="{{ url('inventario',$ubicacion->id) }}">
+                <i class="icon fa fa-circle-o"></i> {{$ubicacion->nombre_ubicacion}}
+              </a>
+            </li>
+          @endforeach
         </ul>
       </li>
       {{-- @if(Auth::user()->level >= 7)

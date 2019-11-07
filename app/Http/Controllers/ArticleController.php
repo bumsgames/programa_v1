@@ -104,13 +104,16 @@ class ArticleController extends Controller
       ]);
     }
   }
+  
 
-    // Validacion Oferta
-  if (($request->offer_price <= $request->price_in_dolar)) {
-    return response()->json([
-      "tipo" => "1",
-      "data" => "El precio subrayado no puede ser menor o igual al precio de Venta (unitario).\n\n\nPrecio Unitario: " . $request->price_in_dolar . " $.\n\nPrecio de subrayado: " . $request->offer_price . " $",
-    ]);
+  // Validacion Oferta
+  if($request->offer_price){
+    if (($request->offer_price <= $request->price_in_dolar)) {
+      return response()->json([
+        "tipo" => "1",
+        "data" => "El precio subrayado no puede ser menor o igual al precio de Venta (unitario).\n\n\nPrecio Unitario: " . $request->price_in_dolar . " $.\n\nPrecio de subrayado: " . $request->offer_price . " $",
+      ]);
+    }
   }
 
     // No numero negativo en Inversion // Aqui falta que los otros montos tampoco sean negativos, si pueden ser 0

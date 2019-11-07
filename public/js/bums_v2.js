@@ -120,6 +120,15 @@ $("#seldu").on( "change", function(){
     }).show();
 });
 
+$("#oferta").on( "change", function(){
+    if($("#oferta option:selected").text() == 'Si'){
+        $('#offer_price_div').css('display','block');
+    }else{
+        $('#offer_price_div').css('display','none');
+        $("#offer_price").val(null);
+    }
+});
+
 $("#correofiltro").on('keyup', function() {
     var rex = new RegExp($(this).val(), 'i');
     $('.prod').filter(function () {
