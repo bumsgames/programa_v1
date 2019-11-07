@@ -3976,6 +3976,28 @@ class ProgramController extends Controller
 
 	function deleteCart_admin(Request $request){
 
+		//return response()->json($request->All());
+		$item_carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())->where('id_articulo', $request->id_articulo)->first();
+		$item_carrito->delete();
+
+		//return response()->json($item_carrito);
+
+		//dd($item_carrito);
+
+		if($item_carrito){
+			$item = \Bumsgames\Article::where('id', $request->id_articulo)->first();
+			$item->fill(['quantity' => $item->quantity + $item_carrito->cantidad]);
+			$item->save();
+		}
+		
+		$items_carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())->get();
+
+		foreach ($items_carrito as $item) {
+			$item['articulo'] = \Bumsgames\Article::with('categorias')->where('id', $item->id_articulo)->first();
+			$item['duennos'] = $item['articulo']->duennos;
+		}
+
+		return response()->json(['articulosCarrito'=> $items_carrito,'articuloBorrado'=>$item_carrito]);
 	}
 
 	public function eliminarmodal($id)

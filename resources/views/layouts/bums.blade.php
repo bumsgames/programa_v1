@@ -188,6 +188,7 @@
                 <th>Dueños</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
+                <th></th>
               </tr>
             </thead>
             {{-- <tbody id="tablaCarrito2"> --}}
@@ -200,8 +201,7 @@
               @foreach( $carrito as $item )
               <tr id="fila_{{$item->articulo->id}}">
                 <th>
-
-                  <?php echo $i++; ?>.
+                  <?php echo $i; ?>.
                 </th>
                 <th>
                   {{ $item->articulo->name }}
@@ -226,7 +226,13 @@
                   {{ $item->cantidad * $item->articulo->price_in_dolar }} $
                   <?php $precio = $precio + ($item->cantidad * $item->articulo->price_in_dolar); ?>
                 </th>
+                <th>
+                  <button type="button" class="close" onclick="removeArticleAdmin({{$i}},{{$item->articulo->id}});">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </th>
               </tr>
+              <?php $i++; ?>
               @endforeach
               <tr id="carritoTotal">
                 <th>

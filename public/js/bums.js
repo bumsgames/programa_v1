@@ -2728,6 +2728,11 @@ $.ajax({
             precioAcumulado = 0;
             var badge = $("#badge");
             badge.empty();
+            console.log(data);
+            
+            if(data.length==0){
+                $('#comprarCarrito').css("display", "none");
+            }
 
             $.each(data, function(i, item) {
                 numero++;
@@ -2740,7 +2745,6 @@ $.ajax({
             $("#nArt").val(numero);
             tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td></tr>");
             badge.append(acumulado);
-
         }
     });
 
@@ -2855,6 +2859,11 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
                 '<td>' + duennosString + '</td>'+
                 '<td>' + element.cantidad + '</td>'+
                 '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
+                '<td>' + 
+                    '<button type="button" class="close" onclick="removeArticleAdmin('+ i +','+ element.id_articulo +');">'+
+                        '<span aria-hidden="true">&times;</span>'+
+                    '</button>'+
+                '</td>'+
                 '</tr>';
                 $('#tableLyon tbody').append(htmlTags);
                 i++;
@@ -2939,6 +2948,101 @@ function activar_inventario(id) {
     }
 }
 
+function removeArticleAdmin(index,article_id) {
+    console.log(index,article_id);
+
+    var token = $('#token').val(); 
+    var form_data = new FormData();  
+    form_data.append('id_articulo', article_id);
+    var route = 'deleteCart_admin';
+    
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'POST',
+        dataType:   'json',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+        success:function(data){
+
+            console.log(data);
+            //return;
+            //borra la linea eliminada
+            $("#fila_" + data.articuloBorrado.id_articulo).remove();
+
+            //borra las que quedaron
+            data.articulosCarrito.forEach(element => {
+                $("#fila_" + element.id_articulo).remove();
+            });
+
+            let i = 1;
+            let precioTotal = 0;
+
+            data.articulosCarrito.forEach(element => {
+                var catagoryString = '';
+                element.articulo.categorias.forEach(element => {
+                    catagoryString = catagoryString + ''+ element.category + '<br>'
+                });
+
+                var duennosString = '';
+                element.duennos.forEach(element => {
+                    duennosString = duennosString + ''+ element.name + ' ' + element.lastname + '<br>'
+                });
+
+                var htmlTags = 
+                '<tr id="fila_'+ element.id_articulo +'">'+
+                    '<td>' + i + '</td>'+
+                    '<td>' + element.articulo.name + '</td>'+
+                    '<td>' + catagoryString + '</td>'+
+                    '<td>' + duennosString + '</td>'+
+                    '<td>' + element.cantidad + '</td>'+
+                    '<td>' + element.articulo.price_in_dolar * element.cantidad + '</td>'+
+                    '<td>' + 
+                        '<button type="button" class="close" onclick="removeArticleAdmin('+ i +','+ element.id_articulo +');">'+
+                            '<span aria-hidden="true">&times;</span>'+
+                        '</button>'+
+                    '</td>'+
+                '</tr>';
+                $('#tableLyon tbody').append(htmlTags);
+                i++;
+                precioTotal = precioTotal + (element.articulo.price_in_dolar * element.cantidad);                
+            });
+
+            cantidadArt = $('#cantidadDisponible_'+ data.articuloBorrado.id_articulo).text();
+            console.log("cantidad que tiene en la vista", cantidadArt);
+            console.log("cantidad que debe tener ahora", parseInt(cantidadArt) + data.articuloBorrado.cantidad);    
+            $('#cantidadDisponible_'+ data.articuloBorrado.id_articulo).text(parseInt(cantidadArt) + data.articuloBorrado.cantidad);
+
+            //activa el boton de suspender si hay mas de 1 articulo
+            if(i>=2){
+                console.log("se activa el boton");
+                $("#procederCompraAdmin").css("display", "block");
+                $("#cancelarCompraAdmin").css("display", "block");
+            }
+
+            //borro precio total para colocar el nuevo
+            $("#carritoTotal").remove(); 
+            var htmlPrecio = 
+            '<tr id="carritoTotal">'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td></td>'+
+                '<td>Total:</td>'+
+                '<td>' + precioTotal + ' $</td>'+
+            '</tr>';
+            $('#tableLyon tbody').append(htmlPrecio);
+            
+            //Actualiza la cantidad del badge
+            $('#cantCarrito').text(data.articulosCarrito.length);
+            
+            
+        }
+    });
+    
+}
+
 function BorrarTodoCarro_admin(){
 
     var opcion = confirm("¿Seguro que desea cancelar el carrito? Se eliminaran todos los productos del carrito.");
@@ -2995,8 +3099,6 @@ function BorrarTodoCarro_admin(){
         console.log("selecciono cancelar");
         return;
     }
-    
-    
 }
 
 function nicknameAleatorio(nombre_cliente, apellido_cliente){
