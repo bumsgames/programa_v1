@@ -1538,7 +1538,6 @@ function subirFoto(params) {
         form_data.append('article_id', params.id);
         form_data.append('number', index+1);
 
-        <<<<<<< HEAD
         $.ajax({    
             url:        route,
             headers:    {'X-CSRF-TOKEN':token},
@@ -1559,26 +1558,6 @@ function subirFoto(params) {
     }
 
 }  
-=======
-$.ajax({    
-    url:        route,
-    headers:    {'X-CSRF-TOKEN':token},
-    type:       'POST',
-    data:       form_data,
-    contentType: false, 
-    processData: false,
-    
-    success:function(data){
-        console.log("Se guardo la foto ", data);
-    },
-    error:function(msj){
-        console.log(msj);
-                //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
-            }
-        });
-}
->>>>>>> 4a2403b2edcd6bf06b07ba10e567d3bbe34fe039
-}
 
 //ventana tipo lista
 $("#actualizar_uss").click(function(){
