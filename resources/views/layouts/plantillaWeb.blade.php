@@ -272,7 +272,6 @@ duration: 450000,
       						@if($precio != 0)
       						<strong>Total:<br> {{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong>
       						@endif
-<<<<<<< HEAD
 
       					</td>
       				</tr>
@@ -284,38 +283,12 @@ duration: 450000,
       	<br>	
       	<input type="number" id="nArt" value="{{ $i - 1}}" hidden="">
       	<div class="modal-footer">
-      		<button class="shadow_ligero" type="button" id="comprarCarrito" class="btn back" style="padding: 20px; border: none;"><img src="img/caja3.png" width="100"></button>
+			<button class="shadow_ligero" type="button" id="comprarCarrito" class="btn back" 
+				style="padding: 20px; border: none;  @if(count($carrito)==0) display:none; @endif">
+				<img src="img/caja3.png" width="100">
+			</button>
       		{{-- <button type="button" id="cerrarCarro" class="btn back"><img src="img/back.png" width="100"></button> --}}
       	</div>
-=======
-      						<tr>
-      							<td>	
-      							</td>
-      							<td>	
-      							</td>
-
-      							<td>
-      								@if($precio != 0)
-      								<strong>Total:<br> {{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong>
-      								@endif
-
-      							</td>
-      						</tr>
-      					</tbody>
-      				</table>
-      			</div>
-
-      			
-      			<br>	
-      			<input type="number" id="nArt" value="{{ $i - 1}}" hidden="">
-      			<div class="modal-footer">
-					<button class="shadow_ligero" type="button" id="comprarCarrito" class="btn back" 
-					  style="padding: 20px; border: none;  @if(count($carrito)==0) display:none; @endif">
-					  <img src="img/caja3.png" width="100">
-					</button>
-      				{{-- <button type="button" id="cerrarCarro" class="btn back"><img src="img/back.png" width="100"></button> --}}
-      			</div>
->>>>>>> b61954011d43fe0e7db27b23de158819f3d196c7
 
       </div>
 
