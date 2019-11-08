@@ -69,7 +69,7 @@
 				
 				{{-- <strong>{{ $articulo->name }}</strong> --}}
 			</center>
-			({{ $articulo->cantidad }})
+			<span hidden>({{ $articulo->quantity }})</span> 
 		</div>
 
 		<div class="carta_categoria" style="color: black;">

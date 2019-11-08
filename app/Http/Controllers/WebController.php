@@ -439,7 +439,7 @@ class WebController extends Controller
 
 		$filtrado_cat = 1;
 
-		$articulos = \Bumsgames\Article::select('articles.id','name','fondo','estado','offer_price','price_in_dolar','oferta')
+		$articulos = \Bumsgames\Article::select('articles.id','name','fondo','estado','offer_price','price_in_dolar','oferta','quantity')
 		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
 		->BuscaCategoria($id_categorias)
 		->where('quantity', '>', 0)
@@ -481,6 +481,10 @@ class WebController extends Controller
 		$buscador_ruta = 'articulos_web';
 		\Bumsgames\Visita::create(['tipo' => 'General']);
 		$filtro_oferta = 1;
+
+		//dd(Session::get('carrito'));
+		//dd($articulos->toArray());
+
 		return view('webuser.article.articulos_web', compact('filtrado_cat','filtro_oferta','n_paginacion','filtros_activos','id_ordenador','ordenador','categorias_sub','agentes_activos','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
 	}
 
@@ -1164,13 +1168,13 @@ class WebController extends Controller
 		}
 
 		function agregaCarro(Request $request)
-		{
+		{	
+			
 			
 			$cantidad = 1;
 			$cantidad_total = $request->cantidad;
 			$carrito = Session::get('carrito');
 
-			
 			if(isset($carrito)){
 				foreach ($carrito as $key ) {
 					if($request->id == $key['id']){
@@ -1199,11 +1203,19 @@ class WebController extends Controller
 				'cantidad' => $cantidad,
 			]);
 
-
 			Session::push('carrito', $elemento);
-			$carrito = Session::get('carrito');
 
-			return response()->json($carrito);
+			$carritos = Session::get('carrito');
+			$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+
+			foreach ($carritos as $carro ){
+				$carro['category'] = \Bumsgames\Category::where('id', $carro['categoria'])->first();
+				//$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+				$carro['priceUnitedBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+				$carro['priceTotalBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+			}
+
+			return response()->json($carritos);
 		}
 
 		function borrarElementoCarrito(Request $request)
@@ -1216,14 +1228,24 @@ class WebController extends Controller
 			$x = array_values($x);
 			Session::put('carrito', $x);
 
-			$carrito = Session::get('carrito');
-			return response()->json($carrito);
+			$carritos = Session::get('carrito');
 
-		// // $x = Session::get('carrito')[$request->elemento - 1];
-		// unset(Session::get('carrito')[$request->elemento - 1]);
-		// return Session::get('carrito');
-		// // return Session::get('carrito');
-		// return $x;
+			$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+			
+			foreach ($carritos as $carro ){
+				$carro['category'] = \Bumsgames\Category::where('id', $carro['categoria'])->first();
+				//$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+				$carro['priceUnitedBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+				$carro['priceTotalBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+			}
+
+			return response()->json($carritos);
+
+			// // $x = Session::get('carrito')[$request->elemento - 1];
+			// unset(Session::get('carrito')[$request->elemento - 1]);
+			// return Session::get('carrito');
+			// // return Session::get('carrito');
+			// return $x;
 		}
 
 		function filtrar_articulos(Request $request)
