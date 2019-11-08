@@ -4,7 +4,7 @@
 <main class="app-content">
 	<div class="app-title">
 		<div>
-			<h1><i class="fa fa-dashboard"></i> Sub categorias </h1>
+			<h1> CATEGORIAS </h1>
 			<p>Aqui es donde comienza todo.</p>
 		</div>		
 	</div>
@@ -32,6 +32,16 @@
 				<hr>
 				<h3>LISTA DE CATEGORIAS</h3>
 				<table class="table">
+					<thead>
+						<tr>
+							<td>
+								<h6>Nombre de Categoria</h6>
+							</td>
+							<td>
+								<h6>Estilo de Categoria</h6>
+							</td>
+						</tr>
+					</thead>
 
 
 					@foreach ($subCategoria as $categoria)

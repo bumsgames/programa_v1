@@ -235,7 +235,7 @@
 								<button type="button" id="votar_btn" class="btn btn-dark text-center btn-block">Votar</button>
 								<button type="button" id="mostrar_btn" class="btn text-center btn-light border border-dark btn-block">Ver resultados</button>
 								@else
-								Gracias por votar amig@ :)
+								Gracias por votar amig@ :) <div id="gracias" style="display: none;">Gracias por votar amig@ :)</div>
 								@endif
 
 								<button style="display:none" type="button" id="regresar_btn" class="btn text-center btn-light border border-dark btn-block">Regresar</button>
@@ -288,6 +288,7 @@
 						$('.division_encuesta').hide();
 						$('.encuesta-resultado').show();
 					});
+					$('#gracias').css("display", "block");
 					$("#votar_btn").attr("disabled", true);;	
 					$('#regresar_btn').hide();
 					$('#votar_btn').hide();

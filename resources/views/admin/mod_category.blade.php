@@ -17,10 +17,8 @@
 					{{ csrf_field() }}
 					
 
-					Modificar categorias
-					<hr>	
-
-					<center><div class="row">
+					<center>
+						<div class="row">
 				
 						<div  class="form-group col-12 ">
 							<input type="text" value="{{ $categoria->id}}" name="id" hidden="" >
@@ -28,7 +26,23 @@
 							<input  value="{{ $categoria->category }}" autocomplete="off" type="text" class="form-control" name="category" >
 						</div>
 		               </div>
-					<button class="btn btn-primary my-1 mr-sm-2" id="" type="submit">REGISTRAR</button></center>
+		               <div class="row">
+							<div  class="form-group col-12 ">
+								<label>Pertenece a Categoria</label>
+								<select name="id_categoria" class="form-control">
+									<?php $cont=0?>
+									{{ $Categoria_SubCategoria }}
+
+									@foreach($Categoria_SubCategoria as $categoria)
+									{{ $categoria }}
+									<option style="color:black;" value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+									@endforeach
+
+								</select>
+							</div>
+
+						</div>
+					<button class="btn btn-primary my-1 mr-sm-2" id="" type="submit">GUARDAR CAMBIOS</button></center>
 				</form>
 				<hr>
 

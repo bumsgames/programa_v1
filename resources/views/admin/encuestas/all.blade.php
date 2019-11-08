@@ -119,6 +119,7 @@
                                     </div>
                                     @endforeach
                                 </td>
+                                
                                 <td class="align-middle">
                                     <a href="/encuestas/editar/{{$encuesta->id}}" class="btn btn-info">Editar</a> 
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarmodal" id="modaltrigger" onclick="modaltrigger({{$encuesta->id}},'{{$encuesta->nombre}}')">

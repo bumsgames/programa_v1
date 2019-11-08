@@ -16,14 +16,14 @@
     @foreach($encuesta->Options as $option)
     <?php $opciones++;?>
     
-    <div class="division_encuesta">
+    <div class="division_encuesta" style="margin-bottom: 20px;">
 
         <div class="custom-control custom-radio encuesta-option">
             <input type="radio" class="custom-control-input" id="option_{{$opciones}}" name="respuesta" value="{{$option->id}}">
             <label class="custom-control-label" for="option_{{$opciones}}">{{$option->nombre}}</label>
         </div>
     </div>
-    
+
     @endforeach 
     @else
     <div class="encuesta-option">
@@ -66,7 +66,7 @@
         margin: 10px;
         color: white;
         border-radius: 20px;
-        margin-bottom: 20px;
+        
     }
 
     .custom-radio, .custom-control-input, .custom-control-label{
