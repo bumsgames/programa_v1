@@ -58,6 +58,8 @@ class Venta extends Model
         }
     }
 
+    
+
     public function scopeFecha($query, $p)
     {  
         if (isset($p['fecha_inicio']) && isset($p['fecha_final'])) {

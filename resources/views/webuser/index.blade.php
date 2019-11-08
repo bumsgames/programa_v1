@@ -224,12 +224,13 @@
 						<form action="" method="POST">
 							<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 							<div class="card-body">
-								<h5 class="card-title"><strong>{{$encuesta->nombre}}</strong></h5>
+								<h3 class="card-title"><strong>{{$encuesta->nombre}}</strong></h3>
 								<div id="encuesta-section">
 									@include('admin.encuestas.section')
 								</div>
 							</div>
 							<div class="card-footer text-muted">
+								
 								@if(Session::get('poll_voted') != $encuesta->id)
 								<button type="button" id="votar_btn" class="btn btn-dark text-center btn-block">Votar</button>
 								<button type="button" id="mostrar_btn" class="btn text-center btn-light border border-dark btn-block">Ver resultados</button>
@@ -280,13 +281,15 @@
 			success: function (data) { 
 				if(data.success){
 					$('#encuesta-section').fadeOut();
+
 					$('#encuesta-section').load('/encuestas/user/show', function() {
 						$('#encuesta-section').fadeIn();
 						$('.encuesta-option').hide();
+						$('.division_encuesta').hide();
 						$('.encuesta-resultado').show();
 					});
 					$("#votar_btn").attr("disabled", true);;	
-					$('#regresar_btn').show();
+					$('#regresar_btn').hide();
 					$('#votar_btn').hide();
 					$('#mostrar_btn').hide();
 				}

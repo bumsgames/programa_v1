@@ -29,7 +29,8 @@ class Article extends Model
         'costo',
         'estado',
         'trailer',
-        'ubicacion'
+        'ubicacion',
+        'fecha_agotado',
     ];
 
     public function categorias()
@@ -199,6 +200,32 @@ class Article extends Model
     {   
         if ($p != "") {
             return $query->where('email','like', '%' . $p . '%');
+        }
+    }
+
+    public function scopeDisponibilidad($query, $disponible)
+    {   
+        if (isset($disponible)) {
+            if ($disponible == 1) {
+                return $query->where('quantity', '>=', 1);
+            }
+            if ($disponible == 0) {
+                return $query->where('quantity', '<=', 0);
+            }
+        }
+    }
+
+    public function scopeCreador($query, $p)
+    {   
+        if ($p != 0) {
+            return $query->where('id_creator', '%' . $p . '%');
+        }
+    }
+
+    public function scopeNickname($query, $p)
+    {   
+        if ($p != "") {
+            return $query->where('nickname', 'LIKE', '%' . $p . '%');
         }
     }
 

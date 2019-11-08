@@ -190,6 +190,20 @@ Route::post('/del_bancos','geneController@del_bancos');
 Route::post('/mod_bancos','geneController@mod_bancos');
 Route::post('/modif_banco','geneController@modif_banco');
 
+//Controlador para categorias
+Route::get('/categorias','geneController@categorias');
+Route::post('/agg_categorias','geneController@agg_categorias');
+Route::post('/del_categorias','geneController@del_categorias');
+Route::post('/mod_categorias','geneController@mod_categorias');
+Route::post('/categorias_mod','geneController@categorias_mod');
+
+//Controlador sub_categorias
+Route::get('/sub_categorias','geneController@sub_categorias');
+Route::post('/agg_subCategorias','geneController@agg_subCategorias');
+Route::post('/del_subCategorias','geneController@del_subCategorias');
+Route::post('/mod_subCategorias','geneController@mod_subCategorias');
+Route::post('/modif_subCategorias','geneController@modif_subCategorias');
+
 
 
 
@@ -399,6 +413,9 @@ Route::get('mailpago','mailController@EnviarPago');
 
 //Articulos sin imagenes
 Route::get('/articulosSinImagen','ProgramController@Articulos_Sin_Imagen');
+
+Route::get('/Articulos_sinCategoria','ProgramController@Articulos_sinCategoria');
+Route::get('/Articulos_sinPeso','ProgramController@Articulos_sinPeso');
 
 //Agregar imagen
 Route::post('/actualizarImagen/{id}','ProgramController@Actualizar_Imagen');

@@ -324,25 +324,32 @@
           <li><a class="treeview-item" href="{{ url('allArticlesOff') }}"><i class="icon fa fa-circle-o"></i> Articulos Agotados</a></li>
           --}} {{--
           <li><a class="treeview-item" href="allArticlesPS3"><i class="icon fa fa-circle-o"></i> Articulos de ps3</a></li> --}}
-          <li><a class="treeview-item" href="{{ url('misArticles') }}"><i class="icon fa fa-circle-o"></i> Mis Articulos</a></li>
+          {{-- <li><a class="treeview-item" href="{{ url('misArticles') }}"><i class="icon fa fa-circle-o"></i> Mis Articulos</a></li> --}}
           <li><a class="treeview-item" href="{{ url('misArticles_lista_escrita') }}" target="_blank"><i class="icon fa fa-circle-o"></i> Mis Articulos (lista escrita)</a></li>
           <li><a class="treeview-item" href="{{ url('modo_ml') }}"><i class="icon fa fa-circle-o"></i> Modo Mercadolibre</a></li>
-          <li><a class="treeview-item" href="{{ url('articles_web') }}"><i class="icon fa fa-circle-o"></i> Articulos en la Pagina Web</a></li>
-          <li><a class="treeview-item" href="{{ url('articulosSinImagen') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Imagenes</a></li>
-          <li><a class="treeview-item" href="{{ url('articulosSinPeso') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Peso</a></li>
-          <li><a class="treeview-item" href="{{ url('inventario') }}"><i class="icon fa fa-circle-o"></i> Inventario</a></li>
+          {{-- <li><a class="treeview-item" href="{{ url('articles_web') }}"><i class="icon fa fa-circle-o"></i> Articulos en la Pagina Web</a></li> --}}
+          <li><a class="treeview-item" href="{{ url('articulosSinImagen') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Imagen(es)</a></li>
+          <li><a class="treeview-item" href="{{ url('Articulos_sinCategoria') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Categoria(s)</a></li>
+
+          <li><a class="treeview-item" href="{{ url('Articulos_sinPeso') }}"><i class="icon fa fa-circle-o"></i> Juego Digitales Sin Peso</a></li>
+          
         </ul>
       </li>
 
       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          @foreach ($ubicaciones as $ubicacion)   
+           <li>
+              <a class="treeview-item" href="{{ url('inventario',1) }}">
+                <i class="icon fa fa-circle-o"></i> Inventario
+              </a>
+            </li>
+          {{-- @foreach ($ubicaciones as $ubicacion)   
             <li>
               <a class="treeview-item" href="{{ url('inventario',$ubicacion->id) }}">
                 <i class="icon fa fa-circle-o"></i> {{$ubicacion->nombre_ubicacion}}
               </a>
             </li>
-          @endforeach
+          @endforeach --}}
         </ul>
       </li>
       {{-- @if(Auth::user()->level >= 7)
@@ -372,7 +379,7 @@
           @endif
           <li><a class="treeview-item" href="/movimientos_personal"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
           
-          <li><a class="treeview-item" href="/movimientos_tuyos"><i class="icon fa fa-circle-o"></i>Movimientos Personales (Generales)</a></li>
+         {{--  <li><a class="treeview-item" href="/movimientos_tuyos"><i class="icon fa fa-circle-o"></i>Movimientos Personales (Generales)</a></li> --}}
           
         </ul>
       </li>
@@ -452,6 +459,8 @@
         <ul class="treeview-menu">
           <li><a class="treeview-item" href="{{ url('ubicacion') }}"><i class="icon fa fa-circle-o"></i>Ubicacion</a></li>
           <li><a class="treeview-item" href="{{ url('bancoEmisor') }}"><i class="icon fa fa-circle-o"></i>Banco emisor</a></li>
+          <li><a class="treeview-item" href="{{ url('categorias') }}"><i class="icon fa fa-circle-o"></i>Categorias de juegos</a></li>
+          <li><a class="treeview-item" href="{{ url('sub_categorias') }}"><i class="icon fa fa-circle-o"></i>Sub categorias</a></li>
         </ul>
       </li>
       <li>
