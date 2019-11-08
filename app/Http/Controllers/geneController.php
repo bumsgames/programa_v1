@@ -161,5 +161,136 @@ class geneController extends Controller
 
 
  }
+   public function categorias(){
+
+     // dd(	$request->all());
+
+     $tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+     
+     $categorias = \Bumsgames\Category::All();
+     
+     return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito'));
+
+ }
+ public function agg_categorias(Request $request){
+      // dd(	$request->all());
+ 	$nombre = \Bumsgames\Category::create($request->all());
+
+      // dd(1);
+ 	 $tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+     $categorias = \Bumsgames\Category::All();
+     
+     return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito'));  
+
+ }
+ public function del_categorias(Request $request){
+
+
+     \Bumsgames\Category::find($request->eliminar_id)->delete();;
+
+ 	$tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+     $categorias = \Bumsgames\Category::All();
+     
+     return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito')); 
+ }
+ public function mod_categorias(Request $request){
+
+ 	$categoria = \Bumsgames\Category::find($request->modificar_id);
+
+     $tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+   
+     return view ('admin.mod_category', compact('categoria','tutoriales','carrito'));
+ }
+
+ public function categorias_mod(Request $request){
+ 	    // dd(	$request->all());
+
+ 	   $categorys = \Bumsgames\Category::find($request->id);
+       $categorys->fill($request->all());
+       $categorys->save();
+
+       $tutoriales = \Bumsgames\tutorial::All();
+	   $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+	     ->get();
+
+       
+       $categorias = \Bumsgames\Category::All();  
+   
+    return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito')); 
+ }
+
+  public function sub_categorias(){
+
+     // dd(	$request->all());
+
+     $tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+     
+     $subCategoria = \Bumsgames\Categoria_SubCategoria::All();
+     
+     return view ('admin.subCategorias', compact('subCategoria','tutoriales','carrito'));
+
+ }
+ public function agg_subCategorias(Request $request){
+
+     // dd(	$request->all());
+
+     \Bumsgames\Categoria_SubCategoria::create($request->All());
+     $tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+     
+     $subCategoria = \Bumsgames\Categoria_SubCategoria::All();
+     
+     return view ('admin.subCategorias', compact('subCategoria','tutoriales','carrito'));
+
+ }
+ public function del_subCategorias(Request $request){
+
+      // dd(	$request->all());
+     \Bumsgames\Categoria_SubCategoria::find($request->eliminar_id)->delete();;
+
+ 	$tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+     $subCategoria = \Bumsgames\Categoria_SubCategoria::All();
+     
+     return view ('admin.subCategorias', compact('subCategoria','tutoriales','carrito')); 
+ }
+
+ public function mod_subCategorias(Request $request){
+   
+     $Subcategoria = \Bumsgames\Categoria_SubCategoria::find($request->modificar_id);
+
+     $tutoriales = \Bumsgames\tutorial::All();
+     $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+     ->get();
+   
+     return view ('admin.mod_Subcategory', compact('Subcategoria','tutoriales','carrito'));
+ }
+  public function  modif_subCategorias(Request $request){
+   
+       $categorys = \Bumsgames\Categoria_SubCategoria::find($request->id);
+       $categorys->fill($request->all());
+       $categorys->save();
+
+       $tutoriales = \Bumsgames\tutorial::All();
+	   $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+	     ->get();
+
+       
+       $subCategoria = \Bumsgames\Categoria_SubCategoria::All();  
+   
+    return view ('admin.subCategorias', compact('subCategoria','tutoriales','carrito')); 
+ }
 
 }

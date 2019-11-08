@@ -31,6 +31,7 @@
                     {{-- <hr> --}}
                     <?php $i = 1; ?>
                     <?php $categoria = ''; ?>
+                    @php $total = 0; @endphp
 
                     @foreach($articulos as $articulo)
                         @if($articulo->category != $categoria)
@@ -49,12 +50,15 @@
                                     <td><strong><?php echo $i++; ?></strong>.</td>
                                     <td>{{$articulo->name }}</td>
                                     <td>Cantidad: {{ $articulo->quantity }}</td>
-                                    <td>Precio: {{ $articulo->price_in_dolar }}</td>
+                                    <td>Precio: {{ $articulo->price_in_dolar }} $</td>
+                                     @php $total += $articulo->price_in_dolar; @endphp
                                     <td>Ubicación: {{ $articulo->ubicacion }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     @endforeach
+                    <br>
+                    <h3>Inventario valorado en aproximadamente: {{ $total }} $</h3>
                 </div>
             </div>
         </div>

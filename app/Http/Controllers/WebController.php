@@ -180,7 +180,7 @@ class WebController extends Controller
 		leftjoin('articles', 'articles.id', '=', 'venta_articulos.id_articulo')
 		->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
-		->select(\DB::raw("name,category, sum(cantidad) as ventas"))
+		->select(\DB::raw("name,categories.category, sum(cantidad) as ventas"))
 		->groupby('articles.name','categories.category')
 		
 		->whereDate('venta_articulos.created_at', \Carbon\Carbon::today())

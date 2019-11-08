@@ -8,7 +8,6 @@ class Category extends Model
 {
 	protected $fillable = [
 		'category',
-		'id_categoria',
 	];
 
 
@@ -28,7 +27,7 @@ class Category extends Model
 
     public function scopeConCategoria($query, $p)
     {   
-        if ($p != "-1") {
+        if ($p != "0") {
             return $query->where('categories.id',$p);
         }
     }

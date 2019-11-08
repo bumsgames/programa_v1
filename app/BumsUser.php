@@ -31,4 +31,12 @@ class BumsUser extends Authenticatable
     {
         return $this->belongsToMany('Bumsgames\Article');
     }
+
+    public function scopeDueño($query, $p)
+    {   
+       
+        if ($p != "0") {
+            return $query->where('id_bumsuser', $p);
+        }
+    }
 }

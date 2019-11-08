@@ -18,6 +18,11 @@ class VentaPago extends Model
 		'dolardia',
 	];
 
+    public function venta()
+    {
+        return $this->belongsTo('Bumsgames\Venta', 'id_venta'); // Le indicamos que se va relacionar con el atributo id
+    }
+
 	public function pagoInvolucrados()
     {
     	return $this->hasMany('Bumsgames\pagoInvolucrados','id_pago');

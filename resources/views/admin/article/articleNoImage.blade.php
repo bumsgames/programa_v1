@@ -32,10 +32,10 @@
                 <tbody>
                     @forelse($articles as $article)
                     <tr>
-                        <td scope="row">{{$article->id}}</td>
-                        <td>{{$article->name}}</td>
-                        <td>{{$article->pertenece_category->category}}</td>
-                        <td>
+                        <td scope="row">ID: {{$article->id_articulo}}</td>
+                        <td>{{ $article->name }}</td>
+                        <td>{{ $article->category }}</td>
+                       {{--  <td>
                             <form action="/actualizarImagen/{{$article->id}}" method="post" enctype="multipart/form-data">
                                 <input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 
@@ -49,11 +49,11 @@
                             <div style="text-align:center;">
                                     <img id="img2" width="175">
                                 </div>
-                        </td>
+                        </td> --}}
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="text-center"><strong><h5>No hay productos sin imagen</h5></strong></td>
+                        <td colspan="4" class="text-center"><strong><h5>No se han encontrado productos con estas caracteristicas</h5></strong></td>
                     </tr>
                     @endforelse
                 </tbody>

@@ -4,6 +4,7 @@ namespace Bumsgames\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use Auth;
 use Bumsgames\Poll;
 use Bumsgames\Poll_Option;
 
@@ -16,14 +17,20 @@ class EncuestaController extends Controller
         $tutoriales = \Bumsgames\tutorial::All();
         $title = "Todas las Encuestas";
         $encuestas = Poll::paginate(40);
-        return view('admin.encuestas.all', compact('tutoriales', 'title', 'encuestas'));
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+        return view('admin.encuestas.all', compact('tutoriales', 'title', 'encuestas','carrito'));
     }
 
     //Devuelve el formulario de creacion de una encuesta
     public function create()
     {
+
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+
         $tutoriales = \Bumsgames\tutorial::All();
-        return view('admin.encuestas.create', compact('tutoriales'));
+        return view('admin.encuestas.create', compact('tutoriales','carrito'));
     }
 
     //Crea una encuesta nueva
@@ -32,20 +39,29 @@ class EncuestaController extends Controller
         $encuesta = new Poll;
         $encuesta->nombre = $request->titulo;
         $encuesta->save();
+        
         //Devuelve el array de las opciones (todos los inputs comparten el mismo name para lograr esto)
         $opciones = $request->get('opcion');
         //Devuelve el array de colores
         $colores = $request->get('col_nom');
-        $numero = 0;
+        
         //Itera sobre las opciones y las guarda
-        foreach ($opciones as $opcion) {
-            $numero++;
+
+
+        $numero = 0;
+
+        $opciones_array = array_flatten($opciones);
+
+        foreach ($colores as $color) {
+            print_r($numero);
             $opc = new Poll_Option;
-            $opc->nombre = $opcion;
+            $opc->nombre =  $opciones_array[$numero];
             $opc->Fk_Poll = $encuesta->id;
-            $opc->color = $colores[$numero];
+            $opc->color = $color;
             $opc->save();
+            $numero++;
         }
+
         return redirect('/encuestas');
     }
 
@@ -54,7 +70,11 @@ class EncuestaController extends Controller
     {
         $tutoriales = \Bumsgames\tutorial::All();
         $encuesta = Poll::find($id);
-        return view('admin.encuestas.edit', compact('tutoriales', 'encuesta'));
+
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+
+        return view('admin.encuestas.edit', compact('tutoriales', 'carrito'));
     }
 
     //Edita la encuesta
