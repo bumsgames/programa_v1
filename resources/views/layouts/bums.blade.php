@@ -429,8 +429,7 @@
                </span><i class="treeview-indicator fa fa-angle-right"></i></a>
 
                <ul class="treeview-menu">
-                <li><a class="treeview-item" href="/comentariosall"><i class="icon fa fa-circle-o"></i>Todos los comentarios</a></li>
-                <li><a class="treeview-item" href="/comentariospendientes"><i class="icon fa fa-circle-o"></i>Comentarios por aprobar</a></li>
+                <li><a class="treeview-item" href="/comentariosall"><i class="icon fa fa-circle-o"></i>Cometarios por aprobar</a></li>
                 <li><a class="treeview-item" href="/comentariosaprobados"><i class="icon fa fa-circle-o"></i>Comentarios aprobados</a></li>
                 <li><a class="treeview-item" href="/comentariosrechazados"><i class="icon fa fa-circle-o"></i>Comentarios rechazados</a></li>
               </ul>
@@ -459,8 +458,9 @@
         <ul class="treeview-menu">
           <li><a class="treeview-item" href="{{ url('ubicacion') }}"><i class="icon fa fa-circle-o"></i>Ubicacion</a></li>
           <li><a class="treeview-item" href="{{ url('bancoEmisor') }}"><i class="icon fa fa-circle-o"></i>Banco emisor</a></li>
-          <li><a class="treeview-item" href="{{ url('categorias') }}"><i class="icon fa fa-circle-o"></i>Categorias de juegos</a></li>
-          <li><a class="treeview-item" href="{{ url('sub_categorias') }}"><i class="icon fa fa-circle-o"></i>Sub categorias</a></li>
+          <li><a class="treeview-item" href="{{ url('sub_categorias') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
+          <li><a class="treeview-item" href="{{ url('categorias') }}"><i class="icon fa fa-circle-o"></i>Sub-Categorias</a></li>
+          
         </ul>
       </li>
       <li>

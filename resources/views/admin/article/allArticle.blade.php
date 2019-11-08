@@ -16,7 +16,7 @@
 				<h6>Mostrando del {{($articles->perPage())*($articles->currentPage()-1)+1}} al {{($articles->perPage() * $articles->currentPage())-($articles->perPage() - $articles->count())}} de {{$articles->total()}} resultados</h6>
 				<h6>Numero de articulos: {{ $articles_cantidad }}</h6>
 				@endif
- --}}
+				--}}
 				@if(isset($articlesLista))
 				LISTA DE CANTITADES
 				<br>	
@@ -338,6 +338,7 @@
 								<td>
 									{{-- {{ $article->categorias[0]->category }} --}}
 									
+									@if (isset($article->categorias[0]))
 									@if ((strpos($article->categorias[0]->category,'Cuenta') !== false) 
 									|| (strpos($article->categorias[0]->category,'Cupo') !== false))
 
@@ -384,6 +385,7 @@
 									@endif
 									
 									
+									@endif
 									@endif
 									
 								</td>

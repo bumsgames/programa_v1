@@ -4,7 +4,7 @@
 <main class="app-content">
 	<div class="app-title">
 		<div>
-			<h1><i class="fa fa-dashboard"></i> Modificar Sub Categorias</h1>
+			<h1> Modificar Categoria</h1>
 			<p>Aqui es donde comienza todo.</p>
 		</div>		
 	</div>
@@ -15,9 +15,7 @@
 
 				<form action="{{ url('modif_subCategorias') }}" method="POST">
 					{{ csrf_field() }}					
-
-					Modificar banco
-					<hr>	
+	
 
 					<center><div class="row">
 						<div  class="form-group col-12 ">

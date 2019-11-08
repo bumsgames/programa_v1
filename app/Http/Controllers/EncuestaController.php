@@ -68,13 +68,14 @@ class EncuestaController extends Controller
     //Devuelve el formulario de edicion
     public function editar($id)
     {
+
         $tutoriales = \Bumsgames\tutorial::All();
         $encuesta = Poll::find($id);
 
         $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
         ->get();
 
-        return view('admin.encuestas.edit', compact('tutoriales', 'carrito'));
+        return view('admin.encuestas.edit', compact('tutoriales', 'carrito','encuesta'));
     }
 
     //Edita la encuesta
@@ -88,15 +89,24 @@ class EncuestaController extends Controller
         //Devuelve el array de colores
         $colores = $request->get('col_nom');
         $numero = 0;
-        //Itera sobre las opciones y las guarda
-        foreach ($opciones as $opcion) {
-            $numero++;
-            $opc = new Poll_Option;
-            $opc->nombre = $opcion;
-            $opc->Fk_Poll = $encuesta->id;
-            $opc->color = $colores[$numero];
-            $opc->save();
+
+        if($colores != null){
+            $colores_array = array_flatten($colores);
+
+
+            //Itera sobre las opciones y las guarda
+            foreach ($opciones as $opcion) {   
+                $opc = new Poll_Option;
+                $opc->nombre = $opcion;
+                $opc->Fk_Poll = $encuesta->id;
+                $opc->color = $colores_array[$numero];
+                $opc->save();
+                $numero++;
+            }
         }
+        
+        
+        
 
         return redirect('/encuestas');
     }

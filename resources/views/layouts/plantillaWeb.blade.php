@@ -53,7 +53,7 @@
 		<div class="col-1" style="color: white; font-size: 25px; z-index: 100; background-color: black;">
 			<div class="container">
 				<i class="fab fa-twitter-square" style="margin-right: 5px;"></i>
-				<i class="fab fa-twitch" style="margin-right: 5px;"></i>
+				
 				<a href="https://www.facebook.com/bumsgamesoficial" style="color:white;"> <i class="fab fa-facebook-square" style="margin-right: 5px;"></i></a>
 				<a href="https://www.instagram.com/bumsgames/"  style="color:white;"><i class="fab fa-instagram" style="margin-right: 5px;"></i></a>
 			</div>

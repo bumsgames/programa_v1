@@ -8,11 +8,13 @@ class Category extends Model
 {
 	protected $fillable = [
 		'category',
+		// PlayStation, Xbox (Este modelo es SubCategoria	)
+		'id_categoria',
 	];
 
 
-	public function prueba(){
-		return $this;
+	public function PerteneceCategoria(){
+		return $this->belongsTo('Bumsgames\Categoria_SubCategoria', 'id_categoria');
 	}
 
 	public function scopePs4($query)
