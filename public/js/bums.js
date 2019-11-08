@@ -2671,6 +2671,8 @@ $.ajax({
     var route = 'borrarElementoCarrito';
     var form_data = new FormData();  
     form_data.append('elemento', a);
+
+
     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
@@ -2680,6 +2682,7 @@ $.ajax({
         contentType: false, 
         processData: false,
         success:function(data){
+
             var tablaDatos = $("#tablaCarrito");
             tablaDatos.empty();
             var i = 0;
@@ -2701,10 +2704,32 @@ $.ajax({
                 acumulado++;
                 borrado = i;
                 precioAcumulado+= Number(item.precio) * Number(e) ;
-                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button style='color: white;' type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+
+                var htmlTags = 
+                    '<tr>'+
+                        '<td>'+i+'</td>'+
+                        '<td>' +
+                            '<input type="text" class="id_articulo" value="'+item.id+'" hidden>'+
+                            item.articulo +' || ' + item.category.category +
+                        '</td>'+
+                        '<td>' + item.cantidad + '</td>'+
+                        '<td>' + item.priceTotalBs + ' Bs ('+item.priceUnitedBs+ ' Bs )' +'</td>'+
+                        '<td>' + 
+                            '<img src="img/'+item.imagen+'" width="40" height="45" alt="">'+
+                        '</td>'+
+                        '<td>' + 
+                            '<button type="button" class="close" style="color: white;" onclick="borrarElementoCarrito('+ borrado +','+ e +',\'' +f+ '\');">'+
+                                '<span aria-hidden="true">&times;</span>'+
+                            '</button>'+
+                        '</td>'+
+                    '</tr>'
+                ;
+                tablaDatos.append(htmlTags);
+
+                //tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button style='color: white;' type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
             });
             $("#nArt").val(numero);
-            tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td></tr>");
+            tablaDatos.append("<tr><td></td><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td><td></td><td></td></tr>");
             badge.append(acumulado);
         }
     });
@@ -2731,6 +2756,9 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
         contentType: false, 
         processData: false,
         success:function(data){
+
+            //console.log(data);
+
             if(data.tipo == 1){
                 swal(data.data);
                 
@@ -2752,10 +2780,33 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
                     acumulado++;
                     borrado = i;
                     precioAcumulado+= Number(item.precio * item.cantidad) * Number(e) ;
-                    tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e * item.cantidad)+"("+formatCurrency(item.precio * e )+")"+f+"</td><td>"+item.cantidad+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+
+                    var htmlTags = 
+                    '<tr>'+
+                        '<td>'+i+'</td>'+
+                        '<td>' +
+                            '<input type="text" class="id_articulo" value="'+item.id+'" hidden>'+
+                            item.articulo +' || ' + item.category.category +
+                        '</td>'+
+                        '<td>' + item.cantidad + '</td>'+
+                        '<td>' + item.priceTotalBs + ' Bs ('+item.priceUnitedBs+ ' Bs )' +'</td>'+
+                        '<td>' + 
+                            '<img src="img/'+item.imagen+'" width="40" height="45" alt="">'+
+                        '</td>'+
+                        '<td>' + 
+                            '<button type="button" class="close" style="color: white;" onclick="borrarElementoCarrito('+ borrado +','+ e +',\'' +f+ '\');">'+
+                                '<span aria-hidden="true">&times;</span>'+
+                            '</button>'+
+                        '</td>'+
+                    '</tr>';
+                    tablaDatos.append(htmlTags);
+
+                    //tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e * item.cantidad)+"("+formatCurrency(item.precio * e )+")"+f+"</td><td>"+item.cantidad+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>"); 
+
                 });
+
                 $("#nArt").val(numero);
-                tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
+                tablaDatos.append("<tr><td></td><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td><td></td><td></td></tr>");
                 badge.append(acumulado);
             }
         }

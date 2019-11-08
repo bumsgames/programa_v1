@@ -225,9 +225,32 @@ duration: 450000,
       --}}
       <br>
       <div class="container" style="font-size: 20px;">		
-      	<div class="container contcarrito">	
+      	<div class="contcarrito">	
       		<br>	
       		<table class="table ">
+				
+				<thead>
+					<tr>
+						<th>
+							#
+						</th>
+						<th>
+							Nombre || Categoria
+						</th>
+						<th>
+							Cantidad
+						</th>
+						<th>
+							Precio
+						</th>
+						<th>
+
+						</th>
+						<th>
+
+						</th>
+					</tr>
+				</thead>
       			<tbody id="tablaCarrito">
       				<?php $i = 1; ?>
       				<?php $precio = 0; ?>
@@ -237,22 +260,29 @@ duration: 450000,
       				@foreach( Session::get('carrito') as $x )
       				<tr>
       					<th>
-      						<?php echo $i++; ?>
+							<?php echo $i++; ?>
+							@php
+							$category = $categorias->where('id',$x['categoria']);
+							@endphp
       					</th>
       					<td>
       						<input autocomplete="off" type='text' class='id_articulo' value='{{ $x['id'] }}' hidden="">
-      						{{ $x['articulo'] }} || {{ $x['categoria'] }}
-      					</td>
+      						{{ $x['articulo'] }} || {{$category[0]->category}}
+						</td>
+						<td>
+							{{$x['cantidad']}}
+						</td>
       					<td class="columna_precio">
-      						{{  number_format($x['precio'] * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+							  {{  number_format(($x['precio'] * $x['cantidad']) * $moneda_actual->valor, 2, ',', '.')  }} {{ $moneda_actual->sign }} 
+							  ({{ number_format($x['precio'] * $moneda_actual->valor, 2, ',', '.')  }} {{ $moneda_actual->sign }})
       						<?php $precio += $x['precio']; ?>
       					</td>
       					<td>
       						<img src="img/{{ $x['imagen'] }}" width="40" height="45" alt="">
-
       					</td>
       					<td>
-      						<button style="color: black !important;" type="button" class="close" onclick="borrarElementoCarrito({{ $i - 1 }}, {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
+							  <button style="color: black !important;" type="button" class="close" 
+							  onclick="borrarElementoCarrito({{ $i - 1 }}, {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
       							<span aria-hidden="true">&times;</span>
       						</button>
       					</td>
@@ -267,13 +297,15 @@ duration: 450000,
       					</td>
       					<td>	
       					</td>
-
+						<td>
+						</td>
       					<td>
       						@if($precio != 0)
       						<strong>Total:<br> {{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong>
       						@endif
-
-      					</td>
+						</td>
+						<td></td>
+						<td></td>
       				</tr>
       			</tbody>
       		</table>
@@ -606,14 +638,14 @@ data-ad-client="ca-pub-2298464716816209">
 
 
 		function goRight(){ // inner stuff slides left
-			var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
-			var newLeftMargin = (initalLeftMargin - margen_carrito); // extra 2 for border
-			$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
+			//var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
+			//var newLeftMargin = (initalLeftMargin - margen_carrito); // extra 2 for border
+			//$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
 		}
 		function goLeft(){ // inner stuff slides right
-			var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
-			var newLeftMargin = (initalLeftMargin + margen_carrito); // extra 2 for border
-			$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
+			//var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
+			//var newLeftMargin = (initalLeftMargin + margen_carrito); // extra 2 for border
+			//$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
 		}
 
 		$('form .submit-link').on({
