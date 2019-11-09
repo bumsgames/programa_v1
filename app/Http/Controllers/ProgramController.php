@@ -756,12 +756,15 @@ class ProgramController extends Controller
 
 	public function actualizar_uss(Request $request)
 	{
+
 		if (isset($request->password)) {
 			$request->request->add(['password' => bcrypt($request->password)]);
 		}
+		
 		$usuario = \Bumsgames\BumsUSer::find($request->id);
 		$usuario->fill($request->all());
 		$usuario->save();
+
 		$titulo = 'USUARIO ACTUALIZADO';
 		$data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
 		$data2 = '';
@@ -770,9 +773,9 @@ class ProgramController extends Controller
 			$user->notify(new TaskCompleted($titulo, $data, $data2));
 		}
 
-
 		return response()->json([
-			"mensaje" => "Modificado"
+			"mensaje" => "Modificado",
+			"data"=> $usuario
 		]);
 	}
 

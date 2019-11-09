@@ -4,6 +4,15 @@ function mandaridM(id){
     $("#id_eliminar").val(id);
 }
 
+function mandaridMM(id, level_user){
+    if(level_user>=8){
+        $("#id_eliminar").val(id);
+        $(".modal").trigger("click");
+    }else{
+        swal('No tienes permisos suficientes para eliminar esta imagen');
+    }
+}
+
 function ventaDirect(){
     swal('Para eliminar una venta debe dirigirse a movimientos');
 }
@@ -140,22 +149,53 @@ function eliminar_reporte(){
 function Eliminar_articulo(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
-    if(clave=='1'){
-       var route = "/delete_articulo/"+id+"";
-       var token = $('#token').val();
-       $.ajax({
+
+    var route = "/verifyPass";
+    var token = $('#token').val();
+    var form_data = new FormData;
+    form_data.append('password', clave);
+
+    $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
         dataType:   'json',
+        data:       form_data,
         contentType: false, 
         processData: false,
         success:function(data){
-            swal("Articulo eliminado.");
-            // setTimeout(function() 
-            // {
-            //     location.reload(); 
-            // }, 2000);
+            console.log(data);
+            if(data.data==true){
+
+                var route = "/delete_articulo/"+id+"";
+                var token = $('#token').val();
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
+                        swal("Articulo eliminado.");
+                        setTimeout(function() 
+                        {
+                            location.reload(); 
+                        }, 2000);
+                    },
+                    error:function(msj){
+                        var errormessages = "";
+                        $.each(msj.responseJSON, function(i, field){
+                            errormessages+="\n"+field+"\n";
+                        });
+                        swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                    }
+                });
+
+            }else{
+                swal(data.error);
+                return;
+            }
         },
         error:function(msj){
             var errormessages = "";
@@ -167,9 +207,6 @@ function Eliminar_articulo(){
             swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
-   }else{
-    swal('Clave no autorizada');
-}
 }
 function Eliminar_envios(){
     var id = $("#id_eliminar").val();
@@ -231,32 +268,71 @@ function Eliminar_cuenta(){
 function Eliminar_imagen(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
-    if(clave=='spiderman1995'){
-       var route = "/delete_imagen/"+id+"";
-       var token = $('#token').val();
-       $.ajax({
+
+
+    var route = "/verifyPass";
+    var token = $('#token').val();
+    var form_data = new FormData;
+    form_data.append('password', clave);
+
+    $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
         dataType:   'json',
+        data:       form_data,
         contentType: false, 
         processData: false,
         success:function(data){
-            swal("Imagen eliminada.");
-            // setTimeout(function() 
-            // {
-            //     location.reload(); 
-            // }, 2000);
+            console.log(data);
+            if(data.data==true){
+                
+                console.log("paso data true");
+                var route = "/delete_imagen/"+id+"";
+                var token = $('#token').val();
+                
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
 
+                        console.log(data);
+                        swal("Imagen eliminada.");
+                        // setTimeout(function() 
+                        // {
+                        //     location.reload(); 
+                        // }, 2000);
+
+                    },
+                    error:function(msj){
+                        swal("Error.", "Revisa los datos suministrados.", "error");
+                    }
+                });
+
+            }
+
+            if(data.data==false){
+                console.log("paso data false");
+                swal(data.error);
+                return;
+            }
         },
         error:function(msj){
-            swal("Error.", "Revisa los datos suministrados.", "error");
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
-   }else{
-    swal('Clave no autorizada');
 }
-}
+
 
 function mostrar_orden(id, a, b){
     var de = a;

@@ -431,7 +431,10 @@
 											<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="" value="" Onclick="">Modificar</button>
 										</form>
 										
-										<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" Onclick="mandaridM({{$article->id}})">Eliminar</button>
+										<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" 
+										Onclick="mandaridM({{$article->id}})">
+											Eliminar
+										</button>
 										
 									{{-- <button class="btn btn-primary botonCarta"
 										onclick="agregaCarro_admin('{{ $article->id }}', '{{ $article->name }}', 

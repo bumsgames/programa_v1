@@ -23,6 +23,7 @@ Route::resource('/logloglog','BumsUserController');
 Route::post('/crear_usuario','BumsUserController@crear_usuario');
 Route::post('/actualizar_user','BumsUserController@actualizar_user');
 Route::post('/logueo','BumsUserController@logueo');
+Route::post('/verifyPass','BumsUserController@verifyPass');
 
 // ProgramController GET
 Route::get('/factura/{id}','ProgramController@factura');

@@ -716,11 +716,22 @@ function modificar_user(id){
     $.get(route, function(data){
         var tabla
         $.each(data, function(i, item) {
+            console.log(data);
             $("#name_modificar").val(item.name);
             $("#last_modificar").val(item.lastname);
             $("#email_modificar").val(item.email);
             $("#nickname_modificar").val(item.nickname);
             $("#nivel_modificar").val(item.level);
+            $("#phoneMod").val(item.telefono);
+
+            //let prueba = item.porcentaje_ventaPropia * 100;
+            //console.log(prueba);
+            $("#porcentaje_ventaPropiaMod").val(item.porcentaje_ventaPropia * 100);
+            $("#porcentaje_ventaParcialMod").val(item.porcentaje_ventaParcial * 100);
+            $("#porcentaje_ventaAjenaMod").val(item.porcentaje_ventaAjena * 100);
+            $("#porcentaje_ventaPorOtraPersonaMod").val(item.porcentaje_ventaPorOtraPersona * 100);
+
+            $("#activeMod").val(item.active);
             $("#img2").attr("src","img/"+item.image);
         });
     });
@@ -1495,11 +1506,21 @@ $("#actualizar_uss").click(function(){
     var id = $("#id_usuario").val();
     var route = "/actualizar_uss";
     var form_data = new FormData();  
+
     form_data.append('id',  id);
     form_data.append('name',  $("#name_modificar").val());
     form_data.append('lastname',  $("#last_modificar").val());
     form_data.append('email',  $("#email_modificar").val());
     form_data.append('nickname',  $("#nickname_modificar").val());
+    form_data.append('telefono',  $("#telefonoMod").val());
+    form_data.append('active',  $("#activeMod").val());
+
+    console.log('venta otra persona %', $("#porcentaje_ventaPorOtraPersonaMod").val()  / 100);
+    
+    form_data.append('porcentaje_ventaPropia',  $("#porcentaje_ventaPropiaMod").val()  / 100 );
+    form_data.append('porcentaje_ventaAjena',  $("#porcentaje_ventaAjenaMod").val()  / 100 );
+    form_data.append('porcentaje_ventaParcial',  $("#porcentaje_ventaParcialMod").val()  / 100 );
+    form_data.append('porcentaje_ventaPorOtraPersona',  $("#porcentaje_ventaPorOtraPersonaMod").val()  / 100 );
 
     if($("#password_modificar").val()){
         form_data.append('password',  $("#password_modificar").val());
@@ -1507,10 +1528,8 @@ $("#actualizar_uss").click(function(){
     if($('#nivel_modificar').val()){
         form_data.append('level',  $("#nivel_modificar").val());
     }  
-
     if($('#inputFile2').prop('files')[0]){
         form_data.append('image', $('#inputFile2').prop('files')[0]);
-
     }
     // if($('#inputFile1').prop('files')[0]){
     //     form_data.append('image', $('#inputFile1').prop('files')[0]);
@@ -1525,10 +1544,14 @@ $("#actualizar_uss").click(function(){
         processData: false,
 
         success:function(data){
+
+            console.log(data);
+
             swal("Usuario modificado.");
             $(".modal-backdrop").remove(); 
             $(".modal").hide();
             $(".modal").trigger("click");
+            window.location.reload();
         },
         error:function(msj){
             var errormessages = "";
@@ -1553,6 +1576,9 @@ $("#actualizar_uss2").click(function(){
     form_data.append('lastname',  $("#last_modificar").val());
     form_data.append('email',  $("#email_modificar").val());
     form_data.append('nickname',  $("#nickname_modificar").val());
+
+    form_data.append('telefono',  $("#telefonoMod").val());
+    form_data.append('active',  $("#activeMod").val());
 
     if($("#password_modificar").val()){
         form_data.append('password',  $("#password_modificar").val());

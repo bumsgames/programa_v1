@@ -43,8 +43,8 @@
 						</div>
 						<br>
 						<div class="row">
-						<div class="col-12 col-lg">
-						<label for=""><strong>Correo</strong></label>
+							<div class="col-12 col-lg">
+								<label for=""><strong>Correo</strong></label>
 								<input class="form-control form-control-sm" 
 								type="text" id="email_modificar"
 								placeholder=""
@@ -60,7 +60,30 @@
 								>
 							</div>
 						</div>
-						<br>
+
+						<div class="row mt-3">
+							<div class="col">
+								<div class="form-group">
+									<label for=""> <strong>¿Activo?</strong></label>
+									<select id="activeMod" class="form-control" name="active">
+										<option value="1">Si</option>
+										<option value="0">No</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col">
+								<div class="form-group">
+									<label for=""> <strong>Teléfono</strong></label>
+									<input type="text" pattern="^[0-9]+" id="telefonoMod"
+									class="form-control" 
+									name="telefono" 
+									autocomplete="off">
+								</div>
+							</div>
+						</div>
+
+						
 						<div class="row">
 							<div class="col-12 col-lg">
 								<label for=""><strong>Nivel</strong></label>
@@ -78,7 +101,40 @@
 								>
 							</div>
 						</div>
+
+						<div class="row mt-3">
+							<div class="col-3">
+								<div class="form-group">
+								<label for=""> <strong>Venta Propia %</strong></label>
+								<input class="form-control" type="number" name="porcentaje_ventaPropia" 
+								id="porcentaje_ventaPropiaMod">
+								</div>
+							</div>
+			
+							<div class="col-3">
+								<div class="form-group">
+								<label for=""> <strong>Venta Parcial %</strong></label>
+								<input class="form-control" type="number" name="porcentaje_ventaParcial" id="porcentaje_ventaParcialMod">
+								</div>
+							</div>
+			
+							<div class="col-3">
+								<div class="form-group">
+								<label for=""> <strong>Venta Ajena %</strong></label>
+								<input class="form-control" type="number" name="porcentaje_ventaAjena" id="porcentaje_ventaAjenaMod">
+								</div>
+							</div>
+			
+							<div class="col-3">
+								<div class="form-group">
+								<label for=""> <strong>Venta Otra Persona %</strong></label>
+								<input class="form-control" type="number" name="porcentaje_ventaPorOtraPersona" id="porcentaje_ventaPorOtraPersonaMod">
+								</div>
+							</div>
+						</div>
+
 						<br>
+
 						<div class="container">	
 							<br>	
 							<br>	
@@ -102,10 +158,12 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						<button 
-						class="btn btn-primary" 
-						id="actualizar_uss"
-						type="button" 
-						>Actualizar usuario</button>
+							class="btn btn-primary" 
+							id="actualizar_uss"
+							type="button" 
+						>
+							Actualizar usuario
+						</button>
 					</div>
 				</div>
 			</div>

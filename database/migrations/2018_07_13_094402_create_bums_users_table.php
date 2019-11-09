@@ -27,7 +27,6 @@ class CreateBumsUsersTable extends Migration
             $table->float('porcentaje_ventaPropia');
             $table->float('porcentaje_ventaParcial');
             $table->float('porcentaje_ventaAjena');
-
             $table->float('porcentaje_ventaPorOtraPersona');
             $table->timestamps();
         });
