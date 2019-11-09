@@ -24,7 +24,7 @@
 		</script> --}}
 
 		<div class=" ">
-			<img class="card-img-top imagen" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap">321123213
+			<img class="card-img-top imagen" src="{{ url('img/'.$articulo->fondo) }}" alt="Card image cap">
 		</div>
 
 

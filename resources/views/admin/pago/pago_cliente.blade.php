@@ -74,8 +74,9 @@
 											@if($sin->verificado <= 0 && $sin->entregado <= 0)
 											@endif
 											<br>	
-											{{--<button data-toggle="modal" 
-											data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>--}}
+											{{-- <button data-toggle="modal" 
+											data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button> --}}
+
 											<button type="button" class="btn btn-sm" onclick="nuevo_detalle_compra({{$sin->id}})" data-toggle="modal" data-target="#modelId">
 												Ver mas detalles
 											</button>
@@ -148,6 +149,8 @@
 												@endif
 												{{--<button data-toggle="modal" 
 												data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>--}}
+
+
 												<button type="button" class="btn btn-sm" onclick="nuevo_detalle_compra({{$sin->id}})" data-toggle="modal" data-target="#modelId">
 													Ver mas detalles
 												</button>
@@ -566,3 +569,7 @@
 				</div>
 			</div>
 			@endsection
+
+			<script type="text/javascript">
+				
+			</script>

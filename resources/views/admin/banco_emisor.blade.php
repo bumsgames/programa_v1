@@ -15,60 +15,96 @@
 
 				<form action="{{ url('agg_bancoE') }}" method="POST">
 					{{ csrf_field() }}
-					
 
 					Bancos
 					<hr>	
 
-					<center><div class="row">
-						<div  class="form-group col-12 ">
-							<label>Nombre del banco</label>
-							<input  value="" autocomplete="off" type="text" class="form-control" name="banco">
+					<center>
+						<div class="row">
+							<div  class="form-group col-6 ">
+								<label>Nombre del banco</label>
+								<input  value="" autocomplete="off" type="text" class="form-control" name="banco">
+							</div>
+							<div  class="form-group col-6 ">
+								<label>Relacionado con: </label>
+								<select name="id_coin" class="form-control">
+									@foreach($coins as $coin)
+									<option style="color:black;" value="{{$coin->id}}">{{$coin->coin}} ({{$coin->sign}})</option>
+									@endforeach
+
+								</select>
+							</div>
+
+						</div>	
+
+						<div class="row">
+							<div  class="form-group col-6 ">
+								<label>Titular:</label>
+								<input autocomplete="off" type="text" class="form-control" name="titular">
+							</div>
+							<div  class="form-group col-6 ">
+								<label>Tipo de cuenta:</label>
+								<input autocomplete="off" type="text" class="form-control" name="tipo_cuenta">
+							</div>
 						</div>
 
-					</div>	
-					<button class="btn btn-primary my-1 mr-sm-2" id="" type="submit">REGISTRAR</button></center>
-				</form>
-				<hr>
-				<h3>LISTA DE BANCOS</h3>
-				<table class="table">
+						<div class="row">
+							<div  class="form-group col-4 ">
+								<label>Cedula:</label>
+								<input autocomplete="off" type="text" class="form-control" name="cedula">
+							</div>
+							<div  class="form-group col-4 ">
+								<label>Cuenta Bancaria:</label>
+								<input autocomplete="off" type="text" class="form-control" name="cuentaBancaria">
+							</div>
+							<div  class="form-group col-4 ">
+								<label>Nota:</label>
+								<input autocomplete="off" type="text" class="form-control" name="nota">
+							</div>
+						</div>
+						<button class="btn btn-primary my-1 mr-sm-2" id="" type="submit">REGISTRAR</button></center>
+					</form>
+					<hr>
+					<h3>LISTA DE BANCOS</h3>
+					<table class="table">
 
 
-					@foreach ($bancosE as $bancos)
+						@foreach ($bancosE as $bancos)
 
-					<tr>
-						<td>{{ $bancos->banco }}  </td>
+						<tr>
+							<td>{{ $bancos->banco }} / {{ $bancos->titular }}  </td>
+							<td>{{ $bancos->cuentaBancaria }}  </td>
 
-						<td>
-							<form action="{{ url('mod_bancos') }}" method="POST">
-								{{ csrf_field() }}
-								<button class="btn" name="modificar_id" value="{{ $bancos->id }}">Modificar</button>
-							</form>
-						</td>
+							<td>
+								<form action="{{ url('mod_bancos') }}" method="POST">
+									{{ csrf_field() }}
+									<button class="btn" name="modificar_id" value="{{ $bancos->id }}">Modificar</button>
+								</form>
+							</td>
 
 
-						<td>
-							<form action="{{ url('del_bancos') }}" method="POST">
-								{{ csrf_field() }}
-								<button class="btn btn-danger" name="eliminar_id" value="{{ $bancos->id }}">Eliminar</button> <br>
-							</form>
-						</td>
+							<td>
+								<form action="{{ url('del_bancos') }}" method="POST">
+									{{ csrf_field() }}
+									<button class="btn btn-danger" name="eliminar_id" value="{{ $bancos->id }}">Eliminar</button> <br>
+								</form>
+							</td>
 
-					</tr>
+						</tr>
 
-					@endforeach
-				</table>
+						@endforeach
+					</table>
 
-				
 
-				
+
+
+				</div>
 			</div>
 		</div>
-	</div>
-</main>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-	
-</script>
+	</main>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
 
-@endsection
+	</script>
+
+	@endsection

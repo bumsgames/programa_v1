@@ -2785,7 +2785,12 @@ class ProgramController extends Controller
 		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 		->orderby('created_at', 'desc')
 		->get();
-		return view('admin.pago.pago_cliente', compact('tutoriales', 'comments_por_aprobar', 'reportes', 'pago_s', 'pago_v', 'pago_sin_confirmar'));
+
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+
+
+		return view('admin.pago.pago_cliente', compact('carrito','tutoriales', 'comments_por_aprobar', 'reportes', 'pago_s', 'pago_v', 'pago_sin_confirmar'));
 	}
 
 	public function guardar_reporte(Request $request)

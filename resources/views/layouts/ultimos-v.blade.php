@@ -48,7 +48,9 @@
 								<div class="col-8">
 									<div class="ultimo-vendido-c-text">
 										<h4>{{$uv->articulo->name}}</h4>
-										<strong>{{$uv->articulo->categorias[0]->category}}</strong>
+										@if (isset($uv->articulo->categorias[0]))
+											<strong>{{$uv->articulo->categorias[0]->category}}</strong>
+										@endif
 										<br>
 									</div>
 								</div>

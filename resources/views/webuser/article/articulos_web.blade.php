@@ -13,7 +13,7 @@
 		
 		<div class="row">
 			<div class="col-12 col-lg-3">
-				<div class="container sticky responsive filtros" style="top:100px;border-radius:3px">	
+				<div class="container responsive filtros" style="top:100px;border-radius:3px">	
 					<br>	
 					{{-- class="col-12 col-lg-6" --}}
 
@@ -73,7 +73,9 @@
 
 					<span id="copia_resultado" style="display:none">
 						@foreach($articulos as $articulo)
-						<strong><?php echo $i++; ?></strong>. {{$articulo->name }}  - {{ $articulo->categorias[0]->category }} - <strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
+						@if (isset($articulo->categorias[0]))
+							<strong><?php echo $i++; ?></strong>. {{$articulo->name }}  - {{ $articulo->categorias[0]->category }} - <strong> {{ number_format($articulo->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
+						@endif
 						<br>
 						<br>
 						<?php if($i == 25) break; ?>

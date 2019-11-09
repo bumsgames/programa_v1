@@ -205,7 +205,8 @@ Route::post('/del_subCategorias','geneController@del_subCategorias');
 Route::post('/mod_subCategorias','geneController@mod_subCategorias');
 Route::post('/modif_subCategorias','geneController@modif_subCategorias');
 
-
+//Controlador para moneda 
+Route::get('/monedas','geneController@monedas');
 
 
 

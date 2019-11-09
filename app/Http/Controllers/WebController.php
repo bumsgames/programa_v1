@@ -212,7 +212,7 @@ class WebController extends Controller
 		//Devuelve los ultimos 50 comentarios
 		$comentarios = DB::table('comment')
 		->select('nombre','texto')
-		// ->where('aprobado', '1')
+		->where('aprobado', '1')
 		->leftjoin('clients', 'comment.id_comentario', '=', 'clients.id')
 		->orderby('fecha_comentado', 'desc')
 		->take(50)
@@ -1519,15 +1519,18 @@ class WebController extends Controller
 				}
 				$request->request->add(['cupon_id' => $request->id_cupon]);
 			}
+
 			$ultimo_pago = \Bumsgames\Pago::create($request->all());
-		// dd($ultimo_pago->id);
-		// dd($request->all());
+
 			if ($request->envio == 1) {
 				$request->request->add(['id_pago' => $ultimo_pago->id]);
+				dd(22);
 				$envio_pago = \Bumsgames\Envio_Pago::create($request->all());
 			}
-			if (isset($request->id_cupon)) {
 
+			dd(1);
+
+			if (isset($request->id_cupon)) {
 				$couponact->disponible--;
 				$couponact->save();
 			}

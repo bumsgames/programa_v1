@@ -3491,6 +3491,7 @@ function cambiaBandera(algo){
                 }
 
                 function nuevo_detalle_compra(id){
+                    
                     var route = "/ver_detalle_compra/"+id+"";
                     var total = 0;
                     $.get(route, function(data){
