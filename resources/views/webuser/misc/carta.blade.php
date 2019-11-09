@@ -73,7 +73,8 @@
 		</div>
 
 		<div class="carta_categoria" style="color: black;">
-			@if($articulo->categorias[0]->id >= 1 && $articulo->categorias[0]->id <= 7 )
+			@if (isset($articulo->categorias[0]))
+				@if($articulo->categorias[0]->id >= 1 && $articulo->categorias[0]->id <= 7 )
 			<div>
 				<img src="{{ url('img/playstation.png') }}" alt="" style="max-height: 20px;" />{{ $articulo->categorias[0]->category }}
 			</div>
@@ -99,6 +100,7 @@
 		</div>
 {{ $articulo->categorias[0]->category }}
 		
+			@endif
 		
 		<center>
 			<div class="espaciom_img">

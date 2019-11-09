@@ -74,6 +74,7 @@
 											@if($sin->verificado <= 0 && $sin->entregado <= 0)
 											@endif
 											<br>	
+											{{ $sin->id }}
 											<button data-toggle="modal" 
 											data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>
 										</td>

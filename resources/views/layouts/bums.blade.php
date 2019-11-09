@@ -460,6 +460,7 @@
           <li><a class="treeview-item" href="{{ url('bancoEmisor') }}"><i class="icon fa fa-circle-o"></i>Banco emisor</a></li>
           <li><a class="treeview-item" href="{{ url('sub_categorias') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
           <li><a class="treeview-item" href="{{ url('categorias') }}"><i class="icon fa fa-circle-o"></i>Sub-Categorias</a></li>
+          <li><a class="treeview-item" href="{{ url('monedas') }}"><i class="icon fa fa-circle-o"></i>Monedas</a></li>
           
         </ul>
       </li>

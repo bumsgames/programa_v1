@@ -15,6 +15,13 @@ class CreateBancoEmisorsTable extends Migration
     {
         Schema::create('banco_emisors', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('id_coin')->unsigned();            
+            $table->foreign('id_coin')->references('id')->on('coins')
+            ->onDelete('restrict');
+            $table->string('titular');
+            $table->string('tipo_cuenta')->default('NO APLICA');
+            $table->string('cedula')->default('NO APLICA');;
+             $table->string('nota')->nullable();
             $table->timestamps();
         });
     }

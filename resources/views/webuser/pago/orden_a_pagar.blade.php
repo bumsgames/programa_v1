@@ -242,7 +242,6 @@
 																				<img class="escondite" width="170" 
 																				src="{{asset('img/bums'.$cuentas_bancaria->banco)}}" alt="">
 																			</center>
-
 																			<h2 class="card-title">{{ $cuentas_bancaria->banco }}</h2>
 																			<h4>	
 																				{{--  --}}
@@ -263,6 +262,11 @@
 																				<br>	
 																				@if ($cuentas_bancaria->cuentaBancaria)
 																				{{ $cuentas_bancaria->cuentaBancaria	 }}
+																				@endif
+																				<br>	
+																				<br>
+																				@if ($cuentas_bancaria->nota)
+																				Nota: {{ $cuentas_bancaria->nota	 }}
 																				@endif
 																			</h4>
 
@@ -749,11 +753,11 @@
 								</div>
 								<br>	
 
-								<div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
+								{{-- <div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
 									<a href="#carousel_pago" data-slide="prev" class="btn btn-info btn-pago float-left" onclick="actualizarbarra(80)"><span class="fa fa-lg fa-arrow-circle-left"></span> Anterior</a>
 									<a href="javascript:void(0)" id="bs_100" class="btn btn-success btn-pago float-right mt-responsive">Pagar <span class="fa fa-lg fa-cart-arrow-down"></span></a>
 									<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-								</div>
+								</div> --}}
 								<br>	
 							</div>
 						</div>
@@ -765,7 +769,11 @@
 	</div>
 
 
-
+	<div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
+		<a href="#carousel_pago" data-slide="prev" class="btn btn-info btn-pago float-left" onclick="actualizarbarra(80)"><span class="fa fa-lg fa-arrow-circle-left"></span> Anterior</a>
+		<a href="javascript:void(0)" id="bs_100" class="btn btn-success btn-pago float-right mt-responsive">Pagar <span class="fa fa-lg fa-cart-arrow-down"></span></a>
+		<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+	</div>
 
 
 	<br>
@@ -838,6 +846,7 @@
 
 		});
 		$("#bs_100").on("click", function(){
+			alert(1);
 			window.swal({
 				title: "Enviando reporte.",   
 				text: "Estamos enviando su Pago \n\n\n\n",   
@@ -846,7 +855,7 @@
 				closeOnConfirm: false,   
 				closeOnCancel: false,
 				buttons: [""],
-				timer: 1500,
+				timer: 2000,
 			});
 
 			
@@ -899,6 +908,7 @@
 				form_data.append('id_cupon',$('#coupon').attr('value'));
 			}
 
+			alert(5);
 
 			var route = '/reportar_pago';
 
@@ -914,25 +924,6 @@
 
 				beforeSend: function() {
 					$(".loader").show();
-				},
-				success:function(data){
-					if(data.tipo == 1){
-						swal(data.data);  
-					}
-					else{
-						swal('Su pago se ha enviado con exito amig@: '+$('#name').val()+" "+$('#lastname').val());
-						setTimeout(function() {
-							window.close();	
-						}, 5000);
-					}
-				},
-				error:function(msj){
-					var errormessages = "";
-					$.each(msj.responseJSON, function(i, field){
-						errormessages+="\n"+field+"\n";
-					});
-					swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
-					window.close();
 				},
 
 			});

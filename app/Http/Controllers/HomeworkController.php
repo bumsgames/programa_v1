@@ -108,7 +108,6 @@ class HomeworkController extends Controller
         //dd($articuloConCategory->toArray());
         //dd($articuloConCategory["categorias"]->toArray());
         $categoriesArt = $articuloConCategory['categorias'];
-
         //dd($articuloConCategory->toArray(), $categoriesArt);
         
 
