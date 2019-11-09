@@ -1,0 +1,44 @@
+ PMA_token |s:16:")Bf"[8rJBn!/zLKR";auth_type|s:3:"env";browser_access_time|a:2:{s:7:"default";i:1544141886;s:36:"b47fc95f-d42b-7268-5b90-9f51a14958ea";i:1544142440;}relation|a:1:{i:1;a:22:{s:11:"PMA_VERSION";s:5:"4.8.3";s:7:"relwork";b:0;s:11:"displaywork";b:0;s:12:"bookmarkwork";b:0;s:7:"pdfwork";b:0;s:8:"commwork";b:0;s:8:"mimework";b:0;s:11:"historywork";b:0;s:10:"recentwork";b:0;s:12:"favoritework";b:0;s:11:"uiprefswork";b:0;s:12:"trackingwork";b:0;s:14:"userconfigwork";b:0;s:9:"menuswork";b:0;s:7:"navwork";b:0;s:17:"savedsearcheswork";b:0;s:18:"centralcolumnswork";b:0;s:20:"designersettingswork";b:0;s:19:"exporttemplateswork";b:0;s:8:"allworks";b:0;s:4:"user";N;s:2:"db";N;}}cache|a:2:{s:25:"server_1_cpses_bum04lbihh";a:16:{s:14:"mysql_cur_user";s:26:"cpses_bum04lbihh@localhost";s:17:"is_create_db_priv";b:0;s:14:"is_reload_priv";b:0;s:12:"db_to_create";s:0:"";s:30:"dbs_where_create_table_allowed";a:2:{i:0;s:23:"bumsgame\_bums\_oficial";i:1;s:14:"bumsgame\_bums";}s:11:"dbs_to_test";a:6:{i:0;s:18:"information_schema";i:1;s:18:"performance_schema";i:2;s:5:"mysql";i:3;s:3:"sys";i:4;s:23:"bumsgame\_bums\_oficial";i:5;s:14:"bumsgame\_bums";}s:9:"proc_priv";b:0;s:10:"table_priv";b:0;s:8:"col_priv";b:0;s:7:"db_priv";b:0;s:12:"is_grantuser";b:0;s:13:"is_createuser";b:0;s:12:"is_superuser";b:0;s:11:"binary_logs";a:0:{}s:18:"menu-levels-server";a:13:{s:9:"databases";s:14:"Bases de datos";s:3:"sql";s:3:"SQL";s:6:"status";s:13:"Estado actual";s:6:"rights";s:8:"Usuarios";s:6:"export";s:8:"Exportar";s:6:"import";s:8:"Importar";s:8:"settings";s:14:"Configuraci√≥n";s:6:"binlog";s:16:"Registro binario";s:11:"replication";s:12:"Replicaci√≥n";s:4:"vars";s:9:"Variables";s:7:"charset";s:20:"Juegos de caracteres";s:7:"plugins";s:12:"Complementos";s:6:"engine";s:7:"Motores";}s:14:"menu-levels-db";a:14:{s:9:"structure";s:10:"Estructura";s:3:"sql";s:3:"SQL";s:6:"search";s:6:"Buscar";s:17:"multi_table_query";s:20:"Generar una consulta";s:6:"export";s:8:"Exportar";s:6:"import";s:8:"Importar";s:9:"operation";s:11:"Operaciones";s:10:"privileges";s:11:"Privilegios";s:8:"routines";s:7:"Rutinas";s:6:"events";s:7:"Eventos";s:8:"triggers";s:12:"Disparadores";s:8:"tracking";s:11:"Seguimiento";s:8:"designer";s:10:"Dise√±ador";s:15:"central_columns";s:18:"Columnas centrales";}}s:8:"server_1";a:4:{s:15:"userprefs_mtime";i:1544141787;s:14:"userprefs_type";s:7:"session";s:12:"config_mtime";i:1543888858;s:9:"userprefs";a:2:{s:4:"lang";s:2:"es";s:7:"Console";a:1:{s:4:"Mode";s:8:"collapse";}}}}encryption_key|s:32:"=ç*ÿLÒﬂ›u∫±¿-bpôï±ãYÑVÇoªŸvhÒ]";userconfig|a:2:{s:2:"db";a:2:{s:4:"lang";s:2:"es";s:12:"Console/Mode";s:8:"collapse";}s:2:"ts";i:1544141787;}two_factor_check|b:1;is_git_revision|b:0;tmpval|a:14:{s:15:"favorite_tables";a:1:{i:1;a:0:{}}s:13:"recent_tables";a:1:{i:1;a:0:{}}s:18:"table_limit_offset";i:0;s:21:"table_limit_offset_db";s:21:"bumsgame_bums_oficial";s:5:"query";a:10:{s:32:"535de63e3dc7a4141a817d09a8d45fb6";a:8:{s:3:"sql";s:64:"/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"65cc52af3a57bea57b002e22b4d27edc";a:8:{s:3:"sql";s:29:"/*!40101 SET NAMES utf8mb4 */";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"90618d7512f7d27b2556c03a743fd547";a:8:{s:3:"sql";s:536:"--
+-- Base de datos: `bumsgame_bums_oficial`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pago__articulos`
+--
+
+CREATE TABLE `pago__articulos` (
+  `id` int(11) NOT NULL,
+  `id_pago` int(10) UNSIGNED NOT NULL,
+  `id_article` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"b4fa9d6856de7752b98b13145e383a8d";a:8:{s:3:"sql";s:239:"--
+-- √çndices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `pago__articulos`
+--
+ALTER TABLE `pago__articulos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pago_foreign` (`id_pago`),
+  ADD KEY `id_article_foreign` (`id_article`)";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"2834ed497f9f28a3256f9fe9324712c5";a:8:{s:3:"sql";s:203:"--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `pago__articulos`
+--
+ALTER TABLE `pago__articulos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"93a415322c44bf448dec4e75b7bac947";a:8:{s:3:"sql";s:348:"--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `pago__articulos`
+--
+ALTER TABLE `pago__articulos`
+  ADD CONSTRAINT `id_article_foreign` FOREIGN KEY (`id_article`) REFERENCES `articles` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `id_pago_foreign` FOREIGN KEY (`id_pago`) REFERENCES `pagos` (`id`) ON DELETE CASCADE";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"1d0ba376e273b9d622641124d8c59264";a:8:{s:3:"sql";s:6:"COMMIT";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"314a2a6af715a117719831abd47a7e59";a:8:{s:3:"sql";s:62:"/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"3156cc0fff730d17edc1acfdb05ed71c";a:8:{s:3:"sql";s:64:"/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}s:32:"dcdde952b3211bb4e1b0a9110e18a57f";a:8:{s:3:"sql";s:62:"/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */";s:12:"repeat_cells";i:100;s:8:"max_rows";i:25;s:3:"pos";i:0;s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;}}s:6:"pftext";s:1:"P";s:18:"relational_display";s:1:"K";s:9:"geoOption";s:4:"GEOM";s:14:"display_binary";b:1;s:12:"display_blob";b:0;s:19:"hide_transformation";b:0;s:3:"pos";i:0;s:8:"max_rows";i:25;s:12:"repeat_cells";i:100;}ConfigFile1|a:4:{s:28:"PmaNoRelation_DisableWarning";b:1;s:12:"ShowCreateDb";b:0;s:7:"Console";a:1:{s:4:"Mode";s:8:"collapse";}s:7:"Servers";a:1:{i:1;a:2:{s:7:"only_db";s:0:"";s:7:"hide_db";s:0:"";}}}debug|a:0:{}Import_message|a:2:{s:7:"message";N;s:11:"go_back_url";s:35:"db_sql.php?db=bumsgame_bums_oficial";}is_multi_query|b:1;sql_from_query_box|b:1;sql_history|a:2:{i:0;a:3:{s:2:"db";s:21:"bumsgame_bums_oficial";s:5:"table";s:0:"";s:8:"sqlquery";s:62:"/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */";}i:1;a:3:{s:2:"db";s:21:"bumsgame_bums_oficial";s:5:"table";s:0:"";s:8:"sqlquery";s:62:"/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */";}}errors|a:0:{}

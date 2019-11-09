@@ -1,0 +1,45 @@
+--- 
+files: 
+  certificate: 
+    bumsgames_com_ve_bca3f_7d311_1563407999_e7d7c3c8064106fee17493bb8091b455: 
+      created: '1555565882'
+      domains: 
+        - bumsgames.com.ve
+        - mail.bumsgames.com.ve
+        - www.bumsgames.com.ve
+      friendly_name: Cert for “bumsgames.com.ve”
+      id: bumsgames_com_ve_bca3f_7d311_1563407999_e7d7c3c8064106fee17493bb8091b455
+      is_self_signed: 0
+      issuer.commonName: cPanel, Inc. Certification Authority
+      issuer.organizationName: cPanel, Inc.
+      modulus: bca3fa34e1f90747786c38a951bd30c3a54ded390aaa3f033059454a6d9f784bde4860aee950331af7797bb47957edfb9e2b51d9cbc85668ef2c3a29b858549ba5c2fff31b700c10ddb4b05fcd5629a32c2a7ec02fe7a0fe84e789829c3d35b7cb95538388a9bb037208c3dc3882fa1be9f4440bff6a8d9d0e8ae3b38300971cd1005054e2edbcdd7b185a00e731052e79a5967a66f6ef22342b8a518095be19f055fd242e7b391fff2dae181501625b8f3ea871ee0cfa2c4ee7ad3a446badef6214f861caa9c51601e8d56a1fa5c30a0229569b0e75197e79a88724ac68a5d8df42c2b060a60b0748c322916abddde69ee1847eaca5e290b47ef302b857d311
+      modulus_length: 2048
+      not_after: '1563407999'
+      not_before: '1555545600'
+      signature_algorithm: sha256WithRSAEncryption
+      subject.commonName: bumsgames.com.ve
+      validation_type: dv
+  key: 
+    bca3f_7d311_abef97cd382f9a6d6d2d443b627c4a5b: 
+      created: '1555565882'
+      friendly_name: Key for “bumsgames.com.ve”
+      id: bca3f_7d311_abef97cd382f9a6d6d2d443b627c4a5b
+      modulus: bca3fa34e1f90747786c38a951bd30c3a54ded390aaa3f033059454a6d9f784bde4860aee950331af7797bb47957edfb9e2b51d9cbc85668ef2c3a29b858549ba5c2fff31b700c10ddb4b05fcd5629a32c2a7ec02fe7a0fe84e789829c3d35b7cb95538388a9bb037208c3dc3882fa1be9f4440bff6a8d9d0e8ae3b38300971cd1005054e2edbcdd7b185a00e731052e79a5967a66f6ef22342b8a518095be19f055fd242e7b391fff2dae181501625b8f3ea871ee0cfa2c4ee7ad3a446badef6214f861caa9c51601e8d56a1fa5c30a0229569b0e75197e79a88724ac68a5d8df42c2b060a60b0748c322916abddde69ee1847eaca5e290b47ef302b857d311
+      modulus_length: 2048
+indexes: 
+  certificate: 
+    modulus: 
+      bca3fa34e1f90747786c38a951bd30c3a54ded390aaa3f033059454a6d9f784bde4860aee950331af7797bb47957edfb9e2b51d9cbc85668ef2c3a29b858549ba5c2fff31b700c10ddb4b05fcd5629a32c2a7ec02fe7a0fe84e789829c3d35b7cb95538388a9bb037208c3dc3882fa1be9f4440bff6a8d9d0e8ae3b38300971cd1005054e2edbcdd7b185a00e731052e79a5967a66f6ef22342b8a518095be19f055fd242e7b391fff2dae181501625b8f3ea871ee0cfa2c4ee7ad3a446badef6214f861caa9c51601e8d56a1fa5c30a0229569b0e75197e79a88724ac68a5d8df42c2b060a60b0748c322916abddde69ee1847eaca5e290b47ef302b857d311: 
+        bumsgames_com_ve_bca3f_7d311_1563407999_e7d7c3c8064106fee17493bb8091b455: ~
+    subject.commonName: 
+      bumsgames.com.ve: 
+        bumsgames_com_ve_bca3f_7d311_1563407999_e7d7c3c8064106fee17493bb8091b455: ~
+uniques: 
+  certificate: 
+    friendly_name: 
+      Cert for “bumsgames.com.ve”: bumsgames_com_ve_bca3f_7d311_1563407999_e7d7c3c8064106fee17493bb8091b455
+  key: 
+    friendly_name: 
+      Key for “bumsgames.com.ve”: bca3f_7d311_abef97cd382f9a6d6d2d443b627c4a5b
+    modulus: 
+      bca3fa34e1f90747786c38a951bd30c3a54ded390aaa3f033059454a6d9f784bde4860aee950331af7797bb47957edfb9e2b51d9cbc85668ef2c3a29b858549ba5c2fff31b700c10ddb4b05fcd5629a32c2a7ec02fe7a0fe84e789829c3d35b7cb95538388a9bb037208c3dc3882fa1be9f4440bff6a8d9d0e8ae3b38300971cd1005054e2edbcdd7b185a00e731052e79a5967a66f6ef22342b8a518095be19f055fd242e7b391fff2dae181501625b8f3ea871ee0cfa2c4ee7ad3a446badef6214f861caa9c51601e8d56a1fa5c30a0229569b0e75197e79a88724ac68a5d8df42c2b060a60b0748c322916abddde69ee1847eaca5e290b47ef302b857d311: bca3f_7d311_abef97cd382f9a6d6d2d443b627c4a5b

@@ -1,0 +1,94 @@
+<td >	
+					@foreach ( $venta->ventaArticulo as $articulo)
+					@foreach ( $articulo->pagoArticulo  as $pago)
+
+					@if ($pago->moneda->id !=2)
+					{{ $pago->bancoEmisor }}
+					<br>
+					{{-- Porcentaje representacion --}}
+					<?php $porcentaje_pago = ($pago->monto / $pago->dolardia) / $aaa; ?>
+					Representa % del total: {{  $porcentaje_pago * 100 }} %
+					<br>
+					
+
+					<br>
+					{{number_format($pago->monto, 2, ',', '.')  }} {{ $pago->moneda->sign }} 
+					<br>
+					<br>
+					Equivalente: {{ number_format($pago->monto / $pago->dolardia, 2, ',', '.') }} $
+					@else
+					{{ number_format($pago->monto, 2, ',', '.') }} {{ $pago->moneda->sign }} 
+
+					@endif
+					<?php $inversionArticulo += $pago->monto / $pago->dolardia;  ?>
+					<br>
+					{{-- {{ $pago }} --}}
+					<hr>
+					@foreach ($pago->pagoInvolucrados as $aux)
+					{{ $aux->persona->name }} {{ $aux->persona->lastname }}
+					<br>
+
+					@if ($aux->descripcionInvolucrado == 3)
+					<p>Dueño o Socio de Producto: {{ $aux->porcentajeInversion * 100}} %</p>
+					@endif
+					@if ($aux->descripcionInvolucrado == 1)
+					<p>Vendedor (Venta Propia)</p>
+					@endif
+
+					@if ($aux->descripcionInvolucrado == 2)
+					<p>Venta Parcial</p>
+					@endif
+
+					@if ($aux->descripcionInvolucrado == 4)
+					<p>Venta Ajena</p>
+					@endif
+
+					@if ($aux->descripcionInvolucrado == 5)
+					<p>Venta Propia / Otra Persona facturo</p>
+					@endif
+					{{-- {{ $aux }} --}}
+					@if (Auth::id() == $aux->id_agente)
+					<p style="color: green;">Dinero a favor</p>
+					@if( $aux->cobrado_boolean == 1)
+					<p style="color: red;">Este pago ha sido cobrado, no se tomara en cuenta</p>
+					@else
+					<?php $ganancia_usuario_sincobrar += ( $pago->monto * number_format($aux->porcentajeInvolucrado, 2) / $pago->dolardia) ?>
+					@endif
+					<?php $ganancia_usuario += ( $pago->monto * number_format($aux->porcentajeInvolucrado, 2) / $pago->dolardia) ?>
+					@endif
+
+					<?php $inversion_para_este_pago = $articulo->inversionIndividual ?>
+					Inversion de este articulo: {{  number_format($inversion_para_este_pago, 2, ',', '.') }} $
+					<br>
+					Inversion de usuario en articulo: {{  number_format($inversion_para_este_pago * $aux->porcentajeInversion , 2, ',', '.') }} $
+					<br>
+					<br>
+
+					{{ number_format($aux->porcentajeInvolucrado, 2) * 100 }} %
+					<br>
+					<?php $monto_aux = $pago->monto * number_format($aux->porcentajeInvolucrado, 2); ?>
+					{{number_format($monto_aux, 2, ',', '.') }}
+					{{ $pago->moneda->sign }}
+					<br>
+					<br>
+
+					Equivalente: {{  number_format($monto_aux / $pago->dolardia, 2, ',', '.') }} $
+					<br>
+					<br>
+					
+					<br>
+					<br>
+					Inversion de usuario para este Pago: {{  number_format($inversion_para_este_pago * $aux->porcentajeInversion * $porcentaje_pago, 2, ',', '.') }} $
+					<br>
+					Ganancia de este pago: {{  number_format(($monto_aux / $pago->dolardia) - ($inversion_para_este_pago * $aux->porcentajeInversion * $porcentaje_pago), 2, ',', '.') }} $
+
+					<br>
+					<hr>
+					@endforeach
+					<br>
+					<br>
+
+					@endforeach
+					<hr>
+					@endforeach
+				</td>
