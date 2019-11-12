@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
 body{
   /*font-family: 'Do Hyeon', sans-serif;*/
@@ -8,12 +9,38 @@ body{
   background-color: #F2F3F4 ;
   background-size:100% 100%;
   color: black;
+
 }
 html {
   height:100%;
   width:100%;
 }
 
+.border_ligero{
+  
+  border: 3px solid rgba(0,0,0,0.4) !important;
+}
+
+.card-cuentas{
+  color: white;
+  background: #003791;
+}
+.card-cuentas:hover{
+    opacity: 0.6;
+}
+.fondo10{
+  font-size: 20px !important;background-image: url('../img/venezuela.jpg') !important;
+  background: url('../img/soygamer.png') no-repeat center center fixed !important;
+}
+
+.diagonal-marquee {
+  transform: rotate(45deg);
+}
+
+.marquee3k__copy {
+  padding-right: 30px;
+  box-sizing: border-box;
+}
 
 
 
@@ -28,6 +55,18 @@ html {
 }
 .help-block{
   color: white;
+}
+
+.carta_titulo{
+  height: 130px;
+
+
+}
+
+.carta_categoria{
+  font-size: 18px; 
+  margin-top: -3px;
+  color: black;
 }
 
 .sticky {
@@ -190,10 +229,11 @@ button:hover{
 }
 
 .cartaInicio{
-
-  width: 18em; 
+  width: 26em; 
   border-radius: 50px 50px 0px 0px;
 }
+
+
 
 .card-img-top{
   position: relative !important;
@@ -203,6 +243,7 @@ button:hover{
 
 .cartaEtiqueta_oferta{
   margin-top: -50px;
+  margin-left: 50px;
   position:absolute;
   visibility:visible; 
   z-index:2;
@@ -314,13 +355,13 @@ button:hover{
 }
 
 .margin_top_cardButton{
-    margin-top: 60px !important;
-  }
+  margin-top: 60px !important;
+}
 
 
 @media only screen and (max-width: 800px) {
-  
-  
+
+
   .margin_top_cardButton{
     margin-top: 35px !important;
   }
@@ -467,6 +508,8 @@ button:hover{
 }
 
 
+
+
 /*
 
 .layer{
@@ -484,6 +527,15 @@ button:hover{
 
     .container {max-width: 90%;}
 
+    /*@media (min-width: 1080px){
+      body{/
+      overflow-x:hidden;
+      width:100%;
+      zoom: 80%;
+
+    }
+    }*/
+
     @media (min-width: 1440px){.container {max-width: 90%;}}
     /*CSS general*/
     body{/*background: white cover;*/
@@ -500,8 +552,41 @@ button:hover{
       z-index: 0;
     }
 
+    .fondo10{
+      font-size: 20px !important;
+      background-image: url('../img/soygamer.png')center center !important;
+    }
+
+    .bgimg {
+      background-image: url('../img/soygamer.png');
+    }
+
+
+    .bg-image2  {
+
+      background: url('../img/gears.jpg') no-repeat center center fixed; 
+      /*background: linear-gradient(108deg, rgba(62, 62, 62, 0.09) 0%, rgba(62, 62, 62, 0.09) 30%,rgba(234, 234, 234, 0.09) 30%, rgba(234, 234, 234, 0.09) 100%),linear-gradient(116deg, rgba(101, 101, 101, 0.06) 0%, rgba(101, 101, 101, 0.06) 51%,rgba(231, 231, 231, 0.06) 51%, rgba(231, 231, 231, 0.06) 100%),linear-gradient(258deg, rgba(103, 103, 103, 0.07) 0%, rgba(103, 103, 103, 0.07) 1%,rgba(209, 209, 209, 0.07) 1%, rgba(209, 209, 209, 0.07) 100%),linear-gradient(43deg, rgba(17, 17, 17, 0.09) 0%, rgba(17, 17, 17, 0.09) 7%,rgba(159, 159, 159, 0.09) 7%, rgba(159, 159, 159, 0.09) 100%),linear-gradient(63deg, rgba(211, 211, 211, 0.1) 0%, rgba(211, 211, 211, 0.1) 94%,rgba(233, 233, 233, 0.1) 94%, rgba(233, 233, 233, 0.1) 100%),linear-gradient(207deg, rgba(179, 179, 179, 0.1) 0%, rgba(179, 179, 179, 0.1) 57%,rgba(11, 11, 11, 0.1) 57%, rgba(11, 11, 11, 0.1) 100%),linear-gradient(25deg, rgba(118, 118, 118, 0.07) 0%, rgba(118, 118, 118, 0.07) 98%,rgba(248, 248, 248, 0.07) 98%, rgba(248, 248, 248, 0.07) 100%),linear-gradient(90deg, hsl(337,90%,49%),hsl(337,90%,49%));*/
+      /*background-color: red;*/
+      /* background: url('https://media.giphy.com/media/YqiO23Q2gfurS/giphy.gif') no-repeat center center fixed; */
+      background-size: cover;
+      -webkit-filter: blur(2px);
+      -moz-filter: blur(2px);
+      -o-filter: blur(2px);
+      -ms-filter: blur(2px);
+      filter: blur(1px);
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 2000;
+      left: 0;
+      z-index: -2;
+    }
+
     .bg-image  {
-      background: url('../img/spiderman.jpg') no-repeat center center fixed; 
+
+      /*background: url('../img/spiderman.jpg') no-repeat center center fixed; */
+      background: rgb(139,151,230);
+      background: radial-gradient(circle, rgba(139,151,230,0.8) 0%, rgba(255,255,255,0.8) 80%);
       /*background: url('https://media.giphy.com/media/YqiO23Q2gfurS/giphy.gif') no-repeat center center fixed; */
       background-size: cover;
       -webkit-filter: blur(2px);
@@ -512,7 +597,7 @@ button:hover{
       position: fixed;
       width: 100%;
       height: 100%;
-      top: 0;
+      top: 2000;
       left: 0;
       z-index: -1;
     }
@@ -1164,7 +1249,9 @@ button:hover{
     background-color: rgba(0,0,0,0.9)!important;
 }
 */
-
+.colorps4{
+  background-color: rgba(0, 55, 145, 1) !important;
+}
 /*LINK HOVER*/
 .panel-title{
   text-transform: uppercase;
@@ -1493,7 +1580,7 @@ hr{
 
   .precio_rebajado{
     color: rgba(100, 100, 100, 1);
-    font-size: 12px;
+    font-size: 16px;
 
   }
 
@@ -1616,6 +1703,14 @@ hr{
   }
   .espaciom_img{
     height: 260px;
+  }
+
+  .espacio_precio_subrayado{
+    height: 30px;
+  }
+
+  .close{
+    color: black !important;
   }
 
 /*.content_fondo {
@@ -1829,6 +1924,8 @@ hr{
       background-color: #0080c7;
       color: white;
       border: none;
+      width: 150px;
+      font-size: 30px;
     }
 
     .btnbuscar:hover{
@@ -1870,6 +1967,13 @@ hr{
    .text-llegamos{
     font-size: 60px !important;
   }
+
+  .input-buscar{
+    font-size: 20px;
+    color: black !important;
+    border: none !important;
+  }
+
 
   /*responsive*/
 
@@ -2393,9 +2497,57 @@ hr{
   height: 180px;
 }
 
+.img_play{
+  margin-top:  -20px;
+  margin-left: 1400px;
+}
+
+.playstation_style{
+  background: rgb(9,9,121);
+  background: linear-gradient(90deg, rgba(9,9,121,1) 35%, rgba(0,55,145,1) 100%);
+  border-radius: 10px;
+  
+}
+.playstation_style a{
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.xbox_style{
+  background: rgb(93,194,30);
+  background: linear-gradient(90deg, rgba(93,194,30,1) 7%, rgba(16,124,16,1) 100%);
+  border-radius: 10px;
+  
+}
+
+
+.xbox_style a{
+  color: gray !important;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.nintendo_style{
+  background: rgb(255,69,84);
+  background: linear-gradient(90deg, rgba(255,69,84,1) 0%, rgba(230,0,18,1) 0%);
+  border-radius: 10px;
+}
+
+.nintendo_style a{
+  color: #fe0016;
+  background-color: white;
+  border-radius: 10px;
+}
+
+
+.ul .li a:hover{
+  font-size: 20px;
+}
+
 .dropdown-content2 {
-  display: none;
-  position: absolute;
+  display: block;
+  /*position: absolute;
   min-width: 160px;
   z-index: 101;
   margin-left: auto;
@@ -2403,7 +2555,7 @@ hr{
   left: 0;
   right: 0;
   width: auto;
-  max-width: 1400px;
+  max-width: 1400px;*/
 }
 
 .txt_bums{

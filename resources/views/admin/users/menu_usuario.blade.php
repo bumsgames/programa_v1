@@ -20,11 +20,13 @@
         <div class="row"> 
           <div class="col"> 
             @include('admin.misc.flash-message')
-            <center>
+            <center> 
               <br>
               <h2>Crear usuario nuevo</h2>
               <form enctype="multipart/form-data" files="true" action="/crear_usuario" method="post">
                 <input hidden="" name="_token" value="{{ csrf_token() }}">
+                <input hidden="" name="active" value="0">
+
                 <div class="row"> 
                   <div class="col"> 
                     <div class="form-group">
@@ -48,32 +50,59 @@
                   </div>
                 </div>
                 
-                
-                <div class="form-group">
-                  <label for="">Correo de usuario</label>
-                  <input type="text" 
-                  class="form-control" 
-                  name="email"
-                  value="{{ old('email') }}" 
-                  autocomplete="off">
+                <div class="row">
+                  
+                  <div class="col">
+                    
+                    <div class="form-group">
+                      <label for="">Correo de usuario</label>
+                      <input type="text" 
+                      class="form-control" 
+                      name="email"
+                      value="{{ old('email') }}" 
+                      autocomplete="off">
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="">Teléfono</label>
+                      <input type="text" pattern="^[0-9]+"
+                      class="form-control" 
+                      name="telefono"
+                      value="{{ old('telefono') }}" 
+                      autocomplete="off" required>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="">Nickname de usuario</label>
-                  <input type="text" 
-                  class="form-control" 
-                  id="nickname"
-                  name="nickname"
-                  value="{{ old('nickname') }}" 
-                  autocomplete="off">
+
+                <div class="row">
+                  
+                  <div class="col">
+                    
+                    <div class="form-group">
+                      <label for="">Nickname de usuario</label>
+                      <input type="text" 
+                      class="form-control" 
+                      id="nickname"
+                      name="nickname"
+                      value="{{ old('nickname') }}" 
+                      autocomplete="off">
+                    </div>
+                  </div>
+
+                  <div class="col">                    
+                    <div class="form-group">
+                      <label for="">Nivel de usuario</label>
+                      <input type="number" 
+                      class="form-control " 
+                      name="level"
+                      value="{{ old('level') }}" 
+                      autocomplete="off">
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="">Nivel de usuario</label>
-                  <input type="number" 
-                  class="form-control " 
-                  name="level"
-                  value="{{ old('level') }}" 
-                  autocomplete="off">
-                </div>
+
                 <div class="form-group">
                   <label for="image">Password de Usuario</label>
                   <input type="password" 
@@ -81,6 +110,38 @@
                   name="password"
                   value="{{ old('password') }}" 
                   autocomplete="off">
+                </div>
+
+                <div class="row">
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="">Venta Propia %</label>
+                      <input required id="" class="form-control" type="number" name="porcentaje_ventaPropia" pattern="^[0-9]+" value="{{ old('porcentaje_ventaPropia') }}" >
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="">Venta Parcial %</label>
+                      <input required id="" class="form-control" type="number" name="porcentaje_ventaParcial" pattern="^[0-9]+" value="{{ old('porcentaje_ventaParcial') }}">
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="">Venta Ajena %</label>
+                      <input required id="" class="form-control" type="number" name="porcentaje_ventaAjena" pattern="^[0-9]+" 
+                      value="{{ old('porcentaje_ventaAjena') }}">
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                    <div class="form-group">
+                      <label for="">Venta Otra Persona %</label>
+                      <input required id="" class="form-control" type="number" name="porcentaje_ventaPorOtraPersona" pattern="^[0-9]+" 
+                      value="{{ old('porcentaje_ventaPorOtraPersona') }}">
+                    </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -95,18 +156,19 @@
                   <br> 
                   <br>   
                   <img id="img1" width="175"><br/>
-
                 </div>
 
                 <br>
-      <!-- <div class="form-group">
-        <label for="">Password</label>
-        <input type="text" class="form-control" name="tal">
-      </div> -->
-      <button class="btn btn-primary" type="submit">Guardar</button>
-    </form>
-  </center>
-</div>
+                <!-- <div class="form-group">
+                  <label for="">Password</label>
+                  <input type="text" class="form-control" name="tal">
+                </div> -->
+                <button class="btn btn-primary" type="submit">Guardar</button>
+              </form>
+            </center>
+          </div>
+
+
 <div class="col"> 
   <br>  
   <center>

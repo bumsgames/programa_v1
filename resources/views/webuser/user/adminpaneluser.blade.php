@@ -146,15 +146,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $count=0;?> @foreach($articulocomprado as $articulos)
-                            <tr class="miscompras">
-                                <td>{{++$count}}</td>
-                                <td>{{$articulos->name}}</td>
-                                <td>{{$articulos->catname}}</td>
-                                <td>{{$articulos->fecha}}</td>
-
-                            </tr>
-                            @endforeach
+                            
                         </tbody>
                     </table>
                 </div>

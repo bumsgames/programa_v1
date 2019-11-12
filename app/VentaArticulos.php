@@ -26,4 +26,13 @@ class VentaArticulos extends Model
     {
     	return $this->hasMany('Bumsgames\Venta_PagoInvolucrados','id_ventaArticulo');
     }
+
+    public function venta()
+	{
+        return $this->belongsTo('Bumsgames\Venta', 'id_venta'); // Le indicamos que se va relacionar con el atributo id
+    }
+
+    
+
+    
 }

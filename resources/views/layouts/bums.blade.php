@@ -188,6 +188,7 @@
                 <th>Dueños</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
+                <th></th>
               </tr>
             </thead>
             {{-- <tbody id="tablaCarrito2"> --}}
@@ -200,8 +201,7 @@
               @foreach( $carrito as $item )
               <tr id="fila_{{$item->articulo->id}}">
                 <th>
-
-                  <?php echo $i++; ?>.
+                  <?php echo $i; ?>.
                 </th>
                 <th>
                   {{ $item->articulo->name }}
@@ -226,7 +226,13 @@
                   {{ $item->cantidad * $item->articulo->price_in_dolar }} $
                   <?php $precio = $precio + ($item->cantidad * $item->articulo->price_in_dolar); ?>
                 </th>
+                <th>
+                  <button type="button" class="close" onclick="removeArticleAdmin({{$i}},{{$item->articulo->id}});">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </th>
               </tr>
+              <?php $i++; ?>
               @endforeach
               <tr id="carritoTotal">
                 <th>
@@ -318,12 +324,32 @@
           <li><a class="treeview-item" href="{{ url('allArticlesOff') }}"><i class="icon fa fa-circle-o"></i> Articulos Agotados</a></li>
           --}} {{--
           <li><a class="treeview-item" href="allArticlesPS3"><i class="icon fa fa-circle-o"></i> Articulos de ps3</a></li> --}}
-          <li><a class="treeview-item" href="{{ url('misArticles') }}"><i class="icon fa fa-circle-o"></i> Mis Articulos</a></li>
+          {{-- <li><a class="treeview-item" href="{{ url('misArticles') }}"><i class="icon fa fa-circle-o"></i> Mis Articulos</a></li> --}}
           <li><a class="treeview-item" href="{{ url('misArticles_lista_escrita') }}" target="_blank"><i class="icon fa fa-circle-o"></i> Mis Articulos (lista escrita)</a></li>
           <li><a class="treeview-item" href="{{ url('modo_ml') }}"><i class="icon fa fa-circle-o"></i> Modo Mercadolibre</a></li>
-          <li><a class="treeview-item" href="{{ url('articles_web') }}"><i class="icon fa fa-circle-o"></i> Articulos en la Pagina Web</a></li>
-          <li><a class="treeview-item" href="{{ url('articulosSinImagen') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Imagenes</a></li>
-          <li><a class="treeview-item" href="{{ url('articulosSinPeso') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Peso</a></li>
+          {{-- <li><a class="treeview-item" href="{{ url('articles_web') }}"><i class="icon fa fa-circle-o"></i> Articulos en la Pagina Web</a></li> --}}
+          <li><a class="treeview-item" href="{{ url('articulosSinImagen') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Imagen(es)</a></li>
+          <li><a class="treeview-item" href="{{ url('Articulos_sinCategoria') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Categoria(s)</a></li>
+
+          <li><a class="treeview-item" href="{{ url('Articulos_sinPeso') }}"><i class="icon fa fa-circle-o"></i> Juego Digitales Sin Peso</a></li>
+          
+        </ul>
+      </li>
+
+      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+           <li>
+              <a class="treeview-item" href="{{ url('inventario',1) }}">
+                <i class="icon fa fa-circle-o"></i> Inventario
+              </a>
+            </li>
+          {{-- @foreach ($ubicaciones as $ubicacion)   
+            <li>
+              <a class="treeview-item" href="{{ url('inventario',$ubicacion->id) }}">
+                <i class="icon fa fa-circle-o"></i> {{$ubicacion->nombre_ubicacion}}
+              </a>
+            </li>
+          @endforeach --}}
         </ul>
       </li>
       {{-- @if(Auth::user()->level >= 7)
@@ -334,17 +360,30 @@
         </ul>
       </li>
       @endif --}}
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+     {{--  <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           @if(Auth::user()->level >= 9)
           <li><a class="treeview-item" href="/movimientos"><i class="icon fa fa-circle-o"></i>Ventas Generales</a></li>
           @endif
           <li><a class="treeview-item" href="/movimientos_personal"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
-          {{--
+          
           <li><a class="treeview-item" href="/movimientos_tuyos"><i class="icon fa fa-circle-o"></i>Movimientos Personales (Generales)</a></li>
-          --}}
+          
+        </ul>
+      </li> --}}
+
+       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          @if(Auth::user()->level >= 9)
+          <li><a class="treeview-item" href="{{ url('ver_ventas') }}"><i class="icon fa fa-circle-o"></i>Ventas Generales</a></li>
+          @endif
+          <li><a class="treeview-item" href="/movimientos_personal"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
+          
+         {{--  <li><a class="treeview-item" href="/movimientos_tuyos"><i class="icon fa fa-circle-o"></i>Movimientos Personales (Generales)</a></li> --}}
+          
         </ul>
       </li>
+
 
       @if(Auth::user()->level >= 7)
       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Clientes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -390,8 +429,7 @@
                </span><i class="treeview-indicator fa fa-angle-right"></i></a>
 
                <ul class="treeview-menu">
-                <li><a class="treeview-item" href="/comentariosall"><i class="icon fa fa-circle-o"></i>Todos los comentarios</a></li>
-                <li><a class="treeview-item" href="/comentariospendientes"><i class="icon fa fa-circle-o"></i>Comentarios por aprobar</a></li>
+                <li><a class="treeview-item" href="/comentariosall"><i class="icon fa fa-circle-o"></i>Cometarios por aprobar</a></li>
                 <li><a class="treeview-item" href="/comentariosaprobados"><i class="icon fa fa-circle-o"></i>Comentarios aprobados</a></li>
                 <li><a class="treeview-item" href="/comentariosrechazados"><i class="icon fa fa-circle-o"></i>Comentarios rechazados</a></li>
               </ul>
@@ -416,6 +454,19 @@
                 </span>
               </a>
             </li>
+            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-list"></i><span class="app-menu__label">Formulario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <ul class="treeview-menu">
+          <li><a class="treeview-item" href="{{ url('ubicacion') }}"><i class="icon fa fa-circle-o"></i>Ubicacion</a></li>
+          <li><a class="treeview-item" href="{{ url('bancoEmisor') }}"><i class="icon fa fa-circle-o"></i>Banco emisor</a></li>
+          <li><a class="treeview-item" href="{{ url('sub_categorias') }}"><i class="icon fa fa-circle-o"></i>Categorias</a></li>
+          <li><a class="treeview-item" href="{{ url('categorias') }}"><i class="icon fa fa-circle-o"></i>Sub-Categorias</a></li>
+          <li><a class="treeview-item" href="{{ url('monedas') }}"><i class="icon fa fa-circle-o"></i>Monedas</a></li>
+          
+        </ul>
+      </li>
+      <li>
+        
+      </li>
             <!--<li><a class="app-menu__item" href="reporte"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Reporte</span></a></li>-->
      {{--  <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Imagenes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">

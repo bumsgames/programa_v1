@@ -18,7 +18,7 @@ class CreateArticuloCategoriasTable extends Migration
             $table->integer('id_articulo')->unsigned();    
             $table->foreign('id_articulo')->references('id')
             ->on('articles')
-            ->onDelete('restrict');
+            ->onDelete('cascade');
             $table->integer('id_categoria')->unsigned();    
             $table->foreign('id_categoria')->references('id')
             ->on('categories')

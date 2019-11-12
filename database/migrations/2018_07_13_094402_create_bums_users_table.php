@@ -17,6 +17,8 @@ class CreateBumsUsersTable extends Migration
             $table->increments('id');
             $table->string('name', 100);
             $table->string('lastname', 100);
+            $table->integer('telefono');
+            $table->integer('active')->unsigned();
             $table->string('nickname', 50)->unique();
             $table->string('email')->unique();
             $table->integer('level')->default(5);
@@ -25,7 +27,6 @@ class CreateBumsUsersTable extends Migration
             $table->float('porcentaje_ventaPropia');
             $table->float('porcentaje_ventaParcial');
             $table->float('porcentaje_ventaAjena');
-
             $table->float('porcentaje_ventaPorOtraPersona');
             $table->timestamps();
         });

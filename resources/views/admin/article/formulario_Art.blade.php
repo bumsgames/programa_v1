@@ -28,7 +28,6 @@
 					<br>
 					<br>
 					<div class="row">
-
 						<div class="col-12 col-lg">
 							<div class="form-group">
 								<label for=""><strong>Creado por:</strong></label>
@@ -130,7 +129,7 @@
 													<input type="text" class="form-control form-control-sm categoria_marca num_cat" readonly value='{{$category->id}}'>
 												</td>
 												<td>
-													<input type="text" class="form-control form-control-sm" readonly value='{{$category->category}}'>
+													<input type="text" class="form-control form-control-sm categoria_nombre" readonly value='{{$category->category}}'>
 												</td>
 												<td>
 													<button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" 
@@ -357,12 +356,33 @@
 								</strong>
 							</label>
 							<div class="custom-file">
-								<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es">
+								<input name="image" id="inputFileMod" type="file" class="custom-file-input" lang="es" accept="image/*">
 								<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
 							</div>
 							<br>
 							<br>
-							<img id="img2" width="175" src="img/{{ $articulo->fondo }}"><br/>
+							
+							
+						</div>
+						<div class="row" id="images_mod">
+							<@php
+								$p=0;
+							@endphp
+							@foreach ($articulo->images as $image)
+
+								<div class="col" id="div_{{$p}}">
+									
+									<img id="img_{{$p}}" class="img"  src="img/{{ $image->file }}" 
+										style="object-fit: cover;">
+									<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"
+									Onclick="removePhotoDiv({{$p}});"
+									>Eliminar</button>
+									
+								</div>
+								@php
+									$p++;
+								@endphp
+							@endforeach
 						</div>
 					</div>
 				</div>
@@ -389,8 +409,10 @@
 
 </main>
 
+
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
+
 	$(function () {
 		$(document).on('click', '.borrar', function (event) {
 			event.preventDefault();

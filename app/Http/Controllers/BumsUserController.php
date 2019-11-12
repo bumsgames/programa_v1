@@ -23,7 +23,14 @@ class BumsUserController extends Controller
      */
     public function index()
     {
-        return view('admin.login');
+        if (auth()->user()) 
+        {
+            return redirect()->route('menu');
+        }
+        else
+        {
+            return view('admin.login');
+        }
     }
 
 
@@ -51,6 +58,19 @@ class BumsUserController extends Controller
             'password' => 'password|required|string',
         ]);
     }
+
+    public function verifyPass(Request $request)
+    {   
+        $user = Auth::user();
+
+        if (Auth::attempt(['nickname' => $user->nickname, 'password' => $request->password])) {
+            return response()->json(['data'=>true]);
+        }else{
+            return response()->json(['data'=>false, 'error'=>'La contraseña ingresada no coincide']);
+        }
+    }
+
+
     public function logueo(Request $request)
     {
         $this->validate($request, [
@@ -97,13 +117,22 @@ class BumsUserController extends Controller
             ->withErrors(['nickname' => 'Usuario o Clave incorrecto'])
             ->withInput(request(['nickname']));
     }
+
+
     //Crea un nuevo bumsuser
     public function crear_usuario(Request $request)
     {
+
         try {
             //encripta la contraseña
             $request['password'] = bcrypt($request->password);
+            $request['porcentaje_ventaPropia'] = number_format((float)($request['porcentaje_ventaPropia'] / 100), 2, '.', '');
+            $request['porcentaje_ventaParcial'] = number_format((float)($request['porcentaje_ventaParcial'] / 100), 2, '.', '');
+            $request['porcentaje_ventaAjena'] = number_format((float)($request['porcentaje_ventaAjena'] / 100), 2, '.', '');
+            $request['porcentaje_ventaPorOtraPersona'] = number_format((float)($request['porcentaje_ventaPorOtraPersona'] / 100), 2, '.', '');
+            //dd($request->all());
             \Bumsgames\BumsUser::create($request->all());
+
             $titulo = 'USUARIO CREADO';
             $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
             $data2 = '';
@@ -115,7 +144,7 @@ class BumsUserController extends Controller
         } catch (\Exception $e) {
             return back()
                 ->with('error', 'Hubo un error y no se pudo agregar su Usuario')
-                ->withInput(request(['name', 'lastname', 'email', 'nickname', 'level']));
+                ->withInput(request(['name', 'lastname', 'email', 'nickname', 'level','telefono',]));
         }
     }
 

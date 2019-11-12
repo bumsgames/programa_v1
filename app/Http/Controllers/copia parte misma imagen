@@ -1,0 +1,42 @@
+copia parte misma imagen
+
+if (!isset($request->fondo) && isset($imagentodos)) {
+    DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $articulo->id . ' ');
+  }
+
+  //Actualizar imagenes de productos con mismo nombre y categoria
+  foreach ($temporal as $x) {
+    $algo = \Bumsgames\Article::find($x->id_articulo);
+    if (isset($request->fondo)) {
+
+      DB::statement('UPDATE articles SET fondo="' . $articulo->fondo . '" WHERE id=' . $algo->id . ' ');
+
+
+    } else if ($algo->fondo == 'fondo_nada.jpg' && isset($imagentodos)) {
+      DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $algo->id . ' ');
+    }
+    $algo->save();
+  }
+
+    //Se cambian todos los trailers
+  if (isset($request->trailer)) {
+    if($request->category == 1 || $request->category == 2){
+      $articles_trailers = \Bumsgames\Article::whereIn('category',[1,2])
+      ->where('name',$request->name)
+      ->get();
+    }
+    else if($request->category == 8 || $request->category == 9){
+      $articles_trailers = \Bumsgames\Article::whereIn('category',[8,9])
+      ->where('name',$request->name)
+      ->get();
+    }
+    else{
+      $articles_trailers = \Bumsgames\Article::where('name',$request->name)
+      ->where('category',$request->category)
+      ->get();
+    }
+    foreach($articles_trailers as $art_trailer){
+      $art_trailer->trailer = $request->trailer;
+      $art_trailer->save();
+    }
+  }

@@ -114,11 +114,12 @@
                                     {{$opcion->nombre}}
                                     <div class="progress mb-1">
                                         <div class="progress-bar" role="progressbar" 
-                                        style="width: {{number_format ( $opcion->contador * 100/$total , 0 , "," , "." )}}%;background-color:{{$opcion->color}}"
+                                        style="color: {{$opcion->color}};width: {{number_format ( $opcion->contador * 100/$total , 0 , "," , "." )}}%;background-color: gray;"
                                             aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{number_format ( $opcion->contador * 100/$total , 2 , "," , "." )}}%</div>
                                     </div>
                                     @endforeach
                                 </td>
+                                
                                 <td class="align-middle">
                                     <a href="/encuestas/editar/{{$encuesta->id}}" class="btn btn-info">Editar</a> 
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarmodal" id="modaltrigger" onclick="modaltrigger({{$encuesta->id}},'{{$encuesta->nombre}}')">

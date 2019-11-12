@@ -7,7 +7,7 @@
 		<div class="col-12 col-lg-4">
 			<br>
 
-			<div class="portada">
+			{{-- <div class="portada">
 				<div class="text">
 					<h1 class="text-llegamos">
 						<b>Llegamos</b>
@@ -17,8 +17,24 @@
 
 					</h1>
 				</div>
+			</div> --}}
+			<a href="{{ url('ayuda') }}">
+				<div class="container top shadow_ligero" style="width: 500px; border-radius: 20px;">	
+				
+				<br>
+				<center>
+					<h3 style="color: black; "><strong>¿COMO COMPRAR EN BUMSGAMES?</strong></h3>
+					
+				</center>
+				<hr style="background-color: white !important; border: black 1px solid;">
+				<center>
+					<img class="img_top10" alt="Brand" src="{{ url('img/question.png') }}">
+				</center>		
 			</div>
-			<div class="container top" style="width: 500px;">	
+			</a>
+			<br>
+			<div class="container top shadow_ligero" style="width: 500px;">	
+
 				<br>
 				<center>
 					<div style="background-color: black;">
@@ -52,29 +68,130 @@
 			</script>
 
 		</div>
-		<div class="col-12 col-lg-4">
-			<a href="https://www.instagram.com/bumsgames/">
+		<style type="text/css">
+
+	</style>
+	<div class="col-12 col-lg-4">
+
+		<!DOCTYPE html>
+		<html>
+		<head>
+			<title>Simple Marquee Example</title>
+			<link rel="stylesheet" href="{{ url('css/marquee.css') }}" />
+			<link rel="stylesheet" href="{{ url('css/example.css') }}" />
+		</head>
+		<body>
+			
+
+			
+
+
+			{{-- <script type="text/javascript" src="js/marquee2.js"></script> --}}
+
+
+			<script>
+				$(function (){
+
+					$('.simple-marquee-container').SimpleMarquee();
+
+				});
+
+			</script>
+		</body>
+		</html>
+
+
+
+{{-- <style>
+.vticker{
+	border: 1px solid red;
+	width: 400px;
+}
+.vticker ul{
+	padding: 0;
+}
+.vticker li{
+	list-style: none;
+	border-bottom: 1px solid green;
+	padding: 10px;
+}
+.et-run{
+	background: red;
+}
+</style> --}}
+
+<br>
+<br>
+<center>
+	<img class="shadow_ligero" src="{{ url('img/portada.jpg') }}" style="width: 100%; opacity: 0.9;">
+</center>
+<br>	
+
+<div style="  background: white;">
+	<div style=" width: 100%; background: rgb(168,169,180);
+	background: linear-gradient(13deg, rgba(168,169,180,1) 0%, rgba(255,255,255,1) 100%); padding: 1px;">
+	<h2 style="margin: 20px;">ULTIMOS ARTICULOS</h2>
+</div>
+
+<div class="container" style="padding-bottom: 20px;">
+
+
+	<div class="vticker">
+		<ul style="padding: 0;">
+			@foreach ($articulos as $articulo)
+			<li style="list-style: none;
+			border-bottom: 2px solid rgba(0,0,0,0.3);
+			padding: 10px;">
+
+			<div class="row">
+				<div class="col-12 col-lg-4">
+					<img src="{{ url('img/'.$articulo->file) }}" style="width:auto; max-height: 100px;" alt="">
+				</div>
+				<div class="col-12 col-lg-8">
+					<a href="{{ url('ver_mas/'.$articulo->id) }}"><h2>{{ $articulo->name}}</h2></a>
+					<h6>{{ $articulo->category }}</h6>
+				</div>
+			</div>
+
+		</li>
+		@endforeach
+	</ul>
+</div>
+</div>
+
+</div>
+<br>
+<br>
+
+
+</div>
+
+<div class="col-12 col-lg-4">
+	<br>
+	<br>
+	<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#commentModal">
+		APOYANOS CON TU OPINION    
+	</button>
+
+			{{-- <a href="https://www.instagram.com/bumsgames/">
 				<center>
 				<br>
 				<br>
-				<img class="img_ig" alt="Brand" src="{{ url('img/ip6s.png') }}" width="500">
+				<img class="img_ig" alt="Brand" src="{{ url('img/ip6s.png') }}" width="200">
 				<br>
 				<br>
 			</center>
-			</a>
-		</div>
+		</a> --}}
+		<style type="">
+		.contenedor5{
+			position: relative;
+			display: inline-block;
+			text-align: center;
+			margin-top: -63px;
+			z-index: 1;
+		}
 
-		<div class="col-12 col-lg-4">
-			<style type="">
-			.contenedor5{
-				position: relative;
-				display: inline-block;
-				text-align: center;
-				margin-top: -63px;
-				z-index: 1;
-			}
-
-			.etiqueta-crash{
+		.etiqueta-crash{
 				/*position: absolute;
 				z-index: -1;
 				left: 45%;
@@ -97,28 +214,28 @@
 			}
 		</style>
 		<br>	
-		<br>	
-		<br>	
-		<br>	
 		<center>	
 			<div class="">
+
 				<div class="mx-auto encuesta2">
-					<div class="card encuesta-card">
+
+					<div class="card encuesta-card shadow_ligero">
 						@if(isset($encuesta))
 						<form action="" method="POST">
 							<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 							<div class="card-body">
-								<h5 class="card-title"><strong>{{$encuesta->nombre}}</strong></h5>
+								<h3 class="card-title"><strong>{{$encuesta->nombre}}</strong></h3>
 								<div id="encuesta-section">
 									@include('admin.encuestas.section')
 								</div>
 							</div>
 							<div class="card-footer text-muted">
+								
 								@if(Session::get('poll_voted') != $encuesta->id)
 								<button type="button" id="votar_btn" class="btn btn-dark text-center btn-block">Votar</button>
 								<button type="button" id="mostrar_btn" class="btn text-center btn-light border border-dark btn-block">Ver resultados</button>
 								@else
-								Gracias por votar amig@ :)
+								Gracias por votar amig@ :) <div id="gracias" style="display: none;">Gracias por votar amig@ :)</div>
 								@endif
 
 								<button style="display:none" type="button" id="regresar_btn" class="btn text-center btn-light border border-dark btn-block">Regresar</button>
@@ -141,12 +258,13 @@
 				</div>
 			</div>
 		</center>
-		
 
 	</div>
 	<br>
 </div>
+
 </div>
+
 <br>				
 <script>
 
@@ -163,13 +281,16 @@
 			success: function (data) { 
 				if(data.success){
 					$('#encuesta-section').fadeOut();
+
 					$('#encuesta-section').load('/encuestas/user/show', function() {
 						$('#encuesta-section').fadeIn();
 						$('.encuesta-option').hide();
+						$('.division_encuesta').hide();
 						$('.encuesta-resultado').show();
 					});
+					$('#gracias').css("display", "block");
 					$("#votar_btn").attr("disabled", true);;	
-					$('#regresar_btn').show();
+					$('#regresar_btn').hide();
 					$('#votar_btn').hide();
 					$('#mostrar_btn').hide();
 				}

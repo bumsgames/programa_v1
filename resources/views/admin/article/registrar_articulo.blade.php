@@ -1,11 +1,7 @@
 @extends('layouts.bums', ['tutoriales' => $tutoriales]) 
 @section('content')
 
-{{-- <style type="text/css">
-	.form-control-sm{
-    border: solid 1px black !important;
-}
-</style> --}}
+
 <main class="app-content">
 	<div class="row">
 		<div class="col-md-12">
@@ -31,7 +27,7 @@
 								{{-- <label for=""><strong>Dueño(s) del Articulo</strong></label> --}}
 								<select class="form-control form-control-sm cd" name="primary_owner" id="primary_owner">
 									@foreach($users as $user)
-										<option value="{{$user->id}}">{{$user->name}} {{$user->lastname}}</option>
+									<option value="{{$user->id}}">{{$user->name}} {{$user->lastname}}</option>
 									@endforeach
 								</select>
 							</div>
@@ -55,12 +51,24 @@
 										</strong>
 									</label>
 									<div class="custom-file">
-										<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es">
+										<input name="image" id="inputFileMod" {{-- id="uploadedfile" --}} type="file" class="custom-file-input" lang="es" accept="image/*" multiple="multiple">
 										<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
-
 										<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
 									</div>
-									<img id="img2" width="175"><br/>
+
+
+
+									{{-- <div id="images">
+										<img id="img2" width="175"><br/> 
+									</div> --}}
+
+
+
+									<div class="row" id="images_mod">
+
+									</div>
+
+									
 								</div>
 							</div>
 
@@ -90,7 +98,7 @@
 						</div>
 					</div>
 
-					{{-- <div id="tablacoincidenciaart" class="table-responsive" style="display:none">
+					<div id="tablacoincidenciaart" class="table-responsive" style="display:none">
 						<table class="table">
 							<thead>
 								<tr>
@@ -111,7 +119,7 @@
 							</tbody>
 						</table>
 					</div>
-					<hr> --}}
+					<hr>
 
 					<hr>
 					{{-- <h1>Zona de prueba</h1> --}}
@@ -123,7 +131,7 @@
 							<div class="form-group">
 								<select class="form-control form-control-sm cd" name="categoria_opc" id="categoria_opc">
 									@foreach($categories as $category)
-										<option value="{{$category->id}}">{{$category->category}}</option>
+									<option value="{{$category->id}}">{{$category->category}}</option>
 									@endforeach
 								</select>
 							</div>
@@ -140,7 +148,7 @@
 								{{-- <label for=""><strong>- Ubicacion del Articulo</strong></label> --}}
 								<select class="form-control form-control-sm" name="ubicacion" id="ubicacion">
 									@foreach ($ubicaciones as $ubicacion)
-										<option value="{{$ubicacion->id}}">{{$ubicacion->nombre_ubicacion}}</option>
+									<option value="{{$ubicacion->id}}">{{$ubicacion->nombre_ubicacion}}</option>
 									@endforeach
 								</select>
 							</div>
@@ -150,7 +158,7 @@
 					<hr>
 
 					<div class="row">
-						<div class="col-6 col-lg">
+						<div class="col-4 col-lg">
 							<h3 class="fixed">DATOS DE VENTA</h3>
 							<div class="col-12 col-lg">
 								<div class="form-group">
@@ -182,8 +190,8 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-12 col-lg">
-								<div class="form-group">
+							<div class="col-12 col-lg" style="display:none;" id="offer_price_div">
+								<div class="form-group" >
 									<label for=""><strong> Precio Subrayado ($). SOLO OFERTA</strong></label>
 									<input value="0" class="form-control form-control-sm numero_separador" type="text" autocomplete="off" name="offer_price" id="offer_price"
 									value="100" placeholder="">
@@ -197,6 +205,67 @@
 							</div>
 							<br>
 							<br>
+							
+						</div>
+						<div class="col-4 col-lg">
+							<div id="zona_cuenta_digital">	
+								<h3 class="fixed">DATOS DE CUENTA DIGITAL</h3>
+								<div class="col-12 col-lg">
+									<div class="form-group">
+										<label for=""><strong>- Correo</strong></label>
+										<input class="form-control form-control-sm" type="text" name="email" id="email" placeholder="" autocomplete="off">
+									</div>
+								</div>
+								<div class="col-12 col-lg">
+									<div class="form-group">
+										<label for=""><strong>- Password</strong></label>
+										<input type="text" class="form-control form-control-sm" id="password" name="password" autocomplete="off">
+									</div>
+								</div>
+								<div class="col-12 col-lg">
+									<div class="form-group">
+										<label for=""><strong>- Nickname </strong> </label>
+										<input type="text" class="form-control form-control-sm" id="nickname" name="nickname" autocomplete="off">
+									</div>
+								</div>
+
+								<br>
+								<br>
+								<div class="col-12 col-lg">
+									<div class="form-group">
+										<label for=""><strong>Boton reseteo</strong></label>
+										<input type="date" class="form-control form-control-sm" name="reset_button" id="reset_button" autocomplete="off">
+									</div>
+								</div>
+							</div>
+							<br>	
+							<h3 class="fixed">DATOS DE ARTICULO DIGITAL</h3>
+							<div class="col-12 col-lg">
+								<div class="form-group">
+									<label for=""><strong>- Peso del juego (Gb)</strong></label>
+									<input type="number" autocomplete="off" class="form-control form-control-sm" name="peso" id="peso" min="0" value="0">
+								</div>
+							</div>
+
+							{{-- <div class="col-12 col-lg">
+								<div class="form-group">
+									<label for="image">
+										<strong>
+											<label for="image">- Imagen del Articulo (Maximo 100 KB)</label>
+										</strong>
+									</label>
+									<div class="custom-file">
+										<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es">
+										<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
+
+										<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
+									</div>
+									<img id="img2" width="175"><br/>
+								</div>
+							</div> --}}
+						</div>
+						
+						<div class="col-4">	
 							<p class="fixed"> NO OBLIGATORIOS</p>
 							<div class="col-12 col-lg">
 								<div class="form-group">
@@ -217,54 +286,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-6 col-lg" id="zona_cuenta_digital">
-							<h3 class="fixed">DATOS DE CUENTA DIGITAL</h3>
-							<div class="col-12 col-lg">
-								<div class="form-group">
-									<label for=""><strong>- Correo</strong></label>
-									<input class="form-control form-control-sm" type="text" name="email" id="email" placeholder="" autocomplete="off">
-								</div>
-							</div>
-							<div class="col-12 col-lg">
-								<div class="form-group">
-									<label for=""><strong>- Password</strong></label>
-									<input type="text" class="form-control form-control-sm" id="password" name="password" autocomplete="off">
-								</div>
-							</div>
-							<div class="col-12 col-lg">
-								<div class="form-group">
-									<label for=""><strong>- Nickname </strong> </label>
-									<input type="text" class="form-control form-control-sm" id="nickname" name="nickname" autocomplete="off">
-								</div>
-							</div>
-							<div class="col-12 col-lg">
-								<div class="form-group">
-									<label for=""><strong>- Peso del juego (Gb)</strong></label>
-									<input type="number" autocomplete="off" class="form-control form-control-sm" name="peso" id="peso" min="0" value="0">
-								</div>
-							</div>
-							<br>
-							<br>
-							<div class="col-12 col-lg">
-								<div class="form-group">
-									<label for=""><strong>Boton reseteo</strong></label>
-									<input type="date" class="form-control form-control-sm" name="reset_button" id="reset_button" autocomplete="off">
-								</div>
-							</div>
-						</div>
-						<hr>
-						<div class="row" id="tohide">
-							
-						</div>
-					</div>
-					<div class="row">
 						
 					</div>
-					<hr>
+
 					
-					<hr>
-					
-					<hr>
 					
 					<hr>
 					<br>
@@ -273,7 +298,7 @@
 					<input type="text" class="form-control" name="tal">
 				</div> -->
 				<div style="text-align: center;">
-					<button class="btn btn-primary" type="submit" id="registrar_articulo">Registrar articulo</button>
+					<button class="btn btn-primary" type="submit" id="registrar_articulo" id="">Registrar articulo</button>
 				</div>
 			</div>
 		</center>

@@ -18,6 +18,11 @@ class VentaPago extends Model
 		'dolardia',
 	];
 
+    public function venta()
+    {
+        return $this->belongsTo('Bumsgames\Venta', 'id_venta'); // Le indicamos que se va relacionar con el atributo id
+    }
+
 	public function pagoInvolucrados()
     {
     	return $this->hasMany('Bumsgames\pagoInvolucrados','id_pago');
@@ -32,5 +37,27 @@ class VentaPago extends Model
 	{
 		return $this->belongsTo('Bumsgames\banco_emisor', 'id_bancoEmisor'); // Le indicamos que se va relacionar con el atributo id
 	}
+
+
+	public function scopeConVendedor($query, $p)
+    {      
+        if ($p != -1) {
+            return $query->where('id_bancoEmisor',$p);
+        }
+    }
+
+    public function scopeConMoneda($query, $p)
+    {      
+        if ($p != -1) {
+            return $query->where('id_coin',$p);
+        }
+    }
+
+    public function scopeConBanco($query, $p)
+    {   
+        if ($p != "-1") {
+            return $query->where('id_bancoEmisor',$p);
+        }
+    }
 
 }

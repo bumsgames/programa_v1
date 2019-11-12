@@ -13,7 +13,6 @@ class Article extends Model
         'id_creator',
         'name',
         'description',
-        'category',
         'quantity',
         'peso',
         'price_in_dolar',
@@ -30,13 +29,42 @@ class Article extends Model
         'costo',
         'estado',
         'trailer',
-        'ubicacion'
+        'ubicacion',
+        'fecha_agotado',
     ];
 
     public function categorias()
     {
-        return $this->belongsToMany(Category::class, 'articulo_categorias','id_articulo', 'id_categoria');
+        return $this->belongsToMany(Category::class, 'articulo_categorias','id_articulo', 'id_categoria') 
+        ->withPivot([
+            'id_categoria',
+        ]);
     }
+
+    public function ubicaciones()
+    {
+        return $this->belongsTo('Bumsgames\Ubicacion', 'ubicacion');
+    }
+
+    public function Categorias_prueba()
+    {
+        return $this->belongsToMany(Category::class, 'articulo_categorias','id_articulo', 'id_categoria') 
+        ->groupBy('id');
+    }
+
+    public function images()
+    {
+        return $this->belongsToMany(Image::class, 'articles_images','article_id', 'image_id');
+    }
+
+    public function scopeDebts($query)
+    {
+
+        return $query->with('articles.categorias', function($q){
+            $q->groupBy('category');
+        });
+    }
+
 
     //Coloca un valor default al peso al usar create
     //Se debe usar esto debido a que la funcion Article::create() no toma el default de la bd y hay que forzarlo
@@ -49,6 +77,7 @@ class Article extends Model
             }
         });
     }
+
     public function sale()
     {
         return $this->hasMany('Bumsgames\Sales', 'id_article');
@@ -57,13 +86,13 @@ class Article extends Model
     public function duennos()
     {
         return $this->belongsToMany('Bumsgames\BumsUser', 'bums_user_articles', 'id_article', 'id_bumsuser')
-            ->withPivot('porcentaje');
+        ->withPivot('porcentaje');
     }
 
     public function duennos_prueba($index)
     {
         return $this->belongsToMany('Bumsgames\BumsUser', 'bums_user_articles', 'id_article', 'id_bumsuser')->where('bums_user_articles.id_bumsuser', $index)
-            ->withPivot('porcentaje');;
+        ->withPivot('porcentaje');;
     }
 
 
@@ -118,13 +147,31 @@ class Article extends Model
         }
     }
 
+    public function scopeOferta($query, $p)
+    {
+        if (isset($p['oferta_filt'])) {
+            if ($p['oferta_filt'] == 1) {
+                return $query->where('oferta',1);
+            }
+        }
+    }
+
     public function scopeBuscaPorCategoria($query, $data)
     {
         if (isset($data)) {
             if ($data >= 1) {
-                return $query->where('category', $data);
+
+                return $query->whereIn('articulo_categorias.id_categoria', $data);
             }
         }
+    }
+
+    public function scopeBuscaCategoria($query, $data)
+    {
+        if (count($data)) {
+            return $query->whereIn('articulo_categorias.id_categoria', $data);
+        }
+        
     }
 
     public function scopeBuscaPorNombre($query, $data)
@@ -144,9 +191,50 @@ class Article extends Model
         return $this->belongsToMany('Bumsgames\Sales', 'pertenece_clientes', 'id_article', 'id_venta');
     }
 
-    public function ubicacion()
+    public function ubicacion2()
     {
-        return $this->hasOne('Bumsgames\Ubicacion', 'ubicacion', 'id');
+        return $this->belongsTo('Bumsgames\Ubicacion','ubicacion');
+        //return $this->hasOne('Bumsgames\Ubicacion', 'ubicacion', 'id');
+    }
+
+    public function scopeConUbicacion($query, $p)
+    {   
+        if ($p != "-1") {
+            return $query->where('ubicacion',$p);
+        }
+    }
+
+    public function scopeConCorreo($query, $p)
+    {   
+        if ($p != "") {
+            return $query->where('email','like', '%' . $p . '%');
+        }
+    }
+
+    public function scopeDisponibilidad($query, $disponible)
+    {   
+        if (isset($disponible)) {
+            if ($disponible == 1) {
+                return $query->where('quantity', '>=', 1);
+            }
+            if ($disponible == 0) {
+                return $query->where('quantity', '<=', 0);
+            }
+        }
+    }
+
+    public function scopeCreador($query, $p)
+    {   
+        if ($p != 0) {
+            return $query->where('id_creator', '%' . $p . '%');
+        }
+    }
+
+    public function scopeNickname($query, $p)
+    {   
+        if ($p != "") {
+            return $query->where('nickname', 'LIKE', '%' . $p . '%');
+        }
     }
 
 

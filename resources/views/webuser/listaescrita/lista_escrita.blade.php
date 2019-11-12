@@ -5,11 +5,11 @@
 <br>
 <br>
 
-<div class="container">
+<div class="container" >
 	<div class="fondotituloEscrito2" >
 		<h2 class="col-8 titulobumsEscrito2">Lista escrita</h2>
 	</div>
-	<div class="tile fondoBlanco" >
+	<div class="tile fondoBlanco shadow_ligero">
 		<div class="row">	
 			<div id="accordion" class="col-lg-3 col-12">
 				<div class="card menu_rev">
@@ -51,69 +51,97 @@
 						<h5 style="text-align:center;text-transform:uppercase;font-size:17px" id="infoherramienta"></h5>
 
 						<br>
-						<center>
-								<button type="button" onclick='CopyToClipboard("lista_1","LISTA PS4")' class="btn btn-primary btn-block"></i> Copiar Lista PS4</button>
-								<button type="button" onclick='CopyToClipboard("lista_2","LISTA PS3")' class="btn btn-primary btn-block"></i> Copiar Lista PS3</button>
-								<button type="button" onclick='CopyToClipboard("lista_3","LISTA XB1")' class="btn btn-primary btn-block"></i> Copiar Lista XB1</button>
-								<button type="button" onclick='CopyToClipboard("lista_4","LISTA NINTENDO")' class="btn btn-primary btn-block"></i> Copiar Lista Nintendo</button>
-								<button type="button" onclick='CopyToClipboard("lista_5","LISTA CELULARES")' class="btn btn-primary btn-block"></i> Copiar Lista Celulares</button>
-								<button type="button" onclick='CopyToClipboard("lista_6","LISTA OTROS")' class="btn btn-primary btn-block"></i> Copiar Lista Otros</button>
-							</center>
-							<br>
+						{{-- <center>
+							<button type="button" onclick='CopyToClipboard("lista_1","LISTA PS4")' class="btn btn-primary btn-block"></i> Copiar Lista PS4</button>
+							<button type="button" onclick='CopyToClipboard("lista_2","LISTA PS3")' class="btn btn-primary btn-block"></i> Copiar Lista PS3</button>
+							<button type="button" onclick='CopyToClipboard("lista_3","LISTA XB1")' class="btn btn-primary btn-block"></i> Copiar Lista XB1</button>
+							<button type="button" onclick='CopyToClipboard("lista_4","LISTA NINTENDO")' class="btn btn-primary btn-block"></i> Copiar Lista Nintendo</button>
+							<button type="button" onclick='CopyToClipboard("lista_5","LISTA CELULARES")' class="btn btn-primary btn-block"></i> Copiar Lista Celulares</button>
+							<button type="button" onclick='CopyToClipboard("lista_6","LISTA OTROS")' class="btn btn-primary btn-block"></i> Copiar Lista Otros</button>
+						</center> --}}
+						<br>
 
 					</div>	
 					<div class="container sticky2 masAncho">
-				<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-					<div class="carousel-inner">
-						<?php $i = 0; ?>
-						@foreach($portal3 as $imagen)
-						@if($i == 0)
-						<div class="carousel-item active">
-							<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
+						<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+							<div class="carousel-inner">
+								<?php $i = 0; ?>
+								@foreach($portal3 as $imagen)
+								@if($i == 0)
+								<div class="carousel-item active">
+									<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
+								</div>
+								@else
+								<div class="carousel-item">
+									<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
+								</div>
+								@endif
+								<?php $i++; ?>
+								@endforeach
+							</div>
 						</div>
-						@else
-						<div class="carousel-item">
-							<img class="d-block w-100" height="auto" src="{{ url('img/'.$imagen->imagen) }}" alt="First slide">
-						</div>
-						@endif
-						<?php $i++; ?>
-						@endforeach
-					</div>
-				</div>
 
-			</div>
-			<br>
-			<br>
-			<br>
-			<br>
-			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-			<!-- Bloque Lista Escrita -->
-			<ins class="adsbygoogle"
-			style="display:block"
-			data-ad-client="ca-pub-2298464716816209"
-			data-ad-slot="7801147059"
-			data-ad-format="auto"
-			data-full-width-responsive="true"></ins>
-			<script>
-				(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>					
+					</div>
+					<br>
+					<br>
+					<br>
+					<br>
+					<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- Bloque Lista Escrita -->
+					<ins class="adsbygoogle"
+					style="display:block"
+					data-ad-client="ca-pub-2298464716816209"
+					data-ad-slot="7801147059"
+					data-ad-format="auto"
+					data-full-width-responsive="true"></ins>
+					<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>					
 				</div>			
 
 			</div>
 			<div class="col-lg-8 col-12 tile_3">
 				<h5>Ordenar por:</h5>
 
-				<form class="form-inline" action="lista_escrita" method="post">
+				<div class="container responsive">	
+					<br>	
+					<div class="row">
+						<div class="col-12">
+							Ordenar por:
+							<form class="form-inline" action="{{ url('cambio_ordenador') }}" method="get">
+								<select class="form-control se letraPe" onchange="this.form.submit()" id="filtro_order" name="filtro" style="font-size: 14px; width: 100%;">
+									@if ($id_ordenador == 1)
+									<option value="1" selected="">Menor a mayor</option>
+									<option value="2">Mayor a menor</option>
+									<option value="4">Orden alfabetico ascendente</option>
+									<option value="3">Orden alfabetico descendente</option>
+									@else
+									@if ($id_ordenador == 2)
+									<option value="1">Menor a mayor</option>
+									<option value="2" selected="">Mayor a menor</option>
+									<option value="4">Orden alfabetico ascendente</option>
+									<option value="3">Orden alfabetico descendente</option>
+									@else
+									@if ($id_ordenador == 3)
+									<option value="1">Menor a mayor</option>
+									<option value="2">Mayor a menor</option>
+									<option value="4">Orden alfabetico ascendente</option>
+									<option value="3" selected="">Orden alfabetico descendente</option>
+									@else
+									<option value="1">Menor a mayor</option>
+									<option value="2">Mayor a menor</option>
+									<option value="4" selected="">Orden alfabetico ascendente</option>
+									<option value="3">Orden alfabetico descendente</option>
+									@endif
+									@endif
+									@endif
 
+								</select>
+							</form>
+						</div>
+					</div>
 
-					<select class="form-control" onchange="this.form.submit()" name="filtro" style="font-size: 14px;">
-						<option class="form-control" value="">Sin filtro de busqueda</option>
-						<option value="1">Menor a mayor</option>
-						<option value="2">Mayor a menor</option>
-						<option value="4">Orden alfabetico ascendente</option>
-						<option value="3">Orden alfabetico descendente</option>
-					</select>
-				</form> 	
+				</div>	
 				<br>
 				
 				
@@ -124,90 +152,29 @@
 				<div class="row">
 					<div class="col">
 						@foreach($articulos as $articulo)
-						@if($articulo->pertenece_category->category != $categoria)
+						@if($articulo->category != $categoria)
 						@if($i != 1)
 					</div>
 					@endif
-					<?php $categoria = $articulo->pertenece_category->category; ?>
+					<?php $categoria = $articulo->category; ?>
 					<?php $i = 1; ?>
 					<br>
 					<br>
 					
-					<button type="button" onclick='CopyToClipboard("div_{{$articulo->pertenece_category->id}}","{{ $articulo->pertenece_category->category }}")' class="btn btnbums sticky copy" style="top:180px; background-color: blue;">Copiar</button>
+					<button type="button" onclick='CopyToClipboard("div_{{$articulo->id_categoria}}","{{ $articulo->category }}")' class="btn btnbums sticky copy" style="top:180px; background-color: blue;">Copiar</button>
 					{{-- LISTA PS4 COPIAR Y PEGAR --}}
-					@if($articulo->pertenece_category->id == 1)
+
+
 					
-					<div id="lista_1">
-						@endif
 
-						@if($articulo->pertenece_category->id == 5)
-						
-					</div>
-					@endif
-
-					{{-- LISTA PS3 COPIAR Y PEGAR --}}
-					@if($articulo->pertenece_category->id == 5)
-					
-					<div id="lista_2">
-					@endif
-
-					@if($articulo->pertenece_category->id == 8)
-					
-					</div>
-					@endif
-
-					{{-- LISTA XB1 COPIAR Y PEGAR --}}
-					@if($articulo->pertenece_category->id == 8)
-					
-					<div id="lista_3">
-					@endif
-
-					@if($articulo->pertenece_category->id == 12)
-					
-					</div>
-					@endif
-
-					{{-- LISTA NINTENDO COPIAR Y PEGAR --}}
-					@if($articulo->pertenece_category->id == 12)
-					
-					<div id="lista_4">
-					@endif
-
-					@if($articulo->pertenece_category->id == 15)
-					
-					</div>
-					@endif
-
-					{{-- LISTA CELULARES COPIAR Y PEGAR --}}
-					@if($articulo->pertenece_category->id == 15)
-					
-					<div id="lista_5">
-					@endif
-
-					@if($articulo->pertenece_category->id == 16)
-					
-					</div>
-					@endif
-
-					{{-- LISTA OTROS COPIAR Y PEGAR --}}
-					@if($articulo->pertenece_category->id == 16)
-					
-					<div id="lista_6">
-					@endif
-
-					@if($articulo->pertenece_category->id == 17)
-					
-					</div>
-					@endif
-
-					<div id="div_{{$articulo->pertenece_category->id}}">
-						<h4><strong>{{ $categoria }}</strong></h4>
+					<div id="div_{{$articulo->id_categoria}}">
+						<h4><strong>{{ $articulo->category }}</strong></h4>
 						<br>
 						<br>
 						@endif
 
 
-						@if($articulo->category == 4 || $articulo->category == 6 || $articulo->category == 11 || $articulo->category == 14 || $articulo->category == 15 || $articulo->category == 16 )
+						@if($articulo->id_categoria == 4 || $articulo->id_categoria == 6 || $articulo->id_categoria == 11 || $articulo->id_categoria == 14 || $articulo->id_categoria == 15 || $articulo->id_categoria == 16 )
 						<strong><?php echo $i++; ?></strong>. {{$articulo->name }} - {{ $articulo->estado}}.
 						
 						@else
@@ -224,24 +191,21 @@
 
 
 						@endforeach
-						</div>
-
 					</div>
+
 				</div>
 			</div>
-			<br>
-			<br>
-			<h3>
-				Articulos disponibles: {{ $articulos->count() }}
-			</h3>
-
 		</div>
-		
+		<br>
+		<br>
+
 	</div>
-	<br>
-	<br>
-	<br>
-	<br>
+
+</div>
+<br>
+<br>
+<br>
+<br>
 </div>
 
 </div>
