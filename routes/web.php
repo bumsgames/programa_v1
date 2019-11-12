@@ -269,12 +269,16 @@ Route::post('/articulos', 'WebController@articulos');
 Route::get('/filtros_prueba', 'WebController@filtros_prueba');
 Route::post('/filtros_prueba', 'WebController@filtros_prueba');
 
+Route::get('/register/verify/{code}', 'WebController@verify');
 
 // Cliente fofe Get
 Route::get('/login','WebController@login');
+Route::get('/register','WebController@register');
 
 // Cliente Login Post
 Route::post('/login','WebController@loginAuth');
+Route::post('/register','WebController@registerAuth');
+
 //Cliente Logout
 Route::get('/logout_user','WebController@logout');
 

@@ -1571,13 +1571,43 @@ class WebController extends Controller
 			->take(10)
 			->get();
 
-
 			$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
 			->where('level', '>=', '7')
 			->orderBy('id', 'asc')
 			->get();
 
 			return view('loginUser.clienteLogin', compact('agentes_activos','categorias_sub','categorias', 'comentarios', 'moneda_actual', 'coins'));
+		}
+
+		function register()
+		{
+
+			if (Session::has('id_coin')) {
+				$id_coin = Session::get('id_coin');
+			} else {
+				$id_coin = 1;
+			}
+			$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
+
+			$categorias = \Bumsgames\Category::All();
+			$moneda_actual = \Bumsgames\Coin::find($id_coin);
+			$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
+
+			$comentarios = DB::table('comment')
+			->where('aprobado', '1')
+			->leftjoin('clients', 'comment.id_comentario', '=', 'clients.id')
+			->orderby('fecha_comentado', 'desc')
+			->take(10)
+			->get();
+
+			$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
+			->where('level', '>=', '7')
+			->orderBy('id', 'asc')
+			->get();
+
+
+			
+			return view('loginUser.clienteRegister', compact('agentes_activos','categorias_sub','categorias', 'comentarios', 'moneda_actual', 'coins'));
 		}
 
 		public function loginAuth(Request $request)
@@ -1587,14 +1617,40 @@ class WebController extends Controller
 				'password' => 'required|string',
 			]);
 
-
 			if (Auth::guard('client')->attempt(['nickname' => $request->nickname, 'password' => $request->password])) {
-
 				return redirect('/adminpaneluser');
 			}
+
 			return back()
 			->withErrors(['nickname' => 'Usuario o Clave incorrecto'])
 			->withInput(request(['nickname']));
+		}
+
+		public function registerAuth(Request $data)
+		{	
+
+			$this->validate($data, [
+				'nickname' => 'required|string',
+				'password' => 'required|confirmed',
+				'email' => 'required|email|unique:clients',
+			]);
+
+			$confirmation_code = str_random(25);
+
+			$user = \Bumsgames\Client::create([
+				'nickname' => $data['nickname'],
+				'email' => $data['email'],
+				'password' => bcrypt($data['password']),
+				'documento_identidad' => $data['documento_identidad'],
+				'confirmation_code' => $confirmation_code
+			]);
+
+			// Send confirmation code
+			Mail::send('mail.userConfirmation', $data->toArray(), function($message) use ($data) {
+				$message->to($data['email'], $data['name'])->subject('Por favor confirma tu correo');
+			});
+
+			return $this->loginAuth($data);
 		}
 
 		public function logout()
@@ -1603,6 +1659,20 @@ class WebController extends Controller
 				Auth::guard('client')->logout();
 			} catch (\Exception $e) { }
 			return redirect('/');
+		}
+
+		public function verify($code)
+		{
+			$user = \Bumsgames\Client::where('confirmation_code', $code)->first();
+		
+			if (! $user)
+				return redirect('/');
+		
+			$user->confirmed = true;
+			$user->confirmation_code = null;
+			$user->save();
+		
+			return redirect('/adminpaneluser')->with('notification', 'Has confirmado correctamente tu correo!');
 		}
 
 		public function canjear(Request $request, $precio)

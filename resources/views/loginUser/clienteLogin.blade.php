@@ -37,7 +37,9 @@
                         
                         <div class="col">
                             <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#sirveReg">¿Para que sirve estar registrado?</button>
-                        <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#modalReg">Registrate</button>
+                            <a class="btn btn-primary btnregistrar" href="{{ url('/register')}}">
+                                Registrate
+                            </a>
                         </div>
 
                     </div>

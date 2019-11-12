@@ -13,7 +13,6 @@ class Client extends Authenticatable
 
     protected $guard = 'client';
 
-
     protected $table = 'clients';
 
     protected $fillable = [
@@ -27,6 +26,8 @@ class Client extends Authenticatable
         'num_contact',
         'note',
         'documento_identidad',
+        'confirmation_code',
+        'confirmed'
 
     ];
 
