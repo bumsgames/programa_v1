@@ -195,8 +195,8 @@ class geneController extends Controller
    $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
    ->get();
    $categorias = \Bumsgames\Category::All();
-
-   return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito'));  
+$Categoria_SubCategoria = \Bumsgames\Categoria_SubCategoria::All();
+   return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito','Categoria_SubCategoria'));  
 
  }
  public function del_categorias(Request $request){
@@ -209,7 +209,10 @@ class geneController extends Controller
    ->get();
    $categorias = \Bumsgames\Category::All();
 
-   return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito')); 
+   $Categoria_SubCategoria = \Bumsgames\Categoria_SubCategoria::All();
+
+
+   return view ('admin.categoriasvw', compact('categorias','tutoriales','carrito','Categoria_SubCategoria')); 
  }
  public function mod_categorias(Request $request){
 
@@ -267,6 +270,7 @@ class geneController extends Controller
    ->get();
 
    $subCategoria = \Bumsgames\Categoria_SubCategoria::All();
+
 
    return view ('admin.subCategorias', compact('subCategoria','tutoriales','carrito'));
 

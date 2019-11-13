@@ -527,12 +527,21 @@ button:hover{
 
     .container {max-width: 90%;}
 
+    /*@media (min-width: 1080px){
+      body{/
+      overflow-x:hidden;
+      width:100%;
+      zoom: 80%;
+
+    }
+    }*/
+
     @media (min-width: 1440px){.container {max-width: 90%;}}
     /*CSS general*/
     body{/*background: white cover;*/
       overflow-x:hidden;
       width:100%;
-      zoom: 55  %;
+      zoom: 55%;
 
     }
     .input-buscar{

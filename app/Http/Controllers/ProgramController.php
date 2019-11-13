@@ -46,6 +46,36 @@ class ProgramController extends Controller
 		return $precio_bitcoin;
 	}*/
 
+	public function upload(Request $request)
+    {
+    	$file = $request->file('file');
+		$path = public_path() . '/images/projects';
+		$fileName = uniqid() . $file->getClientOriginalName();
+		$file->move($path, $fileName);
+
+    	dd($request->file('file'));
+        // dd($request->file('image'));
+    }
+
+	// public function upload(Request $request)\
+	//   {
+ //    	dd($request->all(), $request->file('file'));
+ //        dd($request->file('image'));
+
+		
+
+	// 	$file->move($path, $fileName);
+	// 	dd($request->all());
+
+	// 	dd("bien");
+
+	// 	$projectImage = new ProjectImage();
+	// 	$projectImage->project_id = $id;
+	// 	$projectImage->user_id = auth()->user()->id;
+	// 	$projectImage->file_name = $fileName;
+	// 	$projectImage->save();
+	// }
+
 	public function index()
 	{
 		$articles_off = \Bumsgames\Article::selectRaw('id, fondo, name, category, price_in_dolar, quantity, sum(quantity) as quantity, updated_at')
@@ -558,6 +588,7 @@ class ProgramController extends Controller
 			return view('admin.cuentas.ordenes', compact('ordenes', 'comments_por_aprobar', 'tutoriales', 'pago_sin_confirmar'));
 		}
 
+
 		public function ordenes_cuenta(Request $request)
 		{
 			$tutoriales = \Bumsgames\tutorial::All();
@@ -711,11 +742,14 @@ class ProgramController extends Controller
 		// // 	->orWhere('entregado', '<=', 0);
 		// // })
 		// ->get();
+
 		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 		->orderby('created_at', 'desc')
 		->get();
+
 		$users = \Bumsgames\BumsUser::All();
 		$categories = \Bumsgames\Category::All();
+
 		foreach ($categories as $category) {
 			$cat[$category->id] = $category->category;
 		}
@@ -729,6 +763,7 @@ class ProgramController extends Controller
 	}
 	public function Modificar_Articulo()
 	{
+
 		$tutoriales = \Bumsgames\tutorial::All();
 		// $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
 		// ->where(function ($query) {
@@ -1431,6 +1466,51 @@ class ProgramController extends Controller
 		return back();
 	}
 
+		// $articlesPivote = \Bumsgames\Article::where('articles.quantity', '>=', '-1000')
+		// 	->where('articles.id', '!=', '2');
+
+		// if (isset($namefilt)) {
+		// 	$articlesPivote->where('name', 'LIKE', '%' . $namefilt . '%');
+		// }
+		// if ($category != 0) {
+		// 	$articlesPivote->where('category', $category);
+		// }
+		// if (isset($filtrocorreo)) {
+		// 	$articlesPivote->where('email', 'LIKE', '%' . $filtrocorreo . '%');
+		// }
+		// if ($disponible == 1) {
+		// 	$articlesPivote->where('quantity', '>', 0);
+		// }
+		// if ($disponible == 2) {
+		// 	$articlesPivote->where('quantity', '=', 0);
+		// }
+		// if ($creatorfilter != 0) {
+		// 	$articlesPivote->where('id_creator', $creatorfilter);
+		// }
+		// if (isset($nickfil)) {
+		// 	$articlesPivote->where('nickname', 'LIKE', '%' . $nickfil . '%');
+		// }
+		// if ($precio > 0) {
+		// 	$articlesPivote->where('price_in_dolar', '>=', $precio);
+		// }
+		// if ($oferta > 0) {
+		// 	$articlesPivote->where('offer_price', '>=', $oferta);
+		// }
+		// if ($peso > 0) {
+		// 	$articlesPivote->where('peso', '>=', $peso);
+		// }
+
+		// if ($seldu != 0) {
+		// 	$articlesPivote->join('bums_user_articles', 'bums_user_articles.id_article', '=', 'articles.id')
+		// 		->where('bums_user_articles.id_bumsuser', '=', $seldu);
+		// }
+		// $articles_cantidad = $articlesPivote->count();
+
+		// $articles = $articlesPivote->select(\DB::raw("articles.id, articles.id_creator, articles.name, articles.category, articles.price_in_dolar, articles.quantity, articles.email, articles.password, articles.nickname, articles.reset_button, articles.note, articles.offer_price, articles.peso, articles.costo, articles.estado"))
+		// 	->orderby('articles.id')
+		// 	->orderby('articles.category')
+		// 	->paginate(3000);
+
 	public function aplicar_filtros_multiples(Request $request)
 	{
 		$namefilt = $request->namefilt;
@@ -1922,8 +2002,14 @@ class ProgramController extends Controller
 
 	public function coincidenciaArticulo(Request $request)
 	{
-		$coincidencia = \Bumsgames\Article::where('name', 'like', '%' . $request->name . '%')->groupBy('name', 'category')
+		$coincidencia = \Bumsgames\Article::where('name', 'like', '%' . $request->name . '%')
+		->selectRaw('*,name, categories.category as categoria')
+		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+		->leftjoin('categories','articulo_categorias.id_categoria','categories.id')
+		->groupBy('name', 'articulo_categorias.id_categoria')
 		->get();
+
+		// dd($coincidencia->toArray());
 		$categoria = \Bumsgames\Category::all();
 		return response()->json([
 			"mensaje" => $coincidencia,
@@ -3504,6 +3590,33 @@ class ProgramController extends Controller
 		return view('admin.movimientos.movimientos_tipo_banco_filtro', compact('sales', 'comments_por_aprobar', 'pago_sin_confirmar', 'title', 'url', 'movement', 'usuarios', 'coins', 'tutoriales'));
 	}
 
+	public function delete_venta_v2(Request $request, $id){
+		$venta = \Bumsgames\Venta::find($id);
+
+
+		foreach ($venta->articulos as $item) {
+
+			$articulo = \Bumsgames\Article::find($item->id_articulo);
+
+			$searchterm = "Cuenta Digital";
+			$nombre_categoria = $articulo->categorias[0]->category;
+
+			$pos = strrpos( $nombre_categoria, $searchterm);
+
+			
+			if($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)){
+				$articulo->fill(['quantity' => 1]);
+			}else{
+				$articulo->fill(['quantity' => $articulo->quantity + $item->cantidad]);
+			}
+			
+			$articulo->save();
+
+		}
+		$venta->delete();
+		return 1;
+	}
+
 	public function movimientos_tuyos()
 	{
 		// $movimientos = \Bumsgames\Movimiento::
@@ -4097,7 +4210,6 @@ class ProgramController extends Controller
 		->get();
 
 		$articulos_factura = \Bumsgames\VentaArticulos::
-
 		where('id_venta',$id)
 		->leftjoin('articles','articles.id','venta_articulos.id_articulo')
 		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')

@@ -4,10 +4,10 @@
 @section('content')
 
 <style type="text/css">
-.img_vermas {
-	max-width: 100%;
-	height: auto;
-}
+	.img_vermas {
+		max-width: 100%;
+		height: auto;
+	}
 </style>
 
 <br>
@@ -19,9 +19,13 @@
 				<div class="col-12 col-lg-5">
 					<div class="container responsive bg-dark" style="top:100px;border-radius:50px; background: white !important; border: solid 20px gray;">
 						<br>
+						@foreach($imagenes_articulo as $imagen)
 						<center>
-							<img class="img_vermas" src="{{ url('img/'.$articulo_part->fondo) }}" style="width: 400px;">
+							<img class="img_vermas" src="{{ url('img/'.$imagen->file) }}" style="height: 240px;">
 						</center>
+						<br>	
+						@endforeach
+						
 						<br>
 					</div>
 					<br>
@@ -160,56 +164,56 @@
 
 						@if(($articulo_part->trailer))
 						<style>
-						.embed-container { 
-							position: relative; 
-							padding-bottom: 56.25%;
-							height: 0; 
-							overflow: hidden; 
-							max-width: 100%; 
-						} 
-						.embed-container iframe, .embed-container object, .embed-container embed { 
-							position: absolute; 
-							top: 0; 
-							left: 0; 
-							width: 100%; 
-							height: 100%; 
-						}
-					</style>
-					<div class='embed-container'>
-						<iframe src='{{$articulo_part->trailer}}' frameborder='0' allowfullscreen></iframe>
+							.embed-container { 
+								position: relative; 
+								padding-bottom: 56.25%;
+								height: 0; 
+								overflow: hidden; 
+								max-width: 100%; 
+							} 
+							.embed-container iframe, .embed-container object, .embed-container embed { 
+								position: absolute; 
+								top: 0; 
+								left: 0; 
+								width: 100%; 
+								height: 100%; 
+							}
+						</style>
+						<div class='embed-container'>
+							<iframe src='{{$articulo_part->trailer}}' frameborder='0' allowfullscreen></iframe>
+						</div>
+						@endif
+
+
+						<div>
+
+
+
+						</div>
+
+
 					</div>
-					@endif
-
-
-					<div>
-
-
-
-					</div>
+					<br>
 
 
 				</div>
-				<br>
-
 
 			</div>
 
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+
+
 		</div>
-		
 		<br>
 		<br>
 		<br>
 		<br>
 		<br>
-
-
 	</div>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-</div>
 </div>
 
 <div class="modal fade" id="modal_realizarOferta" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -257,10 +261,10 @@
 	</div>
 </div>
 <style type="text/css">
-.recomendados{
-	background-color: rgba(210, 210, 210, 0.9);
-	padding: 30px;
-}
+	.recomendados{
+		background-color: rgba(210, 210, 210, 0.9);
+		padding: 30px;
+	}
 </style>
 {{--  --}}
 <br><br><br><br>

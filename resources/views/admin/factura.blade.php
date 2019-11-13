@@ -23,11 +23,11 @@
 </head>
 
 <style type="text/css">
-.shadow_ligero{
-	-webkit-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
-	-moz-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
-	box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
-}
+	.shadow_ligero{
+		-webkit-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+		-moz-box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+		box-shadow: 0px 0px 20px 3px rgba(0,0,0,0.12);
+	}
 </style>
 
 <body>
@@ -52,64 +52,66 @@
 			Venta N#: {{ $venta->id }}
 			<br>
 			Fecha: {{ $venta->created_at->format('d - m - Y ') }}
-		<br>
-		Hora: {{ $venta->created_at->format('H:i:s') }}
-		<br>
-		<br>
-		<br>
-		Vendedor: <b>{{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}</b>
-		<br>
-		Nombre de cliente: <b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }} </b>
-		<br>
-		Documento de Identidad: <b>{{ $venta->ventaCliente->documento_identidad }}</b>
-		<br>
-		<br>  
-		--------------------------------------------------------------------------
-		<br>
-		<b>DATOS</b>
-		<br>
-		--------------------------------------------------------------------------
-		<br>
-		@foreach ($venta->articulos as $articulo)
-		@php $pago_articulo =  ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total @endphp
-		Cantidad: {{ $articulo->cantidad }}	({{ $pago_articulo  }} $)
-		<br>
-		{{-- {{ $pago_articulo }} --}}
-		<br>
-		Articulo: {{ $articulo->articulo->name }}	
-		<br>
-		{{ $articulo->articulo->categorias[0]->category }}	
-		<br>
-		<br>
+			<br>
+			Hora: {{ $venta->created_at->format('H:i:s') }}
+			<br>
+			<br>
+			<br>
+			Vendedor: <b>{{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}</b>
+			<br>
+			Nombre de cliente: <b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }} </b>
+			<br>
+			Documento de Identidad: <b>{{ $venta->ventaCliente->documento_identidad }}</b>
+			<br>
+			Nickname: <b>{{ $venta->ventaCliente->nickname }} (Ingrese a nuestra Pagina) </b>
+			<br>
+			<br>  
+			--------------------------------------------------------------------------
+			<br>
+			<b>DATOS</b>
+			<br>
+			--------------------------------------------------------------------------
+			<br>
+			@foreach ($venta->articulos as $articulo)
+			@php $pago_articulo =  ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total @endphp
+			<b>Cantidad:</b> {{ $articulo->cantidad }}	({{ $pago_articulo  }} $)
+			{{-- {{ $pago_articulo }} --}}
+			<br>
+			<b>Articulo:</b> {{ $articulo->articulo->name }}	
+			<br>
+			{{ $articulo->articulo->categorias[0]->category }}	
+			<br>
 
-		Pago: {{ $total +=  $pago_articulo * $articulo->cantidad }} $
-		@endforeach
-		<br>
-		<br>
-		<h3>Total: {{ $total }} $</h3>
-		<br>
-		------------------------------------------------------------------------
-		<br>
-		------------------------------------------------------------------------
-		<br>
-		PAGOS:
-		<br>
-		@foreach ($venta->pagos as $pago)
-		@php $dolardia = $pago->dolardia; @endphp
+			<b>Pago:</b> {{ $total +=  $pago_articulo * $articulo->cantidad }} $
+			<br>
+			<br>
+			@endforeach
+			<br>
+			<br>
+			<h3>Total: {{ $total }} $</h3>
+			<br>
+			------------------------------------------------------------------------
+			<br>
+			------------------------------------------------------------------------
+			<br>
+			PAGOS:
+			<br>
+			@foreach ($venta->pagos as $pago)
+			@php $dolardia = $pago->dolardia; @endphp
 
-		<br>
-		{{ $pago->banco->banco }} = @if ($dolardia == 0)
-		No se incluye monto, por error en programa (division entre 0).
-		@else
-		{{ $pago->monto / $dolardia }} $
-		@endif
-		@endforeach
-		<br>
-		<br>
-		<center>
-			** Politicas BumsGames en nuestra Pagina Web **
-		</center>
-		<br>
+			<br>
+			{{ $pago->banco->banco }} = @if ($dolardia == 0)
+			No se incluye monto, por error en programa (division entre 0).
+			@else
+			{{ $pago->monto / $dolardia }} $
+			@endif
+			@endforeach
+			<br>
+			<br>
+			<center>
+				** Politicas BumsGames en nuestra Pagina Web **
+			</center>
+			<br>
 		</div>
 
 		
@@ -117,182 +119,114 @@
 </div>
 <br>
 
-<div style="width: 500px;">
 
+<h3>Entrega</h3>
+<b>Vendedor:</b> {{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}
+<br>	
+<b>Fecha del mensaje:</b> {{ $venta->created_at->format('d - m - Y ') }}
+<br>
+<br>
+<p>Hola amigo, <b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }}</b>, gracias por tu compra.</p>
+<br>
 
-	<hr>
-	@foreach ($articulo->articulo->categorias->groupby('id') as $element)
-	Agrupaje <br>
-	{{ $element }}
-	@endforeach
-	<hr>
-	<h3>Entrega</h3>
-	Vendedor: {{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}
-	<br>	
-	Fecha del mensaje: {{ $venta->created_at->format('d - m - Y ') }}
-	<br>
-	<br>
-	<p>Hola amigo, {{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }}, gracias por tu compra.</p>
-	<br>
-	<br>
-	@foreach ($venta->articulos as $articulo)
-	Cantidad: {{ $articulo->cantidad }}	({{ ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total / $articulo->cantidad }} $)
-	<br>
-	Articulo: {{ $articulo->articulo->name }}	
-	<br>
-	<br>
-	<br>
-	{{ $articulo->articulo->categorias[0]->category }}
-	<br>
-	<br>
-	{{ $articulo }}
-	@foreach ( $articulo->articulo->categorias as $categoria)
-	<hr>
-	prueba
-	<br>
-	{{ $categoria->category }}
-	<hr>
-	@endforeach	
-	<br>
-	<br>
-
-	{{ $total += ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total }} $
-	@endforeach
-	
-	<br>
-	<br>
-	<br>
-	
-	<hr>
-	<h3>Entrega</h3>
-	Vendedor: {{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}
-	<br>	
-	Fecha del mensaje: {{ $venta->created_at->format('d - m - Y ') }}
-	<br>
-	<br>
-	<p>Hola amigo, {{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }}, gracias por tu compra.</p>
-	<br>
-	@php $aux1 = 0; @endphp
-	@foreach ($articulos_factura as $articulo_factura)
-	@if ($aux1 != $articulo_factura->id_categoria)
-	<h4>Articulos de Categoria: {{ $articulo_factura->id_categoria }}</h4>
-	@if ($articulo_factura->id_categoria == 1)
-	<h5>Instrucciones PlayStation 4 Primario</h5>
-	{{-- Instrucciones PlayStation 4 Secundario  --}}
-	ATENCION, OJO: Bajo ninguna circunstancia cambiar el APODO, NICKNAME de la cuenta proporcionada, puede significar la expulsion inmediata sin reembolso del JUEGO.
-	<br>
-	*REGLAS (OBLIGATORIO):* No utilizar el usuario una vez puesto a descargar, no cambiar o modificar datos de la CUENTA. (Hay sanciones en caso de que no se cumplan las mismas)
-	<br>	
-	<br>	
-	*VIDEOTUTORIAL PARA DESCARGAR:* https://www.youtube.com/watch?v=fzHBj8vPZ3s&t=36s 
-	<br>
-	
-	<br>
-	RECORDATORIO: Usted cuenta con garantia de por vida, siempre y cuando cumpla las normativas y tambien puede utilizar este producto como PARTE DE PAGO por otros articulos de nosotros. 
-	<br>
-	<br>	
-	Cualquier duda, hacersela saber a su vendedor, para nosotros es un Placer trabajar para usted :).
-	<br>
-	<br>	
-	Echale un vistazo a nuestro Instagram: https://www.instagram.com/bumsgames/
-	<br>
-	*Buscas mas Juegos?, visita ya nuestra Pagina Web: *www.bumsgames.com.ve*
-	<br>
+<?php $i = 1; ?>
+<?php $categoria = ''; ?>
+<div class="row">
+	<div class="col">
+		@foreach($venta->articulos as $articulo)
+		@if($articulo->articulo->categorias[0]->category != $categoria)
+		@if($i != 1)
+	</div>
 	@endif
-	@endif
-
-
-
-	@if ($articulo_factura->id_categoria == 1)
-	<br>
-	<br>
-	<br>
+	<?php $categoria = $articulo->articulo->categorias[0]->category; ?>
+	<?php $id_categoria = $articulo->articulo->categorias[0]->id; ?>
+	<?php $i = 1; ?>
 	<br>
 	<br>
 
-	<b>*DATOS DE DESCARGA:*</b>
-	<br>
-	Categoria: Articulo PlayStation 4 Primario
-	<br>
-	<br>	
-	Juego: {{ $articulo_factura->name }}
-	<br>
-	Correo: {{ $articulo_factura->email }}
-	<br>
-	Password: {{ $articulo_factura->password }}
-	<br>
-	<br>
-	Las instrucciones y reglas (obligatorio leerlas) estaran en la Parte abajo
-	<br>
-	<br>
-	@endif	
-
-	@if ($articulo_factura->id_categoria == 2)
-	<br>
-	<br>
-	<br>
-	*DATOS DE DESCARGA:*
-	<br>
-	Categoria: Articulo PlayStation 4 Secundario
-	<br>
-	<br>	
-	Juego: {{ $articulo_factura->name }}
-	<br>
-	Correo: {{ $articulo_factura->email }}
-	<br>
-	Password: {{ $articulo_factura->password }}
-	<br>
-	<br>
-	Las instrucciones y reglas (obligatorio leerlas) estaran en la Parte de abajo.
-	<br>
-	<br>
-	@endif
-
-	@if ($aux1 != $articulo_factura->id_categoria)
-	@php $aux1 = $articulo_factura->id_categoria; @endphp
-	@endif
 
 
 
-	@if ($aux1 == 2)
-	{{-- Instrucciones PlayStation 4 Secundario  --}}
-	ATENCION, OJO: Bajo ninguna circunstancia cambiar el APODO, NICKNAME de la cuenta proporcionada, puede significar la expulsion inmediata sin reembolso del JUEGO.
-	<br>
-	*REGLAS (OBLIGATORIO):* No activarse como PRIMARIO por ninguna razon, no cambiar o modificar datos de la CUENTA. (Hay sanciones en caso de que no se cumplan las mismas)	
-	<br>	
-	<br>	
-	*VIDEOTUTORIAL PARA DESCARGAR:* https://www.youtube.com/watch?v=5vXs4Gnxxi0&t=12s
-	<br>
-	<br>	
-	*VIDEOTUTORIAL para jugar:* https://www.youtube.com/watch?v=lD2_neiQM0c
-	<br>
-	<br>	
-	*VIDEOTUTORIAL fallo (muy poco frecuente):* https://www.youtube.com/watch?v=2RcHgtIshzQ 
-	<br>
-	<br>
-	Sabias que algunos juegos secundarios de PlayStation 4 se pueden jugar desde tu usuario?, mira este tutorial e intentalo a ver si es el caso para este Juego: *VIDEOTUTORIAL para jugar desde nuestro usuario:* https://www.youtube.com/watch?v=X0Ha1McuIto 
-	<br>
-	
-	<br>
-	RECORDATORIO: Usted cuenta con garantia de por vida, siempre y cuando cumpla las normativas y tambien puede utilizar este producto como PARTE DE PAGO por otros articulos de nosotros. 
-	<br>
-	<br>	
-	Cualquier duda, hacersela saber a su vendedor, para nosotros es un Placer trabajar para usted :).
-	<br>
-	<br>	
-	Echale un vistazo a nuestro Instagram: https://www.instagram.com/bumsgames/
-	<br>
-	*Buscas mas Juegos?, visita ya nuestra Pagina Web: *www.bumsgames.com.ve*
-	<br>
-	@endif
+	<div id="div_{{$articulo->id_categoria}}">
+		<h4><strong>{{ $categoria }}</strong></h4>
+		<br>
+		@if($id_categoria == 1)
 
-	@endforeach
+		{{-- Instrucciones PlayStation 4 Primario  --}}
+		<b>LOS JUEGOS ESTARAN EN LA PARTE DE ABAJO</b>
+		<br>
+		<br>	
+		ATENCION, OJO: Bajo ninguna circunstancia cambiar el APODO, NICKNAME de la cuenta proporcionada, puede significar la expulsion inmediata sin reembolso del JUEGO.
+		<br>
+		*REGLAS (OBLIGATORIO):* No utilizar el usuario una vez puesto a descargar, no cambiar o modificar datos de la CUENTA. (Hay sanciones en caso de que no se cumplan las mismas)
+		<br>	
+		<br>	
+		*VIDEOTUTORIAL PARA DESCARGAR:* https://www.youtube.com/watch?v=fzHBj8vPZ3s&t=36s 
+		<br>
 
-	
+		<br>
+		RECORDATORIO: Usted cuenta con garantia de por vida, siempre y cuando cumpla las normativas y tambien puede utilizar este producto como PARTE DE PAGO por otros articulos de nosotros. 
+		<br>
+		<br>	
+		Cualquier duda, hacersela saber a su vendedor, para nosotros es un Placer trabajar para usted :).
+		<br>
+		<br>	
+		Echale un vistazo a nuestro Instagram: https://www.instagram.com/bumsgames/
+		<br>
+		*Buscas mas Juegos?, visita ya nuestra Pagina Web: *www.bumsgames.com.ve*
+		<br>
 
-	
+		@endif
+		<br>
+		<br>
+		@endif
 
-	<br>
+		<div style="border: solid 2px rgba(0,10,0,0.3); border-radius: 20px; width: 500px; padding: 10px;">	
+			<strong><?php echo $i++; ?></strong>. 
+			@if(((strpos($articulo->articulo->categorias[0]->category,'Cuenta') !== false) 
+			|| (strpos($articulo->articulo->categorias[0]->category,'Cupo') !== false)))
+
+			Juego: {{  $articulo->articulo->name }}
+			<br>
+			Correo: {{  $articulo->articulo->email }}
+			<br>
+			Password: {{  $articulo->articulo->password }}
+
+			@else
+			@if((strpos($articulo->articulo->categorias[0]->category,'Codigo') !== false ))
+
+			<b>Articulo:</b> {{ $articulo->articulo->name }}
+			<br>
+			<b>Codigo:</b> El Agente BumsGames de esta entrega, le entregara su codigo
+
+			<br>
+
+			@else
+			<b>Articulo:</b> {{ $articulo->articulo->name }}
+			<br>
+			<b>Envio: </b>
+
+
+			@endif
+
+
+			@endif
+
+			<br><br>	
+		</div>
+
+
+		@endforeach
+	</div>
+
+</div>
+
+
+
+
+
+
+<br>
 </body>
 
 

@@ -65,38 +65,42 @@ class ArticleController extends Controller
   // ArticleRequest // REGISTRAR ARTICULO
   public function store(ArticleRequest $request)
   {
+    $mensaje = "";
+
 
     //$images = $request->images;
     //return response()->json($request->images);
 
+    // Tama;o maximo de imagen 100 kb
     $this->validate($request, [
       'image' => 'nullable|max:100',
       //'fondo' => 'nullable|max:100',
     ]);
 
-    //verificar si es cuenta digital 
     $id_categorias = json_decode($request->id_categorias);
     $categoria = \Bumsgames\Category::find($id_categorias[0]);
 
     $nombre_categoria = $categoria->category;
+
     $searchterm = "Cuenta Digital";
     $searchterm2 = "Cupo Digital";
     $pos = strrpos( $nombre_categoria, $searchterm);
     $pos2 = strrpos( $nombre_categoria, $searchterm2);
 
 
+
     // Verificar si es Articulo Cuenta Digital o Cupo Digital que no haya otro Articulo de esa misma categoria con el mismo Correo
     if (($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)) || 
       ($pos2 !== false && strlen($searchterm2) + $pos2 == strlen($nombre_categoria))) {
 
-      // vericar que la cantidad no sea mayor a 1
-    $art = \Bumsgames\Article::
+ // verificar si hay otro articulo con ese mismo correo y misma categoria
+      $art = \Bumsgames\Article::
     leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
     ->where('email', $request->email)
     ->where('articulo_categorias.id_categoria', $id_categorias[0])
     ->get();
 
-      // verificar si hay otro articulo con ese mismo correo y misma categoria
+
     if ($art->count() >= 1) {
       return response()->json([
         "tipo" => "1",
@@ -116,7 +120,7 @@ class ArticleController extends Controller
     }
   }
 
-    // No numero negativo en Inversion // Aqui falta que los otros montos tampoco sean negativos, si pueden ser 0
+    // No numero negativo en Inversion, Precio u Oferta
   if (($request->costo < 0) && ($request->price_in_dolar < 0) && ($request->offer_price < 0)) {
     return response()->json([
       "tipo" => "1",
@@ -125,45 +129,58 @@ class ArticleController extends Controller
   }
 
     // tomar todos los articulos donde tengan ese mismo nombre y categoria
-  $art = \Bumsgames\Article::
-  leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
-  ->where('name', $request->name)
-  ->where('articulo_categorias.id_categoria', $id_categorias[0])
-  ->get();
-    // NOTIFICACIONES
+  $todas_categorias = '';
 
-  //Guarda nombre de categoria en Temporal
-  $temporal = $categoria->category;
+  for ($i = 0; $i < count($id_categorias); $i++) {
+    $art = \Bumsgames\Article::
+    leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+    ->where('name', $request->name)
+    ->where('articulo_categorias.id_categoria', $id_categorias[$i])
+    ->get();
 
-    // SIGNIFICA QUE LLEGO ESTE ARTICULO
+    $categoria = \Bumsgames\Category::find($id_categorias[0]);
+    $nombre_categoria = $categoria->category;
+    $todas_categorias .= $nombre_categoria.' ';
 
-    // si no existe o si existe y la cantidad es 0
-  if (($art->count() == 0 && $request->quantity >= 1) || ($art->sum('quantity') == 0 && $request->quantity >= 1)) {
-    $titulo = 'LLEGO ESTE ARTICULO A STOCK';
-    $data = "Articulo: " . $request->name;
-    $data2 = "Categoria: " . $temporal;
-    $users = BumsUser::where('level', '>=', '7')->get();
-    $this->notificacion_para_todos_level7($titulo, $data, $data2);
-  } 
+  // if (($art->count() == 0 && $request->quantity >= 1) || ($art->sum('quantity') == 0 && $request->quantity >= 1)) {
+    if ($art->sum('quantity') == 0 && $request->quantity >= 1) {
+      $titulo = 'LLEGO ESTE ARTICULO A STOCK';
+      $data = "Articulo: " . $request->name;
+      $data2 = "Categoria: " . $nombre_categoria;
+      $users = BumsUser::where('level', '>=', '7')->get();
+      $this->notificacion_para_todos_level7($titulo, $data, $data2);
+
+      $request->request->add(['ultimo_agregado' => Carbon::now()]);
+    } 
+
+
+    $temporal =  \Bumsgames\Article::
+    leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+    ->where('name', $request->name)
+    ->where('articulo_categorias.id_categoria', $id_categorias[$i])
+    ->get();
+    
+    // cambiando precio de todas las coincidencias con misma categoria
+    foreach ($temporal as $x) {
+      $algo = \Bumsgames\Article::find($x->id_articulo);
+      if ($request->price_in_dolar < $x->price_in_dolar) {
+        $algo->fill(['ultimo_agregado' => Carbon::now()]);
+      }
+      $algo->fill(['price_in_dolar' => $request->price_in_dolar]);
+      $algo->save();
+
+// cambio de imagen
+      // if (!isset($imagentodos) && $x->fondo != 'fondo_nada.jpg') {
+      //   $imagentodos = $x->fondo;
+      // }
+    }
+  }
 
     // crea la notificacion
   $titulo = 'ARTICULO AGREGADO POR: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
-  $data = "Articulo: " . $request->name;
-  $data2 = "Categoria: " . $temporal;
-
+  $data = "Articulo: " . $request->name . ". Cantidad: " . $request->quantity ;
+  $data2 = "Categoria(s): " . $todas_categorias;
   $this->notificacion_para_todos_level9($titulo, $data, $data2);
-
-  $comprobante_disponibilidad =
-  \Bumsgames\Article:: 
-  leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
-  ->where('articulo_categorias.id_categoria', $id_categorias[0])
-  ->where('quantity', '>', '0')
-  ->where('name', '=', $request->name)
-  ->get();
-
-  if (($comprobante_disponibilidad->count() == 0) && ($request->quantity > 0)) {
-    $request->request->add(['ultimo_agregado' => Carbon::now()]);
-  }
 
   
   // crea el articulo
@@ -171,70 +188,11 @@ class ArticleController extends Controller
     $articulo = \Bumsgames\Article::create($request->all());
   }
 
-  //Actualiza el costo del producto con el mismo email y nickname
 
   //Articulos mismo nombre e id
-  $temporal =  \Bumsgames\Article::
-  leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
-  ->where('name', $articulo->name)
-  ->where('articulo_categorias.id_categoria', $id_categorias[0])
-  ->get();
+  
 
   
-  // cambiando precio de todas las coincidencias con misma categoria
-  foreach ($temporal as $x) {
-    $algo = \Bumsgames\Article::find($x->id_articulo);
-    if ($request->price_in_dolar < $x->price_in_dolar) {
-      $algo->fill(['ultimo_agregado' => Carbon::now()]);
-    }
-    $algo->fill(['price_in_dolar' => $articulo->price_in_dolar]);
-    $algo->save();
-
-    if (!isset($imagentodos) && $x->fondo != 'fondo_nada.jpg') {
-      $imagentodos = $x->fondo;
-    }
-  }
-
-  if (!isset($request->fondo) && isset($imagentodos)) {
-    DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $articulo->id . ' ');
-  }
-
-  //Actualizar imagenes de productos con mismo nombre y categoria
-  foreach ($temporal as $x) {
-    $algo = \Bumsgames\Article::find($x->id_articulo);
-    if (isset($request->fondo)) {
-
-      DB::statement('UPDATE articles SET fondo="' . $articulo->fondo . '" WHERE id=' . $algo->id . ' ');
-
-
-    } else if ($algo->fondo == 'fondo_nada.jpg' && isset($imagentodos)) {
-      DB::statement('UPDATE articles SET fondo="' . $imagentodos . '" WHERE id=' . $algo->id . ' ');
-    }
-    $algo->save();
-  }
-
-    //Se cambian todos los trailers
-  if (isset($request->trailer)) {
-    if($request->category == 1 || $request->category == 2){
-      $articles_trailers = \Bumsgames\Article::whereIn('category',[1,2])
-      ->where('name',$request->name)
-      ->get();
-    }
-    else if($request->category == 8 || $request->category == 9){
-      $articles_trailers = \Bumsgames\Article::whereIn('category',[8,9])
-      ->where('name',$request->name)
-      ->get();
-    }
-    else{
-      $articles_trailers = \Bumsgames\Article::where('name',$request->name)
-      ->where('category',$request->category)
-      ->get();
-    }
-    foreach($articles_trailers as $art_trailer){
-      $art_trailer->trailer = $request->trailer;
-      $art_trailer->save();
-    }
-  }
 
     // crea a quien pertenece el juego
   $id_articulo = $articulo->id;
@@ -249,7 +207,7 @@ class ArticleController extends Controller
     ]);
   }
 
-    // AGREGAR CATEGORIAS AL ARTICULO
+    // AGREGAR CATEGORIAS AL ARTICULO, mensaje cuanto articulos hay de cada categoria
   $id_categorias = json_decode($request->id_categorias);
 
   for ($i = 0; $i < count($id_categorias); $i++) {
@@ -257,6 +215,20 @@ class ArticleController extends Controller
       'id_articulo' => $id_articulo,
       'id_categoria' => $id_categorias[$i]
     ]);
+
+
+    
+    $cantidad = \Bumsgames\Article::
+    selectRaw('name, categories.category, sum(quantity) as cantidad')
+    ->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
+    ->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+    ->where('articles.id', '!=', '2')
+    ->where('name', $request->name)
+    ->where('articulo_categorias.id_categoria', $id_categorias[$i])
+    ->groupBy('name', 'categories.category')
+    ->get();
+
+    $mensaje .= "Articulo: ".$cantidad[0]->name . ". Categoria: ".$cantidad[0]->category. ". \nCantidad en Sistema: ".$cantidad[0]->cantidad."\n\n";
   }
 
     //guardo ubicacion 
@@ -264,77 +236,139 @@ class ArticleController extends Controller
   $articulo->save();
 
 
-  return $articulo;
+  // return $articulo;
+
+
+  //  $file = $request->file('image');
+  //   //$file = $request->images;
+
+  // // $name = Carbon::now()->day . $file->getClientOriginalName();
+
+  // $image = new \Bumsgames\Image;
+  // $image->numero = $request->number;
+  // $image->file = $name;
+  // $image->save();
+
+  // \Storage::disk('local')->put($name, \File::get($file));
+
+  // \Bumsgames\Article_Image::create([
+  //   'article_id' => $request->article_id,
+  //   'image_id' => $image->id
+  // ]);
+  // return response()->json(["se guardo la imagen"=>$image]);
+
+  $mensaje .= "bien";
+  // return $articulo;
+  return response()->json([
+    "articulo" => $articulo,
+    "articuloID" => $articulo->id,
+    "data" => $mensaje,
+  ]);
 }
 
-  public function fotoMultiple(Request $request){
+public function fotoMultiple(Request $request){
+  $articulos_referencia = \Bumsgames\Article::find($request->article_id);
+  // dd($articulos_referencia->name);
+  $id_categoria = $articulos_referencia->categorias[0]->id;
 
-    $file = $request->file('image');
+  $articulos_coincidencia = \Bumsgames\Article::
+  where('name', 'like', '%' . $articulos_referencia->name . '%')
+  ->whereHas('categorias', function($q) use ($id_categoria) {
+    $q->where('categories.id', '=', $id_categoria); 
+  })
+  ->get();
+
+  // guardo imagen
+  $file = $request->file('image');
     //$file = $request->images;
 
-    $name = Carbon::now()->day . $file->getClientOriginalName();
+  $name = Carbon::now()->day . $file->getClientOriginalName();
 
-    $image = new \Bumsgames\Image;
-    $image->numero = $request->number;
-    $image->file = $name;
-    $image->save();
+  $image = new \Bumsgames\Image;
+  $image->numero = $request->number;
+  $image->file = $name;
+  $image->save();
 
-    \Storage::disk('local')->put($name, \File::get($file));
-
+  \Storage::disk('local')->put($name, \File::get($file));
+  foreach ($articulos_coincidencia as $articulo) {
     \Bumsgames\Article_Image::create([
-      'article_id' => $request->article_id,
+      'article_id' => $articulo->id,
       'image_id' => $image->id
     ]);
-    return response()->json(["se guardo la imagen"=>$image]);
   }
+  
+  return response()->json(["se guardo la imagen"=>$image]);
+}
 
-  public function fotoMultipleMod(Request $request){
-    $articleID=$request->article_id;
-    $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
-    $images = $articulo->images;
+
+// public function fotoMultiple(Request $request){
+//     dd($request->all());
+//   $file = $request->file('image');
+//     //$file = $request->images;
+
+//   $name = Carbon::now()->day . $file->getClientOriginalName();
+
+//   $image = new \Bumsgames\Image;
+//   $image->numero = $request->number;
+//   $image->file = $name;
+//   $image->save();
+
+//   \Storage::disk('local')->put($name, \File::get($file));
+
+//   \Bumsgames\Article_Image::create([
+//     'article_id' => $request->article_id,
+//     'image_id' => $image->id
+//   ]);
+//   return response()->json(["se guardo la imagen"=>$image]);
+// }
+
+public function fotoMultipleMod(Request $request){
+  $articleID=$request->article_id;
+  $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
+  $images = $articulo->images;
     //dd($articulo->toArray());
-    
-    if($request->index==0 && count($images)>0){
-      
-      foreach ($images as $image) {
-        \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
-        $image->delete();
-      }
-      
-    }
 
-    $file = $request->file('image');
-    //$file = $request->images;
-    $name = Carbon::now()->second . $file->getClientOriginalName();
-
-    $image = new \Bumsgames\Image;
-    $image->numero = $request->number;
-    $image->file = $name;
-    $image->save();
-
-    \Storage::disk('local')->put($name, \File::get($file));
-
-    \Bumsgames\Article_Image::create([
-      'article_id' => $request->article_id,
-      'image_id' => $image->id
-    ]);
-
-    return response()->json(["se guardo la imagen"=>$image]);
-  }
-
-  public function eliminarFotosArticulo(Request $request){
-
-    $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
-    $images = $articulo->images;
-    //dd($articulo->toArray());
+  if($request->index==0 && count($images)>0){
 
     foreach ($images as $image) {
       \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
       $image->delete();
     }
 
-    return response()->json(["se eliminaron las imagenes de"=>$articulo]);
   }
+
+  $file = $request->file('image');
+    //$file = $request->images;
+  $name = Carbon::now()->second . $file->getClientOriginalName();
+
+  $image = new \Bumsgames\Image;
+  $image->numero = $request->number;
+  $image->file = $name;
+  $image->save();
+
+  \Storage::disk('local')->put($name, \File::get($file));
+
+  \Bumsgames\Article_Image::create([
+    'article_id' => $request->article_id,
+    'image_id' => $image->id
+  ]);
+
+  return response()->json(["se guardo la imagen"=>$image]);
+}
+
+public function eliminarFotosArticulo(Request $request){
+
+  $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
+  $images = $articulo->images;
+    //dd($articulo->toArray());
+
+  foreach ($images as $image) {
+    \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
+    $image->delete();
+  }
+
+  return response()->json(["se eliminaron las imagenes de"=>$articulo]);
+}
 
    /*
   -------------------------------------
@@ -584,110 +618,23 @@ class ArticleController extends Controller
   -------------------------------------
   */
 
+  public function modificar_Articulo_PRUEBA(ArticleRequest $request){
+
+  }
+
   public function modificar_Articulo(ArticleRequest $request)
   {
 
-    $variable = $request->category_nombre;
-    $searchterm = "Cuenta Digital";
-    $pos = strrpos($variable, $searchterm);
+    $mensaje = "";
+
+
 
     $cambio_email_o_category = 0;
 
     //Se busca el articulo antes del cambio para tenerlo como referencia
-    $refer = \Bumsgames\Article::find($request->id_articulo);
-
-
-    // MODIFICAR CATEGORIAS AL ARTICULO
-    $id_categorias = json_decode($request->id_categorias);
-
-    //return response()->json($request);
-
-    //return response()->json($id_categorias);
-    // for ($i = 0; $i < count($id_categorias); $i++) {
-    //   \Bumsgames\Articulo_Categoria::create([
-    //     'id_articulo' => $id_articulo,
-    //     'id_categoria' => $id_categorias[$i]
-    //   ]);
-    // }
-
-
-    //si es cuenta digital 
-    if ($pos !== false && strlen($searchterm) + $pos == strlen($variable)) {
-      if ($request->quantity > 1) {
-        return response()->json([
-          "tipo" => "1",
-          "data" => "Este articulo digital no puede tener una cantidad mayor a 1.\n\n\nCantidad colocada: " . $request->quantity . " \n\n\nCorreo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
-        ]);
-      }
-
-
-      //Modificacion caso Ps4/Ps3
-      //Modificar el reset_button de todos los otros productos con el mismo correo
-      if (($refer->reset_button != $request->reset_button) && (in_array($refer->category, [1, 2, 5]))) {
-        DB::statement('UPDATE articles SET reset_button="' . $request->reset_button . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (1,2,5)))');
-      }
-
-      //Modificar el nickname de todos los otros productos con el mismo correo
-      if (($refer->nickname != $request->nickname) && (in_array($refer->category, [1, 2, 5]))) {
-        DB::statement('UPDATE articles SET nickname="' . $request->nickname . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (1,2,5)))');
-      }
-
-      //Modificar el password de todos los otros productos con el mismo correo
-      if (($refer->password != $request->password) && (in_array($refer->category, [1, 2, 5]))) {
-        DB::statement('UPDATE articles SET password="' . $request->password . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (1,2,5)))');
-      }
-
-      //Modificar el email de todos los otros productos con el mismo correo anterior
-      if (($refer->email != $request->email) && (in_array($refer->category, [1, 2, 5]))) {
-        DB::statement('UPDATE articles SET email="' . $request->email . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (1,2,5)))');
-      }
-
-      //Modificacion caso Xbox One
-      //Modificar el reset_button de todos los otros productos con el mismo correo
-      if (($refer->reset_button != $request->reset_button) && (in_array($refer->category, [8, 9]))) {
-        DB::statement('UPDATE articles SET reset_button="' . $request->reset_button . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (8,9)))');
-      }
-
-      //Modificar el nickname de todos los otros productos con el mismo correo
-      if (($refer->nickname != $request->nickname) && (in_array($refer->category, [8, 9]))) {
-        DB::statement('UPDATE articles SET nickname="' . $request->nickname . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (8,9)))');
-      }
-
-      //Modificar el password de todos los otros productos con el mismo correo
-      if (($refer->password != $request->password) && (in_array($refer->category, [8, 9]))) {
-        DB::statement('UPDATE articles SET password="' . $request->password . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (8,9)))');
-      }
-
-      //Modificar el email de todos los otros productos con el mismo correo anterior
-      if (($refer->email != $request->email) && (in_array($refer->category, [8, 9]))) {
-        DB::statement('UPDATE articles SET email="' . $request->email . '" WHERE id!=' . $request->id_articulo . ' AND (email="' . $refer->email . '" AND (category IN (8,9)))');
-      }
-
-      //Modificar el peso de todos los otros productos con el mismo nombre y categoria
-      if (($refer->peso != $request->peso) && (in_array($refer->category, [8, 9]))) {
-        DB::statement('UPDATE articles SET peso="' . $request->peso . '" WHERE id!=' . $request->id_articulo . ' AND (name="' . $refer->name . '" AND (category IN (8,9)))');
-      }
-
-      //Modificar el peso de todos los otros productos con el mismo nombre y categoria
-      if (($refer->peso != $request->peso) && (in_array($refer->category, [1, 2]))) {
-        DB::statement('UPDATE articles SET peso="' . $request->peso . '" WHERE id!=' . $request->id_articulo . ' AND (name="' . $refer->name . '" AND (category IN (1,2)))');
-      }
-
-      if (($request->cambio_email_o_category == 1) && isset($request->email)) {
-        $articulo_ref_cambio = \Bumsgames\Article::find($request->id_articulo);
-
-        if($request->email != $articulo_ref_cambio->email){
-          $cambio_email_o_category = 1;
-          $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->where('id','!=', $request->id_articulo)->get();
-          if ($art->count() >= 1) {
-            return response()->json([
-              "tipo" => "1",
-              "data" => "Este articulo digital ya ha sido registrado con ese mismo correo.\n\n\n Correo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
-            ]);
-          }
-        }
-      }
-    }
+    $refer = \Bumsgames\Article::with('categorias')
+    ->where('id',$request->id_articulo)
+    ->get();
 
     if (($request->offer_price < $request->price_in_dolar) && ($request->oferta == 1)) {
       return response()->json([
@@ -696,342 +643,376 @@ class ArticleController extends Controller
       ]);
     }
 
-    $variable = $request->category_nombre;
-    $searchterm = "Cupo Digital";
-    $pos = strrpos($variable, $searchterm);
+    print_r(0);
 
-    //si es cuenta digital 
-    if ($pos !== false && strlen($searchterm) + $pos == strlen($variable)) {
-      if ($request->quantity > 4) {
-        return response()->json([
-          "tipo" => "1",
-          "data" => "Este articulo digital no puede tener una cantidad mayor a 4.\n\n\nCantidad colocada: " . $request->quantity . " \n\n\nCorreo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
-        ]);
-      }
-      if (($request->cambio_email_o_category == 1) && isset($request->email)) {
-        $articulo_ref_cambio = \Bumsgames\Article::find($request->id_articulo);
 
-        if($request->email != $articulo_ref_cambio->email){
-          $art = \Bumsgames\Article::where('email', $request->email)->where('category', $request->category)->get();
-          if ($art->count() >= 1) {
-            return response()->json([
-              "tipo" => "1",
-              "data" => "Este articulo digital ya ha sido registrado con ese mismo correo.\n\n\n Correo: " . $request->email . ".\n\nCategoria: " . $request->category_nombre,
-            ]);
-          }
-        }
-      }
-    }
+    $id_categorias = json_decode($request->id_categorias);
+    $categoria = \Bumsgames\Category::find($id_categorias[0]);
 
-    $art = \Bumsgames\Article::where('name', $request->name)
-    ->where('category', $request->category)
+
+    // $articulo->categorias()->sync($id_categorias);
+
+
+    $nombre_categoria = $categoria->category;
+    $primera_categoria_id = $id_categorias[0];
+
+    $searchterm = "Cuenta Digital";
+    $searchterm2 = "Cupo Digital";
+    $pos = strrpos( $nombre_categoria, $searchterm);
+    $pos2 = strrpos( $nombre_categoria, $searchterm2);
+
+
+    print_r(0.1);
+
+
+    //si es cuenta digital  o cupo
+    if (($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)) || 
+      ($pos2 !== false && strlen($searchterm2) + $pos2 == strlen($nombre_categoria))) {
+
+      $art = \Bumsgames\Article::
+    leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+    ->where('email', $request->email)
+    ->where('articulo_categorias.id_categoria', $id_categorias[0])
     ->get();
 
-    if ($art->count() == 0) {
-      $cantidad_que_tenia = 0;
-    } else {
-      $cantidad_que_tenia = $art->sum('quantity');
-    }
+    print_r(0);
 
-    $comprobante_disponibilidad =
-    \Bumsgames\Article::where('quantity', '>', '0')
-    ->where('name', '=', $refer->name)
-    ->where('category', '=', $refer->category)
-    ->get();
-    if (($comprobante_disponibilidad->count() == 0) && ($refer->quantity < $request->quantity)) {
-      $request->request->add(['ultimo_agregado' => Carbon::now()]);
-    }
-    
-    // modificacion articulo
-    $articulo = \Bumsgames\Article::find($request->id_articulo);
-
-    $articulo->fill($request->all());
-    //$articulo->ubicacion =  $request->ubicacion;
-    //$articulo->save();
-    
-    //guardando, modifica el mas reciente, tambien precio
-
-    //Actualiza el costo del producto con el mismo email y nickname
-    /*if(in_array($articulo->category,[1,2])){
-      if($articulo->category == 1){
-        $artref = \Bumsgames\Article::where('articles.email', $request->email)
-        ->where('category','2')
-        ->where('articles.nickname', $request->nickname)
-        ->first();
-      }
-      else if($articulo->category == 2){
-        $artref = \Bumsgames\Article::where('articles.email', $request->email)|
-        ->where('category','1')
-        ->where('articles.nickname', $request->nickname)
-        ->first();
-      }
-    }
-
-    if(in_array($articulo->category,[8,9])){
-      if($articulo->category == 8){
-        $artref = \Bumsgames\Article::where('articles.email', $request->email)
-        ->where('category','9')
-        ->where('articles.nickname', $request->nickname)
-        ->first();
-      }
-      else if($articulo->category == 9){
-        $artref = \Bumsgames\Article::where('articles.email', $request->email)
-        ->where('category','8')
-        ->where('articles.nickname', $request->nickname)
-        ->first();
-      }
-    }
-
-    if(isset($artref)){
-      $artref->costo = $request->costo;
-      $artref->save();
-    }*/
-
-
-    $temporal =  \Bumsgames\Article::where('name', $articulo->name)
-    ->where('category', $request->category)
-    ->get();
-    foreach ($temporal as $x) {
-      $algo = \Bumsgames\Article::find($x->id);
-      if ($request->price_in_dolar < $x->price_in_dolar) {
-        $algo->fill(['ultimo_agregado' => Carbon::now()]);
-      }
-      $algo->fill(['price_in_dolar' => $articulo->price_in_dolar]);
-      if (isset($request->image)) {
-        $algo->fill(['image' => $request->image]);
-      }
-      if (isset($request->fondo)) {
-        $algo->fill(['fondo' => $request->fondo]);
-      }
-      $algo->save();
-    }
-
-    //Guarda registros
-    $articulo->save();
-    //Actualiza categorias en tabla pivote
-    $articulo->categorias()->sync($id_categorias);
-
-    // cambio de oferta de todos los que son iguales
-    // if (1 == 1) {
-    //   $temporal =  \Bumsgames\Article::where('name', $articulo->name)
-    //     ->where('category', $articulo->category)
-    //     ->get();
-
-    //   foreach ($temporal as $x) {
-    //     $algo = \Bumsgames\Article::find($x->id);
-    //     $algo->fill(['oferta' => $request->oferta]);
-    //     $algo->save();
-    //   }
-    // }
-
-    /*
-    //Se cambian todos los trailers
-    if (isset($request->trailer)) {
-      if($request->category == 1 || $request->category == 2){
-        $articles_trailers = \Bumsgames\Article::whereIn('category',[1,2])
-        ->where('name',$request->name)
-        ->get();
-      }
-      else if($request->category == 8 || $request->category == 9){
-        $articles_trailers = \Bumsgames\Article::whereIn('category',[8,9])
-        ->where('name',$request->name)
-        ->get();
-      }
-      else{
-        $articles_trailers = \Bumsgames\Article::where('name',$request->name)
-        ->where('category',$request->category)
-        ->get();
-      }
-      foreach($articles_trailers as $art_trailer){
-        $art_trailer->trailer = $request->trailer;
-        $art_trailer->save();
-      }
-    }
-
-    //Cambio de la cuenta secundaria si se cambio la primaria en PS4
-    if ($articulo->category == 1) {
-      $temporal =  \Bumsgames\Article::where('email', $articulo->email)
-        ->where('category', 2)
-        ->get();
-      foreach ($temporal as $x) {
-        $algo = \Bumsgames\Article::find($x->id);
-        if ($x->name == $refer->name) {
-          $algo->fill(['name' => $request->name]);
-          if (isset($request->image)) {
-            $algo->fill(['image' => $request->image]);
-          }
-          if (isset($request->fondo)) {
-            $algo->fill(['fondo' => $request->fondo]);
-          }
-        }
-        $algo->save();
-      }
-
-      $temporal =  \Bumsgames\Article::where('email', $articulo->email)
-        ->where('category', 5)
-        ->where('name', $articulo->name)
-        ->get();
-      foreach ($temporal as $x) {
-        $algo = \Bumsgames\Article::find($x->id);
-        $algo->fill(['note' => $request->note]);
-        $algo->save();
-      }
-    }
-
-    //Cambio de la cuenta primaria si se cambio la secundaria en PS4
-    if ($articulo->category == 2) {
-      $temporal =  \Bumsgames\Article::where('email', $articulo->email)
-        ->where('category', 1)
-        ->get();
-      foreach ($temporal as $x) {
-        $algo = \Bumsgames\Article::find($x->id);
-        if ($x->name == $refer->name) {
-          $algo->fill(['name' => $request->name]);
-          if (isset($request->image)) {
-            $algo->fill(['image' => $request->image]);
-          }
-          if (isset($request->fondo)) {
-            $algo->fill(['fondo' => $request->fondo]);
-          }
-        }
-        $algo->save();
-      }
-
-      $temporal =  \Bumsgames\Article::where('email', $articulo->email)
-        ->where('category', 5)
-        ->get();
-      foreach ($temporal as $x) {
-        $algo = \Bumsgames\Article::find($x->id);
-        $algo->fill(['note' => $request->note]);
-        $algo->save();
-      }
-    }
-
-    //Cambio de la nota en los mismos correos en PS4 en base a PS3
-      if($articulo->category == 5){
-          $temporal =  \Bumsgames\Article::where('email',$articulo->email)
-          ->where('category',1)
-          ->get();
-          foreach($temporal as $x){
-            $algo = \Bumsgames\Article::find($x->id);
-            $algo->fill(['note'=>$request->note]);
-            $algo->save();
-          }
-          
-          $temporal =  \Bumsgames\Article::where('email',$articulo->email)
-          ->where('category',2)
-          ->get();
-          foreach($temporal as $x){
-            $algo = \Bumsgames\Article::find($x->id);
-            $algo->fill(['note'=>$request->note]);
-            $algo->save();
-          }
-          
-      }
-    //Cambio de la cuenta secundaria de Xbox One si se cambio la primaria
-    if ($articulo->category == 8) {
-      $temporal =  \Bumsgames\Article::where('email', $articulo->email)
-        ->where('category', 9)
-        ->get();
-      foreach ($temporal as $x) {
-        $algo = \Bumsgames\Article::find($x->id);
-        if ($x->name == $refer->name) {
-          $algo->fill(['name' => $request->name]);
-          if (isset($request->image)) {
-            $algo->fill(['image' => $request->image]);
-          }
-          if (isset($request->fondo)) {
-            $algo->fill(['fondo' => $request->fondo]);
-          }
-        }
-        $algo->save();
-      }
-    }
-
-    //Cambio de la cuenta secundaria de Xbox One si se cambio la primaria
-    if ($articulo->category == 9) {
-      $temporal =  \Bumsgames\Article::where('email', $articulo->email)
-        ->where('category', 8)
-        ->get();
-      foreach ($temporal as $x) {
-        $algo = \Bumsgames\Article::find($x->id);
-        if ($x->name == $refer->name) {
-          $algo->fill(['name' => $request->name]);
-          if (isset($request->image)) {
-            $algo->fill(['image' => $request->image]);
-          }
-          if (isset($request->fondo)) {
-            $algo->fill(['fondo' => $request->fondo]);
-          }
-        }
-        $algo->save();
-      }
-    }
-
-    */
-    // fin modificacion
-
-    if ($request->cambio_password >= 1) {
-      $this->cambia_password($request->category, $request->email, $request->password, $request->nickname);
-    }
-    if ($cantidad_que_tenia == 0 &&  $request->quantity > 0) {
-      //llego
-      $titulo = 'LLEGO A STOCK';
-      $data = "Articulo: " . $request->name;
-      $data2 = "Categoria: " . $request->category_nombre;
-      $users = BumsUser::where('level', '>=', '7')->get();
-      foreach ($users as $user) {
-        $user->notify(new TaskCompleted($titulo, $data, $data2));
-      }
-    }
-
-    if ($cantidad_que_tenia > 0) {
-      //se agoto
-      $art = \Bumsgames\Article::where('name', $request->name)
-      ->where('category', $request->category)
-      ->get();
-
-      if ($art->sum('quantity') == 0) {
-        //se agoto
-        $titulo = 'SE AGOTO';
-        $data = "Articulo: " . $request->name;
-        $data2 = "Categoria: " . $request->category_nombre;
-        $users = BumsUser::where('level', '>=', '7')->get();
-        foreach ($users as $user) {
-          $user->notify(new TaskCompleted($titulo, $data, $data2));
-        }
-      }
-    }
-    // Despues de guardar
-
-    // $titulo = 'ARTICULO MODIFICADO';
-    // $data = "Articulo: ".$request->name;
-    // $data2 = "Categoria: ".$request->category_nombre;
-    // $users = BumsUser::where('level','>=','9')->get();
-    // foreach ($users as $user){
-    //     $user->notify(new TaskCompleted($titulo,$data, $data2));
-    // }
-
-
-    \Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
-
-    $id_bumsuser = json_decode($request->id_bumsuser);
-    $porcentaje = json_decode($request->porcentaje);
-    $request->request->add(['id_article' => $articulo->id]);
-
-    for ($i = 0; $i < count($id_bumsuser); $i++) {
-      \Bumsgames\BumsUser_Article::create([
-        'id_bumsuser' => $id_bumsuser[$i],
-        'id_article' => $articulo->id,
-        'porcentaje' => $porcentaje[$i]
+    if ($art->count() >= 2) {
+      return response()->json([
+        "tipo" => "1",
+        "data" => "Este articulo digital ya ha sido registrado con este mismo correo.\n\n\n Correo: " . $request->email . " para esta categoria. ",
       ]);
     }
 
-    return response()->json([
-      "message" => "Success",
-      "article_id" => $articulo->id
-    ]);
+    $id_ps4_pri = 1;
+    $id_ps4_sec = 2;
+    $id_ps4_codigo = 3;
+    $id_ps3_cuenta = 5;
+    
+    print_r(2);
+//caso ps4 pri, ps4 sec y ps3 cuenta , mismo correo y misma categoria   
+    if (in_array($id_categorias[0], [$id_ps4_pri, $id_ps4_sec, $id_ps3_cuenta, $id_ps4_codigo])) {
+      print_r('en ps4');
+      $articlesPivote = \Bumsgames\Article::
+      where('email', $refer[0]->email)
+      ->where('id','!=',$request->id_articulo)
+      ->whereHas('categorias', function($q)  use ($id_ps4_pri,  $id_ps4_sec, $id_ps3_cuenta) {
+        $q->whereIn('categories.id', array($id_ps4_pri, $id_ps4_sec, $id_ps3_cuenta));
+      });
+
+      //boton de reseteo cambiado
+      if ( $refer[0]->reset_button != $request->reset_button ) {
+        $articlesPivote ->update(['reset_button' => $request->reset_button]);
+        $mensaje .= "Boton de reseteo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+      }
+
+//nickname cambiado
+      if ($refer[0]->nickname != $request->nickname) {
+       $articlesPivote ->update(['nickname' => $request->nickname]);
+       $mensaje .= "Nickname cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+     }
+// cambio de password
+     if ($refer[0]->password != $request->password) {
+       $articlesPivote ->update(['password' => $request->password ]);
+       $mensaje .= "Password cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+     }
+// cambio de email
+     if ($refer[0]->email != $request->email) {
+       $articlesPivote ->update(['email' => $request->email ]);
+       $mensaje .= "Correo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+     }
+
+// cambio de peso y nombre, ps4: primario, secundario y codigo
+
+     //si no es ps3 cuenta, actualizar en pri, sec y codigo (peso y nombre, si cambia)
+     if ($primera_categoria_id != $id_ps3_cuenta) {
+      //peso
+       $articlesPivote = \Bumsgames\Article::
+       where('id','!=',$request->id_articulo)
+       ->where(function ($query) use ($request, $refer){
+         $query->where('name', 'like', '%' . $request->name . ' -I%')
+         ->orWhere('name', 'like', '%' . $refer[0]->name . ' -I%')
+         ->orWhere('name',  $request->name )
+         ->orWhere('name',  $refer[0]->name );
+       })
+       ->whereHas('categorias', function($q)  use ($id_ps4_pri,  $id_ps4_sec, $id_ps4_codigo) {
+        $q->whereIn('categories.id', array($id_ps4_pri,  $id_ps4_sec, $id_ps4_codigo));
+      });
+
+       if ($refer[0]->peso != $request->peso) {
+        $articlesPivote->update(['peso' => $request->peso ]);
+        $mensaje .= "Peso cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+      }
+
+      $articlesPivote = \Bumsgames\Article::
+      where('id','!=',$request->id_articulo)
+      ->where(function ($query) use ($request, $refer){
+       $query->where('name',  $request->name )
+       ->orWhere('name',  $refer[0]->name );
+     })
+      ->whereHas('categorias', function($q)  use ($id_ps4_pri,  $id_ps4_sec, $id_ps4_codigo) {
+        $q->whereIn('categories.id', array($id_ps4_pri,  $id_ps4_sec, $id_ps4_codigo));
+      });
+
+      if ($refer[0]->name != $request->name) {
+        $articlesPivote->update(['name' => $request->name ]);
+        $mensaje .= "Nombre cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+      }
+    }else{
+      $articlesPivote = \Bumsgames\Article::
+      where('id','!=',$request->id_articulo)
+      ->where(function ($query) use ($request, $refer){
+       $query->where('name', 'like', '%' . $request->name . ' -I%')
+       ->orWhere('name', 'like', '%' . $refer[0]->name . ' -I%')
+       ->orWhere('name',  $request->name )
+       ->orWhere('name',  $refer[0]->name );
+     })
+      ->whereHas('categorias', function($q)  use ($id_ps3_cuenta) {
+        $q->whereIn('categories.id', array($id_ps3_cuenta));
+      });
+
+      if ($refer[0]->peso != $request->peso) {
+        $articlesPivote->update(['peso' => $request->peso ]);
+        $mensaje .= "Peso cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+      }
+
+      $articlesPivote = \Bumsgames\Article::
+      where('id','!=',$request->id_articulo)
+      ->where(function ($query) use ($request, $refer){
+       $query->where('name',  $request->name )
+       ->orWhere('name',  $refer[0]->name );
+     })
+      ->whereHas('categorias', function($q)  use ($id_ps3_cuenta) {
+        $q->whereIn('categories.id', array($id_ps3_cuenta));
+      });
+
+      if ($refer[0]->name != $request->name) {
+        $articlesPivote->update(['name' => $request->name ]);
+        $mensaje .= "Nombre cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+      }
+    }
   }
+
+  $id_xb1_pri = 8;
+  $id_xb1_sec = 9;
+  $id_xb1_codigo = 10;
+
+
+//caso xb1 pri y xb1 sec , mismo correo y misma categoria   
+  if (in_array($id_categorias[0], [$id_xb1_pri, $id_xb1_sec])) {
+
+    $articlesPivote = \Bumsgames\Article::
+    where('email', $refer[0]->email)
+    ->where('id','!=',$refer[0]->id)
+    ->whereHas('categorias', function($q)  use ($id_xb1_pri,  $id_xb1_sec) {
+      $q->whereIn('categories.id', array($id_xb1_pri, $id_xb1_sec));
+    });
+
+//nickname cambiado
+    if ($refer[0]->nickname != $request->nickname) {
+     $articlesPivote ->update(['nickname' => $request->nickname]);
+     $mensaje .= "Nickname cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+   }
+// cambio de password
+   if ($refer[0]->password != $request->password) {
+     $articlesPivote ->update(['password' => $request->password ]);
+     $mensaje .= "Password cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+   }
+// cambio de email
+   if ($refer[0]->email != $request->email) {
+     $articlesPivote ->update(['email' => $request->email ]);
+     $mensaje .= "Correo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+   }
+
+   // cambio de peso y nombre, xb1: primario, secundario y codigo
+   $articlesPivote = \Bumsgames\Article::
+   where('id','!=',$request->id_articulo)
+   ->where(function ($query) use ($request, $refer){
+     $query->where('name', 'like', '%' . $request->name . ' -I%')
+     ->orWhere('name', 'like', '%' . $refer[0]->name . ' -I%')
+     ->orWhere('name',  $request->name )
+     ->orWhere('name',  $refer[0]->name );
+   })
+   ->whereHas('categorias', function($q)  use ($id_xb1_pri,  $id_xb1_sec, $id_xb1_codigo) {
+    $q->whereIn('categories.id', array($id_xb1_pri,  $id_xb1_sec, $id_xb1_codigo));
+  });
+
+   if ($refer[0]->peso != $request->peso) {
+    $articlesPivote->update(['peso' => $request->peso ]);
+    $mensaje .= "Peso cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+
+  $articlesPivote = \Bumsgames\Article::
+  where('id','!=',$request->id_articulo)
+  ->where(function ($query) use ($request, $refer){
+   $query->where('name',  $request->name )
+   ->orWhere('name',  $refer[0]->name );
+ })
+  ->whereHas('categorias', function($q)  use ($id_xb1_pri,  $id_xb1_sec, $id_xb1_codigo) {
+    $q->whereIn('categories.id', array($id_xb1_pri,  $id_xb1_sec, $id_xb1_codigo));
+  });
+
+  if ($refer[0]->name != $request->name) {
+    $articlesPivote->update(['name' => $request->name ]);
+    $mensaje .= "Nombre cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+
+}
+
+$id_nin_pri = 18;
+$id_nin_sec = 19;
+$id_nin_codigo = 13;
+
+//caso xb1 pri y xb1 sec , mismo correo y misma categoria   
+if (in_array($id_categorias[0], [$id_nin_pri, $id_nin_sec])) {
+
+  $articlesPivote = \Bumsgames\Article::
+  where('email', $refer[0]->email)
+  ->where('id','!=',$refer[0]->id)
+  ->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec) {
+    $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec));
+  });
+
+//nickname cambiado
+  if ($refer[0]->nickname != $request->nickname) {
+   $articlesPivote ->update(['nickname' => $request->nickname]);
+   $mensaje .= "Nickname cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+ }
+// cambio de password
+ if ($refer[0]->password != $request->password) {
+   $articlesPivote ->update(['password' => $request->password ]);
+   $mensaje .= "Password cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+ }
+// cambio de email
+ if ($refer[0]->email != $request->email) {
+   $articlesPivote ->update(['email' => $request->email ]);
+   $mensaje .= "Correo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+ }
+
+// cambio de peso y nombre, xb1: primario, secundario y codigo
+ $articlesPivote = \Bumsgames\Article::
+ where('id','!=',$request->id_articulo)
+ ->where(function ($query) use ($request, $refer){
+   $query->where('name', 'like', '%' . $request->name . ' -I%')
+   ->orWhere('name', 'like', '%' . $refer[0]->name . ' -I%')
+   ->orWhere('name',  $request->name )
+   ->orWhere('name',  $refer[0]->name );
+ })
+ ->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec, $id_nin_codigo) {
+  $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec, $id_nin_codigo));
+});
+
+ if ($refer[0]->peso != $request->peso) {
+  $articlesPivote->update(['peso' => $request->peso ]);
+  $mensaje .= "Peso cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+}
+
+$articlesPivote = \Bumsgames\Article::
+where('id','!=',$request->id_articulo)
+->where(function ($query) use ($request, $refer){
+ $query->where('name',  $request->name )
+ ->orWhere('name',  $refer[0]->name );
+})
+->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec, $id_nin_codigo) {
+  $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec, $id_nin_codigo));
+});
+
+if ($refer[0]->name != $request->name) {
+  $articlesPivote->update(['name' => $request->name ]);
+  $mensaje .= "Nombre cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+}
+}
+}
+  // fin if (si es cuenta o cupo)
+
+//Cambio en Articulos mismo nombre viejo o nuevo, llegado a stock, agotado en stock, precio, precio 
+for ($i = 0; $i < count($id_categorias) - 1; $i++) {
+  $primera_categoria_id = $id_categorias[$i];
+
+  $articlesPivote = \Bumsgames\Article::
+  where(function ($query) use ($request, $refer){
+   $query->where('name',  $request->name )
+   ->orWhere('name',  $refer[0]->name );
+ })
+  ->whereHas('categorias', function($q)  use ($primera_categoria_id) {
+    $q->where('categories.id', $primera_categoria_id);
+  });
+
+  if ($articlesPivote->sum('quantity') <= 0 && $request->quantity > 0) {
+   $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
+   $mensaje .= "Articulo llego a Stock\n\n";
+ }else{
+  if ($articlesPivote->sum('quantity') > 0 
+    && $request->quantity <= 0 
+    && $refer[0]->quantity > 0
+    && (($articlesPivote->sum('quantity') - $refer[0]->quantity) <= 0 )) {
+    $articlesPivote->update(['fecha_agotado' => Carbon::now()]);
+  $mensaje .= "Articulo Agotado\n\n";
+}
+}
+
+
+if ($refer[0]->offer_price != $request->offer_price) {
+  $articlesPivote->update(['offer_price' => $request->offer_price ]);
+  $mensaje .= "Precio Oferta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+}
+
+if ($refer[0]->price_in_dolar != $request->price_in_dolar) {
+
+  if ( $request->price_in_dolar < $refer[0]->price_in_dolar) {
+    $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
+    $mensaje .= "Este Articulo ahora tiene un precio mas bajo\n\n";
+  }
+
+  $articlesPivote->update(['price_in_dolar' => $request->price_in_dolar ]);
+  $mensaje .= "Precio de Venta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+}
+
+if ($refer[0]->oferta != $request->oferta) {
+  $articlesPivote->update(['oferta' => $request->oferta ]);
+  $mensaje .= "Precio de Oferta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+}
+
+}
+
+  // modificacion articulo
+$articulo = \Bumsgames\Article::find($request->id_articulo);
+$articulo->fill($request->all());
+$articulo->save();
+
+$articulo->categorias()->sync($id_categorias);
+    //Actualiza categorias en tabla pivote
+$articulo->categorias()->sync($id_categorias);
+
+
+
+
+
+\Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
+
+$id_bumsuser = json_decode($request->id_bumsuser);
+$porcentaje = json_decode($request->porcentaje);
+$request->request->add(['id_article' => $articulo->id]);
+
+for ($i = 0; $i < count($id_bumsuser); $i++) {
+  \Bumsgames\BumsUser_Article::create([
+    'id_bumsuser' => $id_bumsuser[$i],
+    'id_article' => $articulo->id,
+    'porcentaje' => $porcentaje[$i]
+  ]);
+}
+
+
+return response()->json([
+  "data" => $mensaje,
+]);
+
+print_r(2);
+
+
+
+
+}
 
   /**
      * Display the specified resource.

@@ -114,7 +114,9 @@ Route::post('/agregaCarro_admin','ProgramController@agregaCarro_admin');
 Route::post('/deleteCart_admin','ProgramController@deleteCart_admin');
 Route::post('/eliminaTodoCarro_admin','ProgramController@deleteAllCart_admin');
 Route::post('/filtrar_ventas_v2','ProgramController@filtrar_ventas_v2');
-
+Route::post('/delete_venta_v2/{id}','ProgramController@delete_venta_v2');
+Route::post('/imagenes', 'ProgramController@upload');
+Route::get('/proyecto/imagenes', 'ProgramController@upload');
 
 
 Route::post('/guardar_reporte','ProgramController@guardar_reporte');
@@ -245,6 +247,9 @@ Route::get('/orden_a_pagar', 'WebController@orden_a_pagar');
 Route::get('/categoria/{id}', 'WebController@categoria');
 Route::get('/subcategoria/{id}','WebController@subcategoria');
 Route::get('/zona_prueba','WebController@zona_prueba');
+Route::post('/upload','ProgramController@upload');
+
+
 
 
 // WebControllerPost

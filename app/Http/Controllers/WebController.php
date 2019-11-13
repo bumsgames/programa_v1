@@ -26,122 +26,52 @@ class WebController extends Controller
 	}
 
 	function zona_prueba(){
-		// dd(1234);
-		$articulos = \Bumsgames\Article::where('quantity', '>', 0)
-		->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
-		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
-		->where('articles.id', '!=', '2')
-		->groupBy('name', 'categories.category')
-		->orderBy('articles.ultimo_agregado', 'desc')
-		->take(20)
-		->get();
-		
-		$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
-		->where('level', '>=', '7')
-		->orderBy('id', 'asc')
-		->get();
-
-
-		// $numero = $articulos->count();
-		//Descomentar el codigo que esta abajo si se quiere mostrar los productos mas recientes en un orden random
-		/*
-		if(($numero) < 15){
-			$articulos = $articulos->random($numero);
-		}else{
-			$articulos = $articulos->random(15);	
-		}
-		*/
-		if (Session::has('id_coin')) {
-			$id_coin = Session::get('id_coin');
-		} else {
-			$id_coin = 1;
-		}
-
-		$categorias = \Bumsgames\Category::All();
-		$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
-		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
-		$moneda_actual = \Bumsgames\Coin::find($id_coin);
-
-		// $day1 = \Carbon\Carbon::parse('last monday')->startOfDay()->format('Y-m-d');
-		// $day2 = \Carbon\Carbon::parse('next sunday')->endOfDay()->format('Y-m-d');
-
-		// Articulo mas vendido del dia
-
-		
-
-		$articulo_mas_vendido_semana = \Bumsgames\VentaArticulos::
-		leftjoin('articles', 'articles.id', '=', 'venta_articulos.id_articulo')
-		->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
-		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
-		->select(\DB::raw("name,category, sum(cantidad) as ventas"))
-		->groupby('articles.name','categories.category')
-		
-		->whereDate('venta_articulos.created_at', \Carbon\Carbon::today())
-		->orderby('ventas', 'desc')
-		->limit(10)
-		->get();
-
-
-			// ->groupby('name')
-			// ->get();
-		// leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
-		// ->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
-		// ->select(\DB::raw("*, count(*) as ventas"))
-		// ->groupby('articles.name')
-		// ->groupby('articles.category')
-		// 	// ->whereBetween('sales.created_at',[$day1,$day2])
-		// ->whereDate('sales.created_at', \Carbon\Carbon::today())
-		// ->orderby('ventas', 'desc')
-		// ->orderby('sales.created_at', 'desc')
-		// ->limit(5)
-		// ->get();
-
-
-		//Devuelve las imagenes de los carrouseles
-		// $portal1 = \Bumsgames\Imagen::where('portal', '=', '1')->inRandomOrder()->get();
-		// $portal2 = \Bumsgames\Imagen::where('portal', '=', '2')->inRandomOrder()->get();
-		// $portal3 = \Bumsgames\Imagen::where('portal', '=', '3')->inRandomOrder()->get();
-
-		//Devuelve los ultimos 50 comentarios
-		$comentarios = DB::table('comment')
-		->select('nombre','texto')
-		// ->where('aprobado', '1')
-		->leftjoin('clients', 'comment.id_comentario', '=', 'clients.id')
-		->orderby('fecha_comentado', 'desc')
-		->take(50)
-		->get();
-
-		//Randomiza el orden de los comentarios
-		$comentarios = $comentarios->shuffle();
-		//Toma 10 de los primeros 50 para mostrarlo cada vez que reinicie la pagina
-		$comentarios = $comentarios->take(10);
-		//Devuelve la unica encuesta activa
-		$encuesta = \Bumsgames\Poll::where('estado', '1')->first();
-		//Devuelve las ultimas 10 noticias y las ordena por prioridad y despues por creado
-		// $noticias = \Bumsgames\Noticia::orderby('created_at', 'desc')
-		// ->take(10)
-		// ->get()
-		// ->sortBy('prioridad');
-		//Crea una visita
-		\Bumsgames\Visita::create(['tipo' => 'General']);
-
-		//dd($noticias->toArray());
-
-		return view('webuser.index2', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'portal1', 'portal2', 'portal3', 'comentarios', 'noticias', 'encuesta','categorias_sub','agentes_activos'));
-		//return view('webuser.index', compact('categorias', 'articulos', 'coins', 'moneda_actual', 'articulo_mas_vendido_semana', 'comentarios', 'encuesta'));
+		return view('prueba');
 	}
 	//Devuelve la pagina inicial de bumsgames
 	function index()
 	{
-		// dd(1234);
+
+		// $articulos2 = \Bumsgames\Article::
+		// where('quantity', '>', 0)
+		// ->where('articles.id', '!=', '2')
+		// ->orderBy('articles.ultimo_agregado', 'desc')
+		// ->with('categorias')
+		// ->get()->groupBy('name','categorias.id');
+
+		// $articulos2 = \Bumsgames\Article::
+		
+		// with(['categorias' => function($query){
+		// 	$query->groupBy('category');
+		// }])
+		// ->where('quantity', '>', 0)
+		// ->where('articles.id', '!=', '2')
+		// ->groupBy('articles.name')
+		// ->orderBy('articles.ultimo_agregado', 'desc')
+		// ->get();
+
 		$articulos = \Bumsgames\Article::where('quantity', '>', 0)
+		->selectRaw('articles.id as id, name, file, categories.category as category')
+		->with('images')
+		// ->join("articulo_categorias",function($join){
+		// 	$join->on('articles.id', '=', 'articulo_categorias.id_articulo');
+		// })
 		->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		->leftJoin('articles_images', function ($join) {
+			$join->on('articles_images.id', '=', DB::raw('(SELECT id FROM articles_images WHERE articles_images.article_id = articles.id LIMIT 1)'));
+		})
+		->leftjoin('images','articles_images.image_id','=','images.id')
 		->where('articles.id', '!=', '2')
 		->groupBy('name', 'categories.category')
 		->orderBy('articles.ultimo_agregado', 'desc')
 		->take(20)
 		->get();
+
+		// dd($articulos->toArray());
+
+		// return view('prueba', compact('articulos','articulos2'));
+		// dd(1234);
 		
 		$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
 		->where('level', '>=', '7')
@@ -439,7 +369,7 @@ class WebController extends Controller
 
 		$filtrado_cat = 1;
 
-		$articulos = \Bumsgames\Article::select('articles.id','name','fondo','estado','offer_price','price_in_dolar','oferta','quantity')
+		$articulos = \Bumsgames\Article::select('articles.id','peso','name','fondo','estado','offer_price','price_in_dolar','oferta','quantity')
 		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
 		->BuscaCategoria($id_categorias)
 		->where('quantity', '>', 0)
@@ -1733,6 +1663,16 @@ class WebController extends Controller
 
 		$articulo_part = \Bumsgames\Article::find($id);
 
+
+		$imagenes_articulo = \Bumsgames\Image::
+
+		whereHas('articles', function($q) use($id) {
+			$q->where('articles.id',$id); 
+		})
+		->orderby('numero')
+		->limit(10)
+		->get();
+
 		$categorias = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
 		$moneda_actual = \Bumsgames\Coin::find($id_coin);
@@ -1799,12 +1739,14 @@ class WebController extends Controller
 		
 
 		\Bumsgames\Visita::create(['tipo' => 'General']);
-		return view('webuser.article.ver_mas', compact('id','articulos_vendidos','clientes','ventas','agentes_activos','categorias_sub','categorias', 'comentarios', 'articulo_part', 'coins', 'moneda_actual', 'title', 'buscador_ruta','ultimos_vendidos','recomendados'));
+		return view('webuser.article.ver_mas', compact('imagenes_articulo','id','articulos_vendidos','clientes','ventas','agentes_activos','categorias_sub','categorias', 'comentarios', 'articulo_part', 'coins', 'moneda_actual', 'title', 'buscador_ruta','ultimos_vendidos','recomendados'));
 	}
 
 	
 	//articulo particular
 	public function ver_mas(Request $request){
+
+		dd(1);
 		if (Session::has('id_coin')) {
 			$id_coin = Session::get('id_coin');
 		} else {
@@ -1815,8 +1757,12 @@ class WebController extends Controller
 		orderby('created_at', 'desc')
 		->limit(10)
 		->get();
-
-		$articulo_part = \Bumsgames\Article::find($request->art_id);
+		if($request->art_id != 2){
+			$articulo_part = \Bumsgames\Article::find($request->art_id);
+			$imagenes_articulo = \Bumsgames\Image::
+			with('articles');
+		}
+		
 
 		$categorias = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();

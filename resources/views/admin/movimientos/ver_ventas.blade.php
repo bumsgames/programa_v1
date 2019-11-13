@@ -200,7 +200,7 @@
 								{{$venta->created_at->diffForHumans()}}
 							</td>
 							<td>
-								<button type="button" class="btn btn-danger text-center" data-toggle="modal" data-target=".bd-example-modal-lg3" Onclick="mandaridM('');"><i class="fa fa-trash" aria-hidden="true"></i></button>
+								<button type="button" class="btn btn-danger text-center" data-toggle="modal" data-target=".modal-eliminar-venta" Onclick="mandaridM({{ $venta->id }});"><i class="fa fa-trash" aria-hidden="true"></i></button>
 							</td>
 						</tr>
 						@endforeach
@@ -253,6 +253,37 @@
 </div>
 
 </main>
+
+
+<div class="modal fade modal-eliminar-venta" tabindex="-1" role="dialog" aria-labelledby="myLargeModal" aria-hidden="true">
+	<div class="modal-dialog modal-lg3">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Debe ingresar la clave autorizada para eliminar Venta</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="row">
+			</div>
+			<div class="container">
+					<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+					<input readonly="" id="id_eliminar" value="" type="text">
+
+					<div class="form-group">
+						<label for="">CLAVE</label>
+						<input type="password" name="clave" id="clave" class="form-control">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" id="" value=" " Onclick='Eliminar_Venta();'>Eliminar</button>
+					</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
 
 <style type="text/css">
 td:nth-child(2){

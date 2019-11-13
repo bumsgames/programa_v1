@@ -208,6 +208,69 @@ function Eliminar_articulo(){
         }
     });
 }
+
+function Eliminar_Venta(){
+    var id = $("#id_eliminar").val();
+    var clave = $("#clave").val();
+
+    var route = "/verifyPass";
+    var token = $('#token').val();
+    var form_data = new FormData;
+    form_data.append('password', clave);
+
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'post',
+        dataType:   'json',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+        success:function(data){
+            console.log(data);
+            if(data.data==true){
+
+                var route = "/delete_venta_v2/"+id+"";
+                var token = $('#token').val();
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
+                        // swal("Articulo eliminado.");
+                        // setTimeout(function() 
+                        // {
+                        //     location.reload(); 
+                        // }, 2000);
+                    },
+                    error:function(msj){
+                        var errormessages = "";
+                        $.each(msj.responseJSON, function(i, field){
+                            errormessages+="\n"+field+"\n";
+                        });
+                        swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                    }
+                });
+
+            }else{
+                swal(data.error);
+                return;
+            }
+        },
+        error:function(msj){
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+        }
+    });
+}
 function Eliminar_envios(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();

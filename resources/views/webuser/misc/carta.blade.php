@@ -62,35 +62,37 @@
 			<br>
 			<center>
 				@if ( strlen($articulo->name) >= 10)
-				<h3><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }}</strong></h3>
+				<h3><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }} ({{ $articulo->peso }} GB)</strong></h3>
 				@else
-				<h2><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }}</strong></h2>
+				<h2><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }} ({{ $articulo->peso }} GB)</strong></h2>
 				@endif
+
+
 				
 				{{-- <strong>{{ $articulo->name }}</strong> --}}
 			</center>
 			<span hidden>({{ $articulo->quantity }})</span> 
 		</div>
 
-		<div class="carta_categoria" style="color: black;">
+		<div class="carta_categoria" style="color: black !important;">
 			@if (isset($articulo->categorias[0]))
 				@if($articulo->categorias[0]->id >= 1 && $articulo->categorias[0]->id <= 7 )
 			<div>
-				<img src="{{ url('img/playstation.png') }}" alt="" style="max-height: 20px;" />{{ $articulo->categorias[0]->category }}
+				<img src="{{ url('img/playstation.png') }}" alt="" style="max-height: 20px;" />
 			</div>
 			@else
 			@if($articulo->category >= 8 && $articulo->category <= 11 )
-			<img class="img_category" src="{{ url('img/icono_xbox.png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+			<img class="img_category" src="{{ url('img/icono_xbox.png') }}" alt="" style="max-height: 20px;">
 
 			@else
 			@if($articulo->category >= 12 && $articulo->category <= 14 )
-			<img class="img_category" src="{{ url('img/nintendo.png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+			<img class="img_category" src="{{ url('img/nintendo.png') }}" alt="" style="max-height: 20px;">
 			@else
 			@if($articulo->category >= 15 && $articulo->category <= 15 )
-			<img class="img_category" src="{{ url('img/celular (2).png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+			<img class="img_category" src="{{ url('img/celular (2).png') }}" alt="" style="max-height: 20px;">
 			@else
 			@if($articulo->category >= 16 && $articulo->category <= 16)
-			<img class="img_category" src="{{ url('img/otro (2).png') }}" alt="" style="max-height: 20px;">{{ $articulo->categorias[0]->category }}
+			<img class="img_category" src="{{ url('img/otro (2).png') }}" alt="" style="max-height: 20px;">
 			@endif
 			@endif
 			@endif
@@ -98,9 +100,12 @@
 			@endif
 			<br>
 		</div>
-{{ $articulo->categorias[0]->category }}
+
 		
 			@endif
+			<p style="color: black;">{{ $articulo->categorias[0]->category }}</p>
+<br>
+<br>
 		
 		<center>
 			<div class="espaciom_img">

@@ -145,10 +145,10 @@
 
 			<div class="row">
 				<div class="col-12 col-lg-4">
-					<img src="{{ url('img/'.$articulo->fondo) }}" style="width:auto; max-height: 100px;" alt="">
+					<img src="{{ url('img/'.$articulo->file) }}" style="width:auto; max-height: 100px;" alt="">
 				</div>
 				<div class="col-12 col-lg-8">
-					<h2>{{ $articulo->name }}</h2>
+					<a href="{{ url('ver_mas/'.$articulo->id) }}"><h2>{{ $articulo->name}}</h2></a>
 					<h6>{{ $articulo->category }}</h6>
 				</div>
 			</div>

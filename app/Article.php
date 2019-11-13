@@ -46,15 +46,23 @@ class Article extends Model
         return $this->belongsTo('Bumsgames\Ubicacion', 'ubicacion');
     }
 
-    public function categorias_prueba()
+    public function Categorias_prueba()
     {
         return $this->belongsToMany(Category::class, 'articulo_categorias','id_articulo', 'id_categoria') 
-        ->groupBy('id_categoria');
+        ->groupBy('id');
     }
 
     public function images()
     {
         return $this->belongsToMany(Image::class, 'articles_images','article_id', 'image_id');
+    }
+
+    public function scopeDebts($query)
+    {
+
+        return $query->with('articles.categorias', function($q){
+            $q->groupBy('category');
+        });
     }
 
 

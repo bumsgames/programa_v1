@@ -53,8 +53,8 @@
                                     	Accion:  {{ $articulo->porcentaje }} %
                                     	Cantidad: {{ $articulo->quantity }}</td>
                                     <td>Precio: {{ $articulo->price_in_dolar }} $</td>
-                                     @php $total += $articulo->price_in_dolar * ($articulo->porcentaje / 100) ; @endphp
-                                     @php $total_inversion += $articulo->costo * ($articulo->porcentaje / 100) ; @endphp
+                                     @php $total += $articulo->price_in_dolar * ($articulo->porcentaje / 100) * $articulo->quantity; @endphp
+                                     @php $total_inversion += $articulo->costo * ($articulo->porcentaje / 100) * $articulo->quantity; @endphp
                                     <td>Ubicación: {{ $articulo->ubicacion }}</td>
                                 </tr>
                             </tbody>

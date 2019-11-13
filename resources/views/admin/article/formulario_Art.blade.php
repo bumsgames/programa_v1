@@ -28,7 +28,6 @@
 					<br>
 					<br>
 					<div class="row">
-
 						<div class="col-12 col-lg">
 							<div class="form-group">
 								<label for=""><strong>Creado por:</strong></label>
@@ -130,7 +129,7 @@
 													<input type="text" class="form-control form-control-sm categoria_marca num_cat" readonly value='{{$category->id}}'>
 												</td>
 												<td>
-													<input type="text" class="form-control form-control-sm" readonly value='{{$category->category}}'>
+													<input type="text" class="form-control form-control-sm categoria_nombre" readonly value='{{$category->category}}'>
 												</td>
 												<td>
 													<button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" 
