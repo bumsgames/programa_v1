@@ -56,6 +56,8 @@
 										<input hidden="" name="image" id="inputFiletext" type="text" class="custom-file-input" lang="es">
 									</div>
 
+									
+
 
 
 									{{-- <div id="images">
@@ -108,13 +110,7 @@
 								</tr>
 							</thead>
 							<tbody id="table_article">
-								<label for=""><strong>- Categoria</strong></label>
-								<select class="form-control form-control-sm" name="category" id="category">
-									<option value="0">Sin categoria</option>
-									@foreach($categories as $category)
-									<option value="{{$category->id}}">{{$category->category}}</option>
-									@endforeach
-								</select>
+								
 
 							</tbody>
 						</table>
