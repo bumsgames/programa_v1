@@ -305,7 +305,9 @@
 							<label for=""><strong>- Ubicacion del Articulo</strong></label>
 							<select class="form-control form-control-sm" name="ubicacion" id="ubicacion">
 								@foreach ($ubicaciones as $ubicacion)
-									<option value="{{$ubicacion->id}}" {{ ( $ubicacion->id == $articulo->ubicacion) ? 'selected' : '' }}>{{$ubicacion->nombre_ubicacion}}</option>
+									<option value="{{$ubicacion->id}}" {{ ( $ubicacion->id == $articulo->ubicacion) ? 'selected' : '' }}>
+										{{$ubicacion->nombre_ubicacion}}
+									</option>
 								@endforeach
 							</select>
 						</div>

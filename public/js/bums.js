@@ -970,36 +970,36 @@ $("#modificar_articulo").click(function(){
         return;
     }
 
-// Guarda cateorias en 1 array
-for (var i = 0; i <numero_de_categorias.length; i++) {
-    categoria_array.push(categoria_marca[i].value);
-    var nombre = categoria_nombre[i].value;
-    var result_cuenta = nombre.match(/cuenta/i);
-    var result_cupo_digital = nombre.match(/cupo/i);
+    // Guarda cateorias en 1 array
+    for (var i = 0; i <numero_de_categorias.length; i++) {
+        categoria_array.push(categoria_marca[i].value);
+        var nombre = categoria_nombre[i].value;
+        var result_cuenta = nombre.match(/cuenta/i);
+        var result_cupo_digital = nombre.match(/cupo/i);
 
 
-    if(result_cuenta && ($("#quantity").val() > 1)){
-        swal("El maximo de cantidad para un Articulo de tipo Cuenta Digital es: 1.");
-        return;
-    }
-
-    if(result_cupo_digital && ($("#quantity").val()> 4)){
-        swal("El maximo de cantidad para un Articulo de tipo Cupo Digital PS3 es: 4.");
-        return;
-    }
-
-    if(result_cuenta || result_cupo_digital){
-        if ($("#email").val() == "" || $("#password").val() == "" || $("#nickname").val() == "" ) {
-            swal("Este articulo Digital, tiene campos Vacios (Email, Password o Nickname) / Datos de Cuenta.");
+        if(result_cuenta && ($("#quantity").val() > 1)){
+            swal("El maximo de cantidad para un Articulo de tipo Cuenta Digital es: 1.");
             return;
         }
-    }
-}
 
-if(porcentaje.length == 0){
-    swal('El articulo no tiene dueño, por favor colocarlo');
-    return;
-}
+        if(result_cupo_digital && ($("#quantity").val()> 4)){
+            swal("El maximo de cantidad para un Articulo de tipo Cupo Digital PS3 es: 4.");
+            return;
+        }
+
+        if(result_cuenta || result_cupo_digital){
+            if ($("#email").val() == "" || $("#password").val() == "" || $("#nickname").val() == "" ) {
+                swal("Este articulo Digital, tiene campos Vacios (Email, Password o Nickname) / Datos de Cuenta.");
+                return;
+            }
+        }
+    }
+
+    if(porcentaje.length == 0){
+        swal('El articulo no tiene dueño, por favor colocarlo');
+        return;
+    }
 
     // Verifica los duennos y porcentajes y los guarda en 2 array
     for (var i = 0; i <porcentaje.length; i++) {
@@ -1082,13 +1082,12 @@ if(porcentaje.length == 0){
     if(c){
         cambio_password++;
     }
+
     form_data.append('cambio_email_o_category', cambio_email_o_category);
     form_data.append('cambio_password', cambio_password);
     form_data.append('id_bumsuser', JSON.stringify(duenno_array));
     form_data.append('porcentaje', JSON.stringify(porcentaje_array));
     form_data.append('id_categorias', JSON.stringify(categoria_array));
-
-
 
     $.ajax({
         url:        route,
@@ -1124,6 +1123,8 @@ if(porcentaje.length == 0){
             }     
         },
         error:function(msj){
+
+            console.log(msj);
             var errormessages = "";
 
             $.each(msj.responseJSON, function(i, field){
@@ -1315,8 +1316,6 @@ function borrarFotoArticulo(params) {
 
 
 $("#registrar_articulo").click(function(){
-
-    
 
     if($("#quantity").val() < 0){
         swal("No se puede registrar articulo con cantidad negativa");
@@ -1510,7 +1509,6 @@ $("#registrar_articulo").click(function(){
     });
 
 });
-
 
 
 $("#subir_foto_v2").click(function(){

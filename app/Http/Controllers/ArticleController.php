@@ -8,6 +8,7 @@ use Bumsgames\Notifications\TaskCompleted;
 use Bumsgames\BumsUser;
 use DB;
 use Carbon\Carbon;
+use Image;
 
 
 class ArticleController extends Controller
@@ -280,9 +281,7 @@ public function fotoMultiple(Request $request){
 
   // guardo imagen
   $file = $request->file('image');
-    //$file = $request->images;
-
-  $name = Carbon::now()->day . $file->getClientOriginalName();
+  $name = Carbon::now()->second . $file->getClientOriginalName();
 
   $image = new \Bumsgames\Image;
   $image->numero = $request->number;
@@ -290,6 +289,17 @@ public function fotoMultiple(Request $request){
   $image->save();
 
   \Storage::disk('local')->put($name, \File::get($file));
+
+  $image = Image::make(\Storage::disk('local')->get($image->file));
+  
+  $image->resize(250, null, function ($constraint) {
+    $constraint->aspectRatio();
+    $constraint->upsize();
+  });
+
+  //\Storage::disk('local')->put($name, \File::get($file));
+  \Storage::disk('local')->put($name, (string) $image->encode('jpg', 30));
+
   foreach ($articulos_coincidencia as $articulo) {
     \Bumsgames\Article_Image::create([
       'article_id' => $articulo->id,
@@ -326,19 +336,16 @@ public function fotoMultipleMod(Request $request){
   $articleID=$request->article_id;
   $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
   $images = $articulo->images;
-    //dd($articulo->toArray());
+  //dd($articulo->toArray());
 
   if($request->index==0 && count($images)>0){
-
     foreach ($images as $image) {
       \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
       $image->delete();
     }
-
   }
 
   $file = $request->file('image');
-    //$file = $request->images;
   $name = Carbon::now()->second . $file->getClientOriginalName();
 
   $image = new \Bumsgames\Image;
@@ -347,6 +354,15 @@ public function fotoMultipleMod(Request $request){
   $image->save();
 
   \Storage::disk('local')->put($name, \File::get($file));
+
+  $image = Image::make(\Storage::disk('local')->get($image->file));
+  
+  $image->resize(250, null, function ($constraint) {
+    $constraint->aspectRatio();
+    $constraint->upsize();
+  });
+
+  \Storage::disk('local')->put($name, (string) $image->encode('jpg', 30));
 
   \Bumsgames\Article_Image::create([
     'article_id' => $request->article_id,
@@ -627,8 +643,6 @@ public function eliminarFotosArticulo(Request $request){
 
     $mensaje = "";
 
-
-
     $cambio_email_o_category = 0;
 
     //Se busca el articulo antes del cambio para tenerlo como referencia
@@ -645,13 +659,10 @@ public function eliminarFotosArticulo(Request $request){
 
     print_r(0);
 
-
     $id_categorias = json_decode($request->id_categorias);
     $categoria = \Bumsgames\Category::find($id_categorias[0]);
 
-
     // $articulo->categorias()->sync($id_categorias);
-
 
     $nombre_categoria = $categoria->category;
     $primera_categoria_id = $id_categorias[0];
@@ -661,9 +672,7 @@ public function eliminarFotosArticulo(Request $request){
     $pos = strrpos( $nombre_categoria, $searchterm);
     $pos2 = strrpos( $nombre_categoria, $searchterm2);
 
-
     print_r(0.1);
-
 
     //si es cuenta digital  o cupo
     if (($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)) || 
@@ -690,7 +699,7 @@ public function eliminarFotosArticulo(Request $request){
     $id_ps3_cuenta = 5;
     
     print_r(2);
-//caso ps4 pri, ps4 sec y ps3 cuenta , mismo correo y misma categoria   
+    //caso ps4 pri, ps4 sec y ps3 cuenta , mismo correo y misma categoria   
     if (in_array($id_categorias[0], [$id_ps4_pri, $id_ps4_sec, $id_ps3_cuenta, $id_ps4_codigo])) {
       print_r('en ps4');
       $articlesPivote = \Bumsgames\Article::
@@ -706,23 +715,23 @@ public function eliminarFotosArticulo(Request $request){
         $mensaje .= "Boton de reseteo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
       }
 
-//nickname cambiado
+      //nickname cambiado
       if ($refer[0]->nickname != $request->nickname) {
        $articlesPivote ->update(['nickname' => $request->nickname]);
        $mensaje .= "Nickname cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
      }
-// cambio de password
+      // cambio de password
      if ($refer[0]->password != $request->password) {
        $articlesPivote ->update(['password' => $request->password ]);
        $mensaje .= "Password cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
      }
-// cambio de email
+      // cambio de email
      if ($refer[0]->email != $request->email) {
        $articlesPivote ->update(['email' => $request->email ]);
        $mensaje .= "Correo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
      }
 
-// cambio de peso y nombre, ps4: primario, secundario y codigo
+      // cambio de peso y nombre, ps4: primario, secundario y codigo
 
      //si no es ps3 cuenta, actualizar en pri, sec y codigo (peso y nombre, si cambia)
      if ($primera_categoria_id != $id_ps3_cuenta) {
@@ -798,7 +807,7 @@ public function eliminarFotosArticulo(Request $request){
   $id_xb1_codigo = 10;
 
 
-//caso xb1 pri y xb1 sec , mismo correo y misma categoria   
+  //caso xb1 pri y xb1 sec , mismo correo y misma categoria   
   if (in_array($id_categorias[0], [$id_xb1_pri, $id_xb1_sec])) {
 
     $articlesPivote = \Bumsgames\Article::
@@ -808,17 +817,17 @@ public function eliminarFotosArticulo(Request $request){
       $q->whereIn('categories.id', array($id_xb1_pri, $id_xb1_sec));
     });
 
-//nickname cambiado
+  //nickname cambiado
     if ($refer[0]->nickname != $request->nickname) {
      $articlesPivote ->update(['nickname' => $request->nickname]);
      $mensaje .= "Nickname cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
    }
-// cambio de password
+  // cambio de password
    if ($refer[0]->password != $request->password) {
      $articlesPivote ->update(['password' => $request->password ]);
      $mensaje .= "Password cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
    }
-// cambio de email
+  // cambio de email
    if ($refer[0]->email != $request->email) {
      $articlesPivote ->update(['email' => $request->email ]);
      $mensaje .= "Correo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
@@ -859,155 +868,155 @@ public function eliminarFotosArticulo(Request $request){
 
 }
 
-$id_nin_pri = 18;
-$id_nin_sec = 19;
-$id_nin_codigo = 13;
+  $id_nin_pri = 18;
+  $id_nin_sec = 19;
+  $id_nin_codigo = 13;
 
-//caso xb1 pri y xb1 sec , mismo correo y misma categoria   
-if (in_array($id_categorias[0], [$id_nin_pri, $id_nin_sec])) {
+  //caso xb1 pri y xb1 sec , mismo correo y misma categoria   
+  if (in_array($id_categorias[0], [$id_nin_pri, $id_nin_sec])) {
 
-  $articlesPivote = \Bumsgames\Article::
-  where('email', $refer[0]->email)
-  ->where('id','!=',$refer[0]->id)
-  ->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec) {
-    $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec));
-  });
+    $articlesPivote = \Bumsgames\Article::
+    where('email', $refer[0]->email)
+    ->where('id','!=',$refer[0]->id)
+    ->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec) {
+      $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec));
+    });
 
-//nickname cambiado
-  if ($refer[0]->nickname != $request->nickname) {
-   $articlesPivote ->update(['nickname' => $request->nickname]);
-   $mensaje .= "Nickname cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
- }
-// cambio de password
- if ($refer[0]->password != $request->password) {
-   $articlesPivote ->update(['password' => $request->password ]);
-   $mensaje .= "Password cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
- }
-// cambio de email
- if ($refer[0]->email != $request->email) {
-   $articlesPivote ->update(['email' => $request->email ]);
-   $mensaje .= "Correo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
- }
-
-// cambio de peso y nombre, xb1: primario, secundario y codigo
- $articlesPivote = \Bumsgames\Article::
- where('id','!=',$request->id_articulo)
- ->where(function ($query) use ($request, $refer){
-   $query->where('name', 'like', '%' . $request->name . ' -I%')
-   ->orWhere('name', 'like', '%' . $refer[0]->name . ' -I%')
-   ->orWhere('name',  $request->name )
-   ->orWhere('name',  $refer[0]->name );
- })
- ->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec, $id_nin_codigo) {
-  $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec, $id_nin_codigo));
-});
-
- if ($refer[0]->peso != $request->peso) {
-  $articlesPivote->update(['peso' => $request->peso ]);
-  $mensaje .= "Peso cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
-}
-
-$articlesPivote = \Bumsgames\Article::
-where('id','!=',$request->id_articulo)
-->where(function ($query) use ($request, $refer){
- $query->where('name',  $request->name )
- ->orWhere('name',  $refer[0]->name );
-})
-->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec, $id_nin_codigo) {
-  $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec, $id_nin_codigo));
-});
-
-if ($refer[0]->name != $request->name) {
-  $articlesPivote->update(['name' => $request->name ]);
-  $mensaje .= "Nombre cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
-}
-}
-}
-  // fin if (si es cuenta o cupo)
-
-//Cambio en Articulos mismo nombre viejo o nuevo, llegado a stock, agotado en stock, precio, precio 
-for ($i = 0; $i < count($id_categorias) - 1; $i++) {
-  $primera_categoria_id = $id_categorias[$i];
-
-  $articlesPivote = \Bumsgames\Article::
-  where(function ($query) use ($request, $refer){
-   $query->where('name',  $request->name )
-   ->orWhere('name',  $refer[0]->name );
- })
-  ->whereHas('categorias', function($q)  use ($primera_categoria_id) {
-    $q->where('categories.id', $primera_categoria_id);
-  });
-
-  if ($articlesPivote->sum('quantity') <= 0 && $request->quantity > 0) {
-   $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
-   $mensaje .= "Articulo llego a Stock\n\n";
- }else{
-  if ($articlesPivote->sum('quantity') > 0 
-    && $request->quantity <= 0 
-    && $refer[0]->quantity > 0
-    && (($articlesPivote->sum('quantity') - $refer[0]->quantity) <= 0 )) {
-    $articlesPivote->update(['fecha_agotado' => Carbon::now()]);
-  $mensaje .= "Articulo Agotado\n\n";
-}
-}
-
-
-if ($refer[0]->offer_price != $request->offer_price) {
-  $articlesPivote->update(['offer_price' => $request->offer_price ]);
-  $mensaje .= "Precio Oferta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
-}
-
-if ($refer[0]->price_in_dolar != $request->price_in_dolar) {
-
-  if ( $request->price_in_dolar < $refer[0]->price_in_dolar) {
-    $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
-    $mensaje .= "Este Articulo ahora tiene un precio mas bajo\n\n";
+  //nickname cambiado
+    if ($refer[0]->nickname != $request->nickname) {
+    $articlesPivote ->update(['nickname' => $request->nickname]);
+    $mensaje .= "Nickname cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+  // cambio de password
+  if ($refer[0]->password != $request->password) {
+    $articlesPivote ->update(['password' => $request->password ]);
+    $mensaje .= "Password cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+  // cambio de email
+  if ($refer[0]->email != $request->email) {
+    $articlesPivote ->update(['email' => $request->email ]);
+    $mensaje .= "Correo cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
   }
 
-  $articlesPivote->update(['price_in_dolar' => $request->price_in_dolar ]);
-  $mensaje .= "Precio de Venta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
-}
+  // cambio de peso y nombre, xb1: primario, secundario y codigo
+  $articlesPivote = \Bumsgames\Article::
+  where('id','!=',$request->id_articulo)
+  ->where(function ($query) use ($request, $refer){
+    $query->where('name', 'like', '%' . $request->name . ' -I%')
+    ->orWhere('name', 'like', '%' . $refer[0]->name . ' -I%')
+    ->orWhere('name',  $request->name )
+    ->orWhere('name',  $refer[0]->name );
+  })
+  ->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec, $id_nin_codigo) {
+    $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec, $id_nin_codigo));
+  });
 
-if ($refer[0]->oferta != $request->oferta) {
-  $articlesPivote->update(['oferta' => $request->oferta ]);
-  $mensaje .= "Precio de Oferta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
-}
+  if ($refer[0]->peso != $request->peso) {
+    $articlesPivote->update(['peso' => $request->peso ]);
+    $mensaje .= "Peso cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
 
-}
+  $articlesPivote = \Bumsgames\Article::
+  where('id','!=',$request->id_articulo)
+  ->where(function ($query) use ($request, $refer){
+  $query->where('name',  $request->name )
+  ->orWhere('name',  $refer[0]->name );
+  })
+  ->whereHas('categorias', function($q)  use ($id_nin_pri,  $id_nin_sec, $id_nin_codigo) {
+    $q->whereIn('categories.id', array($id_nin_pri,  $id_nin_sec, $id_nin_codigo));
+  });
 
-  // modificacion articulo
-$articulo = \Bumsgames\Article::find($request->id_articulo);
-$articulo->fill($request->all());
-$articulo->save();
+  if ($refer[0]->name != $request->name) {
+    $articlesPivote->update(['name' => $request->name ]);
+    $mensaje .= "Nombre cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+  }
+  }
+    // fin if (si es cuenta o cupo)
 
-$articulo->categorias()->sync($id_categorias);
-    //Actualiza categorias en tabla pivote
-$articulo->categorias()->sync($id_categorias);
+  //Cambio en Articulos mismo nombre viejo o nuevo, llegado a stock, agotado en stock, precio, precio 
+  for ($i = 0; $i < count($id_categorias) - 1; $i++) {
+    $primera_categoria_id = $id_categorias[$i];
+
+    $articlesPivote = \Bumsgames\Article::
+    where(function ($query) use ($request, $refer){
+    $query->where('name',  $request->name )
+    ->orWhere('name',  $refer[0]->name );
+  })
+    ->whereHas('categorias', function($q)  use ($primera_categoria_id) {
+      $q->where('categories.id', $primera_categoria_id);
+    });
+
+    if ($articlesPivote->sum('quantity') <= 0 && $request->quantity > 0) {
+    $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
+    $mensaje .= "Articulo llego a Stock\n\n";
+  }else{
+    if ($articlesPivote->sum('quantity') > 0 
+      && $request->quantity <= 0 
+      && $refer[0]->quantity > 0
+      && (($articlesPivote->sum('quantity') - $refer[0]->quantity) <= 0 )) {
+      $articlesPivote->update(['fecha_agotado' => Carbon::now()]);
+    $mensaje .= "Articulo Agotado\n\n";
+  }
+  }
+
+
+  if ($refer[0]->offer_price != $request->offer_price) {
+    $articlesPivote->update(['offer_price' => $request->offer_price ]);
+    $mensaje .= "Precio Oferta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+
+  if ($refer[0]->price_in_dolar != $request->price_in_dolar) {
+
+    if ( $request->price_in_dolar < $refer[0]->price_in_dolar) {
+      $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
+      $mensaje .= "Este Articulo ahora tiene un precio mas bajo\n\n";
+    }
+
+    $articlesPivote->update(['price_in_dolar' => $request->price_in_dolar ]);
+    $mensaje .= "Precio de Venta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+
+  if ($refer[0]->oferta != $request->oferta) {
+    $articlesPivote->update(['oferta' => $request->oferta ]);
+    $mensaje .= "Precio de Oferta cambiado en ".$articlesPivote->count()." Articulo(s)\n\n";
+  }
+
+  }
+
+    // modificacion articulo
+  $articulo = \Bumsgames\Article::find($request->id_articulo);
+  $articulo->fill($request->all());
+  $articulo->save();
+
+  $articulo->categorias()->sync($id_categorias);
+      //Actualiza categorias en tabla pivote
+  $articulo->categorias()->sync($id_categorias);
 
 
 
 
 
-\Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
+  \Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
 
-$id_bumsuser = json_decode($request->id_bumsuser);
-$porcentaje = json_decode($request->porcentaje);
-$request->request->add(['id_article' => $articulo->id]);
+  $id_bumsuser = json_decode($request->id_bumsuser);
+  $porcentaje = json_decode($request->porcentaje);
+  $request->request->add(['id_article' => $articulo->id]);
 
-for ($i = 0; $i < count($id_bumsuser); $i++) {
-  \Bumsgames\BumsUser_Article::create([
-    'id_bumsuser' => $id_bumsuser[$i],
-    'id_article' => $articulo->id,
-    'porcentaje' => $porcentaje[$i]
+  for ($i = 0; $i < count($id_bumsuser); $i++) {
+    \Bumsgames\BumsUser_Article::create([
+      'id_bumsuser' => $id_bumsuser[$i],
+      'id_article' => $articulo->id,
+      'porcentaje' => $porcentaje[$i]
+    ]);
+  }
+
+
+  return response()->json([
+    "data" => $mensaje,
   ]);
-}
 
-
-return response()->json([
-  "data" => $mensaje,
-]);
-
-print_r(2);
+  print_r(2);
 
 
 
