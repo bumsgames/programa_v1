@@ -238,6 +238,7 @@ function init() {
 
     var inputFileMod = document.getElementById('inputFileMod');
     if(inputFileMod){
+        alert(1);
         inputFileMod.addEventListener('change', mostrarImagenMod, false);
     }
     
@@ -286,7 +287,13 @@ function removePhotoDiv(number) {
     }
 }
 
-function mostrarImagenMod(event) {
+    if(inputFileMod){
+        alert(1);
+        inputFileMod.addEventListener('change', mostrarImagenMod, false);
+    }
+
+    function mostrarImagenMod(event) {
+    alert(2);
     //Obtengo el file del input
     var file = event.target.files[0];
     console.log("file", file);
