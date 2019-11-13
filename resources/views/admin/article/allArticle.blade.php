@@ -10,23 +10,21 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="tile">
-				@if($articles->total() == 0)
+				{{-- @if($articles->total() == 0)
 				<h6>Mostrando 0 articulos</h6>
 				@else
 				<h6>Mostrando del {{($articles->perPage())*($articles->currentPage()-1)+1}} al {{($articles->perPage() * $articles->currentPage())-($articles->perPage() - $articles->count())}} de {{$articles->total()}} resultados</h6>
-				{{--<h6>Numero de articulos: {{ $articles_cantidad }}</h6>--}}
+				<h6>Numero de articulos: {{ $articles_cantidad }}</h6>
 				@endif
-
+				--}}
 				@if(isset($articlesLista))
-				FUNCION POR OPTIMIZAR, SE PEGA CON MUCHOS RESULTADOS
-				<br>	
 				LISTA DE CANTITADES
 				<br>	
 				<br>	
 				@foreach($articlesLista as $article)
-				{{$article->name}} ({{$article->pertenece_category->category}}) Cantidad: {{$article->quantity}}
+				{{$article->name}} ({{ $article->price_in_dolar }} $) | <b>{{ $article->category }}</b> |
 				<br>	
-				Cantidad: {{$article->quantity1}}
+				Cantidad: {{$article->quantity}}
 				<br>	
 				<br>	
 				@endforeach
@@ -34,7 +32,7 @@
 
 
 				<div class="row">
-					<form action="{{ url('articulos_bd') }}" method="POST" class="form-inline col-12 col-lg-7" target="_blank">
+					{{-- <form action="{{ url('articulos_bd') }}" method="POST" class="form-inline col-12 col-lg-7" target="_blank">
 						{{ csrf_field() }}
 						<div class="my-1 mr-sm-2">
 							<input autocomplete="off" type="text" placeholder="Buscar" class="form-control" name="coincidencia" id="buscador" @if(isset($busqueda)) value={{$busqueda}} @endif>
@@ -43,10 +41,11 @@
 							<i class="fa fa-search" aria-hidden="true"></i> 
 							Buscar Coincidencia
 						</button>
-						<button type="button" class="btn btn-primary my-1 mr-sm-2" data-toggle="collapse" data-target="#filtros"><i class="fa fa-gear"></i>Filtros</button>
 						
-					</form>
-					<form action="{{url('articulosAllOrdenados')}}" method="POST" class="form-inline col-12 col-lg-5">
+						
+					</form> --}}
+					<button style="margin-left: 30px;" type="button" class="btn btn-primary my-1 mr-sm-2" data-toggle="collapse" data-target="#filtros"><i class="fa fa-gear"></i>Filtros</button>
+					{{-- <form action="{{url('articulosAllOrdenados')}}" method="POST" class="form-inline col-12 col-lg-5">
 						{{ csrf_field() }}
 						<div class="my-1 form-group mr-sm-2">
 							<label for="sel1">Ordenar por:  </label>
@@ -70,7 +69,7 @@
 							<i class="fa fa-search" aria-hidden="true"></i> 
 							Ordenar
 						</button>
-					</form>
+					</form> --}}
 				</div>
 				<br>
 				<form action="{{url('aplicar_filtros_multiples')}}" method="POST" target="_blank">
@@ -115,7 +114,7 @@
 										<label class="custom-control-label" for="disponible">Disponible</label>
 									</div>
 									<div class="custom-control custom-radio custom-control-inline">
-										<input type="radio" class="custom-control-input" id="nodisponible" name="disponible" value="2"  @if(isset($parametros[2]))@if($parametros[2] == 2) checked @endif @endif>
+										<input type="radio" class="custom-control-input" id="nodisponible" name="disponible" value="0"  @if(isset($parametros[2]))@if($parametros[2] == 2) checked @endif @endif>
 										<label class="custom-control-label" for="nodisponible">No disponible</label>
 									</div> 
 									<div class="custom-control custom-control-inline" style="margin-right:0">
@@ -143,7 +142,7 @@
 								<input autocomplete="off" type="text" @if(isset($parametros[4])) value="{{$parametros[4]}}"  @endif placeholder="Buscar Nickname" class="form-control" name="nickfil" id="nickfil">
 							</div>
 
-							<div class="form-group col-12 col-lg-3">
+							{{-- <div class="form-group col-12 col-lg-3">
 								<label for="precio">Filtrar por Precio</label>
 								<div >
 									<label for="preciorange">Precio Minimo: <span id="precioranget"></span > $</label>
@@ -160,7 +159,7 @@
 									<label for="pesorange">Peso: <span id="pesoranget"></span > GB</label>
 									<input @if(isset($parametros[7])) value="{{$parametros[7]}}" @else value="0" @endif type="range" class="custom-range" id="pesorange" name="peso">
 								</div>
-							</div>
+							</div> --}}
 
 						</div>	
 
@@ -170,7 +169,7 @@
 				</form>
 				<br>	
 				
-				@if ($articles->hasPages())
+				{{-- @if ($articles->hasPages())
 				<ul class="pagination justify-content-center">
 					@if ($articles->onFirstPage())
 					<li class="page-item disabled"><span class="page-link"><</span></li>
@@ -206,7 +205,7 @@
 					<li class="page-item disabled"><span class="page-link">></span></li>
 					@endif
 				</ul>
-				@endif
+				@endif --}}
 
 				<br>
 				<div class="table-responsive">
@@ -287,7 +286,7 @@
 									@endif
 								</td>
 								<td style="width: 20%;">
-									<b>Ubicacion:</b> {{ $article->ubicacion2->nombre_ubicacion }}
+									<b>Ubicacion:</b> {{ $article->Ubicacion2->nombre_ubicacion }}
 									<br>
 									<br>
 									@foreach($article->duennos->sortBy('porcentaje') as $duenno)
@@ -339,6 +338,7 @@
 								<td>
 									{{-- {{ $article->categorias[0]->category }} --}}
 									
+									@if (isset($article->categorias[0]))
 									@if ((strpos($article->categorias[0]->category,'Cuenta') !== false) 
 									|| (strpos($article->categorias[0]->category,'Cupo') !== false))
 
@@ -386,6 +386,7 @@
 									
 									
 									@endif
+									@endif
 									
 								</td>
 								<td>	
@@ -430,7 +431,10 @@
 											<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="" value="" Onclick="">Modificar</button>
 										</form>
 										
-										<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" Onclick="mandaridM({{$article->id}})">Eliminar</button>
+										<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" 
+										Onclick="mandaridM({{$article->id}})">
+											Eliminar
+										</button>
 										
 									{{-- <button class="btn btn-primary botonCarta"
 										onclick="agregaCarro_admin('{{ $article->id }}', '{{ $article->name }}', 
@@ -484,7 +488,7 @@
 		</tbody>
 	</table>
 </div>
-
+{{-- 
 @if ($articles->hasPages())
 <ul class="pagination justify-content-center">
 	@if ($articles->onFirstPage())
@@ -521,7 +525,7 @@
 	<li class="page-item disabled"><span class="page-link">></span></li>
 	@endif
 </ul>
-@endif
+@endif --}}
 
 
 </div>

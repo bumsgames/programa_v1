@@ -6,6 +6,12 @@
 <center>
         <div class="col-12 col-lg-4">
             <div class="container-login">
+
+                @if (session('notification'))
+                    <div class="alert alert-success" role="alert">
+                        {{session('notification')}}
+                    </div>
+                @endif  
                     {{ csrf_field() }}
                     <div class="loginContainer">
                     <img class="img_login" src="{{url('img/log3.png')}}" width="400" />  
@@ -37,7 +43,9 @@
                         
                         <div class="col">
                             <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#sirveReg">¿Para que sirve estar registrado?</button>
-                        <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#modalReg">Registrate</button>
+                            <a class="btn btn-primary btnregistrar" href="{{ url('/register')}}">
+                                Registrate
+                            </a>
                         </div>
 
                     </div>

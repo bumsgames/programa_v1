@@ -23,6 +23,7 @@ Route::resource('/logloglog','BumsUserController');
 Route::post('/crear_usuario','BumsUserController@crear_usuario');
 Route::post('/actualizar_user','BumsUserController@actualizar_user');
 Route::post('/logueo','BumsUserController@logueo');
+Route::post('/verifyPass','BumsUserController@verifyPass');
 
 // ProgramController GET
 Route::get('/factura/{id}','ProgramController@factura');
@@ -190,7 +191,22 @@ Route::post('/del_bancos','geneController@del_bancos');
 Route::post('/mod_bancos','geneController@mod_bancos');
 Route::post('/modif_banco','geneController@modif_banco');
 
+//Controlador para categorias
+Route::get('/categorias','geneController@categorias');
+Route::post('/agg_categorias','geneController@agg_categorias');
+Route::post('/del_categorias','geneController@del_categorias');
+Route::post('/mod_categorias','geneController@mod_categorias');
+Route::post('/categorias_mod','geneController@categorias_mod');
 
+//Controlador sub_categorias
+Route::get('/sub_categorias','geneController@sub_categorias');
+Route::post('/agg_subCategorias','geneController@agg_subCategorias');
+Route::post('/del_subCategorias','geneController@del_subCategorias');
+Route::post('/mod_subCategorias','geneController@mod_subCategorias');
+Route::post('/modif_subCategorias','geneController@modif_subCategorias');
+
+//Controlador para moneda 
+Route::get('/monedas','geneController@monedas');
 
 
 
@@ -253,12 +269,16 @@ Route::post('/articulos', 'WebController@articulos');
 Route::get('/filtros_prueba', 'WebController@filtros_prueba');
 Route::post('/filtros_prueba', 'WebController@filtros_prueba');
 
+Route::get('/register/verify/{code}', 'WebController@verify');
 
 // Cliente fofe Get
 Route::get('/login','WebController@login');
+Route::get('/register','WebController@register');
 
 // Cliente Login Post
 Route::post('/login','WebController@loginAuth');
+Route::post('/register','WebController@registerAuth');
+
 //Cliente Logout
 Route::get('/logout_user','WebController@logout');
 
@@ -399,6 +419,9 @@ Route::get('mailpago','mailController@EnviarPago');
 
 //Articulos sin imagenes
 Route::get('/articulosSinImagen','ProgramController@Articulos_Sin_Imagen');
+
+Route::get('/Articulos_sinCategoria','ProgramController@Articulos_sinCategoria');
+Route::get('/Articulos_sinPeso','ProgramController@Articulos_sinPeso');
 
 //Agregar imagen
 Route::post('/actualizarImagen/{id}','ProgramController@Actualizar_Imagen');

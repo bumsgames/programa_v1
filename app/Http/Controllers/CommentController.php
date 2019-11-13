@@ -57,80 +57,98 @@ class CommentController extends Controller
     public function ShowComentariosAll()
     {
         $comentarios = DB::table('comment')->select('*')
-            ->orderby('created_at', 'DESC')
-            ->paginate(5);
+        ->orderby('created_at', 'DESC')
+        ->where('aprobado',null)
+        ->paginate(5);
+
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
 
         $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-            ->orderby('created_at', 'desc')
-            ->get();
+        ->orderby('created_at', 'desc')
+        ->get();
         $comentarios_cantidad = Comment::orderby('created_at', 'desc')->get();
         $comentarios_cantidad = $comentarios_cantidad->count();
-        return view('admin.comments.comentariosadminall', compact('pago_sin_confirmar', 'comments_por_aprobar', 'comentarios', 'comentarios_cantidad', 'tutoriales'));
+
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+
+        return view('admin.comments.comentariosadminall', compact('pago_sin_confirmar', 'comments_por_aprobar', 'comentarios', 'comentarios_cantidad', 'tutoriales','carrito'));
     }
 
     //Muestra los comentarios aprobados
     public function ShowComentariosAprobados()
     {
         $comentarios = Comment::orderby('created_at', 'desc')
-            ->where('aprobado', 1)
-            ->paginate(5);
+        ->where('aprobado', 1)
+        ->paginate(5);
+
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
+
         $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-            ->orderby('created_at', 'desc')
-            ->get();
+        ->orderby('created_at', 'desc')
+        ->get();
+
         $comentarios_cantidad = Comment::orderby('created_at', 'desc')->where('aprobado', 1)->get();
         $comentarios_cantidad = $comentarios_cantidad->count();
-        return view('admin.comments.comentariosadminaprobados', compact('pago_sin_confirmar', 'comments_por_aprobar', 'comentarios', 'comentarios_cantidad', 'tutoriales'));
+
+$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+
+        return view('admin.comments.comentariosadminaprobados', compact('carrito','pago_sin_confirmar', 'comments_por_aprobar', 'comentarios', 'comentarios_cantidad', 'tutoriales'));
     }
 
     //Muestra los comentarios rechazados
     public function ShowComentariosRechazados()
     {
         $comentarios = Comment::orderby('created_at', 'desc')
-            ->where('aprobado', 0)
-            ->paginate(5);
+        ->where('aprobado', 0)
+        ->paginate(5);
         $tutoriales = \Bumsgames\tutorial::all();
         $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-            ->orderby('created_at', 'desc')
-            ->get();
+        ->orderby('created_at', 'desc')
+        ->get();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
 
         $comentarios_cantidad = Comment::orderby('created_at', 'desc')->where('aprobado', 0)->get();
         $comentarios_cantidad = $comentarios_cantidad->count();
-        return view('admin.comments.comentariosadminrechazados', compact('pago_sin_confirmar', 'comments_por_aprobar', 'comentarios', 'comentarios_cantidad', 'tutoriales'));
+
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+
+
+        return view('admin.comments.comentariosadminrechazados', compact('carrito','pago_sin_confirmar', 'comments_por_aprobar', 'comentarios', 'comentarios_cantidad', 'tutoriales'));
     }
 
     //Muestra los comentarios pendientes
     public function ShowComentariosPendientes()
     {
         $comentarios = Comment::orderby('created_at', 'desc')
-            ->where('aprobado', null)
-            ->paginate(5);
+        ->where('aprobado', null)
+        ->paginate(5);
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
 
         $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-            ->orderby('created_at', 'desc')
-            ->get();
+        ->orderby('created_at', 'desc')
+        ->get();
         $comentarios_cantidad = Comment::orderby('created_at', 'desc')->where('aprobado', null)->get();
         $comentarios_cantidad = $comentarios_cantidad->count();
         return view('admin.comments.comentariosadminpendientes', compact('pago_sin_confirmar', 'comments_por_aprobar', 'comentarios', 'comentarios_cantidad', 'tutoriales'));

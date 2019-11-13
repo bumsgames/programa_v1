@@ -4,13 +4,11 @@ $("#comprarCarrito").click(function(){
     }else{
         swal('Usted tiene el carrito vacio.');
     }
-    // swal("Gracias por su compra amig@!",
-    //     "Para concretar su compra debe comunicarse con nosotros a nuestro What'sApp y proceder al pago de sus articulos, una vez verificado su pago se le hará el envio del producto o los productos comprados. \n  \n Puede comunicarse con nosotros al: \n\n (David Salazar)+58-0414-987-50-29 \n\n (Genesis Moreno)+58-0412-796-43-49\n\n (Daniel Duarte)+58-0412-11-92-379 \n\n (Brazil)+58-414-772-74-21 \n\n(Argentina)+54 9 11 3359-3681 \n\n\n Estamos a su orden.");
+
 });
 
 
 $(document).ready(function(){
-
     Marquee3k.init();
 
     $('#category_btn').click(function(){
@@ -59,16 +57,6 @@ $(document).ready(function(){
         dd.options['visible'] = 0 ;
         dd.start();
     });
-    
-});
-
-$(document).ready(function(){
-
-    $('.simple-marquee-container').SimpleMarquee();
-
-    $("#dejar_mensaje").click(function (){
-        alert(1);             
-    });
 
     $('#area_involucradoAgenteSelect_-1').css("display", "none");
     $('#area_porcentaje_voluntad').css("display", "none");
@@ -82,15 +70,12 @@ $(document).ready(function(){
             $('#zona_multiple').css("display", "block");
             $('#zona_unica').css("display", "none");
         }
-    });  
+    }); 
+    
+});
 
- // $('.ceck_cat').change(function(){
-
- //        filtrado();
- //    });
-
- $('#oferta_filt').change(function(){
-   if($("#oferta_filt").is(':checked')){
+$('#oferta_filt').change(function(){
+ if($("#oferta_filt").is(':checked')){
     oferta_filt = 1;
 }else{
     oferta_filt = 0;
@@ -121,7 +106,7 @@ if(result){
 }
 });
 
- $('.ceck_cat').change(function(){
+$('.ceck_cat').change(function(){
     if($("#oferta_filt").is(':checked')){
         oferta_filt = 1;
     }else{
@@ -157,30 +142,7 @@ if(result){
     }
 });
 
-    // form_data.append('id_categorias', JSON.stringify(id_categorias_array));
-    // form_data.append('oferta_filt', $("#oferta_filt").val());
-    // // form_data.append('visible_cat', JSON.stringify(visible_cat_array));
-    // $.ajax({
-    //     url:        route,
-    //     headers:    {'X-CSRF-TOKEN':token},
-    //     type: 'GET',
-    //     dataType:   'json',
-    //     data:       form_data,
-    //     contentType: false, 
-    //     processData: false,
-    //     success: function(data){
-    //         alert(1);
-    //         window.open("orden_a_pagar", "_blank");
-    //     }
-    //     // ,
-    //     // error:function(msj){
-    //     //     var errormessages = "";
-    //     //     $.each(msj.responseJSON, function(i, field){
-    //     //         errormessages+="\n"+field+"\n";
-    //     //     });
-    //     //     swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
-    //     // }
-    // });
+$(document).ready(function(){
 
     $('#banco_emisor').change(function(){
         var string = $(this).find(":selected").val();
@@ -238,27 +200,9 @@ if(result){
             break;
         }
     });
-
-
-    // function texto_alerta(a){
-    //     alert(222);
-    // }
-
 });
 
-// function comprar(i){
-//     if((i - 1) == 0){
-//         swal('Su carrito esta vacio.');
-//     }else{
-//         window.open("orden_a_pagar", "_blank");
-//     }
-// }
 
-
-
-// function quitar(id_duenno, nombre_duenno, apellido_duenno){
-//     alert(apellido_duenno);
-// }
 
 
 function myFunction2(a, b, c){
@@ -273,23 +217,9 @@ function quitar_categoria(a, b){
     $('#categoria_opc').append('<option selected value='+a+'>'+b+'</option>');
 }
 
-// $('.marquee').marquee({
-//     //speed in milliseconds of the marquee
-//     duration: 500000,
-//     //gap in pixels between the tickers
-//     gap: 50,
-//     //time in milliseconds before the marquee will start animating
-//     delayBeforeStart: 0,
-//     //'left' or 'right'
-//     direction: 'left',
-//     //true or false - should the marquee be duplicated to show an effect of continues flow
-//     duplicated: true,
-//     pauseOnHover: true
-// });;;;;;
 
 
-
-function init() {  
+function init() { 
     var inputFile2 = document.getElementById('inputFile2');
     if(inputFile2){
         inputFile2.addEventListener('change', mostrarImagen2, false);
@@ -379,6 +309,7 @@ function mostrarImagenMod(event) {
 
         var htmlTagImage = 
         '<div class="col" id="div_'+indexImage+'">' +
+
         '<img id="img_'+indexImage+'" class="img row text-center" src="'+ event.target.result+ '" style="object-fit: cover;max-width: 250px;">'+
         '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
         'Eliminar'+
@@ -515,8 +446,8 @@ $("#checked_envio").click(function (){
     if ($("#checked_envio").prop("checked")){
         $("#zona_envio").css("display", "block");
     }else{
-       $("#zona_envio").css("display", "none");           
-   }              
+     $("#zona_envio").css("display", "none");           
+ }              
 });
 /* */
 
@@ -553,19 +484,19 @@ $('#inputFile2').on('change',function(){
             });
 
 $('#select_user').on('change',function(){
- $("#pertenece_user").val($("#select_user").find('option:selected').val());
+   $("#pertenece_user").val($("#select_user").find('option:selected').val());
 });
 
 $("#agregar_tarea").click(function(){
- var route = '/homeworkAdd';
- var token = $('#token').val();
- var form_data = new FormData();  
- form_data.append('de_usuario', $("#de_usuario").val());   
- form_data.append('para_usuario', $("#para_usuario").val());
- form_data.append('mensaje', $("#mensaje").val());
- form_data.append('status', $("#status").val());
+   var route = '/homeworkAdd';
+   var token = $('#token').val();
+   var form_data = new FormData();  
+   form_data.append('de_usuario', $("#de_usuario").val());   
+   form_data.append('para_usuario', $("#para_usuario").val());
+   form_data.append('mensaje', $("#mensaje").val());
+   form_data.append('status', $("#status").val());
 
- $.ajax({
+   $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -596,7 +527,7 @@ $("#agregar_tarea").click(function(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- console.log("Estamos aca");
+   console.log("Estamos aca");
 });
 
 $("#modificar_tarea").click(function(){
@@ -726,10 +657,10 @@ function eliminar_nota(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-       var route = "/delete_duties/"+id+"";
+     var route = "/delete_duties/"+id+"";
 
-       var token = $('#token').val();
-       $.ajax({
+     var token = $('#token').val();
+     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -747,7 +678,7 @@ function eliminar_nota(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
-   }else{
+ }else{
     alert('Clave no autorizada');
 }
 }
@@ -762,12 +693,12 @@ function mostrar_actuales(id, a, b){
     de += b;
     var route = "/actuales/"+id+"";
     $.get(route, function(data){
-       $("#id").val(data.id);
-       $("#de_usuarioM").val(de);
-       $("#para_usuarioM").val(data.para_usuario);
-       $("#mensajeM").val(data.mensaje);
-       $("#statusM").val(data.status);
-   });
+     $("#id").val(data.id);
+     $("#de_usuarioM").val(de);
+     $("#para_usuarioM").val(data.para_usuario);
+     $("#mensajeM").val(data.mensaje);
+     $("#statusM").val(data.status);
+ });
 }
 
 function modal_orden(id, cuenta, entidad){
@@ -785,11 +716,22 @@ function modificar_user(id){
     $.get(route, function(data){
         var tabla
         $.each(data, function(i, item) {
+            console.log(data);
             $("#name_modificar").val(item.name);
             $("#last_modificar").val(item.lastname);
             $("#email_modificar").val(item.email);
             $("#nickname_modificar").val(item.nickname);
             $("#nivel_modificar").val(item.level);
+            $("#phoneMod").val(item.telefono);
+
+            //let prueba = item.porcentaje_ventaPropia * 100;
+            //console.log(prueba);
+            $("#porcentaje_ventaPropiaMod").val(item.porcentaje_ventaPropia * 100);
+            $("#porcentaje_ventaParcialMod").val(item.porcentaje_ventaParcial * 100);
+            $("#porcentaje_ventaAjenaMod").val(item.porcentaje_ventaAjena * 100);
+            $("#porcentaje_ventaPorOtraPersonaMod").val(item.porcentaje_ventaPorOtraPersona * 100);
+
+            $("#activeMod").val(item.active);
             $("#img2").attr("src","img/"+item.image);
         });
     });
@@ -893,7 +835,7 @@ $.ajax({
 
 $('#borrar').off().click(function(e) {
 
- alert(111);
+   alert(111);
 
 }); 
 
@@ -991,7 +933,7 @@ function quitar(id){
     $( ".x" ).remove();
 }
 
-$("#modificar_articulo").click(function(){ 
+$("#modificar_articulo").click(function(){
     let duenno = document.querySelectorAll('.id_duenno');
     let porcentaje = document.querySelectorAll('.duenno_porcentaje');
 
@@ -1097,8 +1039,7 @@ $("#modificar_articulo").click(function(){
     form_data.append('porcentaje', JSON.stringify(porcentaje_array));
     form_data.append('id_categorias', JSON.stringify(categoria_array));
 
-    //console.log("form_data",form_data);
-    //return;
+
 
     $.ajax({
         url:        route,
@@ -1545,19 +1486,18 @@ function subirFoto(params) {
             data:       form_data,
             contentType: false, 
             processData: false,
-
+            
             success:function(data){
                 console.log("Se guardo la foto ", data);
             },
             error:function(msj){
                 console.log(msj);
-
-                    //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
-                }
-            });
+                //swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+            }
+        });
     }
 
-}  
+}
 
 //ventana tipo lista
 $("#actualizar_uss").click(function(){
@@ -1565,11 +1505,21 @@ $("#actualizar_uss").click(function(){
     var id = $("#id_usuario").val();
     var route = "/actualizar_uss";
     var form_data = new FormData();  
+
     form_data.append('id',  id);
     form_data.append('name',  $("#name_modificar").val());
     form_data.append('lastname',  $("#last_modificar").val());
     form_data.append('email',  $("#email_modificar").val());
     form_data.append('nickname',  $("#nickname_modificar").val());
+    form_data.append('telefono',  $("#telefonoMod").val());
+    form_data.append('active',  $("#activeMod").val());
+
+    console.log('venta otra persona %', $("#porcentaje_ventaPorOtraPersonaMod").val()  / 100);
+    
+    form_data.append('porcentaje_ventaPropia',  $("#porcentaje_ventaPropiaMod").val()  / 100 );
+    form_data.append('porcentaje_ventaAjena',  $("#porcentaje_ventaAjenaMod").val()  / 100 );
+    form_data.append('porcentaje_ventaParcial',  $("#porcentaje_ventaParcialMod").val()  / 100 );
+    form_data.append('porcentaje_ventaPorOtraPersona',  $("#porcentaje_ventaPorOtraPersonaMod").val()  / 100 );
 
     if($("#password_modificar").val()){
         form_data.append('password',  $("#password_modificar").val());
@@ -1577,10 +1527,8 @@ $("#actualizar_uss").click(function(){
     if($('#nivel_modificar').val()){
         form_data.append('level',  $("#nivel_modificar").val());
     }  
-
     if($('#inputFile2').prop('files')[0]){
         form_data.append('image', $('#inputFile2').prop('files')[0]);
-
     }
     // if($('#inputFile1').prop('files')[0]){
     //     form_data.append('image', $('#inputFile1').prop('files')[0]);
@@ -1595,10 +1543,14 @@ $("#actualizar_uss").click(function(){
         processData: false,
 
         success:function(data){
+
+            console.log(data);
+
             swal("Usuario modificado.");
             $(".modal-backdrop").remove(); 
             $(".modal").hide();
             $(".modal").trigger("click");
+            window.location.reload();
         },
         error:function(msj){
             var errormessages = "";
@@ -1623,6 +1575,9 @@ $("#actualizar_uss2").click(function(){
     form_data.append('lastname',  $("#last_modificar").val());
     form_data.append('email',  $("#email_modificar").val());
     form_data.append('nickname',  $("#nickname_modificar").val());
+
+    form_data.append('telefono',  $("#telefonoMod").val());
+    form_data.append('active',  $("#activeMod").val());
 
     if($("#password_modificar").val()){
         form_data.append('password',  $("#password_modificar").val());
@@ -1710,11 +1665,11 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
 }
 
 $("#name_buscador_inteligente").on('keydown', function(){
- nombre = $("#name_buscador_inteligente").val();
- id_categoria = $("#category_buscador_inteligente").val();
- nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+   nombre = $("#name_buscador_inteligente").val();
+   id_categoria = $("#category_buscador_inteligente").val();
+   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
- if ( nombre.length <= 3 ) {
+   if ( nombre.length <= 3 ) {
     $("#table_client td").remove();
     $("#tabla-fondo").css("display", "none");
     return;
@@ -1725,11 +1680,11 @@ $("#name_buscador_inteligente").on('keydown', function(){
 });
 
 $("#name_buscador_inteligente").on('keyup', function(){
- nombre = $("#name_buscador_inteligente").val();
- id_categoria = $("#category_buscador_inteligente").val();
- nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
+   nombre = $("#name_buscador_inteligente").val();
+   id_categoria = $("#category_buscador_inteligente").val();
+   nombre_categoria = $("#category_buscador_inteligente").find('option:selected').text();
 
- if(nombre.length % 3 == 0  && nombre.length > 0){
+   if(nombre.length % 3 == 0  && nombre.length > 0){
     var token = $('#token').val(); 
     var form_data = new FormData(); 
     nombre_articulo = $("#name_buscador_inteligente").val()
@@ -2055,8 +2010,8 @@ $("#realizarVenta_v2").click(function(){
         form_data.append('name',  $("#name_client").val());
         form_data.append('lastname', $("#lastname_client").val());
         if( $("#nickname").val() ){
-           form_data.append('nickname', $("#nickname").val());
-       }else{
+         form_data.append('nickname', $("#nickname").val());
+     }else{
         var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
         nickname = nickname.replace(/\s/g,'');;
         form_data.append('nickname', nickname);
@@ -2240,8 +2195,8 @@ $("#realizar_venta").click(function(){
     form_data.append('name', nombre_cliente);
     form_data.append('lastname', apellido_cliente);
     if( $("#nickname").val() ){
-     form_data.append('nickname', $("#nickname").val());
- }else{
+       form_data.append('nickname', $("#nickname").val());
+   }else{
     var nickname = $("#name_client").val().replace(/\s/g,'')+""+$("#lastname_client").val().replace(/\s/g,'')+""+Math.floor(Math.random() * (999 - 100 + 1));
     nickname = nickname.replace(/\s/g,'');;
     form_data.append('nickname', nickname);
@@ -2453,14 +2408,14 @@ function colocar_comision(id){
 }
 
 $("#colocar_comision").click(function(){
-   var route = '/colocar_comision';
-   var token = $('#token').val();
+ var route = '/colocar_comision';
+ var token = $('#token').val();
 
-   var form_data = new FormData();  
-   form_data.append('id',  $("#id_sale").val());   
-   form_data.append('commission', $("#commission").val());
+ var form_data = new FormData();  
+ form_data.append('id',  $("#id_sale").val());   
+ form_data.append('commission', $("#commission").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -2741,6 +2696,8 @@ $.ajax({
     var route = 'borrarElementoCarrito';
     var form_data = new FormData();  
     form_data.append('elemento', a);
+
+
     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
@@ -2750,6 +2707,7 @@ $.ajax({
         contentType: false, 
         processData: false,
         success:function(data){
+
             var tablaDatos = $("#tablaCarrito");
             tablaDatos.empty();
             var i = 0;
@@ -2771,10 +2729,32 @@ $.ajax({
                 acumulado++;
                 borrado = i;
                 precioAcumulado+= Number(item.precio) * Number(e) ;
-                tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button style='color: white;' type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+
+                var htmlTags = 
+                    '<tr>'+
+                        '<td>'+i+'</td>'+
+                        '<td>' +
+                            '<input type="text" class="id_articulo" value="'+item.id+'" hidden>'+
+                            item.articulo +' || ' + item.category.category +
+                        '</td>'+
+                        '<td>' + item.cantidad + '</td>'+
+                        '<td>' + item.priceTotalBs + ' Bs ('+item.priceUnitedBs+ ' Bs )' +'</td>'+
+                        '<td>' + 
+                            '<img src="img/'+item.imagen+'" width="40" height="45" alt="">'+
+                        '</td>'+
+                        '<td>' + 
+                            '<button type="button" class="close" style="color: white;" onclick="borrarElementoCarrito('+ borrado +','+ e +',\'' +f+ '\');">'+
+                                '<span aria-hidden="true">&times;</span>'+
+                            '</button>'+
+                        '</td>'+
+                    '</tr>'
+                ;
+                tablaDatos.append(htmlTags);
+
+                //tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e)+" "+f+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button style='color: white;' type='button' class='close' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
             });
             $("#nArt").val(numero);
-            tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td></tr>");
+            tablaDatos.append("<tr><td></td><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado) +" "+f+" </strong></td><td></td><td></td></tr>");
             badge.append(acumulado);
         }
     });
@@ -2801,6 +2781,9 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
         contentType: false, 
         processData: false,
         success:function(data){
+
+            //console.log(data);
+
             if(data.tipo == 1){
                 swal(data.data);
                 
@@ -2822,10 +2805,33 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
                     acumulado++;
                     borrado = i;
                     precioAcumulado+= Number(item.precio * item.cantidad) * Number(e) ;
-                    tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e * item.cantidad)+"("+formatCurrency(item.precio * e )+")"+f+"</td><td>"+item.cantidad+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>");                      
+
+                    var htmlTags = 
+                    '<tr>'+
+                        '<td>'+i+'</td>'+
+                        '<td>' +
+                            '<input type="text" class="id_articulo" value="'+item.id+'" hidden>'+
+                            item.articulo +' || ' + item.category.category +
+                        '</td>'+
+                        '<td>' + item.cantidad + '</td>'+
+                        '<td>' + item.priceTotalBs + ' Bs ('+item.priceUnitedBs+ ' Bs )' +'</td>'+
+                        '<td>' + 
+                            '<img src="img/'+item.imagen+'" width="40" height="45" alt="">'+
+                        '</td>'+
+                        '<td>' + 
+                            '<button type="button" class="close" style="color: white;" onclick="borrarElementoCarrito('+ borrado +','+ e +',\'' +f+ '\');">'+
+                                '<span aria-hidden="true">&times;</span>'+
+                            '</button>'+
+                        '</td>'+
+                    '</tr>';
+                    tablaDatos.append(htmlTags);
+
+                    //tablaDatos.append("<tr><td>"+i+"</td><td><input type='text' class='id_articulo' value='"+item.id+"' hidden=''>"+item.articulo+" || "+item.categoria+"</td><td>"+formatCurrency(item.precio * e * item.cantidad)+"("+formatCurrency(item.precio * e )+")"+f+"</td><td>"+item.cantidad+"</td><td><img src='img/"+item.imagen+"' width='40' height='45' alt=''></td><td><button type='button' class='close' style='color: white;' onclick='borrarElementoCarrito("+borrado+", "+e+", \"" +f+ "\");'><span aria-hidden='true'>&times;</span></button></td></tr>"); 
+
                 });
+
                 $("#nArt").val(numero);
-                tablaDatos.append("<tr><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td></tr>");
+                tablaDatos.append("<tr><td></td><td></td><td></td><td><strong>Total: "+formatCurrency(precioAcumulado)+" "+f+" </strong></td><td></td><td></td></tr>");
                 badge.append(acumulado);
             }
         }
@@ -3484,6 +3490,7 @@ function cambiaBandera(algo){
                 }
 
                 function nuevo_detalle_compra(id){
+                    
                     var route = "/ver_detalle_compra/"+id+"";
                     var total = 0;
                     $.get(route, function(data){
@@ -3638,10 +3645,10 @@ function cambiaBandera(algo){
                 }
 
                 function eliminar_orden(id){
-                   var route = "/eliminar_orden/"+id+"";
+                 var route = "/eliminar_orden/"+id+"";
 
-                   var token = $('#token').val();
-                   $.ajax({
+                 var token = $('#token').val();
+                 $.ajax({
                     url:        route,
                     headers:    {'X-CSRF-TOKEN':token},
                     type:       'post',
@@ -3660,11 +3667,11 @@ function cambiaBandera(algo){
                     }
                 });
 
-               }
+             }
 
 
 
-               function AvoidSpace(event) {
+             function AvoidSpace(event) {
                 var k = event ? event.which : window.event.keyCode;
                 if (k == 32) return false;
             }

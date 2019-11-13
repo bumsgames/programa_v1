@@ -214,6 +214,15 @@ class ProgramController extends Controller
 			->whereHas('articulo.categorias', function($q)  use ($request) {
 				$q->ConCategoria($request->select_categoria);
 			})
+			->whereHas('venta', function($q)  use ($request) {
+				$q->ConVendedor($request->select_vendedor);
+				$q->ConEnvio($request->select_envio);
+				$q->ConEnvio($request);
+			})
+			->whereHas('venta.ventaCliente', function($q)  use ($request) {
+				$q->where('name','like', '%' . $request->nombre_cliente . '%');
+				$q->where('lastname','like', '%' . $request->apellido_cliente . '%');
+			})
 			->first();
 
 
@@ -221,6 +230,15 @@ class ProgramController extends Controller
 			$cantidad_pago = \Bumsgames\VentaPago::
 			ConBanco($request->select_banco)
 			->ConMoneda($request->select_moneda)
+			->whereHas('venta', function($q)  use ($request) {
+				$q->ConVendedor($request->select_vendedor);
+				$q->ConEnvio($request->select_envio);
+				$q->ConEnvio($request);
+			})
+			->whereHas('venta.ventaCliente', function($q)  use ($request) {
+				$q->where('name','like', '%' . $request->nombre_cliente . '%');
+				$q->where('lastname','like', '%' . $request->apellido_cliente . '%');
+			})
 			->where('referencia','like', '%' . $request->input_referencia . '%')
 			->where('notaPago','like', '%' . $request->input_notaPago . '%')
 			->first();	
@@ -303,7 +321,7 @@ class ProgramController extends Controller
 			->orderby('created_at','desc')
 			->get();
 
-			dd($ventas->articulos()->count());
+			
 			// ->paginate($n_paginacion);
 
 			// dd($ventas->toArray());
@@ -319,7 +337,9 @@ class ProgramController extends Controller
 			$tutoriales = \Bumsgames\tutorial::All();
 			$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
 			->get();
-			return view('admin.movimientos.movimientos_filtrados_v2', compact('cantidad_cobrado','cantidad_no_cobrado','cantidad_pago','cantidad_articulo','request','n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos','select_usuarios') );
+
+			$ubicaciones = \Bumsgames\Ubicacion::All();
+			return view('admin.movimientos.movimientos_filtrados_v2', compact('ubicaciones','cantidad_cobrado','cantidad_no_cobrado','cantidad_pago','cantidad_articulo','request','n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos','select_usuarios') );
 		}
 
 		public function menu_usuario()
@@ -334,7 +354,10 @@ class ProgramController extends Controller
 			->orderby('created_at', 'desc')
 			->get();
 			$users = \Bumsgames\BumsUser::All();
-			return view('admin.users.menu_usuario', compact('users', 'comments_por_aprobar', 'tutoriales', 'pago_sin_confirmar'));
+
+			$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+			->get();
+			return view('admin.users.menu_usuario', compact('carrito','users', 'comments_por_aprobar', 'tutoriales', 'pago_sin_confirmar'));
 		}
 
 		public function clientes()
@@ -563,7 +586,11 @@ class ProgramController extends Controller
 			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 			->orderby('created_at', 'desc')
 			->get();
-			return view('admin.users.configurar_tu_user', compact('tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar'));
+
+			$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+			->get();
+
+			return view('admin.users.configurar_tu_user', compact('carrito','tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar'));
 		}
 
 		public function registrar_orden(Request $request)
@@ -729,12 +756,15 @@ class ProgramController extends Controller
 
 	public function actualizar_uss(Request $request)
 	{
+
 		if (isset($request->password)) {
 			$request->request->add(['password' => bcrypt($request->password)]);
 		}
+		
 		$usuario = \Bumsgames\BumsUSer::find($request->id);
 		$usuario->fill($request->all());
 		$usuario->save();
+
 		$titulo = 'USUARIO ACTUALIZADO';
 		$data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
 		$data2 = '';
@@ -743,9 +773,9 @@ class ProgramController extends Controller
 			$user->notify(new TaskCompleted($titulo, $data, $data2));
 		}
 
-
 		return response()->json([
-			"mensaje" => "Modificado"
+			"mensaje" => "Modificado",
+			"data"=> $usuario
 		]);
 	}
 
@@ -973,15 +1003,18 @@ class ProgramController extends Controller
 
 		$articulos = \Bumsgames\Article::
 		leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
+		->where('name', 'not like', '%-I%')
 		->where('articles.id','!=',2)
+		->where('articles.quantity','>',0)
 		->where('ubicacion.id', $id)
-		->selectRaw('name, categories.category, sum(quantity) as quantity, ubicacion.nombre_ubicacion as ubicacion')
+		->selectRaw('name,price_in_dolar, categories.category, sum(quantity) as quantity, ubicacion.nombre_ubicacion as ubicacion')
 		->where('articles.id','!=',2)
 		->leftJoin('articulo_categorias', function ($join) {
 			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
 		})
 		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
 		->groupby('name','categories.id')
+		->orderby('categories.id')
 		->get();
 
 		// dd($articulos->toArray());
@@ -1210,12 +1243,15 @@ class ProgramController extends Controller
 	//Retorna los articulos sin imagenes
 	public function Articulos_Sin_Imagen()
 	{
-
 		$articles = \Bumsgames\Article::where('articles.quantity', '>=', '0')
+		->leftJoin('articulo_categorias', function ($join) {
+			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
+		})
+		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		->select(\DB::raw("*, articles.id as id_articulo"))
+		->doesnthave('images')
+		->groupby('name','categories.id')
 		->where('articles.id', '!=', '2')
-		->where('articles.fondo', 'like', 'fondo_nada.jpg')
-		->groupBy('name', 'category')
-		->orderBy('ultimo_agregado', 'desc')
 		->get();
 
 		$articles_cantidad = $articles->count();
@@ -1225,12 +1261,81 @@ class ProgramController extends Controller
 		$users = \Bumsgames\BumsUser::All();
 		$categories = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::All();
-		$title = "Todos los articulos sin imagenes.";
+		$title = "Todos los articulos Sin Imagenes.";
 		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 		->orderby('created_at', 'desc')
 		->get();
 
-		return view('admin.article.articleNoImage', compact('title', 'bancos', 'comments_por_aprobar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales'));
+		$carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())
+		->get();
+
+
+		return view('admin.article.articleNoImage', compact('carrito','title', 'bancos', 'comments_por_aprobar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales'));
+	}
+
+	public function Articulos_sinCategoria()
+	{
+		$articles = \Bumsgames\Article::where('articles.quantity', '>=', '0')
+		->leftJoin('articulo_categorias', function ($join) {
+			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
+		})
+		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		->select(\DB::raw("*, articles.id as id_articulo"))
+		->doesnthave('categorias')
+		->groupby('name','categories.id')
+		->where('articles.id', '!=', '2')
+		->get();
+
+		$articles_cantidad = $articles->count();
+
+		$tutoriales = \Bumsgames\tutorial::All();
+
+		$users = \Bumsgames\BumsUser::All();
+		$categories = \Bumsgames\Category::All();
+		$coins = \Bumsgames\Coin::All();
+		$title = "Todos los articulos Sin Categoria(s).";
+		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+		->orderby('created_at', 'desc')
+		->get();
+
+		$carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())
+		->get();
+
+
+		return view('admin.article.articleNoImage', compact('carrito','title', 'bancos', 'comments_por_aprobar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales'));
+	}
+
+	public function Articulos_sinPeso()
+	{
+		$articles = \Bumsgames\Article::where('articles.quantity', '>=', '0')
+		->leftjoin('articulo_categorias','articles.id','=','id_articulo')
+		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		->where('categories.category', 'LIKE', '%cuenta%') 
+		->orWhere('categories.category', 'LIKE', '%cupo%') 
+		->orWhere('categories.category', 'LIKE', '%codigo%') 
+		->where('peso', 0) 
+		->select(\DB::raw("*, articles.id as id_articulo"))
+		->groupby('name','categories.id')
+		->where('articles.id', '!=', '2')
+		->get();
+
+		$articles_cantidad = $articles->count();
+
+		$tutoriales = \Bumsgames\tutorial::All();
+
+		$users = \Bumsgames\BumsUser::All();
+		$categories = \Bumsgames\Category::All();
+		$coins = \Bumsgames\Coin::All();
+		$title = "Articulos Digitales sin Peso.";
+		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+		->orderby('created_at', 'desc')
+		->get();
+
+		$carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())
+		->get();
+
+
+		return view('admin.article.articleNoImage', compact('carrito','title', 'bancos', 'comments_por_aprobar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales'));
 	}
 
 	//Agrega la imagen a todos los articulos iguales
@@ -1342,58 +1447,78 @@ class ProgramController extends Controller
 		$busqueda = $request->namefilt;
 		$parametros = [$category, $filtrocorreo, $disponible, $creatorfilter, $nickfil, $precio, $oferta, $peso, $seldu];
 
-		$articlesPivote = \Bumsgames\Article::where('articles.quantity', '>=', '-1000')
-		->where('articles.id', '!=', '2');
 
-		if (isset($namefilt)) {
-			$articlesPivote->where('name', 'LIKE', '%' . $namefilt . '%');
-		}
-		if ($category != 0) {
-			$articlesPivote->where('category', $category);
-		}
-		if (isset($filtrocorreo)) {
-			$articlesPivote->where('email', 'LIKE', '%' . $filtrocorreo . '%');
-		}
-		if ($disponible == 1) {
-			$articlesPivote->where('quantity', '>', 0);
-		}
-		if ($disponible == 2) {
-			$articlesPivote->where('quantity', '=', 0);
-		}
-		if ($creatorfilter != 0) {
-			$articlesPivote->where('id_creator', $creatorfilter);
-		}
-		if (isset($nickfil)) {
-			$articlesPivote->where('nickname', 'LIKE', '%' . $nickfil . '%');
-		}
-		if ($precio > 0) {
-			$articlesPivote->where('price_in_dolar', '>=', $precio);
-		}
-		if ($oferta > 0) {
-			$articlesPivote->where('offer_price', '>=', $oferta);
-		}
-		if ($peso > 0) {
-			$articlesPivote->where('peso', '>=', $peso);
-		}
-
-		if ($seldu != 0) {
-			$articlesPivote->join('bums_user_articles', 'bums_user_articles.id_article', '=', 'articles.id')
-			->where('bums_user_articles.id_bumsuser', '=', $seldu);
-		}
-		$articles_cantidad = $articlesPivote->count();
-
-		$articles = $articlesPivote->select(\DB::raw("articles.id, articles.id_creator, articles.name, articles.category, articles.price_in_dolar, articles.quantity, articles.email, articles.password, articles.nickname, articles.reset_button, articles.note, articles.offer_price, articles.peso, articles.costo, articles.estado"))
+		$articles = \Bumsgames\Article::
+		where('articles.id', '!=', '2')		
+		->where('name', 'LIKE', '%' . $namefilt . '%') 
+		->whereHas('categorias', function($q)  use ($category) {
+			$q->ConCategoria($category);
+		})
+		->ConCorreo($filtrocorreo)
+		->Disponibilidad($disponible)
+		->Creador($creatorfilter)
+		->Nickname($nickfil)
+		->where('articles.id', '!=', '2')		
+		->whereHas('duennos', function($q)  use ($seldu) {
+			$q->Dueño($seldu);
+		})
 		->orderby('articles.id')
-		->orderby('articles.category')
-		->paginate(3000);
-
-		$articlesLista = $articlesPivote->select(\DB::raw("articles.id, articles.id_creator, articles.name, articles.category, articles.price_in_dolar, articles.quantity, articles.email, articles.password, articles.nickname, articles.reset_button, articles.note, articles.offer_price, articles.peso, articles.costo, articles.estado, SUM(articles.quantity) as 'quantity1'"))
-		->where('quantity', '>=', 1)
-		->orderby('articles.name')
-		->orderby('quantity1')
-		->groupby('name')
-		->groupby('category')
 		->get();
+
+		
+
+		$articles_cantidad = $articles->count();
+
+		// $articlesLista = $articles->select(\DB::raw("*, SUM(articles.quantity) as 'quantity1'"))
+		// ->where('quantity', '>=', 1)
+		// ->orderby('articles.name')
+		// ->orderby('quantity1')
+		// ->groupby('name')
+		// // ->groupby('category')
+		// ->get();
+
+
+// $articulos = \Bumsgames\Article::
+// 		leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
+// 		->where('name', 'not like', '%-I%')
+// 		->where('articles.id','!=',2)
+// 		->where('articles.quantity','>',0)
+// 		->where('ubicacion.id', $id)
+// 		->selectRaw('name,price_in_dolar, categories.category, sum(quantity) as quantity, ubicacion.nombre_ubicacion as ubicacion')
+// 		->where('articles.id','!=',2)
+// 		->leftJoin('articulo_categorias', function ($join) {
+// 			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
+// 		})
+// 		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+// 		->groupby('name','categories.id')
+// 		->orderby('categories.id')
+// 		->get();
+
+		$articlesLista = \Bumsgames\Article::
+		where('articles.id', '!=', '2')		
+		->where('name', 'LIKE', '%' . $namefilt . '%') 
+		->whereHas('categorias', function($q)  use ($category) {
+			$q->ConCategoria($category);
+		})
+		->ConCorreo($filtrocorreo)
+		->Disponibilidad($disponible)
+		->Creador($creatorfilter)
+		->Nickname($nickfil)
+		->where('articles.id', '!=', '2')		
+		->whereHas('duennos', function($q)  use ($seldu) {
+			$q->Dueño($seldu);
+		})
+		->leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
+		->selectRaw('name,price_in_dolar, categories.category, sum(quantity) as quantity, ubicacion.nombre_ubicacion as ubicacion')
+		->leftJoin('articulo_categorias', function ($join) {
+			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
+		})
+		->where('quantity','>',0)
+		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		->groupby('name','categories.id')
+		->orderby('categories.id')
+		->get();
+
 
 		$tutoriales = \Bumsgames\tutorial::All();
 		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
@@ -1402,36 +1527,36 @@ class ProgramController extends Controller
 			->orWhere('entregado', '<=', 0);
 		})->get();
 
-		if (isset($namefilt)) {
-			$articles->appends(['namefilt' => $namefilt]);
-		}
-		if ($category != 0) {
-			$articles->appends(['selcat' => $category]);
-		}
-		if (isset($filtrocorreo)) {
-			$articles->appends(['filtrocorreo' => $filtrocorreo]);
-		}
-		if ($disponible == 1) {
-			$articles->appends(['disponible' => $disponible]);
-		}
-		if ($disponible == 2) {
-			$articles->appends(['disponible' => $disponible]);
-		}
-		if ($creatorfilter != 0) {
-			$articles->appends(['creatorfilter' => $creatorfilter]);
-		}
-		if (isset($nickfil)) {
-			$articles->appends(['nickfil' => $nickfil]);
-		}
-		if ($precio > 0) {
-			$articles->appends(['precio' => $precio]);
-		}
-		if ($oferta > 0) {
-			$articles->appends(['oferta' => $oferta]);
-		}
-		if ($peso > 0) {
-			$articles->appends(['peso' => $peso]);
-		}
+		// if (isset($namefilt)) {
+		// 	$articles->appends(['namefilt' => $namefilt]);
+		// }
+		// if ($category != 0) {
+		// 	$articles->appends(['selcat' => $category]);
+		// }
+		// if (isset($filtrocorreo)) {
+		// 	$articles->appends(['filtrocorreo' => $filtrocorreo]);
+		// }
+		// if ($disponible == 1) {
+		// 	$articles->appends(['disponible' => $disponible]);
+		// }
+		// if ($disponible == 2) {
+		// 	$articles->appends(['disponible' => $disponible]);
+		// }
+		// if ($creatorfilter != 0) {
+		// 	$articles->appends(['creatorfilter' => $creatorfilter]);
+		// }
+		// if (isset($nickfil)) {
+		// 	$articles->appends(['nickfil' => $nickfil]);
+		// }
+		// if ($precio > 0) {
+		// 	$articles->appends(['precio' => $precio]);
+		// }
+		// if ($oferta > 0) {
+		// 	$articles->appends(['oferta' => $oferta]);
+		// }
+		// if ($peso > 0) {
+		// 	$articles->appends(['peso' => $peso]);
+		// }
 		$bancos = \Bumsgames\banco_emisor::All();
 
 		$users = \Bumsgames\BumsUser::All();
@@ -1440,9 +1565,13 @@ class ProgramController extends Controller
 		$title = "Todos los articulos disponibles.";
 		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 		->orderby('created_at', 'desc')
+		->paginate(3000);
+
+
+		$carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())
 		->get();
 
-		return view('admin.article.allArticle', compact('title', 'articlesLista', 'bancos', 'comments_por_aprobar', 'pago_sin_confirmar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales', 'parametros', 'busqueda'));
+		return view('admin.article.allArticle', compact('carrito','title', 'articlesLista', 'bancos', 'comments_por_aprobar', 'pago_sin_confirmar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales', 'parametros', 'busqueda'));
 	}
 	public function categoria_art($category)
 	{
@@ -1652,12 +1781,17 @@ class ProgramController extends Controller
 		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 		->orderby('created_at', 'desc')
 		->get();
+
 		$articles_cantidad = $articles->cantidad->count();
 		$bancos = \Bumsgames\banco_emisor::All();
 
 		$coins = \Bumsgames\Coin::All();
 		$title = "Mis articulos";
-		return view('admin.article.misArticles', compact('tutoriales', 'bancos', 'comments_por_aprobar', 'pago_sin_confirmar', 'title', 'articles', 'coins', 'articles_cantidad'));
+
+		$carrito_admin = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())
+		->get();
+
+		return view('admin.article.misArticles', compact('carrito','tutoriales', 'bancos', 'comments_por_aprobar', 'pago_sin_confirmar', 'title', 'articles', 'coins', 'articles_cantidad'));
 	}
 
 	public function articles_web()
@@ -1698,28 +1832,27 @@ class ProgramController extends Controller
 
 	public function modo_ml()
 	{
-		$articles_on = \Bumsgames\Article::selectRaw('id, name, category, price_in_dolar, quantity, sum(quantity) as quantity, updated_at')
+		$articles_on = \Bumsgames\Article::selectRaw('*, name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado')
+		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+		->leftjoin('categories','categories.id','articulo_categorias.id')
 		->where('quantity', '>', 0)
-		->where('id', '!=', '2')
-		->groupBy('name', 'category')
-		->orderBy('updated_at', 'desc')
+		->where('articles.id', '!=', '2')
+		->groupBy('name', 'categories.category')
+		->orderBy('ultimo_agregado', 'desc')
+		->limit(50)
 		->get();
 
-		$articles_off = \Bumsgames\Article::selectRaw('id, name, category, price_in_dolar, quantity, sum(quantity) as quantity, updated_at')
+		$articles_off = \Bumsgames\Article::selectRaw('*, name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado')
+		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
+		->leftjoin('categories','categories.id','articulo_categorias.id')
 		->where('quantity', '<=', 0)
-		->where('id', '!=', '2')
-			// ->whereNotIn('name', function($q){
-			//           $q->select('name')->from('articles')->where('quantity','>', 0)->groupBy('name','category');
-			//       })
-			// ->whereNotExists(function($q){
-			//           $q->selectRaw(1)
-			//           ->from('articles')
-			//           ->where('quantity','>', 0)
-			//           ->groupBy('name','category');
-			//       })
-		->groupBy('name', 'category')
-		->orderBy('updated_at', 'desc')
+		->where('articles.id', '!=', '2')
+		->groupBy('name', 'categories.category')
+		->orderBy('fecha_agotado', 'desc')
+		->limit(50)
 		->get();
+
+
 
 		$i = 0;
 		foreach ($articles_off as $articulo) {
@@ -1744,7 +1877,11 @@ class ProgramController extends Controller
 		->get();
 		$precio_dolar_bumsgames = \Bumsgames\Coin::find(1);
 		$precio_dolar_bumsgames = $precio_dolar_bumsgames->valor;
-		return view('admin.article.modo_ml', compact('tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar', 'articles_on', 'articles_off', 'precio_dolar_bumsgames'));
+
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+
+		return view('admin.article.modo_ml', compact('carrito','tutoriales', 'comments_por_aprobar', 'pago_sin_confirmar', 'articles_on', 'articles_off', 'precio_dolar_bumsgames'));
 	}
 
 	public function coincidencia(Request $request)
@@ -2648,7 +2785,12 @@ class ProgramController extends Controller
 		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 		->orderby('created_at', 'desc')
 		->get();
-		return view('admin.pago.pago_cliente', compact('tutoriales', 'comments_por_aprobar', 'reportes', 'pago_s', 'pago_v', 'pago_sin_confirmar'));
+
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+
+
+		return view('admin.pago.pago_cliente', compact('carrito','tutoriales', 'comments_por_aprobar', 'reportes', 'pago_s', 'pago_v', 'pago_sin_confirmar'));
 	}
 
 	public function guardar_reporte(Request $request)
@@ -3673,7 +3815,9 @@ class ProgramController extends Controller
 		->orderby('created_at', 'desc')
 		->get();
 		$imagenes_cantidad = $imagenes->count();
-		return view('admin.portal.portal', compact('imagenes', 'comments_por_aprobar', 'pago_sin_confirmar', 'imagenes_cantidad', 'tutoriales'));
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+		return view('admin.portal.portal', compact('carrito','imagenes', 'comments_por_aprobar', 'pago_sin_confirmar', 'imagenes_cantidad', 'tutoriales'));
 	}
 
 	public function portal_guardar(Request $request)
@@ -3984,15 +4128,53 @@ class ProgramController extends Controller
 		->orderBy('price_in_dolar', 'desc')
 		->get();*/
 
-		$articles_mios = \Bumsgames\Article::join('bums_user_articles', 'articles.id', '=', 'bums_user_articles.id_article')
+		$articulos = \Bumsgames\Article::join('bums_user_articles', 'articles.id', '=', 'bums_user_articles.id_article')
+		->selectRaw('name,price_in_dolar, categories.category, sum(quantity) as quantity, ubicacion.nombre_ubicacion as ubicacion')
+		->leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
+		->leftJoin('articulo_categorias', function ($join) {
+			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
+		})
+		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
 		->where('bums_user_articles.id_bumsuser', Auth::id())
 		->where('articles.quantity', '>', 0)
+		->where('name', 'not like', '%-I%')
 		->where('articles.id', '!=', '2')
 		->select('articles.*', 'bums_user_articles.*')
+		->groupby('name','categories.id','ubicacion.id')
+		->orderby('categories.id')
 		->orderBy('articles.category')
 		->orderBy('articles.price_in_dolar', 'asc')
 		->orderBy('articles.name')
 		->get();
+
+		$articulos = \Bumsgames\Article::
+		leftjoin('ubicacion', 'ubicacion.id', '=', 'articles.ubicacion')
+		->leftjoin('bums_user_articles', 'articles.id', '=', 'bums_user_articles.id_article')
+		->where('bums_user_articles.id_bumsuser', Auth::id())
+		->where('name', 'not like', '%-I%')
+		->where('articles.id','!=',2)
+		->where('articles.quantity','>',0)
+		->selectRaw('*,name,price_in_dolar, categories.category, sum(quantity) as quantity, ubicacion.nombre_ubicacion as ubicacion')
+		->where('articles.id','!=',2)
+		->leftJoin('articulo_categorias', function ($join) {
+			$join->on('articulo_categorias.id', '=', DB::raw('(SELECT id FROM articulo_categorias WHERE articulo_categorias.id_articulo = articles.id LIMIT 1)'));
+		})
+		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		->groupby('name','categories.id','porcentaje','ubicacion.id')
+		->orderby('categories.id')
+		->get();
+
+
+
+
+		// $articles = \Bumsgames\Article::
+		
+		
+		// // ->selectRaw('articles.id, id_creator, name, category, price_in_dolar, quantity, email, password, nickname, reset_button, porcentaje, articles.id as id_articulo, note, offer_price, peso')
+		
+		// ->groupby('name','categories.id')
+		// ->orderby('categories.id')
+		// ->get();
 
 		$articles_price = \Bumsgames\Article::join('bums_user_articles', 'articles.id', '=', 'bums_user_articles.id_article')
 		->where('bums_user_articles.id_bumsuser', Auth::id())
@@ -4003,7 +4185,12 @@ class ProgramController extends Controller
 		->get();
 		$categories = \Bumsgames\Category::all();
 		$user = \Bumsgames\BumsUser::find(Auth::id());
-		return view('admin.article.lista_mia', compact('articles_mios', 'articles_price', 'user','categories'));
+
+		$tutoriales = \Bumsgames\tutorial::All();
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+
+		return view('admin.article.lista_mia', compact('articulos', 'articles_price', 'user','categories','tutoriales','carrito'));
 	}
 
 	public function filtrar_movimientos_bums_david(Request $request)

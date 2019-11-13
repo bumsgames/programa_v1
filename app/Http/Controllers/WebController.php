@@ -180,7 +180,7 @@ class WebController extends Controller
 		leftjoin('articles', 'articles.id', '=', 'venta_articulos.id_articulo')
 		->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 		->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
-		->select(\DB::raw("name,category, sum(cantidad) as ventas"))
+		->select(\DB::raw("name,categories.category, sum(cantidad) as ventas"))
 		->groupby('articles.name','categories.category')
 		
 		->whereDate('venta_articulos.created_at', \Carbon\Carbon::today())
@@ -212,7 +212,7 @@ class WebController extends Controller
 		//Devuelve los ultimos 50 comentarios
 		$comentarios = DB::table('comment')
 		->select('nombre','texto')
-		// ->where('aprobado', '1')
+		->where('aprobado', '1')
 		->leftjoin('clients', 'comment.id_comentario', '=', 'clients.id')
 		->orderby('fecha_comentado', 'desc')
 		->take(50)
@@ -439,7 +439,7 @@ class WebController extends Controller
 
 		$filtrado_cat = 1;
 
-		$articulos = \Bumsgames\Article::select('articles.id','name','fondo','estado','offer_price','price_in_dolar','oferta')
+		$articulos = \Bumsgames\Article::select('articles.id','name','fondo','estado','offer_price','price_in_dolar','oferta','quantity')
 		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
 		->BuscaCategoria($id_categorias)
 		->where('quantity', '>', 0)
@@ -481,6 +481,10 @@ class WebController extends Controller
 		$buscador_ruta = 'articulos_web';
 		\Bumsgames\Visita::create(['tipo' => 'General']);
 		$filtro_oferta = 1;
+
+		//dd(Session::get('carrito'));
+		//dd($articulos->toArray());
+
 		return view('webuser.article.articulos_web', compact('filtrado_cat','filtro_oferta','n_paginacion','filtros_activos','id_ordenador','ordenador','categorias_sub','agentes_activos','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'title', 'buscador_ruta', 'ultimos_vendidos'));
 	}
 
@@ -1164,13 +1168,13 @@ class WebController extends Controller
 		}
 
 		function agregaCarro(Request $request)
-		{
+		{	
+			
 			
 			$cantidad = 1;
 			$cantidad_total = $request->cantidad;
 			$carrito = Session::get('carrito');
 
-			
 			if(isset($carrito)){
 				foreach ($carrito as $key ) {
 					if($request->id == $key['id']){
@@ -1199,11 +1203,19 @@ class WebController extends Controller
 				'cantidad' => $cantidad,
 			]);
 
-
 			Session::push('carrito', $elemento);
-			$carrito = Session::get('carrito');
 
-			return response()->json($carrito);
+			$carritos = Session::get('carrito');
+			$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+
+			foreach ($carritos as $carro ){
+				$carro['category'] = \Bumsgames\Category::where('id', $carro['categoria'])->first();
+				//$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+				$carro['priceUnitedBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+				$carro['priceTotalBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+			}
+
+			return response()->json($carritos);
 		}
 
 		function borrarElementoCarrito(Request $request)
@@ -1216,14 +1228,24 @@ class WebController extends Controller
 			$x = array_values($x);
 			Session::put('carrito', $x);
 
-			$carrito = Session::get('carrito');
-			return response()->json($carrito);
+			$carritos = Session::get('carrito');
 
-		// // $x = Session::get('carrito')[$request->elemento - 1];
-		// unset(Session::get('carrito')[$request->elemento - 1]);
-		// return Session::get('carrito');
-		// // return Session::get('carrito');
-		// return $x;
+			$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+			
+			foreach ($carritos as $carro ){
+				$carro['category'] = \Bumsgames\Category::where('id', $carro['categoria'])->first();
+				//$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+				$carro['priceUnitedBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+				$carro['priceTotalBs'] = number_format($carro['precio'] * $moneda_actual->valor, 2, ',', '.');
+			}
+
+			return response()->json($carritos);
+
+			// // $x = Session::get('carrito')[$request->elemento - 1];
+			// unset(Session::get('carrito')[$request->elemento - 1]);
+			// return Session::get('carrito');
+			// // return Session::get('carrito');
+			// return $x;
 		}
 
 		function filtrar_articulos(Request $request)
@@ -1497,15 +1519,18 @@ class WebController extends Controller
 				}
 				$request->request->add(['cupon_id' => $request->id_cupon]);
 			}
+
 			$ultimo_pago = \Bumsgames\Pago::create($request->all());
-		// dd($ultimo_pago->id);
-		// dd($request->all());
+
 			if ($request->envio == 1) {
 				$request->request->add(['id_pago' => $ultimo_pago->id]);
+				dd(22);
 				$envio_pago = \Bumsgames\Envio_Pago::create($request->all());
 			}
-			if (isset($request->id_cupon)) {
 
+			dd(1);
+
+			if (isset($request->id_cupon)) {
 				$couponact->disponible--;
 				$couponact->save();
 			}
@@ -1546,13 +1571,43 @@ class WebController extends Controller
 			->take(10)
 			->get();
 
-
 			$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
 			->where('level', '>=', '7')
 			->orderBy('id', 'asc')
 			->get();
 
 			return view('loginUser.clienteLogin', compact('agentes_activos','categorias_sub','categorias', 'comentarios', 'moneda_actual', 'coins'));
+		}
+
+		function register()
+		{
+
+			if (Session::has('id_coin')) {
+				$id_coin = Session::get('id_coin');
+			} else {
+				$id_coin = 1;
+			}
+			$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
+
+			$categorias = \Bumsgames\Category::All();
+			$moneda_actual = \Bumsgames\Coin::find($id_coin);
+			$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
+
+			$comentarios = DB::table('comment')
+			->where('aprobado', '1')
+			->leftjoin('clients', 'comment.id_comentario', '=', 'clients.id')
+			->orderby('fecha_comentado', 'desc')
+			->take(10)
+			->get();
+
+			$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
+			->where('level', '>=', '7')
+			->orderBy('id', 'asc')
+			->get();
+
+
+			
+			return view('loginUser.clienteRegister', compact('agentes_activos','categorias_sub','categorias', 'comentarios', 'moneda_actual', 'coins'));
 		}
 
 		public function loginAuth(Request $request)
@@ -1562,14 +1617,40 @@ class WebController extends Controller
 				'password' => 'required|string',
 			]);
 
-
 			if (Auth::guard('client')->attempt(['nickname' => $request->nickname, 'password' => $request->password])) {
-
 				return redirect('/adminpaneluser');
 			}
+
 			return back()
 			->withErrors(['nickname' => 'Usuario o Clave incorrecto'])
 			->withInput(request(['nickname']));
+		}
+
+		public function registerAuth(Request $data)
+		{	
+
+			$this->validate($data, [
+				'nickname' => 'required|string',
+				'password' => 'required|confirmed',
+				'email' => 'required|email|unique:clients',
+			]);
+
+			$confirmation_code = str_random(25);
+
+			$user = \Bumsgames\Client::create([
+				'nickname' => $data['nickname'],
+				'email' => $data['email'],
+				'password' => bcrypt($data['password']),
+				'documento_identidad' => $data['documento_identidad'],
+				'confirmation_code' => $confirmation_code
+			]);
+			
+			// Send confirmation code
+			Mail::send('mail.userConfirmation', $user->toArray(), function($message) use ($data) {
+				$message->to($data['email'], $data['name'])->subject('Por favor confirma tu correo');
+			});
+
+			return $this->loginAuth($data);
 		}
 
 		public function logout()
@@ -1578,6 +1659,20 @@ class WebController extends Controller
 				Auth::guard('client')->logout();
 			} catch (\Exception $e) { }
 			return redirect('/');
+		}
+
+		public function verify($code)
+		{
+			$user = \Bumsgames\Client::where('confirmation_code', $code)->first();
+		
+			if (! $user)
+				return redirect('/');
+		
+			$user->confirmed = true;
+			$user->confirmation_code = null;
+			$user->save();
+		
+			return redirect('/login')->with('notification', 'Has confirmado correctamente tu correo!');
 		}
 
 		public function canjear(Request $request, $precio)
