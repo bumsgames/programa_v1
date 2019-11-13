@@ -1409,8 +1409,6 @@ $("#registrar_articulo").click(function(){
         return;
     }
 
-
-
     // article controller
     var route = '/registrar_articulo';
     var token = $('#token').val(); 
