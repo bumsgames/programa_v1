@@ -1644,9 +1644,9 @@ class WebController extends Controller
 				'documento_identidad' => $data['documento_identidad'],
 				'confirmation_code' => $confirmation_code
 			]);
-
+			
 			// Send confirmation code
-			Mail::send('mail.userConfirmation', $data->toArray(), function($message) use ($data) {
+			Mail::send('mail.userConfirmation', $user->toArray(), function($message) use ($data) {
 				$message->to($data['email'], $data['name'])->subject('Por favor confirma tu correo');
 			});
 
@@ -1672,7 +1672,7 @@ class WebController extends Controller
 			$user->confirmation_code = null;
 			$user->save();
 		
-			return redirect('/adminpaneluser')->with('notification', 'Has confirmado correctamente tu correo!');
+			return redirect('/login')->with('notification', 'Has confirmado correctamente tu correo!');
 		}
 
 		public function canjear(Request $request, $precio)

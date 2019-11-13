@@ -6,6 +6,12 @@
 <center>
         <div class="col-12 col-lg-4">
             <div class="container-login">
+
+                @if (session('notification'))
+                    <div class="alert alert-success" role="alert">
+                        {{session('notification')}}
+                    </div>
+                @endif  
                     {{ csrf_field() }}
                     <div class="loginContainer">
                     <img class="img_login" src="{{url('img/log3.png')}}" width="400" />  
