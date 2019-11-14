@@ -240,7 +240,11 @@ function Eliminar_Venta(){
                     contentType: false, 
                     processData: false,
                     success:function(data){
-                        // swal("Articulo eliminado.");
+                         $(".modal-backdrop").remove(); 
+        $(".modal").hide();
+        $(".modal").trigger("click");
+        $("#clave").val("");
+                        swal("Articulo eliminado.");
                         // setTimeout(function() 
                         // {
                         //     location.reload(); 

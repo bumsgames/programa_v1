@@ -238,7 +238,6 @@ function init() {
 
     var inputFileMod = document.getElementById('inputFileMod');
     if(inputFileMod){
-        alert(1);
         inputFileMod.addEventListener('change', mostrarImagenMod, false);
     }
     
@@ -287,13 +286,8 @@ function removePhotoDiv(number) {
     }
 }
 
-    if(inputFileMod){
-        alert(1);
-        inputFileMod.addEventListener('change', mostrarImagenMod, false);
-    }
 
     function mostrarImagenMod(event) {
-    alert(2);
     //Obtengo el file del input
     var file = event.target.files[0];
     console.log("file", file);
@@ -1519,7 +1513,7 @@ $("#registrar_articulo").click(function(){
 
 
 $("#subir_foto_v2").click(function(){
-    alert(1);
+    
     var files = $('#inputFile2').prop('files');
     console.log("files a subir", files);
 
@@ -2244,12 +2238,12 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
         return;
     }
 
-    alert(1);
+
 
 
     // Guarda cateorias en 1 array
     for (var i = 0; i <monto.length; i++) {
-      alert(2.1);
+      
       monto_aux = ((monto[i].value).split('.').join('')).split(',').join('.');
       monto_array.push(monto_aux);
       id_coin_array.push(id_coin[i].value);
@@ -2257,10 +2251,10 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
       referencia_array.push(referencia[i].value);
 
       nota_venta_array.push(nota_venta[i].value);
-      alert(2);
+      
   }
 
-  alert(3);
+
 
   form_data.append('monto_array', JSON.stringify(monto_array));
   form_data.append('id_coin_array', JSON.stringify(id_coin_array));
@@ -2268,7 +2262,6 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
   form_data.append('referencia_array', JSON.stringify(referencia_array));
   form_data.append('nota_venta_array', JSON.stringify(nota_venta_array));
 
-  alert(4);
 
 
   form_data.append('opcion_involucrado',  $("input[name='OPCinvolucrado_-1']:checked").val());
@@ -2284,7 +2277,6 @@ if(selected_value = $("input[name='opciones_venta']:checked").val() == 1){
 
 }
 
-alert(5);
 
 //venta
 
@@ -2309,8 +2301,16 @@ $.ajax({
             $('#cantCarrito').text(0);
             $("#procederCompraAdmin").css("display", "none");
             $("#cancelarCompraAdmin").css("display", "none");
-            
+
+            swal("Venta realizada.");
             window.open("factura/"+data.id_venta,+ "_blank");
+            
+            // setTimeout(function() 
+            // {
+            //     location.reload(); 
+            // }, 1000);
+            
+            
 
         }       
     },

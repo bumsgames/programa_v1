@@ -27,20 +27,33 @@
 				
 				@include('admin.movimientos.filtros_ventas')
 
-
-				@if ( $pagado_semana[0]->pagado != null && $invertido_semana[0]->invertido != null)
-					<h3>SEMANA</h3>
-					Pagado: {{ $pagado_semana[0]->pagado }} $<br>
-					Invertido: {{ $invertido_semana[0]->invertido }} $<br>
-					Ganancia: {{ $pagado_semana[0]->pagado - $invertido_semana[0]->invertido}} $<br>
-				@endif
-
-				@if ( $pagado_hoy[0]->pagado != null && $invertido_hoy[0]->invertido != null)
+<table class="table">
+	<tr>	
+		<td>
+@if ( $pagado_hoy[0]->pagado != null && $invertido_hoy[0]->invertido != null)
 					<h3>HOY</h3>
+					<b>N# de Ventas: </b> {{ $venta_hoy->count() }}  <br>
 					Pagado: {{ $pagado_hoy[0]->pagado }} $<br>
 					Invertido: {{ $invertido_hoy[0]->invertido }} $<br>
 					Ganancia: {{ $pagado_hoy[0]->pagado - $invertido_hoy[0]->invertido}} $<br>
-				@endif
+				@endif	
+</td>
+<td>
+@if ( $pagado_semana[0]->pagado != null && $invertido_semana[0]->invertido != null)
+					<h3>SEMANA</h3>
+					<b>N# de Ventas: </b> {{ $venta_semana->count() }} <br>
+					Pagado: {{ $pagado_semana[0]->pagado }} $<br>
+					Invertido: {{ $invertido_semana[0]->invertido }} $<br>
+					Ganancia: {{ $pagado_semana[0]->pagado - $invertido_semana[0]->invertido}} $<br>
+				@endif	
+</td>
+
+	</tr>
+</table>
+
+				
+
+				
 {{-- 
 				@if (isset() && isset())
 					<h3>SEMANA</h3>
@@ -128,7 +141,8 @@
 							<td>
 								<b>Venta realizada por: </b>{{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}
 								<br>	
-								<b>Cliente: </b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }}
+								<b>Cliente: </b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }}<br>	
+								<a href="{{ url('factura/'.$venta->id) }}" target="_blank"><button class="btn">Ver factura y entrega</button></a>
 								<hr>	
 								@php $total_pagado = 0; @endphp
 								@foreach ($venta->pagos as $pago)
@@ -161,6 +175,7 @@
 							{{-- precio total de lo que se pago por todo --}}
 							<td>
 								{{-- {{ $venta->ventaArticulo }} --}}
+								Linea de productos: #{{ $venta->articulos->count() }}
 								@foreach($venta->articulos as $articulo)
 								{{-- donde va el 1 va precio carrito --}}
 
@@ -259,7 +274,7 @@
 	<div class="modal-dialog modal-lg3">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Debe ingresar la clave autorizada para eliminar Venta</h5>
+				<h5 class="modal-title">Debe ingresar la clave autorizada para eliminar esta Venta</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -268,7 +283,7 @@
 			</div>
 			<div class="container">
 					<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-					<input readonly="" id="id_eliminar" value="" type="text">
+					<input readonly="" id="id_eliminar" value="" type="text" hidden="">
 
 					<div class="form-group">
 						<label for="">CLAVE</label>

@@ -4,7 +4,7 @@
 <main class="app-content">
 	<div class="app-title">
 		<div>
-			<h1><i class="fa fa-dashboard"></i> Clientes </h1>
+			<h1><i class="fa fa-dashboard"></i> {{ $titulo }} </h1>
 			<p>Aqui es donde comienza todo.</p>
 		</div>		
 	</div>
@@ -16,7 +16,7 @@
 					<div class="input-group mb-3">
 						<input type="text" name="nombre" placeholder="Nombre" class="form-control" autocomplete="off">
 						<input type="text" name="apellido" placeholder="Apellido" class="form-control" autocomplete="off">
-						<input name="buscador" type="text" name="buscador" class="form-control" placeholder="Otros campos" id="buscador">
+						<input name="buscador" type="text" name="buscador" class="form-control" placeholder="Otros campos" id="buscador" autocomplete="off">
 						<div class="input-group-append">
 							<button class="btn btn-primary" type="submit">Buscar</button> 
 						</div>
@@ -73,6 +73,7 @@
 							<tr>
 								<th scope="col">#</th>
 								<th scope="col">Nombre</th>
+								<th scope="col">Documento Identidad</th>
 								<th scope="col">Nickname</th>
 								<th scope="col">Numero Contacto</th>
 								<th scope="col">Email</th>
@@ -87,6 +88,9 @@
 								<td><?php echo $i++; ?> </td>
 								<td>	
 									{{ $cliente->name }} {{ $cliente->lastname }}
+								</td>
+								<td>	
+									{{ $cliente->documento_identidad }}
 								</td>
 								<td>	
 									{{ $cliente->nickname }}

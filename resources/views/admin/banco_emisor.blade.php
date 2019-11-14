@@ -73,7 +73,8 @@
 
 						<tr>
 							<td>{{ $bancos->banco }} / {{ $bancos->titular }}  </td>
-							<td>{{ $bancos->cuentaBancaria }}  </td>
+							<td>{{ $bancos->cuentaBancaria }} /  {{ $bancos->tipo_cuenta }} </td>
+							<td>{{ $bancos->nota }}  </td>
 
 							<td>
 								<form action="{{ url('mod_bancos') }}" method="POST">

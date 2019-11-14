@@ -258,7 +258,6 @@ class ArticleController extends Controller
   // ]);
   // return response()->json(["se guardo la imagen"=>$image]);
 
-  $mensaje .= "bien";
   // return $articulo;
   return response()->json([
     "articulo" => $articulo,
@@ -287,8 +286,12 @@ public function fotoMultiple(Request $request){
   $image->numero = $request->number;
   $image->file = $name;
   $image->save();
+  $imagen_guardada = $image;
+
+
 
   \Storage::disk('local')->put($name, \File::get($file));
+
 
   $image = Image::make(\Storage::disk('local')->get($image->file));
   
@@ -297,17 +300,22 @@ public function fotoMultiple(Request $request){
     $constraint->upsize();
   });
 
+
+
   //\Storage::disk('local')->put($name, \File::get($file));
   \Storage::disk('local')->put($name, (string) $image->encode('jpg', 30));
+
+
+
 
   foreach ($articulos_coincidencia as $articulo) {
     \Bumsgames\Article_Image::create([
       'article_id' => $articulo->id,
-      'image_id' => $image->id
+      'image_id' => $imagen_guardada->id,
     ]);
   }
   
-  return response()->json(["se guardo la imagen"=>$image]);
+  return response()->json(["se guardo la imagen"=>$imagen_guardada]);
 }
 
 
@@ -657,7 +665,7 @@ public function eliminarFotosArticulo(Request $request){
       ]);
     }
 
-    print_r(0);
+
 
     $id_categorias = json_decode($request->id_categorias);
     $categoria = \Bumsgames\Category::find($id_categorias[0]);
@@ -672,7 +680,7 @@ public function eliminarFotosArticulo(Request $request){
     $pos = strrpos( $nombre_categoria, $searchterm);
     $pos2 = strrpos( $nombre_categoria, $searchterm2);
 
-    print_r(0.1);
+
 
     //si es cuenta digital  o cupo
     if (($pos !== false && strlen($searchterm) + $pos == strlen($nombre_categoria)) || 
@@ -684,7 +692,7 @@ public function eliminarFotosArticulo(Request $request){
     ->where('articulo_categorias.id_categoria', $id_categorias[0])
     ->get();
 
-    print_r(0);
+
 
     if ($art->count() >= 2) {
       return response()->json([
@@ -698,7 +706,7 @@ public function eliminarFotosArticulo(Request $request){
     $id_ps4_codigo = 3;
     $id_ps3_cuenta = 5;
     
-    print_r(2);
+
     //caso ps4 pri, ps4 sec y ps3 cuenta , mismo correo y misma categoria   
     if (in_array($id_categorias[0], [$id_ps4_pri, $id_ps4_sec, $id_ps3_cuenta, $id_ps4_codigo])) {
       print_r('en ps4');
@@ -1015,10 +1023,6 @@ public function eliminarFotosArticulo(Request $request){
   return response()->json([
     "data" => $mensaje,
   ]);
-
-  print_r(2);
-
-
 
 
 }

@@ -1,4 +1,4 @@
-@extends('layouts.bums', ['tutoriales' => $tutoriales])
+frequired=""@extends('layouts.bums', ['tutoriales' => $tutoriales])
 
 @section('content')
 <main class="app-content">
@@ -21,9 +21,9 @@
 					<center><div class="row">
 						<div  class="form-group col-12 ">
 							<label>Nombre de la Sub categoria</label>
-							<input  value="" autocomplete="off" type="text" class="form-control" name="nombre">
+							<input  value="" autocomplete="off" type="text" class="form-control" name="nombre" required="">
 							<label>Descripcion del style</label>
-							<input  value="" autocomplete="off" type="text" class="form-control" name="style">
+							<input  value="" autocomplete="off" type="text" class="form-control" name="style" required="">
 						</div>
 
 					</div>	
