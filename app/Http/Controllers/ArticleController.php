@@ -1016,12 +1016,6 @@ public function eliminarFotosArticulo(Request $request){
     "data" => $mensaje,
   ]);
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 7c0aa03863691f3a776e3cf0c261f9cb711f4669
 }
 
   /**
