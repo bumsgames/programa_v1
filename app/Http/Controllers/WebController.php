@@ -1663,7 +1663,6 @@ class WebController extends Controller
 
 		$articulo_part = \Bumsgames\Article::find($id);
 
-
 		$imagenes_articulo = \Bumsgames\Image::
 
 		whereHas('articles', function($q) use($id) {

@@ -364,7 +364,6 @@
 							<br>
 							<br>
 							
-							
 						</div>
 						<div class="row" id="images_mod">
 							<@php
@@ -377,8 +376,9 @@
 									<img id="img_{{$p}}" class="img"  src="img/{{ $image->file }}" 
 										style="object-fit: cover;">
 									<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"
-									Onclick="removePhotoDiv({{$p}});"
-									>Eliminar</button>
+									Onclick="removePhotoDiv({{$p}});">
+										Eliminar
+									</button>
 									
 								</div>
 								@php
