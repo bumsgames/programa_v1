@@ -18,4 +18,9 @@ class Oferta extends Model
     {
         return $this->belongsTo('Bumsgames\Article', 'Fk_article');
     }
+
+    public function client()
+    {
+        return $this->belongsTo('Bumsgames\Client', 'client_id');
+    }
 }

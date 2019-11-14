@@ -21,7 +21,7 @@
 						<div class="row">
 							<div  class="form-group col-12 ">
 								<label>Nombre de la Sub-Categoria</label>
-								<input  value="" autocomplete="off" type="text" class="form-control" name="category">
+								<input  value="" autocomplete="off" type="text" class="form-control" name="category" required="">
 							</div>
 
 						</div>	

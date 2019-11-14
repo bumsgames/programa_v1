@@ -21,3 +21,5 @@ Route::post('fotoMultiple', 'ArticleController@fotoMultiple');
 Route::post('fotoMultipleMod', 'ArticleController@fotoMultipleMod');
 
 Route::post('borrarFotoArticulo', 'ArticleController@eliminarFotosArticulo');
+
+Route::post('favorite','OfertasController@store_favorite');

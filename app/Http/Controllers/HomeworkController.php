@@ -133,7 +133,7 @@ class HomeworkController extends Controller
         $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
         ->get();
 
-        dd($articulo->images->toArray());
+        //dd($articulo->images->toArray());
 
         if(Auth::user()->level >= 7 || in_array($articulo->category,[3,4,6,7,10,11,13,14,15])){
             return view('admin.article.formulario_Art', compact('carrito','pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales', 'categoriesArt','ubicaciones'));

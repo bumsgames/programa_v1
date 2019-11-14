@@ -57,6 +57,7 @@ class OfertasController extends Controller
         $offer->oferta = $request->oferta_ofer;
         $offer->estado = 0;
         $offer->Fk_article = $request->art_ofer;
+        $offer->client_id = $request->client_id;
         $offer->save();
     
         Mail::send(['text' => 'mail.oferta'], ['name', 'Bumsgames'], function ($message) {
@@ -66,6 +67,17 @@ class OfertasController extends Controller
 
         return 1;
     }
+
+
+    public function store_favorite(Request $request)
+    {
+        $fav = new \Bumsgames\Favorite;
+        $fav->client_id=$request->client_id;
+        $fav->article_id=$request->article_id;
+        $fav->save();
+
+        return response()->json($fav);
+    }   
 
     /**
      * Display the specified resource.

@@ -1649,7 +1649,7 @@ class WebController extends Controller
 		->withErrors(['cupon' => 'Codigo invalido']);
 	}
 
-	public function publicacion(Request $request, $id){
+	public function publicacion(Request $request, $id){ 
 		if (Session::has('id_coin')) {
 			$id_coin = Session::get('id_coin');
 		} else {
@@ -1736,7 +1736,6 @@ class WebController extends Controller
 		->get();
 
 		
-
 		\Bumsgames\Visita::create(['tipo' => 'General']);
 		return view('webuser.article.ver_mas', compact('imagenes_articulo','id','articulos_vendidos','clientes','ventas','agentes_activos','categorias_sub','categorias', 'comentarios', 'articulo_part', 'coins', 'moneda_actual', 'title', 'buscador_ruta','ultimos_vendidos','recomendados'));
 	}

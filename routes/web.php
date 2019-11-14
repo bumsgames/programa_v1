@@ -96,6 +96,8 @@ Route::get('/tutorial/eliminar/{id}','ProgramController@eliminarTutorial');
 Route::post('/tutorial/eliminarmodal/{id}','ProgramController@eliminarmodal');
 Route::get('/tutorial/editar/{id}','ProgramController@editarTutorial');
 Route::get('/descripcionArticulo/{id}','ProgramController@DescripcionArticulo');
+Route::get('/Articulos_masCantidad','ProgramController@articulos_masCantidad');
+
 
 // ProgramController POST
 // Route::post('/coincidencia_buscador_inteligente','ProgramController@coincidencia_buscador_inteligente');
@@ -408,6 +410,9 @@ Route::get('/ofertas_cliente/rechazar/{id}','OfertasController@RechazarOferta');
 //Crear oferta
 Route::post('/ofertas_cliente/crear','OfertasController@store');
 Route::post('/ofertas_cliente','OfertasController@store_oferta');
+
+//Favoritos
+Route::post('/favorite','OfertasController@store_favorite');
 
 /*
 -------------------------------

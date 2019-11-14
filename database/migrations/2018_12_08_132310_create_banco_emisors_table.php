@@ -19,6 +19,8 @@ class CreateBancoEmisorsTable extends Migration
             $table->foreign('id_coin')->references('id')->on('coins')
             ->onDelete('restrict');
             $table->string('titular');
+             $table->string('cuentaBancaria');
+             $table->integer('active')->unsigned();
             $table->string('tipo_cuenta')->default('NO APLICA');
             $table->string('cedula')->default('NO APLICA');;
              $table->string('nota')->nullable();

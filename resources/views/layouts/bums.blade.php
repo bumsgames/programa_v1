@@ -179,7 +179,7 @@
         </div>
         <div class="modal-body">
 
-          <table class="table table-hover" id="tableLyon">
+          <table class="table" id="tableLyon">
             <thead>
               <tr>
                 <th>#</th>
@@ -332,6 +332,8 @@
           <li><a class="treeview-item" href="{{ url('Articulos_sinCategoria') }}"><i class="icon fa fa-circle-o"></i> Articulos Sin Categoria(s)</a></li>
 
           <li><a class="treeview-item" href="{{ url('Articulos_sinPeso') }}"><i class="icon fa fa-circle-o"></i> Juego Digitales Sin Peso</a></li>
+
+           <li><a class="treeview-item" href="{{ url('Articulos_masCantidad') }}"><i class="icon fa fa-circle-o"></i> Articulos con mas cantidad</a></li>
           
         </ul>
       </li>

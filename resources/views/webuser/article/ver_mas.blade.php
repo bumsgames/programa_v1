@@ -127,7 +127,7 @@
 										<strong>{{ number_format($articulo_part->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
 									</h2>
 									<br>	
-									<button class="btn btn-sm btn-primary">Agregar a favoritos</button>
+									<button id="btnFav" class="btn btn-sm btn-primary" onclick="add_favorite('{{ $articulo_part->id }}')" >Agregar a favoritos</button>
 								</div>
 
 								<div class="col">
@@ -230,6 +230,9 @@
 					<div class="col">
 						<center>	
 							<h4><b>Precio:</b></h4>
+
+							<input id="client_id" type="text" hidden value="{{Auth::guard('client')->user()->id}}">
+
 							<h4 style="color: gray; opacity: 0.9;">	Tu oferta: <input type="text" name="oferta" id="oferta_ofer" placeholder="$"></h4>
 							<br>	
 							<br>	
@@ -324,6 +327,37 @@
 </script>
 <script>
 
+
+	function add_favorite(article_id) {
+		
+		console.log('article_id', article_id);
+		console.log('client_id', $("#client_id").val());
+
+		var route = '/api/favorite';
+
+		var form_data = new FormData();  
+		form_data.append('client_id', $("#client_id").val());
+		form_data.append('article_id', article_id);
+		
+		$.ajax({
+			url:        route,
+			type:       'POST',
+			data:       form_data,
+			contentType: false, 
+			processData: false,
+
+			success:function(data){
+
+				console.log("response", data);
+				$("#btnFav").prop( "disabled", true );
+				swal("Agregado a favoritos!");
+			},				    
+			error:function(msj){
+				swal("Error!", "Ha sucedido un error, recargue e intente de nuevo", "error");
+			}
+		});
+	}
+
 	$("#send_oferta").click(function(){ 
 
 		var route = '/ofertas_cliente';
@@ -353,9 +387,7 @@
 			return;
 		}
 		
-
-
-		alert($("#mensaje_cliente").val());
+		//alert($("#mensaje_cliente").val());
 
 		var form_data = new FormData();  
 		form_data.append('art_ofer', $("#art_ofer").val());
@@ -363,8 +395,8 @@
 		form_data.append('telefono_ofer', $("#telefono_ofer").val());
 		form_data.append('oferta_ofer', $("#oferta_ofer").val());
 		form_data.append('mensaje_cliente', $("#mensaje_cliente").val());
+		form_data.append('client_id', $("#client_id").val());
 		
-
 		$.ajax({
 			url:        route,
 			type:       'POST',

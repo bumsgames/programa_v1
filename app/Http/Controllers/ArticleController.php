@@ -258,7 +258,6 @@ class ArticleController extends Controller
   // ]);
   // return response()->json(["se guardo la imagen"=>$image]);
 
-  $mensaje .= "bien";
   // return $articulo;
   return response()->json([
     "articulo" => $articulo,
@@ -287,6 +286,7 @@ public function fotoMultiple(Request $request){
   $image->numero = $request->number;
   $image->file = $name;
   $image->save();
+  $imagen_guardada = $image;
 
   \Storage::disk('local')->put($name, \File::get($file));
 
@@ -303,11 +303,11 @@ public function fotoMultiple(Request $request){
   foreach ($articulos_coincidencia as $articulo) {
     \Bumsgames\Article_Image::create([
       'article_id' => $articulo->id,
-      'image_id' => $image->id
+      'image_id' => $imagen_guardada->id,
     ]);
   }
   
-  return response()->json(["se guardo la imagen"=>$image]);
+  return response()->json(["se guardo la imagen"=>$imagen_guardada]);
 }
 
 
@@ -1016,7 +1016,6 @@ public function eliminarFotosArticulo(Request $request){
     "data" => $mensaje,
   ]);
 
-  //print_r(2);
 }
 
   /**

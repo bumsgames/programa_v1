@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriaSubCategoriasTable extends Migration
+class AddClientIdToOferta extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateCategoriaSubCategoriasTable extends Migration
      */
     public function up()
     {
-        Schema::create('categoria__sub_categorias', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('nombre', 100)->unique();
-            $table->string('style', 100);
-            $table->timestamps();
+        Schema::table('ofertas', function (Blueprint $table) {
+            $table->integer('client_id')->unsigned();
+
+            $table->foreign('client_id')->references('id')->on('clients')
+                ->onDelete('restrict');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateCategoriaSubCategoriasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categoria__sub_categorias');
+        //
     }
 }
