@@ -363,14 +363,14 @@ public function fotoMultipleMod(Request $request){
 
   \Storage::disk('local')->put($name, \File::get($file));
 
-  $image = Image::make(\Storage::disk('local')->get($image->file));
+  $image_file = Image::make(\Storage::disk('local')->get($image->file));
   
-  $image->resize(250, null, function ($constraint) {
+  $image_file->resize(250, null, function ($constraint) {
     $constraint->aspectRatio();
     $constraint->upsize();
   });
 
-  \Storage::disk('local')->put($name, (string) $image->encode('jpg', 30));
+  \Storage::disk('local')->put($name, (string) $image_file->encode('jpg', 30));
 
   \Bumsgames\Article_Image::create([
     'article_id' => $request->article_id,
@@ -381,7 +381,6 @@ public function fotoMultipleMod(Request $request){
 }
 
 public function eliminarFotosArticulo(Request $request){
-
   $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
   $images = $articulo->images;
     //dd($articulo->toArray());
@@ -709,7 +708,6 @@ public function eliminarFotosArticulo(Request $request){
 
     //caso ps4 pri, ps4 sec y ps3 cuenta , mismo correo y misma categoria   
     if (in_array($id_categorias[0], [$id_ps4_pri, $id_ps4_sec, $id_ps3_cuenta, $id_ps4_codigo])) {
-      print_r('en ps4');
       $articlesPivote = \Bumsgames\Article::
       where('email', $refer[0]->email)
       ->where('id','!=',$request->id_articulo)
@@ -1019,10 +1017,13 @@ public function eliminarFotosArticulo(Request $request){
     ]);
   }
 
-
   return response()->json([
+    "articulo" => $articulo,
+    "articuloID" => $articulo->id,
     "data" => $mensaje,
   ]);
+
+
 
 
 }

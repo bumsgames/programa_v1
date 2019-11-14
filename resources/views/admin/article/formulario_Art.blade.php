@@ -5,12 +5,9 @@
 <main class="app-content">
 	<div class="app-title">
 		<div>
-			<h1><i class="fa fa-dashboard"></i> Creando articulo</h1>
+			<h1><i class="fa fa-dashboard"></i> Modificando Articulo</h1>
 		</div>
-		<ul class="app-breadcrumb breadcrumb">
-			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-			<li class="breadcrumb-item"><a href="#">Creando articulo</a></li>
-		</ul>
+
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -450,6 +447,52 @@
 		$('#counter').text(len);
 	  }
 	};
+
+	var inputFileMod = document.getElementById('inputFileMod');
+    if(inputFileMod){
+    	
+        inputFileMod.addEventListener('change', mostrarImagenMod, false);
+    }
+
+    function mostrarImagenMod(event) {
+
+    //Obtengo el file del input
+    var file = event.target.files[0];
+    console.log("file", file);
+
+    //Creo un objeto de la nueva foto que coloque e ira en memoria
+    let image = {
+        index:$("#images_mod")[0].childElementCount,
+        name:file.name
+    }
+
+    //Guardo en memoria la foto nueva que agrego
+    fotosMod.push(image);
+    console.log('fotos guardada en memoria', fotosMod);
+    
+    //Agrego la nueva foto en el Front
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => { 
+        //console.log(event);    
+        prueba = event.target.result
+        
+        let indexImage=$("#images_mod")[0].childElementCount;
+        console.log('el index de la imagen debe ser', indexImage);
+
+
+
+        var htmlTagImage = 
+        '<div class="col" id="div_'+indexImage+'">' +
+
+'<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
+'<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
+'Eliminar'+
+'</button>'+
+'</div>';
+$('#images_mod').append(htmlTagImage);
+}
+}
   </script>
 
 

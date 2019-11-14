@@ -46,38 +46,6 @@
       </div>
 
     </div>
-    <div class="col-12 col-lg">
-      <div class="tile">
-        <h6>Articulo mas vendido del dia</h6>
-        <?php $i = 0; ?>
-        <?php $contador = -1; ?>
-        @foreach($articulo_mas_vendido_hoy as $articulo)
-        <?php if($contador != $articulo->ventas){
-          $i++;
-          $contador = $articulo->ventas;
-        } 
-        echo $i;  ?>. {{ $articulo->name }} || {{ $articulo->category }}. Ventas: {{ $articulo->ventas }}
-        <br>
-        <br> 
-        @endforeach
-      </div>
-    </div>
-    <div class="col-12 col-lg">
-      <div class="tile">
-        <h6>Articulo mas vendido de la semana</h6>
-        <?php $i = 0; ?>
-        <?php $contador = -1; ?>
-        @foreach($articulo_mas_vendido_semana as $articulo)
-        <?php if($contador != $articulo->ventas){
-          $i++;
-          $contador = $articulo->ventas;
-        } 
-        echo $i;  ?>. {{ $articulo->name }} || {{ $articulo->category }}. Ventas: {{ $articulo->ventas }}
-        <br>
-        <br>  
-        @endforeach
-      </div>
-    </div>
   </div>
   <div class="row"> 
   <div class="col-12 col-lg-3">
@@ -90,7 +58,7 @@
           {{ csrf_field() }}
           <label for="  ">1$ = {{ $coin->valor }} {{ $coin->sign }}</label>
           <br>  
-          <input type="text" name="valor" autocomplete="off">
+          <input type="text" name="valor" autocomplete="off" required="">
           <button name="id" value="{{ $coin->id }}">Guardar</button>
           <br>  
           <br>  
@@ -130,7 +98,7 @@
           <?php 
           $i++;
 
-          echo $i;  ?>. <img class="img_vermas" width="30" height="30" src="{{ url('img/'.$articulo->fondo) }}"> <strong>Articulo: </strong>{{ $articulo->name }} || {{ $articulo->pertenece_category->category }}. {{ $articulo->price_in_dolar }} $
+          echo $i;  ?>. <img class="img_vermas" width="30" height="30" src="{{ url('img/'.$articulo->file) }}"> <strong>Articulo: </strong>{{ $articulo->name }} || {{ $articulo->category }}. {{ $articulo->price_in_dolar }} $
           <br> 
           <b>({{ $articulo->ultimo_agregado }})</b>
           <br>
@@ -150,7 +118,7 @@
               <?php 
               $i++;
     
-              echo $i;  ?>. <img class="img_vermas" width="30" height="30" src="{{ url('img/'.$articulo->fondo) }}"> <strong>Articulo: </strong>{{ $articulo->name }} || {{ $articulo->pertenece_category->category }}. 
+              echo $i;  ?>. <img class="img_vermas" width="30" height="30" src="{{ url('img/'.$articulo->images[0]->file) }}"> <strong>Articulo: </strong>{{ $articulo->name }} || {{ $articulo->pertenece_category->category }}. 
 <br>
               <strong>Agregado por:</strong> {{ $articulo->pertenece_id_creator->name }} {{ $articulo->pertenece_id_creator->lastname }} ({{ $articulo->created_at->diffForHumans() }})
               <br>
@@ -191,7 +159,7 @@
                       <?php echo $i++; ?>.
                     </th>
                     <td>
-                      <img class="img_vermas" width="50" height="50" src="{{ url('img/'.$article->fondo) }}">
+                      <img class="img_vermas" width="50" height="50" src="{{ url('img/'.$article->images[0]->file) }}">
                     </td>
                     <td>
                       {{$article->name}}
@@ -201,7 +169,7 @@
                         Categoria: 
                       </strong>
                       <br>  
-                      {{ $article->pertenece_category->category }}
+                      {{ $article->category }}
                       <br>
                       <br>
                     </td>
@@ -221,7 +189,7 @@
                     <td>
                       <strong>Ultima actualizacion: </strong>
                       <br>  
-                      {{ $article->updated_at->diffForHumans() }}
+                      {{ $article->updated_at }}
                       <br>
                       <br>
                       <form action="/buscar_articulo" method="post" target="_blank">

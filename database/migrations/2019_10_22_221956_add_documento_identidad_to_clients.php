@@ -14,7 +14,7 @@ class AddDocumentoIdentidadToClients extends Migration
     public function up()
     {
         Schema::table('clients', function (Blueprint $table) {
-            $table->string('documento_identidad')->unique();
+            $table->string('documento_identidad')->nullable()->unique();
         });
     }
 

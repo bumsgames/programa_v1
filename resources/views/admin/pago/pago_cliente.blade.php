@@ -188,7 +188,7 @@
 					text-decoration:none;
 				}
 			</style>
-			{{--
+			{{-- 
 			<div class="modal fade letraNegra" id="ver_detalle_compra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
@@ -294,7 +294,7 @@
 					</div>
 				</div>
 			</div>
-			--}}
+			 --}}
 			<style>
 	
 
@@ -386,10 +386,14 @@
 									<hr>
 									<div class="row">
 										<div class="col-5">
-											<h5>Total ($)</h5>
+											<h5>Total Pagado: ($)</h5>
+											<br>
+											<h5>Se debia pagar ($):</h5>
 										</div>
 										<div class="col-6">
 											<h5 id="total_com"></h5>
+											<br>
+											<h5 id="total_se_debia_pagar"></h5>
 										</div>
 									</div>
 								</div>

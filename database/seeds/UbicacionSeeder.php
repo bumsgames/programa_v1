@@ -12,11 +12,15 @@ class UbicacionSeeder extends Seeder
     public function run()
     {
         DB::table('ubicacion')->insert([
-            'nombre_ubicacion' => 'Rio Aro',
+            'nombre_ubicacion' => 'Almacen "Rio Aro"',
         ]);
 
         DB::table('ubicacion')->insert([
-            'nombre_ubicacion' => 'Tienda Alta Vista',
+            'nombre_ubicacion' => 'Tienda BumsGames: "Alta Vista 2"',
+        ]);
+
+        DB::table('ubicacion')->insert([
+            'nombre_ubicacion' => 'NO APLICA',
         ]);
     }
     

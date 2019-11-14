@@ -306,7 +306,7 @@ hr {
 												<td></td>
 												<td class="cupon">Tengo un cupon:</td>
 												<td> <div class="form-group"><input name="cupon" type="text" class="form-control cuponinput" id="cupon" maxlength="12" autocomplete="off" placeholder="Codigo del cupon"> </div>    </td>
-												<td><button disabled id="cuponbtn" type="submit" class="btn btn-success">Canjear</button></td>
+												<td><button disabled id="cuponbtn" type="submit" class="btn btn-success">Cadsdsaanjear</button></td>
 											</tr>	
 										</form>
 										@endif

@@ -88,10 +88,14 @@
 						<h1 style="font-size: 50px;"><strong>{{$articulo_part->name}}</strong></h1>
 						<input type="" id="art_ofer" value="{{$articulo_part->id}}" hidden="">
 						{{-- CATEGORIA --}}
-						<h4><b>Categoria:</b> {{ $articulo_part->categorias[0]->category }}</h4>
+						@isset($articulo_part->categorias[0])
+<h4><b>Categoria:</b> {{ $articulo_part->categorias[0]->category }}</h4>
 						@if (strpos($articulo_part->categorias[0]->category,'Cuenta') !== false) 
 						<a href="{{ url('ayuda') }}"><h5>Si no sabes que significa esto, clickea aqui :)</h5></a>
 						@endif
+						@endisset
+						
+
 						@if($articulo_part->quantity == 0)
 						<span style="font-size: 1rem;padding: .375rem .75rem;" class="badge badge-danger">Agotado</span>
 						@else
@@ -131,7 +135,8 @@
 								</div>
 
 								<div class="col">
-									<button style="border-radius:5px!important;padding:0.5rem" class="btn btn-primary btn-block botonCarta" @if($articulo_part->quantity == 0) disabled @else onclick="agregaCarro('{{ $articulo_part->id }}', '{{ $articulo_part->name }}', 
+									@isset($articulo_part->categorias[0])
+<button style="border-radius:5px!important;padding:0.5rem" class="btn btn-primary btn-block botonCarta" @if($articulo_part->quantity == 0) disabled @else onclick="agregaCarro('{{ $articulo_part->id }}', '{{ $articulo_part->name }}', 
 										'{{ $articulo_part->categorias[0]->category }}', 
 										{{ $articulo_part->price_in_dolar }},
 										'{{ $articulo_part->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');" @endif>
@@ -140,6 +145,9 @@
 									<button style="border-radius:5px!important;padding:0.5rem; background: white !important; color: blue; border: solid 1px blue !important;" class="btn btn-primary btn-block botonCarta" data-toggle="modal" data-target="#modal_realizarOferta">
 										Realizar oferta
 									</button>
+
+@endisset
+									
 									<!-- Modal -->
 
 								</div>

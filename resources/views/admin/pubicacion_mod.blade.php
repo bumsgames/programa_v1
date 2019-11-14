@@ -24,7 +24,7 @@
 						<div  class="form-group col-12 ">
 							<input type="text" value="{{ $ubicacion->id}}" name="id" hidden="" >
 							<label>Nombre de la ubicacion</label>
-							<input  value="{{ $ubicacion->nombre_ubicacion }}" autocomplete="off" type="text" class="form-control" name="nombre_ubicacion" >
+							<input  value="{{ $ubicacion->nombre_ubicacion }}" autocomplete="off" type="text" class="form-control" name="nombre_ubicacion" required="">
 						</div>
 
 					</div>	

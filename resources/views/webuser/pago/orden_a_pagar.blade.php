@@ -180,7 +180,7 @@
 
 											</div>
 											<div class="col-12 col-lg-2">
-												<button disabled id="cuponbtn" type="submit" class="btn btn-success">Canjear</button>
+												<button id="cuponbtn" type="submit" class="btn btn-success">Canjear</button>
 											</div>
 
 										</form>
@@ -254,11 +254,13 @@
 																				@if ($cuentas_bancaria->titular)
 																				Titular: {{ $cuentas_bancaria->titular }}
 																				@endif
-																				<br>	
+																				<br>
+																					<br>
 																				@if ($cuentas_bancaria->cedula)
 																				Cedula: {{ $cuentas_bancaria->cedula }}
 																				@endif
 
+																				<br>
 																				<br>	
 																				@if ($cuentas_bancaria->cuentaBancaria)
 																				{{ $cuentas_bancaria->cuentaBancaria	 }}
@@ -753,11 +755,11 @@
 								</div>
 								<br>	
 
-								{{-- <div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
+								<div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
 									<a href="#carousel_pago" data-slide="prev" class="btn btn-info btn-pago float-left" onclick="actualizarbarra(80)"><span class="fa fa-lg fa-arrow-circle-left"></span> Anterior</a>
 									<a href="javascript:void(0)" id="bs_100" class="btn btn-success btn-pago float-right mt-responsive">Pagar <span class="fa fa-lg fa-cart-arrow-down"></span></a>
 									<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-								</div> --}}
+								</div>
 								<br>	
 							</div>
 						</div>
@@ -768,16 +770,14 @@
 		</div>
 	</div>
 
-
+{{-- 
 	<div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
 		<a href="#carousel_pago" data-slide="prev" class="btn btn-info btn-pago float-left" onclick="actualizarbarra(80)"><span class="fa fa-lg fa-arrow-circle-left"></span> Anterior</a>
 		<a href="javascript:void(0)" id="bs_100" class="btn btn-success btn-pago float-right mt-responsive">Pagar <span class="fa fa-lg fa-cart-arrow-down"></span></a>
 		<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-	</div>
+	</div> --}}
 
 
-	<br>
-	<br>
 	{{-- <div class="card-footer text-muted" style="background: rgba(0,10,0,0.4); height: 80px;">
 		<a href="#carousel_pago" data-slide="prev" class="btn btn-info btn-pago float-left" onclick="actualizarbarra(80)"><span class="fa fa-lg fa-arrow-circle-left"></span> Anterior</a>
 		<a href="javascript:void(0)" id="bs_100" class="btn btn-success btn-pago float-right mt-responsive">Pagar <span class="fa fa-lg fa-cart-arrow-down"></span></a>
@@ -819,7 +819,7 @@
 		});
 
 		$('#cupon').keyup(function () {
-			if ($('#cupon').val().length == 12) {
+			if ($('#cupon').val().length <= 12) {
 				$('#cuponbtn').prop('disabled', false);
 			} else {
 				$('#cuponbtn').prop('disabled', true);

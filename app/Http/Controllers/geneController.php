@@ -108,6 +108,14 @@ class geneController extends Controller
 
  }
  public function agg_bancoE(Request $request){
+   if ($request->tipo_cuenta == '') {
+      $request->offsetUnset('tipo_cuenta');
+   }
+
+   if ($request->cedula == '') {
+      $request->offsetUnset('cedula');
+   }
+
    $nombre = \Bumsgames\banco_emisor::create($request->all());
 
       // dd(1);
@@ -136,6 +144,13 @@ class geneController extends Controller
 
  }
  public function mod_bancos(Request $request){
+   if ($request->tipo_cuenta == '') {
+      $request->offsetUnset('tipo_cuenta');
+   }
+
+   if ($request->cedula == '') {
+      $request->offsetUnset('cedula');
+   }
 
      // dd(	$request->all());
    $bancos = \Bumsgames\banco_emisor::find($request->modificar_id);

@@ -35,7 +35,7 @@
 					<thead>
 						<tr>
 							<th scope="col">Id</th>
-							<th scope="col">Id del creador</th>
+							<th scope="col">Usuario creador</th>
 							<th scope="col">Descuento</th>
                             <th scope="col">Disponibles</th>
                             <th scope="col">Codigo</th>
@@ -52,7 +52,7 @@
 
 							<td>
 								
-								<?php echo $cupon->fk_empleado.' - '.$cupon->pertenece_fk_empleado->name.' '.$cupon->pertenece_fk_empleado->lastname?>
+								<?php echo $cupon->pertenece_fk_empleado->name.' '.$cupon->pertenece_fk_empleado->lastname?>
 							</td> 
 							<td>
                                 <?php echo $cupon->descuento.' $';?>

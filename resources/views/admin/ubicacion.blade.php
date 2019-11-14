@@ -23,7 +23,7 @@
 					<center><div class="row">
 						<div  class="form-group col-12 ">
 							<label>Nombre de la ubicacion</label>
-							<input  value="" autocomplete="off" type="text" class="form-control" name="nombre_ubicacion">
+							<input  value="" autocomplete="off" type="text" class="form-control" name="nombre_ubicacion" required="">
 						</div>
 
 					</div>	

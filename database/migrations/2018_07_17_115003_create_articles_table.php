@@ -25,8 +25,8 @@ class CreateArticlesTable extends Migration
             $table->foreign('category')->references('id')
             ->on('categories')
             ->onDelete('restrict');
-            $table->integer('price_in_dolar')->default(0);
-            $table->integer('offer_price')->default(0);
+            $table->float('price_in_dolar')->default(0);
+            $table->float('offer_price')->default(0);
             $table->float('peso')->default(0);
             $table->integer('quantity')->default(1)->unsigned();
             $table->integer('oferta')->default(0);
