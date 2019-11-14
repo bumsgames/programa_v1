@@ -11,7 +11,7 @@
 <main class="app-content">
 	<div class="app-title">
 		<div>
-			<h1><i class="fa fa-dashboard"></i> Clientes </h1>
+			<h1><i class="fa fa-dashboard"></i> Factura </h1>
 			<p>Aqui es donde comienza todo.</p>
 		</div>
 		<ul class="app-breadcrumb breadcrumb">
@@ -62,21 +62,25 @@
 			<center>	
 <b>DATOS</b>
 			</center>
-
+@php $i = 0; @endphp
 			<table class="table">	
 			@foreach ($venta->articulos as $articulo)
-			@php $pago_articulo =  ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total @endphp
+			@php $pago_articulo =  ($articulo->precio_venta / $precio_carrito[0]->precio_carrito) * $pago_total[0]->pago_total; @endphp
 			<tr>	
 <td>	
-	<b>Articulo:</b> {{ $articulo->articulo->name }}	
+	@php $i++; @endphp
+	{{ $i }}. <b>Articulo:</b> {{ $articulo->articulo->name }}	
+	<br>	
 	{{ $articulo->articulo->categorias[0]->category }}	
 	
 
 </td>
 <td>	
 	
-	<b>Cantidad:</b> {{ $articulo->cantidad }}	({{ $pago_articulo  }} $)
-	<b>Pago:</b> {{ $total +=  $pago_articulo * $articulo->cantidad }} $
+	<b>Cantidad:</b> {{ $articulo->cantidad }}	({{  number_format($pago_articulo, 2, ',', '.')  }} $)
+	<br>	
+	<b>Pago:</b> {{ number_format($pago_articulo * $articulo->cantidad, 2, ',', '.') }} $
+	@php $total +=  $pago_articulo * $articulo->cantidad @endphp
 </td>
 			</tr>
 			
@@ -85,7 +89,7 @@
 			</table>
 			<br>
 			<br>
-			<h3>Total: {{ $total }} $</h3>
+			<h3>Total: {{ number_format($total, 2, ',', '.') }} $</h3>
 			<br>
 <hr>	
 			<br>
@@ -98,7 +102,7 @@
 			{{ $pago->banco->banco }} = @if ($dolardia == 0)
 			No se incluye monto, por error en programa (division entre 0).
 			@else
-			{{ $pago->monto / $dolardia }} $
+			{{ number_format($pago->monto / $dolardia, 2, ',', '.') }} $
 			@endif
 			@endforeach
 			<br>
@@ -113,7 +117,8 @@
 	</div>
 </div>
 <div class="col">	
-<div class="card shadow_ligero" style="width: 700px;" style="">
+	<br>
+<div class="card shadow_ligero" style="width: 500px;" style="">
 		<div class="card-header">
 			<h3>Entrega</h3>
 <b>Vendedor:</b> {{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}

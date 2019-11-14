@@ -26,6 +26,12 @@
 									<label for="lastnamemod"><strong>Apellido</strong></label>
 									<input type="text" class="form-control" name="lastnamemod" value="" id="lastnamemod" autocomplete="off">
 								</div>
+							</div>	
+							<div class="col-12 col-lg">
+								<div class="form-group">
+									<label for="documento_identidad"><strong>Documento de Identidad</strong></label>
+									<input type="text" autocomplete="off" class="form-control" name="documento_identidad" id="documento_identidad">
+								</div>					
 							</div>		
 						</div>
 						<div class="row">

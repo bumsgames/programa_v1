@@ -98,13 +98,13 @@ class HomeworkController extends Controller
         $id = $request->id_art;
         $articulo = \Bumsgames\Article::find($id);
 
+
         //dd($articulo->images);
         //$articulo = \Bumsgames\Article::with('categorias')->where('id', $id)->get();
 
         //dd($articulo->toArray());
         
         $articuloConCategory = \Bumsgames\Article::with('categorias')->where('id', $id)->first();
-
         //dd($articuloConCategory->toArray());
         //dd($articuloConCategory["categorias"]->toArray());
         $categoriesArt = $articuloConCategory['categorias'];

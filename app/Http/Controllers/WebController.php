@@ -134,8 +134,8 @@ class WebController extends Controller
 		// ->get();
 
 
-		//Devuelve las imagenes de los carrouseles
-		// $portal1 = \Bumsgames\Imagen::where('portal', '=', '1')->inRandomOrder()->get();
+		// Devuelve las imagenes de los carrouseles
+		$portal1 = \Bumsgames\Imagen::where('portal', '=', '1')->inRandomOrder()->get();
 		// $portal2 = \Bumsgames\Imagen::where('portal', '=', '2')->inRandomOrder()->get();
 		// $portal3 = \Bumsgames\Imagen::where('portal', '=', '3')->inRandomOrder()->get();
 
@@ -975,7 +975,7 @@ class WebController extends Controller
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
 			->where('quantity', '>', 0)
 			->where('articles.id', '!=', '2')
-			->groupBy('name', 'category')
+			->groupBy('name', 'categories.category')
 			->busca($request->all())
 			->get();
 
@@ -1454,11 +1454,12 @@ class WebController extends Controller
 
 			if ($request->envio == 1) {
 				$request->request->add(['id_pago' => $ultimo_pago->id]);
-				dd(22);
+				
 				$envio_pago = \Bumsgames\Envio_Pago::create($request->all());
+
 			}
 
-			dd(1);
+			
 
 			if (isset($request->id_cupon)) {
 				$couponact->disponible--;
@@ -1466,12 +1467,16 @@ class WebController extends Controller
 			}
 
 			$id_art = json_decode($request->id_articulo);
+
+
 			for ($i = 0; $i < count($id_art); $i++) {
 				\Bumsgames\Pago_Articulo::create([
 					'id_pago' => $ultimo_pago->id,
 					'id_article' => $id_art[$i]
 				]);
 			}
+
+			dd($id_art);
 
 			Mail::send(['text' => 'mail.pago'], ['name', 'Bumsgames'], function ($message) {
 				$message->to('bumsgames.notificaciones@gmail.com', 'To Bumsgames')->subject('Nuevo Pago');
@@ -1640,8 +1645,9 @@ class WebController extends Controller
 				$couponact = coupon::find($coupon->id);
 				$couponact->disponible--;
 				$couponact->save();*/
+				$todas_las_monedas = \Bumsgames\Coin::All();
 
-				return view('webuser.pago.orden_a_pagar', compact('coins', 'moneda_actual', 'ultimo_pago', 'date', 'coupon'));
+				return view('webuser.pago.orden_a_pagar', compact('todas_las_monedas','coins', 'moneda_actual', 'ultimo_pago', 'date', 'coupon'));
 			}
 			return back()->withErrors(['cupon' => 'Codigo expirado']);
 		}
@@ -1870,29 +1876,34 @@ class WebController extends Controller
 	{	
 		if($request->categoria_articulo == 0){
 			$coincidencia = \Bumsgames\Article::
-			leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
+			selectRaw('articles.id as id, name, file as fondo, price_in_dolar, categories.category as category')
+			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+			->leftJoin('articles_images', function ($join) {
+			$join->on('articles_images.id', '=', DB::raw('(SELECT id FROM articles_images WHERE articles_images.article_id = articles.id LIMIT 1)'));
+		})
+		->leftjoin('images','articles_images.image_id','=','images.id')
 			->where('name', 'like', '%' . $request->nombre_articulo . '%')
+			->where('articles.id','!=',2)
+			->where('quantity','>',0)
 			->groupby('name','categories.id')
 			->get();
 		}else{
 			$id_categoria = $request->categoria_articulo;
 			$coincidencia = \Bumsgames\Article::
-			leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
+			selectRaw('articles.id as id, name, file as fondo, price_in_dolar, categories.category as category')
+			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+			->leftJoin('articles_images', function ($join) {
+			$join->on('articles_images.id', '=', DB::raw('(SELECT id FROM articles_images WHERE articles_images.article_id = articles.id LIMIT 1)'));
+		})
+		->leftjoin('images','articles_images.image_id','=','images.id')
 			->where('name', 'like', '%' . $request->nombre_articulo . '%')
 			->where('categories.id', $request->categoria_articulo)
+			->where('articles.id','!=',2)
+			->where('quantity','>',0)
 			->groupby('name','categories.id')
 			->get();
-
-			// $coincidencia = \Bumsgames\Article::with('categorias')
-			// ->where('name', 'like', '%' . $request->nombre_articulo . '%')
-			// ->whereHas('categorias', function($q) use ($request)  {
-			// 	$q->where('categories.id', $request->categoria_articulo); 
-			// 	$q->groupby('name','categories.id'); 
-			// })
-			// ->groupby('name')
-			// ->get();
 
 		}
 // leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
@@ -1938,6 +1949,12 @@ class WebController extends Controller
 		$title = 'Pagina no encontrada';
 		$buscador_ruta = 'buscar_articulo_bums';
 		\Bumsgames\Visita::create(['tipo' => 'General']);
-		return view('errors.404', compact('categorias','comentarios', 'coins', 'moneda_actual', 'title', 'buscador_ruta'));
+
+		$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
+$agentes_activos = \Bumsgames\BumsUser::where('active', '>', 0)
+		->where('level', '>=', '7')
+		->orderBy('id', 'asc')
+		->get();
+		return view('errors.404', compact('categorias','comentarios', 'coins', 'moneda_actual', 'title', 'buscador_ruta','categorias_sub','agentes_activos'));
 	}
 }

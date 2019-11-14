@@ -122,9 +122,45 @@
 
 <br>
 <br>
-<center>
-	<img class="shadow_ligero" src="{{ url('img/portada.jpg') }}" style="width: 100%; opacity: 0.9;">
+
+<div>	
+<center>	
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+    	<div  style="background: rgb(0,0,0,0.3); height: 380px; display: flex;
+   justify-content: center;
+   align-items: center;">	
+      <img src="{{ url('img/portada.jpg') }}" alt="First slide" style="max-height: 380px;">
+  </div>
+    </div>
+    @foreach($portal1 as $portal)
+				<div class="carousel-item">
+					<div  style="background: rgb(0,0,0,0.3); height: 380px; display: flex;
+   justify-content: center;
+   align-items: center;">	
+
+					<img src="img/{{$portal->imagen}}" alt="First slide" style="max-height: 380px;">
+					</div>
+				</div>
+			@endforeach
+
+  </div>
+
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
 </center>
+</div>
+
+
 <br>	
 
 <div style="  background: white;">

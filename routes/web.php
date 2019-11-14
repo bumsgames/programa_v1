@@ -97,6 +97,7 @@ Route::post('/tutorial/eliminarmodal/{id}','ProgramController@eliminarmodal');
 Route::get('/tutorial/editar/{id}','ProgramController@editarTutorial');
 Route::get('/descripcionArticulo/{id}','ProgramController@DescripcionArticulo');
 Route::get('/Articulos_masCantidad','ProgramController@articulos_masCantidad');
+Route::get('/ver_manual','ProgramController@ver_manual');
 
 
 // ProgramController POST

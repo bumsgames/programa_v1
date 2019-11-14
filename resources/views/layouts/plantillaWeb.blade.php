@@ -133,7 +133,9 @@ duration: 450000,
 						<select class="form-control selectCoin" onchange="this.form.submit()" name="id_coin" id="id_coin" style="border: solid; border-color: #808080;">
 							<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
 							@foreach($coins as $coin)
-							<option class="form-control" value="{{ $coin->id }}">{{ $coin->coin }}</option>
+							@if ($coin->active == 1)
+								<option class="form-control" value="{{ $coin->id }}">{{ $coin->coin }}</option>
+							@endif
 							@endforeach
 						</select>
 						&nbsp;

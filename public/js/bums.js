@@ -277,7 +277,7 @@ function removePhotoDiv(number) {
     for (let index = 0; index < imagesUrl.length; index++) {
         var htmlTagImage = 
         '<div class="col" id="div_'+index+'">' +
-        '<img id="img_'+index+'" class="img row text-center"  src="'+ imagesUrl[index] + '" style="object-fit: cover;max-width: 250px;">'+
+        '<img id="img_'+index+'" class="img row text-center"  src="'+ imagesUrl[index] + '" height="100" style="object-fit: cover;">'+
         '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+index+');" >'+
         'Eliminar'+
         '</button>'+
@@ -1107,6 +1107,8 @@ $("#modificar_articulo").click(function(){
             }else{
 
                 let countImages = $("#images_mod")[0].childElementCount;
+
+
                 if(countImages>0){
                     console.log("subo las fotos");
                     subirFotoMod(data);
@@ -1145,6 +1147,7 @@ function subirFotoMod(params) {
 
     console.log("cantidad de fotos", $("#images_mod")[0].childElementCount);
     let imagesCount=$("#images_mod")[0].childElementCount;
+
 
     for (let index = 0; index < imagesCount; index++) {
 
@@ -1196,9 +1199,10 @@ function subirFotoMod(params) {
             var route = '/api/fotoMultipleMod';
             var form_data = new FormData(); 
             form_data.append('image', imageFile);
-            form_data.append('article_id', params.article_id);
+            form_data.append('article_id', params.articuloID);
             form_data.append('number', index+1);
             form_data.append('index', index);
+
 
             $.ajax({    
                 url:        route,
@@ -1296,7 +1300,7 @@ function subirFotoNew(params) {
 function borrarFotoArticulo(params) {
     var route = '/api/borrarFotoArticulo';
     var form_data = new FormData(); 
-    form_data.append('article_id', params.article_id);
+    form_data.append('article_id', params.articuloID);
 
     $.ajax({    
         url:        route,
@@ -1745,7 +1749,7 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
             if (data.articulos == 0) {
                 $("#table_client td").remove();
                 var nuevaFila;
-                nuevaFila+="<tr><td>No hemos encontrado ningun Articulo con nombre parecido a: "+nombre+" en esta categoria (<b>"+nombre_categoria+"</b>).</td>";
+                nuevaFila+="<tr><td>No hemos encontrado ningun Articulo con nombre parecido a: "+nombre+" en esta categoria (<b>"+nombre_categoria+"</b>). Puede preguntar a un agente BumsGames si se lo pueden conseguir.</td>";
                 nuevaFila+="</tr>";
                 $("#table_client").append(nuevaFila);
             }else{
@@ -1758,11 +1762,12 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
                     var angel = item.name;
                     nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name+"</td>";
                     nuevaFila+="<td><img src='img/"+item.fondo+"' width='40' height='45' alt=''></td>";
-                    nuevaFila+="<td>"+item.price_in_dolar+" $</td>";
+                    nuevaFila+="<td>"+formatCurrency(item.price_in_dolar)+" $</td>";
                     if(item.price_in_dolar != (item.price_in_dolar * $("#tasa").val())){
-                        nuevaFila+="<td>"+item.price_in_dolar * $("#tasa").val()+" "+$("#signo").val()+"</td>";
+                        nuevaFila+="<td>"+formatCurrency(item.price_in_dolar * $("#tasa").val())+" "+$("#signo").val()+"</td>";
                     }
                     nuevaFila+="<td>"+item.category+"</td>";
+                    nuevaFila+="<td><button class='btn btn-block' Onclick='ir("+item.id+")'>Ver mas</button></td>";
                     nuevaFila+="</tr>";
                 });
                 $("#table_client").append(nuevaFila);
@@ -1770,6 +1775,11 @@ function coincidencia_articulo(nombre, id_categoria, nombre_categoria){
 
         }
     });
+}
+
+function ir(id){
+    window.location.href = '/ver_mas/'+id;  
+        
 }
 
 $("#name_buscador_inteligente").on('keydown', function(){
@@ -2305,10 +2315,10 @@ $.ajax({
             swal("Venta realizada.");
             window.open("factura/"+data.id_venta,+ "_blank");
             
-            // setTimeout(function() 
-            // {
-            //     location.reload(); 
-            // }, 1000);
+            setTimeout(function() 
+            {
+                 window.location.href = '/allArticles';  
+            }, 1000);
             
             
 
@@ -2507,11 +2517,12 @@ function modicacion_rapida(id, name, categoria, cantidad, note, reset){
 
 /* Modificar cliente */ 
 
-function modificar_cliente_modal(id, name, lastname, nickname, password, num_contact,note, email){
+function modificar_cliente_modal(id, name, lastname, documento_identidad, nickname, password, num_contact,note, email){
     $('#titulo_cliente_articulo').empty();
     $("#id_clientemod").val(id);
     $("#namemod").val(name);
     $("#lastnamemod").val(lastname);
+    $("#documento_identidad").val(documento_identidad);
     $("#nickmod").val(nickname);
     $("#passmod").val(password);
     $("#nummod").val(num_contact);
@@ -2640,6 +2651,14 @@ $("#realizar_modificacion_cliente").click(function(){
     var token = $('#token').val();
 
     var form_data = new FormData();
+
+    if($('#documento_identidad').val()){
+        form_data.append('documento_identidad', $("#documento_identidad").val());
+    }else{
+        swal("No se puede modificar cliente sin cedula (Documento de Identidad).");
+        return;
+    }
+
     if($('#id_clientemod').val()){
         form_data.append('id', $("#id_clientemod").val());
     }
@@ -3636,6 +3655,7 @@ function cambiaBandera(algo){
 
                     var route = "/ver_detalle_compra/"+id+"";
                     var total = 0;
+                    var total_que_se_debia = 0;
                     $.get(route, function(data){
                         $.each(data, function(i, item) {
                             $("#a_ext").attr("href","/reporte-pago/"+id);
@@ -3652,6 +3672,7 @@ function cambiaBandera(algo){
                                 $("#cupon_creador").html(item.c_name+" "+item.c_lastname);
                                 $("#cupon_codigo").html(item.codigo);
                                 total-=item.descuento;
+                                total_que_se_debia += item.descuento;
                             }
                             else{
                                 $("#descuento_div").hide();
@@ -3728,7 +3749,11 @@ function cambiaBandera(algo){
                             $(".cat_15").text('Otros | Articulo Fisico');
                             $( "#articulos_div" ).append('<hr>');
                         });
+                        
+
                         $('#total_com').html(total+" $");
+                        total_que_se_debia += total;
+                         $('#total_se_debia_pagar').html(total_que_se_debia+" $");
                     });
                 }
 

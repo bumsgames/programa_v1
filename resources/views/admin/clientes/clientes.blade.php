@@ -125,6 +125,7 @@
 												{{ $cliente->id }},
 												"{{$cliente->name}}",
 												"{{ $cliente->lastname }}",
+												"{{ $cliente->documento_identidad }}",
 												"{{$cliente->nickname}}",
 												"{{ $cliente->password }}",
 												"{{$cliente->num_contact}}",

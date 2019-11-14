@@ -20,7 +20,7 @@ class CreateBancoEmisorsTable extends Migration
             ->onDelete('restrict');
             $table->string('titular');
              $table->string('cuentaBancaria');
-             $table->integer('active')->unsigned();
+             $table->integer('active')->unsigned()->default(1);
             $table->string('tipo_cuenta')->default('NO APLICA');
             $table->string('cedula')->default('NO APLICA');;
              $table->string('nota')->nullable();

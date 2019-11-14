@@ -9,6 +9,7 @@
 
 				<a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Entrega personalizada</a>
 				<a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-input" role="tab" aria-controls="home">Agregar Tutorial</a>
+				<a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#ver_manual" role="tab" aria-controls="home">Manual de usuario</a>
 			</div>
 			<br>
 		</div>
@@ -73,6 +74,9 @@
 							<button id="botonagregartutorial" style="float:right" type="button" class="btn btn-primary">Crear Tutorial</button>
                             <br>
                         </form>
+				</div>
+				<div class="tab-pane fade" id="ver_manual" role="tabpanel" aria-labelledby="list-input">
+					<a href="{{ url('ver_manual') }}"><button class="btn btn-block btn-primary">Ver manual</button></a>
 				</div>
 			</div>
 		</div>

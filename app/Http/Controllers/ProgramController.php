@@ -3,6 +3,7 @@
 namespace Bumsgames\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Bumsgames\Http\Requests\ClientRequest;
 use Auth;
 use Response;
 use Bumsgames\Notifications\TaskCompleted;
@@ -78,13 +79,39 @@ class ProgramController extends Controller
 
 	public function index()
 	{
-		$articles_off = \Bumsgames\Article::selectRaw('id, fondo, name, category, price_in_dolar, quantity, sum(quantity) as quantity, updated_at')
-		->where('quantity', '<=', 0)
-		->where('id', '!=', '2')
-		->groupBy('name', 'category')
-		->orderBy('updated_at', 'desc')
-		->limit(15)
-		->get();
+		$articles_off = \Bumsgames\Article::
+		selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
+			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+			->where('quantity', '<=', 0)
+			->where('articles.id', '!=', '2')
+			->orderBy('fecha_agotado', 'desc')
+			->groupBy('name', 'categories.category')
+			->limit(50)
+			->get();
+
+			$articulo_agregados_recientemente = \Bumsgames\Article::
+		selectRaw('name, price_in_dolar, ultimo_agregado, categories.category as category, file')
+			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
+			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+			->leftJoin('articles_images', function ($join) {
+			$join->on('articles_images.id', '=', DB::raw('(SELECT id FROM articles_images WHERE articles_images.article_id = articles.id LIMIT 1)'));
+		})
+		->leftjoin('images','articles_images.image_id','=','images.id')
+			->where('quantity', '>', 0)
+			->where('articles.id', '!=', '2')
+			->orderBy('ultimo_agregado', 'desc')
+			->groupBy('name', 'categories.category')
+			->limit(25)
+			->get();
+
+			$articulo_registrado_recientemente = \Bumsgames\Article::where('id', '!=', '2')
+			->orderBy('created_at', 'desc')
+			->limit(25)
+			->get();
+
+
+
 
 		$i = 0;
 
@@ -125,53 +152,41 @@ class ProgramController extends Controller
 			->orWhere('entregado', '<=', 0);
 		})->get();
 
-		$mejor_vendedores_hoy = \Bumsgames\Sales::join('bums_users', 'bums_users.id', '=', 'id_vendedor')
-		->whereDate('sales.created_at', \Carbon\Carbon::today())
+		$mejor_vendedores_hoy = \Bumsgames\Venta::join('bums_users', 'bums_users.id', '=', 'id_vendedor')
+		->whereDate('ventas.created_at', \Carbon\Carbon::today())
 		->select(\DB::raw("*, count(*) as ventas"))
 		->groupby('id_vendedor')
 		->orderby('ventas', 'desc')
 		->get();
 
-		$mejor_vendedores_semana = \Bumsgames\Sales::join('bums_users', 'bums_users.id', '=', 'id_vendedor')
-		->whereBetween('sales.created_at', [$start_day, $end_day])
+		$mejor_vendedores_semana = \Bumsgames\Venta::join('bums_users', 'bums_users.id', '=', 'id_vendedor')
+		->whereBetween('ventas.created_at', [$start_day, $end_day])
 		->select(\DB::raw("*, count(*) as ventas"))
 		->groupby('id_vendedor')
 		->orderby('ventas', 'desc')
 		->get();
 
-		$articulo_mas_vendido_hoy = \Bumsgames\Sales::join('articles', 'id_article', '=', 'articles.id')
-		->join('categories', 'articles.category', '=', 'categories.id')
-		->select(\DB::raw("*, count(*) as ventas"))
-		->whereDate('sales.created_at', \Carbon\Carbon::today())
-		->groupby('articles.name')
-		->groupby('articles.category')
-		->get();
+		// $articulo_mas_vendido_hoy = \Bumsgames\Venta::join('bums_users', 'bums_users.id', '=', 'id_vendedor')
+		// ->join('categories', 'articles.category', '=', 'categories.id')
+		// ->select(\DB::raw("*, count(*) as ventas"))
+		// ->whereDate('ventas.created_at', \Carbon\Carbon::today())
+		// ->groupby('articles.name')
+		// ->groupby('articles.category')
+		// ->get();
 
-		$articulo_mas_vendido_semana = \Bumsgames\Sales::join('articles', 'id_article', '=', 'articles.id')
-		->join('categories', 'articles.category', '=', 'categories.id')
-		->select(\DB::raw("*, count(*) as ventas"))
-		->whereBetween('sales.created_at', [$start_day, $end_day])
-		->groupby('articles.name')
-		->groupby('articles.category')
-		->orderby('ventas', 'desc')
-		->limit(10)
-		->get();
+		// $articulo_mas_vendido_semana = \Bumsgames\Sales::join('articles', 'id_article', '=', 'articles.id')
+		// ->join('categories', 'articles.category', '=', 'categories.id')
+		// ->select(\DB::raw("*, count(*) as ventas"))
+		// ->whereBetween('ventas.created_at', [$start_day, $end_day])
+		// ->groupby('articles.name')
+		// ->groupby('articles.category')
+		// ->orderby('ventas', 'desc')
+		// ->limit(10)
+		// ->get();
 
-		/*$articulo_agregados_recientemente = \Bumsgames\Article::orderby('created_at', 'desc')
-			->limit(50)
-			->get();*/
 
-			$articulo_agregados_recientemente = \Bumsgames\Article::where('quantity', '>', 0)
-			->where('id', '!=', '2')
-			->groupBy('name', 'category')
-			->orderBy('ultimo_agregado', 'desc')
-			->limit(25)
-			->get();
 
-			$articulo_registrado_recientemente = \Bumsgames\Article::where('id', '!=', '2')
-			->orderBy('created_at', 'desc')
-			->limit(25)
-			->get();
+			
 
 			$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
 			->orderby('created_at', 'desc')
@@ -203,6 +218,18 @@ class ProgramController extends Controller
 				'ubicaciones'
 			));
 		} 
+
+		public function ver_manual(){
+			$tutoriales = \Bumsgames\tutorial::All();
+
+			$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+			->get();
+$tutoriales = \Bumsgames\tutorial::All();
+
+			return view('admin.ver_manual', compact(
+				'carrito','carrito','tutoriales'
+			));
+		}
 
 		public function guia()
 		{
@@ -1380,7 +1407,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 			->where('quantity', '>', 0)
 			->where('articles.id', '!=', '2')
 			->groupBy('name', 'categories.category')
-			->orderBy('quantity')
+			->orderBy('quantity','desc')
 			->get();
 
 		$articles_cantidad = $articles->count();
@@ -1984,7 +2011,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		// ->get();
 
 		$articles_on = \Bumsgames\Article::
-		selectRaw('name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+		selectRaw('articles.id as id,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
 			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
 			->where('quantity', '>', 0)
@@ -2005,7 +2032,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		// ->get();
 
 			$articles_off = \Bumsgames\Article::
-		selectRaw('name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+		selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
 			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
 			->where('quantity', '<=', 0)
@@ -2764,7 +2791,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		]);
 	}
 
-	public function realizar_modificacion_cliente(Request $request)
+	public function realizar_modificacion_cliente(ClientRequest $request)
 	{
 		if (isset($request->name)) {
 			DB::statement('UPDATE clients SET name="' . $request->name . '" WHERE id=' . $request->id . ' ');
@@ -2786,6 +2813,9 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		}
 		if (isset($request->email)) {
 			DB::statement('UPDATE clients SET email="' . $request->email . '" WHERE id=' . $request->id . ' ');
+		}
+		if (isset($request->documento_identidad)) {
+			DB::statement('UPDATE clients SET documento_identidad="' . $request->documento_identidad . '" WHERE id=' . $request->id . ' ');
 		}
 		return response()->json([
 			"data" => "Modificado",

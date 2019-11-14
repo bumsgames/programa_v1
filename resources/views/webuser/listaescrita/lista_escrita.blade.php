@@ -101,7 +101,6 @@
 
 			</div>
 			<div class="col-lg-8 col-12 tile_3">
-				<h5>Ordenar por:</h5>
 
 				<div class="container responsive">	
 					<br>	

@@ -83,7 +83,7 @@
 							<?php $items_cantidad++; ?>
 						</th>
 						<th>	
-							<img class="img-top imagen newImg" src="{{ url('img/'.$item->articulo->fondo) }}" alt="Card image cap" width="30">
+							<img class="img-top imagen newImg" src="{{ url('img/'.$item->articulo->images[0]->file) }}" alt="Card image cap" width="30">
 						</th>
 						<th>
 							{{ $item->articulo->name }}
@@ -513,7 +513,7 @@
 								autocomplete="off"> --}}
 								<select class="form-control form-control-sm" id="banco_emisor">
 									@foreach($bancos as $banco)
-									<option value="{{ $banco->id }}">{{ $banco->banco }}</option>
+									<option value="{{ $banco->id }}">{{ $banco->banco }} / {{ $banco->titular }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -565,7 +565,9 @@
 					
 					<input type="text" hidden="" name="" id="moneda_{{ $moneda_actual->id }}" value="{{ $moneda_actual->valor }}">
 					@foreach($coins as $coin)
-					<input type="text" hidden="" name="" id="moneda_{{ $coin->id }}" value="{{ $coin->valor }}">
+					@if ($coin->active == 1)
+						<input type="text" hidden="" name="" id="moneda_{{ $coin->id }}" value="{{ $coin->valor }}">
+					@endif
 					@endforeach
 
 

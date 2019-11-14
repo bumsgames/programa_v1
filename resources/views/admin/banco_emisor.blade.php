@@ -23,7 +23,7 @@
 						<div class="row">
 							<div  class="form-group col-6 ">
 								<label>Nombre del banco</label>
-								<input  value="" autocomplete="off" type="text" class="form-control" name="banco">
+								<input  value="" autocomplete="off" type="text" class="form-control" name="banco" required="">
 							</div>
 							<div  class="form-group col-6 ">
 								<label>Relacionado con: </label>
@@ -40,7 +40,7 @@
 						<div class="row">
 							<div  class="form-group col-6 ">
 								<label>Titular:</label>
-								<input autocomplete="off" type="text" class="form-control" name="titular">
+								<input autocomplete="off" type="text" class="form-control" name="titular" required="">
 							</div>
 							<div  class="form-group col-6 ">
 								<label>Tipo de cuenta:</label>
@@ -55,7 +55,7 @@
 							</div>
 							<div  class="form-group col-4 ">
 								<label>Cuenta Bancaria:</label>
-								<input autocomplete="off" type="text" class="form-control" name="cuentaBancaria">
+								<input autocomplete="off" type="text" class="form-control" name="cuentaBancaria" required="">
 							</div>
 							<div  class="form-group col-4 ">
 								<label>Nota:</label>
