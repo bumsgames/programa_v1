@@ -15,13 +15,16 @@
                     {{ csrf_field() }}
                     <div class="loginContainer">
                     <img class="img_login" src="{{url('img/log3.png')}}" width="400" />  
+
                     <form method="post" action="{{ url('/login') }}">
-                    {{ csrf_field() }}                
+                        {{ csrf_field() }}                
+                        
                         {!!$errors->first('nickname','<span style="color:white" class="help-block">:message</span>')!!}
  
                         <br>
                         <div class="form-group">
-                            <input type="text" class="form-control loginUser" name="nickname" autocomplete="off" value="{{ old('nickname') }}" placeholder="Nombre de usuario">
+                            <input type="text" class="form-control loginUser" name="nickname" autocomplete="off" value="{{ old('nickname') }}" 
+                            placeholder="Ingrese nombre de usuario, email o numero de cédula">
                         </div>                       
                          {!!$errors->first('password','<span class="help-block">:message</span>')!!}
                        

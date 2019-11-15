@@ -131,7 +131,22 @@
 										<strong>{{ number_format($articulo_part->price_in_dolar * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }} </strong>
 									</h2>
 									<br>	
-									<button id="btnFav" class="btn btn-sm btn-primary" onclick="add_favorite('{{ $articulo_part->id }}')" >Agregar a favoritos</button>
+
+									<p></p>
+
+									@if (Auth::guard('client')->user())										
+										<button id="btnFav" class="btn btn-sm btn-primary"
+										@if (count(Auth::guard('client')->user()->favorites->where('article_id',$articulo_part->id))==0)
+											onclick="add_favorite('{{ $articulo_part->id }}', {{count(Auth::guard('client')->user()->favorites)}})" 
+										@endif
+										style="">
+											Agregar a favoritos
+											<i class="fa fa-heart ml-2" 
+											@if (count(Auth::guard('client')->user()->favorites->where('article_id',$articulo_part->id))>0)
+												style="color:red"
+											@endif  aria-hidden="true"></i>
+										</button>
+									@endif
 								</div>
 
 								<div class="col">
@@ -335,9 +350,13 @@
 </script>
 <script>
 
-
-	function add_favorite(article_id) {
+	function add_favorite(article_id, cantFavorites) {
 		
+		console.log('cant de Favorites', cantFavorites);
+		if(cantFavorites>=20){
+			swal('No puedes añadir mas de 20 productos a favoritos');
+			return;
+		}
 		console.log('article_id', article_id);
 		console.log('client_id', $("#client_id").val());
 

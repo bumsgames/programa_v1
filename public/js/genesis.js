@@ -97,31 +97,73 @@ $("#boton_eliminar_cliente").click(function(){
 function Eliminar_usuario(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
-    if(clave!='spiderman1995'){
-        swal('Clave no autorizada');
-        return;
-    }
-    var route = "/delete_uss/"+id+"";
     var token = $('#token').val();
+
+    var route = "/verifyPass";
+    var form_data = new FormData;
+
+    form_data.append('password', clave);
+
     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
         dataType:   'json',
+        data:       form_data,
         contentType: false, 
         processData: false,
         success:function(data){
-            swal("Usuario eliminado.");
-            setTimeout(function() 
-            {
-                location.reload(); 
-            }, 2000);
+        
+            console.log(data);
+            if(data.data==true && data.user.level==10){
+
+                
+                var route = "/delete_uss/"+id+"";
+                var token = $('#token').val();
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
+                        swal("Usuario eliminado.");
+                        setTimeout(function() 
+                        {
+                            location.reload(); 
+                        }, 3000);
+                    },
+                    error:function(msj){
+                        swal("Error.", "Revisa los datos suministrados.", "error");
+                    }
+                });
+                
+
+            }else{
+                swal("No tienes los permisos necesarios para esta acción");
+                return;
+            }
+            
+            if(data.data==false){
+                swal(data.error);
+                return;
+            }
         },
         error:function(msj){
-            swal("Error.", "Revisa los datos suministrados.", "error");
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
+
+
 }
+
 function eliminar_reporte(){
     var id = $("#id_eliminar").val();
     var route = "/eliminar_reporte/"+id+"";
@@ -146,6 +188,8 @@ function eliminar_reporte(){
         }
     });
 }
+
+
 function Eliminar_articulo(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
@@ -165,8 +209,7 @@ function Eliminar_articulo(){
         processData: false,
         success:function(data){
             console.log(data);
-            if(data.data==true){
-
+            if(data.data==true && data.user.level==8){
                 var route = "/delete_articulo/"+id+"";
                 var token = $('#token').val();
                 $.ajax({
@@ -191,8 +234,12 @@ function Eliminar_articulo(){
                         swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
                     }
                 });
-
             }else{
+                swal("No tienes los permisos necesarios para esta acción");
+                return;
+            }
+            
+            if(data.data==false){
                 swal(data.error);
                 return;
             }
@@ -352,7 +399,8 @@ function Eliminar_imagen(){
         processData: false,
         success:function(data){
             console.log(data);
-            if(data.data==true){
+
+            if(data.data==true && data.user.level==8){
                 
                 console.log("paso data true");
                 var route = "/delete_imagen/"+id+"";
@@ -369,10 +417,10 @@ function Eliminar_imagen(){
 
                         console.log(data);
                         swal("Imagen eliminada.");
-                        // setTimeout(function() 
-                        // {
-                        //     location.reload(); 
-                        // }, 2000);
+                        setTimeout(function() 
+                        {
+                            location.reload(); 
+                        }, 3000);
 
                     },
                     error:function(msj){
@@ -380,6 +428,11 @@ function Eliminar_imagen(){
                     }
                 });
 
+            }
+
+            if(data.user.level!=8){
+                swal("No tiene los permisos suficientes para realizar esta acción.");
+                return;
             }
 
             if(data.data==false){

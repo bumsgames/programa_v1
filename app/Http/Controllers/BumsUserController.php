@@ -64,9 +64,9 @@ class BumsUserController extends Controller
         $user = Auth::user();
 
         if (Auth::attempt(['nickname' => $user->nickname, 'password' => $request->password])) {
-            return response()->json(['data'=>true]);
+            return response()->json(['data'=>true,'user'=>$user]);
         }else{
-            return response()->json(['data'=>false, 'error'=>'La contraseña ingresada no coincide']);
+            return response()->json(['data'=>false, 'error'=>'La contraseña ingresada no coincide.']);
         }
     }
 

@@ -43,12 +43,23 @@
                         <input type="password" class="form-control loginUser" name="password_confirmation" autocomplete="off" placeholder="Confirme Contraseña" required>
                     </div>
                     
+                    @if ($errors->has('g-recaptcha-response'))
+                        <span class="help-block text-danger" role="alert">
+                            <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
+                        </span>
+                    @endif
+
+                    <div class="col">
+                        {!! NoCaptcha::display() !!}
+                    </div>
+                    
+                    
                     {{-- 
                     <div class="form-group">
                         <label class="remember"><input type="checkbox" name="keepload"> Mantener Sesion Iniciada</label>
                     </div> --}}
 
-                    <button class="btn btn-primary btnLogin" type="submit">registrarse</button>
+                    <button class="btn btn-primary btnLogin mt-5" type="submit">registrarse</button>
                     </form>
                     <br>
                     <br>
@@ -84,6 +95,15 @@
                 </div>
         </div>
     </div>
+
+    <style>
+        
+        iframe{
+            width:550px !important;
+            height:150px !important;
+        }
+
+    </style>
 @endsection
 
 

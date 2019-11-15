@@ -130,6 +130,7 @@
                             </table>
 							</div>
 							<div class="tab-pane fade" id="list-principal" role="tabpanel" aria-labelledby="list-principal-list">   
+
                             <h1 class="panel-title">MIS COMPRAS</h1>
                                 <br>
                             <table class="table">

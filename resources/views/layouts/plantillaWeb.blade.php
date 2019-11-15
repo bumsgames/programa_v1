@@ -13,8 +13,13 @@
 	<link rel="stylesheet" type="text/css" href="{{ url('css/bums.css') }}"/>
 	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 	<link href="{{ url('css/bums_v2.css') }}"  rel="stylesheet"/>
+
+	{!! NoCaptcha::renderJs() !!}
+	
 	<script async custom-element="amp-auto-ads"
 	src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+	
+	
 </script>
 <script src="{{ url('js/marquee3k.js') }}"></script>
 

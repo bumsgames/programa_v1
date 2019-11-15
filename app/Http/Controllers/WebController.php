@@ -942,8 +942,8 @@ class WebController extends Controller
 			->get();
 			$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
 
-			return view('webuser.user.adminpaneluser', compact('agentes_activos','categorias_sub','articulosmios', 'comentarios', 'articulocomprado', 'categorias', 'articulos', 'coins', 'moneda_actual', 'user'));
-		}
+		return view('webuser.user.adminpaneluser', compact('agentes_activos','categorias_sub','articulosmios', 'comentarios', 'articulocomprado', 'categorias', 'articulos', 'coins', 'moneda_actual', 'user'));
+	}
 
 		// function prueba_lista_escrita(Request $request){
 		// 	$articulos = \Bumsgames\Article::
@@ -1554,6 +1554,12 @@ class WebController extends Controller
 
 			if (Auth::guard('client')->attempt(['nickname' => $request->nickname, 'password' => $request->password])) {
 				return redirect('/adminpaneluser');
+
+			}else if (Auth::guard('client')->attempt(['email' => $request->nickname, 'password' => $request->password])) {
+				return redirect('/adminpaneluser');
+
+			}else if (Auth::guard('client')->attempt(['documento_identidad' => $request->nickname, 'password' => $request->password])) {
+				return redirect('/adminpaneluser');
 			}
 
 			return back()
@@ -1568,6 +1574,7 @@ class WebController extends Controller
 				'nickname' => 'required|string',
 				'password' => 'required|confirmed',
 				'email' => 'required|email|unique:clients',
+				'g-recaptcha-response' => 'required|captcha',
 			]);
 
 			$confirmation_code = str_random(25);
@@ -1740,6 +1747,10 @@ class WebController extends Controller
 		$clientes = \Bumsgames\Client::count();
 		$articulos_vendidos = \Bumsgames\VentaArticulos::selectRaw('sum(cantidad) as cantidad')
 		->get();
+
+
+		$usernew = Auth::guard('client')->user();
+		//dd($usernew->favorites->where('article_id',$articulo_part->id));
 
 		
 		\Bumsgames\Visita::create(['tipo' => 'General']);

@@ -134,6 +134,11 @@
                     </table>
                 </div>
                 <div class="tab-pane fade show active" id="list-principal" role="tabpanel" aria-labelledby="list-principal-list">
+                    @if (Auth::guard('client')->user()->confirmed==0)
+                        <div class="alert alert-danger mb-4" style="font-size: 24pt" role="alert">
+                            Su cuenta no ha sido verificada, verifiquela o en 7 dias sera borrada.
+                        </div>
+                    @endif
                     <h1 class="panel-title">MIS COMPRAS</h1>
                     <br>
                     <table class="table table-shadow">

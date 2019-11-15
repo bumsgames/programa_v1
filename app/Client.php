@@ -30,6 +30,11 @@ class Client extends Authenticatable
 
     ];
 
+    public function favorites()
+    {
+        return $this->hasMany('Bumsgames\Favorite', 'client_id');
+    }
+
     public function mis_articulos()
     {
         return $this->belongsToMany('Bumsgames\Client', 'pertenece_clientes', 'id_cliente', 'id_article');

@@ -228,13 +228,11 @@ function init() {
     if(inputFile2){
         inputFile2.addEventListener('change', mostrarImagen2, false);
     }
-    
 
     var inputFile = document.getElementById('inputFile1');
     if(inputFile){
         inputFile.addEventListener('change', mostrarImagen, false);
     }
-    
 
     var inputFileMod = document.getElementById('inputFileMod');
     if(inputFileMod){
@@ -286,8 +284,7 @@ function removePhotoDiv(number) {
     }
 }
 
-
-    function mostrarImagenMod(event) {
+function mostrarImagenMod(event) {
     //Obtengo el file del input
     var file = event.target.files[0];
     console.log("file", file);
@@ -312,21 +309,17 @@ function removePhotoDiv(number) {
         let indexImage=$("#images_mod")[0].childElementCount;
         console.log('el index de la imagen debe ser', indexImage);
 
-
-
         var htmlTagImage = 
         '<div class="col" id="div_'+indexImage+'">' +
 
-'<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
-'<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
-'Eliminar'+
-'</button>'+
-'</div>';
-$('#images_mod').append(htmlTagImage);
+        '<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
+            '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
+                'Eliminar'+
+            '</button>'+
+        '</div>';
+        $('#images_mod').append(htmlTagImage);
+    }
 }
-}
-
-
 
 
 function mostrarImagen2(event) {
