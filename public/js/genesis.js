@@ -115,7 +115,7 @@ function Eliminar_usuario(){
         success:function(data){
         
             console.log(data);
-            if(data.data==true && data.user.level==10){
+            if(data.data==true && data.user.level>=10){
 
                 
                 var route = "/delete_uss/"+id+"";
@@ -209,7 +209,7 @@ function Eliminar_articulo(){
         processData: false,
         success:function(data){
             console.log(data);
-            if(data.data==true && data.user.level==8){
+            if(data.data==true && data.user.level>=8){
                 var route = "/delete_articulo/"+id+"";
                 var token = $('#token').val();
                 $.ajax({
@@ -400,7 +400,7 @@ function Eliminar_imagen(){
         success:function(data){
             console.log(data);
 
-            if(data.data==true && data.user.level==8){
+            if(data.data==true && data.user.level>=8){
                 
                 console.log("paso data true");
                 var route = "/delete_imagen/"+id+"";
@@ -430,7 +430,7 @@ function Eliminar_imagen(){
 
             }
 
-            if(data.user.level!=8){
+            if(data.user.level<8){
                 swal("No tiene los permisos suficientes para realizar esta acción.");
                 return;
             }

@@ -133,12 +133,14 @@
 									<br>	
 
 									<p></p>
-
-									@if (Auth::guard('client')->user())										
+									
+									@if (Auth::guard('client')->user())
+						
 										<button id="btnFav" class="btn btn-sm btn-primary"
 										@if (count(Auth::guard('client')->user()->favorites->where('article_id',$articulo_part->id))==0)
 											onclick="add_favorite('{{ $articulo_part->id }}', {{count(Auth::guard('client')->user()->favorites)}})" 
 										@endif
+											
 										style="">
 											Agregar a favoritos
 											<i class="fa fa-heart ml-2" 
@@ -146,15 +148,28 @@
 												style="color:red"
 											@endif  aria-hidden="true"></i>
 										</button>
+
 									@endif
+
+									@if (empty(Auth::guard('client')->user()))
+										<button class="btn btn-primary" type="button" onclick="messageLogin()">
+											Agregar a favoritos<i class="fa fa-heart ml-2" aria-hidden="true"></i>
+										</button>
+									@endif
+									
 								</div>
 
 								<div class="col">
 									@isset($articulo_part->categorias[0])
-<button style="border-radius:5px!important;padding:0.5rem" class="btn btn-primary btn-block botonCarta" @if($articulo_part->quantity == 0) disabled @else onclick="agregaCarro('{{ $articulo_part->id }}', '{{ $articulo_part->name }}', 
-										'{{ $articulo_part->categorias[0]->category }}', 
-										{{ $articulo_part->price_in_dolar }},
-										'{{ $articulo_part->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');" @endif>
+										<button style="border-radius:5px!important;padding:0.5rem" class="btn btn-primary btn-block botonCarta" 
+										@if($articulo_part->quantity == 0) 
+											disabled 
+										@else 
+											onclick="agregaCarro('{{ $articulo_part->id }}', '{{ $articulo_part->name }}', 
+											'{{ $articulo_part->categorias[0]->category }}', 
+											{{ $articulo_part->price_in_dolar }},
+											'{{ $articulo_part->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}','{{$articulo_part->quantity}}');" 
+										@endif>
 										<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Agregar al carrito
 									</button>
 									<button style="border-radius:5px!important;padding:0.5rem; background: white !important; color: blue; border: solid 1px blue !important;" class="btn btn-primary btn-block botonCarta" data-toggle="modal" data-target="#modal_realizarOferta">
@@ -350,6 +365,10 @@
 </script>
 <script>
 
+	function messageLogin() {
+		swal('Necesitar iniciar sesión.');
+	}
+	
 	function add_favorite(article_id, cantFavorites) {
 		
 		console.log('cant de Favorites', cantFavorites);

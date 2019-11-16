@@ -2848,7 +2848,7 @@ $.ajax({
 
  function borrarElementoCarrito(a, e, f){
     var token = $('#token').val(); 
-    var route = 'borrarElementoCarrito';
+    var route = '/borrarElementoCarrito';
     var form_data = new FormData();  
     form_data.append('elemento', a);
 
@@ -2918,6 +2918,14 @@ $.ajax({
 
 
 function agregaCarro(id,a,b,c,d, e, f, cantidad){
+
+    console.log('id', id);
+    console.log('articulo', a);
+    console.log('categoria', b);
+    console.log('precio', c);
+    console.log('imagen', d);
+    console.log('cantidad', cantidad);
+
     var token = $('#token').val(); 
     var form_data = new FormData();  
     form_data.append('id', id);
@@ -2926,7 +2934,8 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
     form_data.append('precio', c);
     form_data.append('imagen', d);
     form_data.append('cantidad', cantidad);
-    var route = 'agregaCarro';
+    var route = '/agregaCarro';
+
     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
@@ -2937,7 +2946,7 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
         processData: false,
         success:function(data){
 
-            //console.log(data);
+            console.log(data);
 
             if(data.tipo == 1){
                 swal(data.data);
@@ -2955,6 +2964,8 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
                 badge.empty();
 
                 $.each(data, function(i, item) {
+
+                    console.log("item", item);
                     numero++;
                     i++;
                     acumulado++;
@@ -2966,7 +2977,7 @@ function agregaCarro(id,a,b,c,d, e, f, cantidad){
                     '<td>'+i+'</td>'+
                     '<td>' +
                     '<input type="text" class="id_articulo" value="'+item.id+'" hidden>'+
-                    item.articulo +' || ' + item.category.category +
+                    item.articulo +' || ' + item.categoria +
                     '</td>'+
                     '<td>' + item.cantidad + '</td>'+
                     '<td>' + item.priceTotalBs + ' Bs ('+item.priceUnitedBs+ ' Bs )' +'</td>'+

@@ -1099,8 +1099,6 @@ class WebController extends Controller
 
 		function agregaCarro(Request $request)
 		{	
-			
-			
 			$cantidad = 1;
 			$cantidad_total = $request->cantidad;
 			$carrito = Session::get('carrito');
@@ -1122,7 +1120,6 @@ class WebController extends Controller
 					}
 				}
 			}
-
 
 			$elemento = collect([
 				'id' => $request->id,
