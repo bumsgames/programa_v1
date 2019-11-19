@@ -101,6 +101,7 @@
         },
         {
             "name": "doctrine/cache",
+
             "version": "1.9.1",
             "source": {
                 "type": "git",
@@ -111,6 +112,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/cache/zipball/89a5c76c39c292f7798f964ab3c836c3f8192a55",
                 "reference": "89a5c76c39c292f7798f964ab3c836c3f8192a55",
+
                 "shasum": ""
             },
             "require": {
@@ -180,7 +182,9 @@
                 "riak",
                 "xcache"
             ],
+
             "time": "2019-11-15T14:31:57+00:00"
+
         },
         {
             "name": "doctrine/dbal",

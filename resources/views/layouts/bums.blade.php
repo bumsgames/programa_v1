@@ -334,11 +334,13 @@
           <li><a class="treeview-item" href="{{ url('Articulos_sinPeso') }}"><i class="icon fa fa-circle-o"></i> Juego Digitales Sin Peso</a></li>
 
            <li><a class="treeview-item" href="{{ url('Articulos_masCantidad') }}"><i class="icon fa fa-circle-o"></i> Articulos con mas cantidad</a></li>
+
             <li>
               <a class="treeview-item" href="{{ url('inventario',1) }}">
                 <i class="icon fa fa-circle-o"></i> Inventario
               </a>
             </li>
+
           
         </ul>
       </li>
@@ -356,7 +358,11 @@
                 <i class="icon fa fa-circle-o"></i> {{$ubicacion->nombre_ubicacion}}
               </a>
             </li>
+
           @endforeach
+
+          @endforeach --}}
+
         </ul>
       </li> --}}
       {{-- @if(Auth::user()->level >= 7)

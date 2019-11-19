@@ -80,6 +80,7 @@ class ProgramController extends Controller
 	public function index()
 	{
 
+
 		// $articles_off = \Bumsgames\Article::
 		// selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category,fecha_agotado')
 		// 	->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
@@ -101,6 +102,7 @@ class ProgramController extends Controller
 			->get()->where('quantity','<=',0)->take(25);
 
 			// dd($articles_off);
+
 
 
 			$articulo_agregados_recientemente = \Bumsgames\Article::
@@ -848,6 +850,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 
 	public function actualizar_uss(Request $request)
 	{
+
 		if (isset($request->password)) {
 			$request->request->add(['password' => bcrypt($request->password)]);
 		}
@@ -1434,7 +1437,9 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		// ->get();
 
 		$articles = \Bumsgames\Article::
+
 		selectRaw('articles.id as id,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+
 			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
 			->where('quantity', '>', 0)
@@ -1474,7 +1479,9 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		->select(\DB::raw("*, articles.id as id_articulo"))
 		->groupby('name','categories.id')
 		->where('articles.id', '!=', '2')
+
 		->where('quantity','>',0)
+
 		->get();
 
 		$articles_cantidad = $articles->count();
@@ -2074,7 +2081,9 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 			->where('articles.id', '!=', '2')
 			->orderBy('ultimo_agregado', 'desc')
 			->groupBy('name', 'categories.category')
+
 			->limit(75)
+
 			->get();
 
 		// $articles_off = \Bumsgames\Article::selectRaw('*, name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado')
@@ -2087,6 +2096,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		// ->limit(50)
 		// ->get();
 
+
 			$articles_off = \Bumsgames\Article::
 		selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category,fecha_agotado')
 			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
@@ -2098,6 +2108,8 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 			->get()
 			->where('quantity','<=',0)
 			->take(75);
+
+
 
 
 
@@ -2133,10 +2145,11 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 	}
 
 	public function coincidencia(Request $request)
-	{		
+	
 
 		$coincidencia = \Bumsgames\Client::
 		where('name', 'like', '%' . $request->name_client . '%')
+
 		->where('lastname', 'like', '%' . $request->lastname_client . '%')
 		->ConCedula($request->documento_identidad)
 		->ConNickname($request->nickname)

@@ -15,7 +15,9 @@ class CreateBancoEmisorsTable extends Migration
     {
         Schema::create('banco_emisors', function (Blueprint $table) {
             $table->increments('id');
+
             $table->integer('id_coin')->nullable()->unsigned();            
+
             $table->foreign('id_coin')->references('id')->on('coins')
             ->onDelete('restrict');
             $table->string('titular');

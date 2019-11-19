@@ -486,7 +486,11 @@
         var htmlTagImage = 
         '<div class="col" id="div_'+indexImage+'">' +
 
+<<<<<<< HEAD
 '<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="250" style="object-fit: cover;">'+
+=======
+'<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
+>>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
 '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
 'Eliminar'+
 '</button>'+

@@ -375,7 +375,9 @@ class WebController extends Controller
 
 		$filtrado_cat = 1;
 
+
 		$articulos = \Bumsgames\Article::selectRaw('articles.id,peso,name,fondo,estado,offer_price,price_in_dolar,oferta,quantity,file,sum(quantity) as cantidad')
+
 		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
 		->leftJoin('articles_images', function ($join) {
 			$join->on('articles_images.id', '=', DB::raw('(SELECT id FROM articles_images WHERE articles_images.article_id = articles.id LIMIT 1)'));
@@ -388,7 +390,9 @@ class WebController extends Controller
 		->orderBy('ultimo_agregado', 'desc')
 		->limit(100)
 		->paginate($n_paginacion);
+
 		// ->get();
+
 
 
 
@@ -925,7 +929,7 @@ class WebController extends Controller
 		->where('id_cliente', $user->id)
 		->orderBy('created_at','desc')
 		->get();
-		
+
 
 			$comentarios = DB::table('comment')
 			->where('aprobado', '1')
@@ -946,6 +950,7 @@ class WebController extends Controller
 			->orderBy('id', 'asc')
 			->get();
 			$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
+
 
 			$ventas = \Bumsgames\Venta::
 			where('id_cliente',Auth::guard('client')->user()->id)
@@ -1287,9 +1292,11 @@ function entrega_cliente(Request $request)
 			$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
 			$buscador_ruta = 'lista_escrita';
 
+
 			$categorias_sub = \Bumsgames\Categoria_SubCategoria::All();
 
 			return view('webuser.listaescrita.lista_escrita', compact('categorias_sub','buscador_ruta','id_ordenador','categorias_articulo','agentes_activos','categorias_sub','categorias', 'comentarios', 'articulos', 'coins', 'moneda_actual', 'portal3', 'precio_cliente', 'precio_porcentaje', 'ultimos_vendidos'));
+
 		}
 
 		function lista_escrita2(Request $request)
@@ -1761,8 +1768,10 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 			if (Auth::guard('client')->attempt(['nickname' => $request->nickname, 'password' => $request->password])) {
 				return redirect('/adminpaneluser');
 
+
 			}else if (Auth::guard('client')->attempt(['email' => $request->nickname, 'password' => $request->password])) {
 				return redirect('/adminpaneluser');
+
 
 			}else if (Auth::guard('client')->attempt(['documento_identidad' => $request->nickname, 'password' => $request->password])) {
 				return redirect('/adminpaneluser');
@@ -1901,6 +1910,15 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 		->limit(10)
 		->get();
 
+		$imagenes_articulo = \Bumsgames\Image::
+
+		whereHas('articles', function($q) use($id) {
+			$q->where('articles.id',$id); 
+		})
+		->orderby('numero')
+		->limit(10)
+		->get();
+
 		$categorias = \Bumsgames\Category::All();
 		$coins = \Bumsgames\Coin::where('id', '!=', $id_coin)->get();
 		$moneda_actual = \Bumsgames\Coin::find($id_coin);
@@ -1970,12 +1988,16 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 
 		
 		\Bumsgames\Visita::create(['tipo' => 'General']);
+
 		return view('webuser.article.ver_mas', compact('cantidad_de_articulos','imagenes_articulo','id','articulos_vendidos','clientes','ventas','agentes_activos','categorias_sub','categorias', 'comentarios', 'articulo_part', 'coins', 'moneda_actual', 'title', 'buscador_ruta','ultimos_vendidos','recomendados'));
+
 	}
 
 	
 	//articulo particular
 	public function ver_mas(Request $request){
+
+		dd(1);
 		if (Session::has('id_coin')) {
 			$id_coin = Session::get('id_coin');
 		} else {

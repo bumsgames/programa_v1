@@ -35,6 +35,11 @@ class Client extends Authenticatable
         return $this->hasMany('Bumsgames\Favorite', 'client_id');
     }
 
+    public function mis_articulos()
+    {
+        return $this->hasMany('Bumsgames\Favorite', 'client_id');
+    }
+
     public function scopeConCedula($query, $p)
     {      
 

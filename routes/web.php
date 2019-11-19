@@ -227,8 +227,10 @@ Route::post('/modificar_Articulo', 'ArticleController@modificar_Articulo');
 // WebController 
 //Route::get('/categorias', 'WebController@categorias');
 Route::post('/coincidencia_buscador_inteligente','WebController@coincidencia_buscador_inteligente');
+
 Route::post('/factura_cliente','WebController@factura_cliente');
 Route::post('/entrega_cliente','WebController@entrega_cliente');
+
 Route::get('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos_web_cat/{id}/{categoria?}', 'WebController@articulos_web_cat');
 Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');

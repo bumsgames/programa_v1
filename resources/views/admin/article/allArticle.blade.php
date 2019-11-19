@@ -340,7 +340,9 @@
 									
 									{{-- @if (isset($article->categorias[0]))
 									@if ((strpos($article->categorias[0]->category,'Cuenta') !== false) 
+
 									|| (strpos($article->categorias[0]->category,'Cupo') !== false)) --}}
+
 
 									@if(Auth::user()->level >= 7)
 									<strong>
@@ -381,8 +383,10 @@
 									@endforeach
 									<br>
 									<br>	
+
 									{{-- @endif
 									@endif --}}
+
 									
 									
 									@endif

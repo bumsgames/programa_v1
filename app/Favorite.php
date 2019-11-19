@@ -17,5 +17,6 @@ class Favorite extends Model
     {
         return $this->belongsTo('Bumsgames\Article', 'article_id');
     }
+
     
 }

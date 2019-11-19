@@ -72,7 +72,28 @@
                             Su cuenta no ha sido verificada, verifiquela o en 7 dias sera borrada.
                         </div>
                     @endif
+<<<<<<< HEAD
                     @yield('contenido_cliente')
+=======
+                    <h1 class="panel-title">MIS COMPRAS</h1>
+                    <br>
+                    <table class="table table-shadow">
+                        <thead class="miscomprashead">
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre del producto</th>
+                                <th>Categoria</th>
+                                <th>Fecha de la compra</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+
+>>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
             </div>
         </div>
         </div>

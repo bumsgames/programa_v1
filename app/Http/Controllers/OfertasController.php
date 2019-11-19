@@ -57,7 +57,9 @@ class OfertasController extends Controller
         $offer->oferta = $request->oferta_ofer;
         $offer->estado = 0;
         $offer->Fk_article = $request->art_ofer;
+
         $offer->mensaje = $request->mensaje_cliente;
+
         $offer->client_id = $request->client_id;
         $offer->save();
     

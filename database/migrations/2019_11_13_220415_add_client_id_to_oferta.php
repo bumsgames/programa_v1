@@ -14,7 +14,9 @@ class AddClientIdToOferta extends Migration
     public function up()
     {
         Schema::table('ofertas', function (Blueprint $table) {
+
             $table->integer('client_id')->nullable()->unsigned();
+
 
             $table->foreign('client_id')->references('id')->on('clients')
                 ->onDelete('restrict');
