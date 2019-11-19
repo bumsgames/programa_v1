@@ -48,12 +48,24 @@
 							>
 						</div>
 					</div>
+					
 					<div class="col-12 col-lg">
 						<div class="form-group">
-							<label for=""><strong>Num Contacto</strong></label>
+							<label for=""><strong>Nickname</strong></label>
 							<input class="form-control form-control-sm" 
 							type="text"
-							id="num_contact2" 
+							id="nickname2" 
+							placeholder=""
+							autocomplete="off"
+							>
+						</div>
+					</div>
+					<div class="col-12 col-lg">
+						<div class="form-group">
+							<label for=""><strong>Documento de Identidad</strong></label>
+							<input class="form-control form-control-sm" 
+							type="text"
+							id="documento_identidad2" 
 							placeholder=""
 							autocomplete="off"
 							>
@@ -78,6 +90,7 @@
 								<td>#</td>
 								<td>Cliente</td>
 								<td>Contacto</td>
+								<td>Cedula</td>
 								<td>Nickname</td>
 								<td></td>
 							</tr>

@@ -16,3 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('fotoMultiple', 'ArticleController@fotoMultiple');
+Route::post('fotoMultipleMod', 'ArticleController@fotoMultipleMod');
+
+Route::post('borrarFotoArticulo', 'ArticleController@eliminarFotosArticulo');
+
+Route::post('favorite','OfertasController@store_favorite');

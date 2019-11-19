@@ -14,5 +14,10 @@ class Coin extends Model
 		'valor',
 		'imagen'
 	];
+
+	public function cuentas_bancarias()
+    {
+        return $this->hasMany('Bumsgames\banco_emisor', 'id_coin');
+    }
 }
 

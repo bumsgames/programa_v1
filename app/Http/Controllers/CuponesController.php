@@ -4,6 +4,7 @@ namespace Bumsgames\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Bumsgames\Coupon;
+use Auth;
 
 class CuponesController extends Controller
 {
@@ -19,7 +20,10 @@ class CuponesController extends Controller
         $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
             ->orderby('created_at', 'desc')
             ->get();
-        return view('admin.descuento.create', compact('pago_sin_confirmar', 'comments_por_aprobar', 'tutoriales'));
+
+            $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+            ->get();
+        return view('admin.descuento.create', compact('carrito','pago_sin_confirmar', 'comments_por_aprobar', 'tutoriales'));
     }
 
     //Devuelve el formulario para editar un cupon
@@ -35,7 +39,9 @@ class CuponesController extends Controller
         $comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
             ->orderby('created_at', 'desc')
             ->get();
-        return view('admin.descuento.edit', compact('pago_sin_confirmar', 'comments_por_aprobar', 'cupones', 'tutoriales'));
+            $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+            ->get();
+        return view('admin.descuento.edit', compact('carrito','pago_sin_confirmar', 'comments_por_aprobar', 'cupones', 'tutoriales'));
     }
 
     //Edita un comentario
@@ -86,7 +92,11 @@ class CuponesController extends Controller
             ->get();
         $cupones_cantidad = Coupon::orderby('created_at', 'desc')->get();
         $cupones_cantidad = $cupones_cantidad->count();
-        return view('admin.descuento.cupones', compact('pago_sin_confirmar', 'comments_por_aprobar', 'cupones', 'cupones_cantidad', 'tutoriales'));
+
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+            ->get();
+
+        return view('admin.descuento.cupones', compact('carrito','pago_sin_confirmar', 'comments_por_aprobar', 'cupones', 'cupones_cantidad', 'tutoriales'));
     }
 
     //Elimina el cupon

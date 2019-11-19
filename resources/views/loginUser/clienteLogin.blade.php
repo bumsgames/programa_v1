@@ -6,16 +6,25 @@
 <center>
         <div class="col-12 col-lg-4">
             <div class="container-login">
+
+                @if (session('notification'))
+                    <div class="alert alert-success" role="alert">
+                        {{session('notification')}}
+                    </div>
+                @endif  
                     {{ csrf_field() }}
                     <div class="loginContainer">
                     <img class="img_login" src="{{url('img/log3.png')}}" width="400" />  
+
                     <form method="post" action="{{ url('/login') }}">
-                    {{ csrf_field() }}                
+                        {{ csrf_field() }}                
+                        
                         {!!$errors->first('nickname','<span style="color:white" class="help-block">:message</span>')!!}
  
                         <br>
                         <div class="form-group">
-                            <input type="text" class="form-control loginUser" name="nickname" autocomplete="off" value="{{ old('nickname') }}" placeholder="Nombre de usuario">
+                            <input type="text" class="form-control loginUser" name="nickname" autocomplete="off" value="{{ old('nickname') }}" 
+                            placeholder="Ingrese nombre de usuario, email o numero de cédula">
                         </div>                       
                          {!!$errors->first('password','<span class="help-block">:message</span>')!!}
                        
@@ -36,8 +45,10 @@
                         <br>
                         
                         <div class="col">
-                            <button class="btn btn-primary btnbuscar" data-toggle="modal" data-target="#sirveReg">¿Para que sirve estar registrado?</button>
-                        <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#modalReg">Registrate</button>
+                            <button class="btn btn-primary btnregistrar" data-toggle="modal" data-target="#sirveReg">¿Para que sirve estar registrado?</button>
+                            <a class="btn btn-primary btnregistrar" href="{{ url('/register')}}">
+                                Registrate
+                            </a>
                         </div>
 
                     </div>

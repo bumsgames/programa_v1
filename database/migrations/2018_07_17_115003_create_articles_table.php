@@ -25,9 +25,9 @@ class CreateArticlesTable extends Migration
             $table->foreign('category')->references('id')
             ->on('categories')
             ->onDelete('restrict');
-            $table->integer('price_in_dolar')->default(0);
-            $table->integer('offer_price')->default(0);
-            $table->integer('peso')->default(0);
+            $table->float('price_in_dolar')->default(0);
+            $table->float('offer_price')->default(0);
+            $table->float('peso')->default(0);
             $table->integer('quantity')->default(1)->unsigned();
             $table->integer('oferta')->default(0);
         
@@ -35,8 +35,9 @@ class CreateArticlesTable extends Migration
             $table->string('password', 100)->default('No vender sin colocar la clave')->nullable();
             $table->string('nickname', 100)->default('No vender sin colocar nickname')->nullable();
             $table->timestamp('ultimo_agregado', 100)->nullable();
+            $table->timestamp('fecha_agotado', 100)->nullable();
             $table->date('reset_button', 100)->nullable();
-            $table->string('note', 300)->nullable();
+            $table->longtext('note', 300)->nullable();
             $table->string('image', 200)->default('nada.jpg');
             $table->string('fondo', 200)->default('fondo_nada.jpg');
             $table->timestamps();

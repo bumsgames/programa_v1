@@ -11,6 +11,5 @@ class Articulo_Categoria extends Model
     protected $fillable = [
         'id_articulo',
         'id_categoria',
-
     ];
 }

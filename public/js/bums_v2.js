@@ -86,11 +86,28 @@ $( "#buscador" ).on('keyup', function() {
 
 $("#selcat").on( "change", function(){
     $('.prod').show();
+
+    if($( "#selcat option:selected" ).text()=='No filtrar'){
+        $('.prod').show();
+        return;
+    }
+
     $('.prod').filter(function(){
-        return !($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar').text());
+        spans = $(this).find('.catefiltrar span');
+        let aux = 0;
+        for (let index = 0; index < spans.length; index++) {
+            //console.log(spans[index].textContent);
+            if(($( "#selcat option:selected" ).text() === spans[index].textContent)){
+                aux++
+            }
+        }
+        if(aux>0){
+            return false;
+        }
+        return !($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar span').text());
     }).hide();
     $('.prod').filter(function(){
-        return ($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar').text());
+        return ($( "#selcat option:selected" ).text() === $(this).find('.catefiltrar span').text());
     }).show();
 });
 
@@ -101,6 +118,15 @@ $("#seldu").on( "change", function(){
     $('.prod').filter(function(){
         return ($( "#seldu option:selected" ).text() === $(this).find('.dufiltrar').text());
     }).show();
+});
+
+$("#oferta").on( "change", function(){
+    if($("#oferta option:selected").text() == 'Si'){
+        $('#offer_price_div').css('display','block');
+    }else{
+        $('#offer_price_div').css('display','none');
+        $("#offer_price").val(null);
+    }
 });
 
 $("#correofiltro").on('keyup', function() {
@@ -370,7 +396,8 @@ function comprotodolleno80(){
         && $('#cedula_titular').val().length >= 1 
         && $('#referencia').val().length >= 1 
         && Date.parse($('#fecha').val()) 
-        && $('#image')[0].files.length != 0){
+        ){
+        // && $('#image')[0].files.length != 0
         return true;
 }
 else{
@@ -409,7 +436,7 @@ function comprocontinuar80(){
 $('#category_btn').click(function(){
     $('#dropanchor').trigger('click');
     $("#down_icon").toggleClass('fa-chevron-down').toggleClass('fa-chevron-up');
-})
+});
 
 function oferta_filt_show(){
     if($('#oferta_filt').is(':checked')){

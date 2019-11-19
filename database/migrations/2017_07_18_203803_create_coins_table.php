@@ -19,6 +19,7 @@ class CreateCoinsTable extends Migration
             $table->string('sign', 100);
             $table->string('imagen', 100)->nullable();
             $table->integer('valor');
+            $table->integer('active')->unsigned();
 
             $table->timestamps();
         });

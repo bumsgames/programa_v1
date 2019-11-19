@@ -23,10 +23,11 @@ Route::resource('/logloglog','BumsUserController');
 Route::post('/crear_usuario','BumsUserController@crear_usuario');
 Route::post('/actualizar_user','BumsUserController@actualizar_user');
 Route::post('/logueo','BumsUserController@logueo');
+Route::post('/verifyPass','BumsUserController@verifyPass');
 
 // ProgramController GET
 Route::get('/factura/{id}','ProgramController@factura');
-Route::get('/ventas','ProgramController@ventas')->name('ventas');
+Route::get('/ver_ventas','ProgramController@ver_ventas');
 Route::get('/mostrar_ventas','ProgramController@mostrar_ventas');
 Route::get('/buscador_inteligente','ProgramController@buscador_inteligente');
 Route::get('/mostrar_ventas2','ProgramController@mostrar_ventas2');
@@ -66,6 +67,7 @@ Route::get('/menu','ProgramController@index')->name('menu');
 Route::get('/menu_usuario','ProgramController@menu_usuario');
 Route::get('/formulario_registrar_articulo','ProgramController@formulario_registrar_articulo');
 Route::get('/allArticles','ProgramController@allArticle');
+Route::get('/inventario/{id}','ProgramController@inventarioList');
 Route::get('/misArticles','ProgramController@misArticles');
 Route::get('articles_web','ProgramController@articles_web');
 Route::get('/movimientos_tipo_banco_tuyos', 'ProgramController@movimientos_tipo_banco_tuyos');
@@ -78,6 +80,7 @@ Route::get('/portal','ProgramController@portal');
 Route::get('modo_ml','ProgramController@modo_ml');
 Route::get('misArticles_lista_escrita','ProgramController@misArticles_lista_escrita');
 Route::get('facuracion_coin', 'WebController@facuracion_coin');
+Route::get('probando', 'WebController@probando');
 // Route::get('/entrega/{nombre_cliente}/{apellido_cliente}/{articulo}/{email}/{password}/{category_id}',function($nombre_cliente, $apellido_cliente,$articulo,$email,$password,$category_id){
 // 	return view('entrega', compact('nombre_cliente','apellido_cliente','articulo','email','password','category_id'));
 // });
@@ -93,9 +96,12 @@ Route::get('/tutorial/eliminar/{id}','ProgramController@eliminarTutorial');
 Route::post('/tutorial/eliminarmodal/{id}','ProgramController@eliminarmodal');
 Route::get('/tutorial/editar/{id}','ProgramController@editarTutorial');
 Route::get('/descripcionArticulo/{id}','ProgramController@DescripcionArticulo');
+Route::get('/Articulos_masCantidad','ProgramController@articulos_masCantidad');
+Route::get('/ver_manual','ProgramController@ver_manual');
+
 
 // ProgramController POST
-Route::post('/coincidencia_buscador_inteligente','ProgramController@coincidencia_buscador_inteligente');
+// Route::post('/coincidencia_buscador_inteligente','ProgramController@coincidencia_buscador_inteligente');
 Route::post('/registrar_cuenta','ProgramController@registrar_cuenta');
 Route::post('/registrar_orden','ProgramController@registrar_orden');
 Route::post('/coincidencia','ProgramController@coincidencia');
@@ -108,8 +114,12 @@ Route::post('/colocar_comision','ProgramController@colocar_comision');
 Route::post('/realizar_modificacion','ProgramController@modificacion_rapida');
 Route::post('/realizar_modificacion_cliente','ProgramController@realizar_modificacion_cliente');
 Route::post('/agregaCarro_admin','ProgramController@agregaCarro_admin');
+Route::post('/deleteCart_admin','ProgramController@deleteCart_admin');
 Route::post('/eliminaTodoCarro_admin','ProgramController@deleteAllCart_admin');
-
+Route::post('/filtrar_ventas_v2','ProgramController@filtrar_ventas_v2');
+Route::post('/delete_venta_v2/{id}','ProgramController@delete_venta_v2');
+Route::post('/imagenes', 'ProgramController@upload');
+Route::get('/proyecto/imagenes', 'ProgramController@upload');
 
 
 Route::post('/guardar_reporte','ProgramController@guardar_reporte');
@@ -151,6 +161,8 @@ Route::get('/Arecibir','HomeworkController@envios_actuales_recibir');
 Route::get('/imagenes','HomeworkController@imagenes');
 
 
+
+
 // HomeWorkController POST
 Route::post('/homeworkAdd','HomeworkController@store');
 Route::post('/homeworkEdit/{id}','HomeworkController@update2');
@@ -169,22 +181,67 @@ Route::post('/delete_account/{id}','HomeworkController@destroyAcc');
 Route::post('/add_envios','HomeworkController@add_envios');
 Route::post('/add_imagenes','HomeworkController@add_imagenes');
 
+// GENESIS CONTROLLER
+Route::get('/ubicacion','geneController@ubicacion');
+Route::post('/agg_ubicacion','geneController@agg_ubicacion');
+Route::post('/del_ubicacion','geneController@del_ubicacion');
+Route::post('/mod_ubicacion','geneController@mod_ubicacion');
+Route::post('/modif_ubicacion','geneController@modif_ubicacion');
+
+//Controladores de Banco emisor
+Route::get('/bancoEmisor','geneController@bancoEmisor');
+
+Route::post('/agg_bancoE','geneController@agg_bancoE');
+Route::post('/del_bancos','geneController@del_bancos');
+Route::post('/mod_bancos','geneController@mod_bancos');
+Route::post('/modif_banco','geneController@modif_banco');
+
+//Controlador para categorias
+Route::get('/categorias','geneController@categorias');
+Route::post('/agg_categorias','geneController@agg_categorias');
+Route::post('/del_categorias','geneController@del_categorias');
+Route::post('/mod_categorias','geneController@mod_categorias');
+Route::post('/categorias_mod','geneController@categorias_mod');
+
+//Controlador sub_categorias
+Route::get('/sub_categorias','geneController@sub_categorias');
+Route::post('/agg_subCategorias','geneController@agg_subCategorias');
+Route::post('/del_subCategorias','geneController@del_subCategorias');
+Route::post('/mod_subCategorias','geneController@mod_subCategorias');
+Route::post('/modif_subCategorias','geneController@modif_subCategorias');
+
+//Controlador para moneda 
+Route::get('/monedas','geneController@monedas');
+
+
+
+//Cierre Genesis
+
+
 // ArticleController
 Route::resource('/registrar_articulo', 'ArticleController');
 Route::post('/modificar_Articulo', 'ArticleController@modificar_Articulo');
 
 
+
 // WebController 
 //Route::get('/categorias', 'WebController@categorias');
+Route::post('/coincidencia_buscador_inteligente','WebController@coincidencia_buscador_inteligente');
+Route::post('/factura_cliente','WebController@factura_cliente');
+Route::post('/entrega_cliente','WebController@entrega_cliente');
 Route::get('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos_web_cat/{id}/{categoria?}', 'WebController@articulos_web_cat');
 Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');
 Route::get('/send','ChatController@send2');
 Route::get('/lista_escrita', 'WebController@lista_escrita');
+Route::get('/prueba_lista_escrita', 'WebController@prueba_lista_escrita');
 Route::get('/articulos_oferta', 'WebController@articulos_oferta');
 Route::get('/articulos_oferta_opc', 'WebController@articulos_oferta_opc');
 Route::get('/ayuda', 'WebController@ayuda');
 Route::get('/adminpaneluser', 'WebController@adminpaneluser');
+Route::get('/ver_ofertas_clientes', 'WebController@ver_ofertas_clientes');
+Route::get('/mis_juegos_digitales', 'WebController@mis_juegos_digitales');
+Route::get('/favoritos_cliente', 'WebController@favoritos_cliente');
 Route::get('/categoria_general/{categoria}', 'WebController@categoria_general');
 Route::get('/prueba2', 'ControllerPrimary@index');
 Route::get('/lala', 'WebController@lala');
@@ -195,6 +252,12 @@ Route::get('/categoria_general','WebController@categoria_general');
 Route::get('/articulos', 'WebController@articulos');
 Route::get('/articulos2', 'WebController@articulos2');
 Route::get('/orden_a_pagar', 'WebController@orden_a_pagar');
+Route::get('/categoria/{id}', 'WebController@categoria');
+Route::get('/subcategoria/{id}','WebController@subcategoria');
+Route::get('/zona_prueba','WebController@zona_prueba');
+Route::post('/upload','ProgramController@upload');
+
+
 
 
 // WebControllerPost
@@ -207,6 +270,8 @@ Route::post('/articulos_oferta', 'WebController@articulos_oferta');
 Route::post('/articulos/{categoria}', 'WebController@articulos');
 Route::post('/categoria_general/{categoria}', 'WebController@categoria_general');
 Route::get('/prueba', 'WebController@prueba');
+Route::get('/n_paginacion', 'WebController@n_paginacion');
+Route::get('/cambio_ordenador', 'WebController@cambio_ordenador');
 Route::get('/buscar_articulo_bums', 'WebController@buscar_articulo_bums');
 Route::post('/agregaCarro','WebController@agregaCarro');
 Route::post('/categoria_general','WebController@categoria_general');
@@ -214,12 +279,19 @@ Route::post('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos', 'WebController@articulos');
 Route::post('/reportar_pago', 'WebController@reportar_pago');
 Route::post('/articulos', 'WebController@articulos');
+Route::get('/filtros_prueba', 'WebController@filtros_prueba');
+Route::post('/filtros_prueba', 'WebController@filtros_prueba');
 
-// Cliente Login Get
+Route::get('/register/verify/{code}', 'WebController@verify');
+
+// Cliente fofe Get
 Route::get('/login','WebController@login');
+Route::get('/register','WebController@register');
 
 // Cliente Login Post
 Route::post('/login','WebController@loginAuth');
+Route::post('/register','WebController@registerAuth');
+
 //Cliente Logout
 Route::get('/logout_user','WebController@logout');
 
@@ -262,6 +334,7 @@ Route::get('/cupones/eliminar/{id}','CuponesController@eliminar');
 */
 //Retorna la vista de un producto en especifico
 Route::post('/ver_mas','WebController@ver_mas');
+Route::get('/ver_mas/{id}','WebController@publicacion');
 
 //Retorna los articulos agotados
 Route::post('/agotados','WebController@Art_agotados');
@@ -344,6 +417,9 @@ Route::get('/ofertas_cliente/rechazar/{id}','OfertasController@RechazarOferta');
 Route::post('/ofertas_cliente/crear','OfertasController@store');
 Route::post('/ofertas_cliente','OfertasController@store_oferta');
 
+//Favoritos
+Route::post('/favorite','OfertasController@store_favorite');
+
 /*
 -------------------------------
 		Correo
@@ -359,6 +435,9 @@ Route::get('mailpago','mailController@EnviarPago');
 
 //Articulos sin imagenes
 Route::get('/articulosSinImagen','ProgramController@Articulos_Sin_Imagen');
+
+Route::get('/Articulos_sinCategoria','ProgramController@Articulos_sinCategoria');
+Route::get('/Articulos_sinPeso','ProgramController@Articulos_sinPeso');
 
 //Agregar imagen
 Route::post('/actualizarImagen/{id}','ProgramController@Actualizar_Imagen');

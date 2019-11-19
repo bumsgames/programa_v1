@@ -15,9 +15,20 @@ class BumsUser extends Authenticatable
 
     protected $guard = 'admin';
 
-
     protected $fillable = [
-        'name', 'lastname', 'nickname', 'email', 'level', 'image', 'password'
+        'name', 
+        'lastname', 
+        'nickname', 
+        'email', 
+        'level', 
+        'image', 
+        'password', 
+        'porcentaje_ventaPropia', 
+        'porcentaje_ventaParcial', 
+        'porcentaje_ventaAjena',
+        'porcentaje_ventaPorOtraPersona',
+        'telefono',
+        'active'
     ];
 
     public function setImageAttribute($image)
@@ -30,5 +41,12 @@ class BumsUser extends Authenticatable
     public function misArticulo()
     {
         return $this->belongsToMany('Bumsgames\Article');
+    }
+
+    public function scopeDueño($query, $p)
+    {   
+        if ($p != "0") {
+            return $query->where('id_bumsuser', $p);
+        }
     }
 }

@@ -5,12 +5,9 @@
 <main class="app-content">
 	<div class="app-title">
 		<div>
-			<h1><i class="fa fa-dashboard"></i> Creando articulo</h1>
+			<h1><i class="fa fa-dashboard"></i> Modificando Articulo</h1>
 		</div>
-		<ul class="app-breadcrumb breadcrumb">
-			<li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-			<li class="breadcrumb-item"><a href="#">Creando articulo</a></li>
-		</ul>
+
 	</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -28,7 +25,6 @@
 					<br>
 					<br>
 					<div class="row">
-
 						<div class="col-12 col-lg">
 							<div class="form-group">
 								<label for=""><strong>Creado por:</strong></label>
@@ -130,7 +126,7 @@
 													<input type="text" class="form-control form-control-sm categoria_marca num_cat" readonly value='{{$category->id}}'>
 												</td>
 												<td>
-													<input type="text" class="form-control form-control-sm" readonly value='{{$category->category}}'>
+													<input type="text" class="form-control form-control-sm categoria_nombre" readonly value='{{$category->category}}'>
 												</td>
 												<td>
 													<button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" 
@@ -306,7 +302,9 @@
 							<label for=""><strong>- Ubicacion del Articulo</strong></label>
 							<select class="form-control form-control-sm" name="ubicacion" id="ubicacion">
 								@foreach ($ubicaciones as $ubicacion)
-									<option value="{{$ubicacion->id}}" {{ ( $ubicacion->id == $articulo->ubicacion) ? 'selected' : '' }}>{{$ubicacion->nombre_ubicacion}}</option>
+									<option value="{{$ubicacion->id}}" {{ ( $ubicacion->id == $articulo->ubicacion) ? 'selected' : '' }}>
+										{{$ubicacion->nombre_ubicacion}}
+									</option>
 								@endforeach
 							</select>
 						</div>
@@ -357,12 +355,34 @@
 								</strong>
 							</label>
 							<div class="custom-file">
-								<input name="image" id="inputFile2" type="file" class="custom-file-input" lang="es">
+								<input name="image" id="inputFileMod" type="file" class="custom-file-input" lang="es" accept="image/*">
 								<label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
 							</div>
 							<br>
 							<br>
-							<img id="img2" width="175" src="img/{{ $articulo->fondo }}"><br/>
+							
+						</div>
+						<div class="row" id="images_mod">
+							@php
+								$p=0;
+							@endphp
+							@foreach ($articulo->images as $image)
+
+								<div class="col" id="div_{{$p}}">
+									
+									<img id="img_{{$p}}" class="img"  src="img/{{ $image->file }}" 
+										style="object-fit: cover;" height="250">
+										<br>	
+									<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"
+									Onclick="removePhotoDiv({{$p}});">
+										Eliminar
+									</button>
+									
+								</div>
+								@php
+									$p++;
+								@endphp
+							@endforeach
 						</div>
 					</div>
 				</div>
@@ -389,8 +409,10 @@
 
 </main>
 
+
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script>
+
 	$(function () {
 		$(document).on('click', '.borrar', function (event) {
 			event.preventDefault();
@@ -426,6 +448,52 @@
 		$('#counter').text(len);
 	  }
 	};
+
+	var inputFileMod = document.getElementById('inputFileMod');
+    if(inputFileMod){
+    	
+        inputFileMod.addEventListener('change', mostrarImagenMod, false);
+    }
+
+    function mostrarImagenMod(event) {
+
+    //Obtengo el file del input
+    var file = event.target.files[0];
+    console.log("file", file);
+
+    //Creo un objeto de la nueva foto que coloque e ira en memoria
+    let image = {
+        index:$("#images_mod")[0].childElementCount,
+        name:file.name
+    }
+
+    //Guardo en memoria la foto nueva que agrego
+    fotosMod.push(image);
+    console.log('fotos guardada en memoria', fotosMod);
+    
+    //Agrego la nueva foto en el Front
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => { 
+        //console.log(event);    
+        prueba = event.target.result
+        
+        let indexImage=$("#images_mod")[0].childElementCount;
+        console.log('el index de la imagen debe ser', indexImage);
+
+
+
+        var htmlTagImage = 
+        '<div class="col" id="div_'+indexImage+'">' +
+
+'<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="250" style="object-fit: cover;">'+
+'<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
+'Eliminar'+
+'</button>'+
+'</div>';
+$('#images_mod').append(htmlTagImage);
+}
+}
   </script>
 
 

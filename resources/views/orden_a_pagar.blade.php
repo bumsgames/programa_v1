@@ -49,6 +49,8 @@ hr {
 	background: url('https://www.cognizant.com/content/dam/cognizant_foundation/images/loading.gif') 50% 50% no-repeat rgb(255,255,255);
 	opacity: .8;
 }
+
+
 </style>
 
 </head>
@@ -95,15 +97,15 @@ hr {
 						@endforeach
 						@endif
 						<?php 
-							if(isset($coupon))
-								$precio -= $coupon->descuento; ?>
+						if(isset($coupon))
+							$precio -= $coupon->descuento; ?>
 						<div id="1">
 							<h1>Facturacion</h1>
 							<hr>
 							<p>Esta orden expira en 30 minutos. (Los contactaremos via What'sApp lo antes posible una vez procesado su pago).</p>
-								
-							<h3>Cuentas Bancarias:</h3>
-					
+
+							<h2>OPCIONES DE PAGO</h2>
+
 							<div class="panel-group" id="accordion">
 								<div class="panel panel-default">
 									<a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
@@ -115,27 +117,27 @@ hr {
 										</div>
 									</a>
 									<div id="collapse1" class="panel-collapse collapse in">
-									<div class="panel-body">
-									<table class="table">
-										<thead>
-										<tr>
-											<th>Titular</th>
-											<th>CI</th>
-											<th>Cuenta</th>
-											<th>Numero de cuenta</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<th>David Salazar</th>
-											<th>24559480</th>
-											<th>Corriente</th>
-											<th>01340946310001457909</th>
-										</tr>
+										<div class="panel-body">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>Titular</th>
+														<th>CI</th>
+														<th>Cuenta</th>
+														<th>Numero de cuenta</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th>David Salazar</th>
+														<th>24559480</th>
+														<th>Corriente</th>
+														<th>01340946310001457909</th>
+													</tr>
 
-										</tbody>
-									</table>
-									</div>
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 								<div class="panel panel-default">
@@ -147,27 +149,27 @@ hr {
 										</div>
 									</a>
 									<div id="collapse2" class="panel-collapse collapse">
-									<div class="panel-body">
-									<table class="table">
-										<thead>
-										<tr>
-											<th>Titular</th>
-											<th>CI</th>
-											<th>Cuenta</th>
-											<th>Numero de cuenta</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<th>Angel Duarte</th>
-											<th>24559480</th>
-											<th>Corriente</th>
-											<th>01080093510100154126</th>
-										</tr>
+										<div class="panel-body">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>Titular</th>
+														<th>CI</th>
+														<th>Cuenta</th>
+														<th>Numero de cuenta</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th>Angel Duarte</th>
+														<th>24559480</th>
+														<th>Corriente</th>
+														<th>01080093510100154126</th>
+													</tr>
 
-										</tbody>
-									</table>
-									</div>
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 								<div class="panel panel-default">
@@ -179,189 +181,189 @@ hr {
 										</div>
 									</a>
 									<div id="collapse3" class="panel-collapse collapse">
-									<div class="panel-body">	
-									<table class="table">
-										<thead>
-										<tr>
-											<th>Titular</th>
-											<th>CI</th>
-											<th>Cuenta</th>
-											<th>Numero de cuenta</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<th>Sulay Salazar</th>
-											<th>10388731</th>
-											<th>Corriente</th>
-											<th>01050047801047427362</th>
-										</tr>
-
-										</tbody>
-									</table></div>
-									</div>
-								</div>
-								<div class="panel panel-default">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-										<div class="panel-heading">
-											<h4 class="panel-title">										
-												Banco de Venezuela <img src="img/bdv.png" alt="" height="30">
-											</h4>
-										</div>
-									</a>
-									<div id="collapse4" class="panel-collapse collapse">
 										<div class="panel-body">	
-										<table class="table">
-											<thead>
-											<tr>
-												<th>Titular</th>
-												<th>CI</th>
-												<th>Cuenta</th>
-												<th>Numero de cuenta</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr>
-												<th>Sulay Salazar</th>
-												<th>10388731</th>
-												<th>Corriente</th>
-												<th>01020427570000222668</th>
-											</tr>
+											<table class="table">
+												<thead>
+													<tr>
+														<th>Titular</th>
+														<th>CI</th>
+														<th>Cuenta</th>
+														<th>Numero de cuenta</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th>Sulay Salazar</th>
+														<th>10388731</th>
+														<th>Corriente</th>
+														<th>01050047801047427362</th>
+													</tr>
 
-											</tbody>
-										</table>
+												</tbody>
+											</table></div>
 										</div>
 									</div>
-								</div>
-								<div class="panel panel-default">
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
-										<div class="panel-heading">
-											<h4 class="panel-title">										
-												BNC <img src="img/bnc.png" alt="" height="30">
-											</h4>
-										</div>
-									</a>
-									<div id="collapse5" class="panel-collapse collapse">
-									<div class="panel-body">	
-										<table class="table">
-											<thead>
-											<tr>
-												<th>Titular</th>
-												<th>CI</th>
-												<th>Cuenta</th>
-												<th>Numero de cuenta</th>
-											</tr>
-											</thead>
-											<tbody>
-											<tr>
-												<th>Alejandro Duarte</th>
-												<th>28530657</th>
-												<th>Ahorro</th>
-												<th>01910047261047026977</th>
-											</tr>
+									<div class="panel panel-default">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+											<div class="panel-heading">
+												<h4 class="panel-title">										
+													Banco de Venezuela <img src="img/bdv.png" alt="" height="30">
+												</h4>
+											</div>
+										</a>
+										<div id="collapse4" class="panel-collapse collapse">
+											<div class="panel-body">	
+												<table class="table">
+													<thead>
+														<tr>
+															<th>Titular</th>
+															<th>CI</th>
+															<th>Cuenta</th>
+															<th>Numero de cuenta</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<th>Sulay Salazar</th>
+															<th>10388731</th>
+															<th>Corriente</th>
+															<th>01020427570000222668</th>
+														</tr>
 
-											</tbody>
-										</table>
-									</div>
-									</div>
-								</div>
-								<div class="panel panel-default">
-									<a data-toggle="collapse">
-										<div class="panel-heading">
-											<h5 class="panel-title">										
-												PUEDE REALIZAR EL PAGO MEDIANTE OTROS MEDIOS (CONTACTE UN AGENTE BUMSGAMES)
-												<img src="img/paypal.png" alt="" height="30"> <img src="img/mp.jpg" alt="" height="30">
-												<img src="img/airtm.png" alt="" height="30">
-												<img src="img/localbitcoins.png" alt="" height="30">
-											</h5>
+													</tbody>
+												</table>
+											</div>
 										</div>
-									</a>
+									</div>
+									<div class="panel panel-default">
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+											<div class="panel-heading">
+												<h4 class="panel-title">										
+													BNC <img src="img/bnc.png" alt="" height="30">
+												</h4>
+											</div>
+										</a>
+										<div id="collapse5" class="panel-collapse collapse">
+											<div class="panel-body">	
+												<table class="table">
+													<thead>
+														<tr>
+															<th>Titular</th>
+															<th>CI</th>
+															<th>Cuenta</th>
+															<th>Numero de cuenta</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<th>Alejandro Duarte</th>
+															<th>28530657</th>
+															<th>Ahorro</th>
+															<th>01910047261047026977</th>
+														</tr>
+
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-default">
+										<a data-toggle="collapse">
+											<div class="panel-heading">
+												<h5 class="panel-title">										
+													PUEDE REALIZAR EL PAGO MEDIANTE OTROS MEDIOS (CONTACTE UN AGENTE BUMSGAMES)
+													<img src="img/paypal.png" alt="" height="30"> <img src="img/mp.jpg" alt="" height="30">
+													<img src="img/airtm.png" alt="" height="30">
+													<img src="img/localbitcoins.png" alt="" height="30">
+												</h5>
+											</div>
+										</a>
+									</div>
 								</div>
-							</div>
-							<br>
-							<br>
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th scope="col"># Orden</th>
-										<th scope="col">Creada</th>
-										<th scope="col">Vence</th>
-										<th scope="col">Monto</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td># {{ $ultimo_pago + 1 }}</td>
-										<td>{{ $date->day }} / {{ $date->month }} / {{ $date->year }}</td>
-										<td>{{ $date->day }} / {{ $date->month }} / {{ $date->year }}</td>
-										<td id="total"><strong>{{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong></td>
-									</tr>
-									@if(!isset($coupon))
-							
-									<form method="post" action="/canjear/{{$precio}}">
-										{{ csrf_field() }}
+								<br>
+								<br>
+								<table class="table table-bordered">
+									<thead>
 										<tr>
-											<td></td>
-											<td class="cupon">Tengo un cupon:</td>
-											<td> <div class="form-group"><input name="cupon" type="text" class="form-control cuponinput" id="cupon" maxlength="12" autocomplete="off" placeholder="Codigo del cupon"> </div>    </td>
-											<td><button disabled id="cuponbtn" type="submit" class="btn btn-success">Canjear</button></td>
-										</tr>	
-									</form>
-									@endif
-							
-								</tbody>
+											<th scope="col"># Orden</th>
+											<th scope="col">Creada</th>
+											<th scope="col">Vence</th>
+											<th scope="col">Monto</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td># {{ $ultimo_pago + 1 }}</td>
+											<td>{{ $date->day }} / {{ $date->month }} / {{ $date->year }}</td>
+											<td>{{ $date->day }} / {{ $date->month }} / {{ $date->year }}</td>
+											<td id="total"><strong>{{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong></td>
+										</tr>
+										@if(!isset($coupon))
 
-							</table>
-							@if(isset($coupon) )
-							<div>
-								<h4>Cupon canjeado con exito por la cantidad de: {{ number_format($coupon->descuento * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</h4>
-							</div>
-							<input id="coupon" type="hidden" value="{{$coupon->id}}">
-							@endif
-							{!!$errors->first('cupon','<h4 class="help-block">:message</h4>')!!}
+										<form method="post" action="/canjear/{{$precio}}">
+											{{ csrf_field() }}
+											<tr>
+												<td></td>
+												<td class="cupon">Tengo un cupon:</td>
+												<td> <div class="form-group"><input name="cupon" type="text" class="form-control cuponinput" id="cupon" maxlength="12" autocomplete="off" placeholder="Codigo del cupon"> </div>    </td>
+												<td><button disabled id="cuponbtn" type="submit" class="btn btn-success">Cadsdsaanjear</button></td>
+											</tr>	
+										</form>
+										@endif
 
-						</div>
-						<div id="2">
-							<h1>Datos del Comprador</h1>
-							<hr>
-							<small class="form-text text-muted">Entrega de juegos digitales 10 mins a 90 mins luego del pago - Entregas personales colocarlo en nota.</small>
-							<br>	
+									</tbody>
 
-							<div class="form-row">
-								<div class="form-group col-md-4">
-									<label for="inputEmail4"><strong>Nombre</strong></label>
-									<input type="text" class="form-control letras" id="name" maxlength="30" autocomplete="off">
+								</table>
+								@if(isset($coupon) )
+								<div>
+									<h4>Cupon canjeado con exito por la cantidad de: {{ number_format($coupon->descuento * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</h4>
 								</div>
-								<div class="form-group col-md-4">
-									<label for="inputPassword4"><strong>Apellido</strong></label>
-									<input type="text" class="form-control letras" id="lastname" maxlength="30" autocomplete="off">
-								</div>
-								<div class="form-group col-md-4">
-									<img src="img/ws.png" height="35" alt="">
-									<label for="inputPassword4"><strong>Numero de WhatsApp</strong></label>
-									<input type="text" class="form-control ws"	id="ws" maxlength="25" autocomplete="off">
-									<small class="form-text text-muted">Solo nos comunicamos a traves de WhatsApp.</small>
-								</div>
+								<input id="coupon" type="hidden" value="{{$coupon->id}}">
+								@endif
+								{!!$errors->first('cupon','<h4 class="help-block">:message</h4>')!!}
+
 							</div>
-							<div class="form-group">
-								<label for="exampleFormControlTextarea1"><strong>Nota adicional.</strong></label>
-								<textarea id="nota_adicional" class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3"></textarea>
-							</div>
-							<div id="envio">
-								<div class="form-group">
-									<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="gridCheck">
-										<label class="form-check-label" for="gridCheck">
-											Incluye envio (Solo articulos fisicos).
-										</label>
-										<small class="form-text text-muted">Solo hacemos envios en Venezuela - Los envios se hacen 1 o 2 dias habiles luego de su respectivo pago.</small>
+							<div id="2">
+								<h1>Datos del Comprador</h1>
+								<hr>
+								<small class="form-text text-muted">Entrega de juegos digitales 10 mins a 90 mins luego del pago - Entregas personales colocarlo en nota.</small>
+								<br>	
+
+								<div class="form-row">
+									<div class="form-group col-md-4">
+										<label for="inputEmail4"><strong>Nombre</strong></label>
+										<input type="text" class="form-control letras" id="name" maxlength="30" autocomplete="off">
+									</div>
+									<div class="form-group col-md-4">
+										<label for="inputPassword4"><strong>Apellido</strong></label>
+										<input type="text" class="form-control letras" id="lastname" maxlength="30" autocomplete="off">
+									</div>
+									<div class="form-group col-md-4">
+										<img src="img/ws.png" height="35" alt="">
+										<label for="inputPassword4"><strong>Numero de WhatsApp</strong></label>
+										<input type="text" class="form-control ws"	id="ws" maxlength="25" autocomplete="off">
+										<small class="form-text text-muted">Solo nos comunicamos a traves de WhatsApp.</small>
 									</div>
 								</div>
-								<div id="form-envio">
-									<hr>	
-									<h4>Datos de envio</h4>
-									<hr>
-									<br>	
+								<div class="form-group">
+									<label for="exampleFormControlTextarea1"><strong>Nota adicional.</strong></label>
+									<textarea id="nota_adicional" class="form-control rounded-0" id="exampleFormControlTextarea1" rows="3"></textarea>
+								</div>
+								<div id="envio">
+									<div class="form-group">
+										<div class="form-check">
+											<input class="form-check-input" type="checkbox" id="gridCheck">
+											<label class="form-check-label" for="gridCheck">
+												Incluye envio (Solo articulos fisicos).
+											</label>
+											<small class="form-text text-muted">Solo hacemos envios en Venezuela - Los envios se hacen 1 o 2 dias habiles luego de su respectivo pago.</small>
+										</div>
+									</div>
+									<div id="form-envio">
+										<hr>	
+										<h4>Datos de envio</h4>
+										<hr>
+										<br>	
 									{{-- <div class="form-group">
 										<div class="form-check">
 											<input class="form-check-input" type="checkbox" id="gridCheck">
@@ -450,7 +452,7 @@ hr {
 
 							<div class="form-group">
 								<label for="exampleInputEmail1"><strong>Monto:</strong></label>
-				
+
 								<input type="text" class="form-control" disabled="" id="monto" value="{{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}">
 							</div>
 							<br>
@@ -499,7 +501,7 @@ hr {
 							<button type="button" class="btn btn-success" id="b3">Siguiente <i class="fa fa-angle-right" aria-hidden="true"></i></button>
 							<button type="button" class="btn btn-dark" id="a4"><i class="fa fa-angle-left" aria-hidden="true"></i> Atras</button>
 							<div class="loader" style="display: none;"></div>
-							<button type="button" class="btn btn-success" id="b4">PAGAR <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+							{{-- <button type="button" class="btn btn-success" id="b4">PAGAR <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button> --}}
 
 							<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 
@@ -548,8 +550,8 @@ hr {
 
 								@endforeach
 								<?php 
-									if(isset($coupon) && ($coupon->descuento < $precio))
-										$precio -= $coupon->descuento; ?>
+								if(isset($coupon) && ($coupon->descuento < $precio))
+									$precio -= $coupon->descuento; ?>
 								@endif
 								<tr>
 									<td>
@@ -584,86 +586,88 @@ hr {
 	<br>	
 	<br>
 
+	<button type="button" class="btn btn-success" id="b4">PAGAR <i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
+
 	<footer class="page-footer font-small cyan darken-3 foot1" style="color: white !important;">
-	<div class="container">
-		<br>
-		<br>
-		<div class="row">
-			<a href="/pagina">
+		<div class="container">
+			<br>
+			<br>
+			<div class="row">
+				<a href="/pagina">
 
-				<div class="col">
-
-					<img alt="Brand" src="{{ url('img/logobums2.png') }}" width="175">
-				</div>
-			</a>
-			<div class="col escondite">
-				<h5>REDES SOCIALES</h5>
-				<hr>	
-				<center>
-					<a class="fb-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
-						<i class="fa fa-facebook fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-					<a class="gplus-ic" href="https://www.instagram.com/bumsgames/" target="_blank"> 
-						<i class="fa fa-google-plus fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-					<!--Instagram-->
-					<a class="ins-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
-						<i class="fa fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
-					</a>
-				</center>	
-			</div>
-			<div class="col"><h5>CONTACTO</h5>
-				<hr>
-				<div class="row">	
 					<div class="col">
-						David Salazar.
-						<br>	
-						<i class="fab fa-whatsapp fa-2x"></i> 
-						(+58) 0414-987-50-29
 
-						<br>
-						<br>			
-						Genesis Moreno.
-						<br>	
-						<i class="fab fa-whatsapp fa-2x"></i> 
-						(+58) 0412-796-43-49
-						<br>	
-						<br>	
-						Daniel Duarte.
-						<br>	
-						<i class="fab fa-whatsapp fa-2x"></i> 
-						(+58) 0412-119-23-79
-						<br>	
-						<br>
-
+						<img alt="Brand" src="{{ url('img/logobums2.png') }}" width="175">
 					</div>
-					<div class="col">	
-						<!--Yohan Franco (Brasil).-->
-						<!--<br>-->
-						<!--<i class="fab fa-whatsapp fa-2x"></i> -->
-						<!--(+58) 414-772-74-21-->
-						<!--<br>	-->
-						<!--<br>-->
-						Nestor Rojas (Argentina).
-						<br>
-						<i class="fab fa-whatsapp fa-2x"></i> 
-						(+54) 9 11-3359-36-81
-
-						<br>
-						<br>
-					</div>
+				</a>
+				<div class="col escondite">
+					<h5>REDES SOCIALES</h5>
+					<hr>	
+					<center>
+						<a class="fb-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
+							<i class="fa fa-facebook fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+						</a>
+						<a class="gplus-ic" href="https://www.instagram.com/bumsgames/" target="_blank"> 
+							<i class="fa fa-google-plus fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+						</a>
+						<!--Instagram-->
+						<a class="ins-ic" href="https://www.instagram.com/bumsgames/" target="_blank">
+							<i class="fa fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+						</a>
+					</center>	
 				</div>
+				<div class="col"><h5>CONTACTO</h5>
+					<hr>
+					<div class="row">	
+						<div class="col">
+							David Salazar.
+							<br>	
+							<i class="fab fa-whatsapp fa-2x"></i> 
+							(+58) 0414-987-50-29
 
-				
-				
+							<br>
+							<br>			
+							Genesis Moreno.
+							<br>	
+							<i class="fab fa-whatsapp fa-2x"></i> 
+							(+58) 0412-796-43-49
+							<br>	
+							<br>	
+							Daniel Duarte.
+							<br>	
+							<i class="fab fa-whatsapp fa-2x"></i> 
+							(+58) 0412-119-23-79
+							<br>	
+							<br>
+
+						</div>
+						<div class="col">	
+							<!--Yohan Franco (Brasil).-->
+							<!--<br>-->
+							<!--<i class="fab fa-whatsapp fa-2x"></i> -->
+							<!--(+58) 414-772-74-21-->
+							<!--<br>	-->
+							<!--<br>-->
+							Nestor Rojas (Argentina).
+							<br>
+							<i class="fab fa-whatsapp fa-2x"></i> 
+							(+54) 9 11-3359-36-81
+
+							<br>
+							<br>
+						</div>
+					</div>
+
+
+
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="footer-copyright text-center py-3 foot2">Llegamos para hacer la diferencia.
-		<a href="https://mdbootstrap.com/bootstrap-tutorial/"> BumsGames.com.ve</a>
-	</div>
-</footer>
+		<div class="footer-copyright text-center py-3 foot2">Llegamos para hacer la diferencia.
+			<a href="https://mdbootstrap.com/bootstrap-tutorial/"> BumsGames.com.ve</a>
+		</div>
+	</footer>
 	<script
 	src="https://code.jquery.com/jquery-3.3.1.js"
 	integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -806,12 +810,12 @@ hr {
 			}  
 		});
 		$('#cupon').keyup(function () {
-                if ($('#cupon').val().length == 12) {
-                    $('#cuponbtn').prop('disabled', false);
-                } else {
-                    $('#cuponbtn').prop('disabled', true);
-                }
-            });
+			if ($('#cupon').val().length == 12) {
+				$('#cuponbtn').prop('disabled', false);
+			} else {
+				$('#cuponbtn').prop('disabled', true);
+			}
+		});
 		$("#b4").on("click", function(){
 			var token = $('#token').val(); 
 			var form_data = new FormData();
@@ -847,8 +851,8 @@ hr {
 				form_data.append('telefono', $('#numero_destinario').val());
 			}
 
-		
-				
+
+
 
 
 			// pago
@@ -884,12 +888,13 @@ hr {
 					if(data.tipo == 1){
 						swal(data.data);  
 					}
-					else{
-						swal('Su pago se ha enviado con exito amig@: '+$('#name').val()+" "+$('#lastname').val());
-						setTimeout(function() {
-							window.close();	
-						}, 4000);
-					}
+					alert('bien');
+					// else{
+					// 	swal('Su pago se ha enviado con exito amig@: '+$('#name').val()+" "+$('#lastname').val());
+					// 	setTimeout(function() {
+					// 		window.close();	
+					// 	}, 4000);
+					// }
 				},
 				error:function(msj){
 					var errormessages = "";

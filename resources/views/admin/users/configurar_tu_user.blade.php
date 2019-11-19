@@ -72,13 +72,43 @@
                   </div>
                 </div>
 
-                <div class="form-group">
-                  <label for="image">Password de Usuario</label>
-                  <input type="password" 
-                  class="form-control" 
-                  name="password" id="password_modificar" 
-                  value="{{ old('password') }}" 
-                  autocomplete="off">
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="">Teléfono</label>
+                      <input type="text" pattern="^[0-9]+" id="telefonoMod" required
+                      class="form-control" 
+                      name="telefono"
+                      value="{{ Auth::user()->telefono }}" 
+                      autocomplete="off" required>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for=""> <strong>¿Activo?</strong></label>
+                      <select id="activeMod" class="form-control" name="active" required>
+                        <option value="1" @if (Auth::user()->active==1)
+                          selected
+                        @endif >Si</option>
+                        <option value="0" @if (Auth::user()->active==0)
+                          selected
+                        @endif>No</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="form-group">
+                      <label for="image">Password de Usuario</label>
+                      <input type="password" 
+                      class="form-control" 
+                      name="password" id="password_modificar" 
+                      value="{{ old('password') }}" 
+                      autocomplete="off">
+                    </div>
+                  </div>
+
                 </div>
 
                 <div class="form-group">

@@ -13,9 +13,15 @@
 	<link rel="stylesheet" type="text/css" href="{{ url('css/bums.css') }}"/>
 	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 	<link href="{{ url('css/bums_v2.css') }}"  rel="stylesheet"/>
+
+	{!! NoCaptcha::renderJs() !!}
+	
 	<script async custom-element="amp-auto-ads"
 	src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+	
+	
 </script>
+<script src="{{ url('js/marquee3k.js') }}"></script>
 
 
 </head>
@@ -24,6 +30,8 @@
 
 <body style="background-color: white;">
 	<div class="bg-image">
+	</div>
+	<div class="bg-image2">
 	</div>
 	<style>
 	.fondo_blanco{
@@ -40,21 +48,42 @@
 
 	.marquee_articulos2:hover{
 		cursor: pointer;
-	}
-
-	
+	}	
 </style>
 
 
 
-<div style="background-color: rgba(0,0,0,0.85); padding: 1px;">	
-@if(isset($comentarios))
-<marquee style="color: white; padding: 2px;">
-	@foreach($comentarios as $comentario)
-	<b>{{$comentario->nombre}}: </b> {{$comentario->texto}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="span_space"></span> 
-	@endforeach
-</marquee>
-@endif
+<div style="background-color: rgba(0,0,0,1); padding: 1px;">	
+	<div class="row">
+		<div class="col-1" style="color: white; font-size: 25px; z-index: 100; background-color: black;">
+			<div class="container">
+				<i class="fab fa-twitter-square" style="margin-right: 5px;"></i>
+				
+				<a href="https://www.facebook.com/bumsgamesoficial" style="color:white;"> <i class="fab fa-facebook-square" style="margin-right: 5px;"></i></a>
+				<a href="https://www.instagram.com/bumsgames/"  style="color:white;"><i class="fab fa-instagram" style="margin-right: 5px;"></i></a>
+			</div>
+		</div>
+		
+		<div class="col-11" style="background-color: black;">
+		<div class="marquee3k" 
+		data-speed="0.7"
+		data-reverse="" 
+		data-pausable="bool">
+		<div style="color: white;">
+			@foreach($comentarios as $comentario) 
+			{{$comentario->nombre}}: </b> {{$comentario->texto}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			@endforeach
+		</div>
+	</div>
+	
+	
+
+</div>
+
+
+</div>
+
+
 
 </div>
 	{{-- <div class="marquee_articulos2">
@@ -82,41 +111,68 @@ duration: 450000,
 <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light s1" style="z-index: 100">
 
 
-	<h3 class="my-auto" style="margin-left: 20px;"><a class="navbar-brand" href="/" >
-		<img alt="Brand" src="{{ url('img/logo.png') }}" width="120">
-	</a></h3>
+	<h3 class="my-auto" style="margin-left: 20px;">
+		<a class="navbar-brand" href="{{ url('') }}" >
+			<img alt="Brand" src="{{ url('img/logo 2.png') }}" width="125">
+		</a>
+	</h3>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse w-100 flex-md-column" id="navbarCollapse">
 
-		<ul class="navbar-nav small mb-2 mb-md-0 ml-auto" style="font-size: 15px !important;">
-			<form class="form-inline" action="/buscar_articulo_bums" method="get" style="padding: 20px;">
-				<div id="searchnavgroup" class="input-group">
-					<input autocomplete="off" type="text" class="form-control input-buscar" id="exampleInputEmail1" name="name" placeholder="Simplifica tu compra utilizando el buscador." style="border: solid 1px; opacity: 0.7;">
+		<ul class="navbar-nav small mb-2 mb-md-0 ml-auto mr-auto" style="font-size: 20px !important;">
+				{{-- <form class="form-inline" action="/buscar_articulo_bums" method="get" style="padding: 20px;">
+					<div id="searchnavgroup" class="input-group">
+						<input autocomplete="off" type="text" class="form-control input-buscar" id="exampleInputEmail1" name="name" placeholder="Simplifica tu compra utilizando el buscador." style="border: solid 1px; opacity: 0.7;">
 
-					<div class="input-group-append">
-						<button id="searchbtn" class="btn btnbuscar"><i class="fa fa-search" aria-hidden="true"></i></button>
+						<div class="input-group-append">
+							<button id="searchbtn" class="btn btnbuscar"><i class="fa fa-search" aria-hidden="true"></i></button>
+						</div>
 					</div>
-				</div>
-			</form>
-
-			<li class="nav-item ">
-				<form class="form-inline margin" action="{{  url('prueba') }}" method="get">
-					<select class="form-control selectCoin" onchange="this.form.submit()" name="id_coin" id="id_coin" style="border: solid; border-color: #808080;">
-						<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
-						@foreach($coins as $coin)
-						<option class="form-control" value="{{ $coin->id }}">{{ $coin->coin }}</option>
-						@endforeach
-					</select>
-					&nbsp;
-
-					<img id="my_image" src="{{  url('img/'.$moneda_actual->imagen) }}" alt="" width="40">
 				</form>
+				--}}
+				<li class="nav-item ">
+					
+					<form class="form-inline margin" action="{{  url('prueba') }}" method="get">
+						<select class="form-control selectCoin" onchange="this.form.submit()" name="id_coin" id="id_coin" style="border: solid; border-color: #808080;">
+							<option class="form-control" selected="" value="{{ $moneda_actual->id }}">{{ $moneda_actual->coin }}</option>
+							@foreach($coins as $coin)
+							@if ($coin->active == 1)
+								<option class="form-control" value="{{ $coin->id }}">{{ $coin->coin }}</option>
+							@endif
+							@endforeach
+						</select>
+						&nbsp;
+
+						@if( $moneda_actual->id != 2)
+
+						Tasa: {{ number_format($moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
+
+						@endif
+					</form>
+				</li>
+				<style type="text/css">
+				.prueba{
+					background-color: orange !important;
+					bottom: 0 !important;
+					margin-bottom: 0 !important;
+				}
+			</style>
+			<li class="nav-item">
+				<a class="nav-link dropbtn linkBums2" id="category_btn"><b>CATEGORIAS</b></a>
+
+			</li>
+			<li class="nav-item">
+				<a class="nav-link dropbtn linkBums2" href="{{  url('articulos_oferta') }}"><b>OFERTAS</b></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link dropbtn linkBums2" href="{{  url('lista_escrita') }}"><b>LISTA ESCRITA</b></a>
 			</li>
 			@if (Auth::guard('client')->guest())
-			<li class="nav-item">
-				<a class="nav-link link_bums" href="{{ url('login') }}"><i class="fas fa-user"></i> Login <span class="sr-only">(current)</span></a>
+			<li class="nav-item ">
+				<a class="nav-link dropbtn linkBums2"  href="{{ url('login') }}"><b>LOGIN <span class="sr-only">(current)</span></b></a>
+				<a class="nav-link link_bums" href="{{ url('login') }}"> </a>
 			</li>
 			@endif
 			@if (Auth::guard('client')->check())
@@ -138,38 +194,281 @@ duration: 450000,
 
 
 			<li class="nav-item">
-				<a class="nav-link link_bums" href="{{ url('ayuda') }}"><i class="fas fa-question"></i> Ayuda</a>
+				<a class="nav-link dropbtn linkBums2" href="{{ url('ayuda') }}" ><b>AYUDA</b></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link link_bums" href="#" data-toggle="modal" data-target="#contactModal"><i class="fab fa-whatsapp"></i> Contáctanos</a>
+				<a class="nav-link dropbtn linkBums2" href="#" data-toggle="modal" data-target="#contactModal"><i class="fab fa-whatsapp"></i> <b>CONTACTANOS</b></a>
 			</li>
-			<li class="nav-item" >	
-				<!-- <label class="menu car" for="check">
+			{{-- <li class="nav-item" >	
+				<label class="menu car" for="check">
 					<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> 
 					<span class="badge badge-light" id="badge" style="color: black !important;">{{ count(Session::get('carrito')) }}</span>	
-				</label> -->
-			</li>
-		</ul>
-
-
-
-		<ul class="navbar-nav ml-auto small mb-2 mb-md-0" style="font-size: 16px;">
-			<li class="nav-item">
-				<a class="nav-link dropbtn linkBums2" id="category_btn" href="#category_btn"><b>CATEGORIAS</b></a>
-
-			</li>
-			<li class="nav-item">
-				<a class="nav-link dropbtn linkBums2" href="{{  url('articulos_oferta') }}"><b>OFERTAS</b></a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link dropbtn linkBums2" href="{{  url('lista_escrita') }}"><b>LISTA ESCRITA</b></a>
+				</label>
+			</li> --}}
+			<li class="nav-item" >	
+				<label class="menu car" for="check" data-toggle="modal" data-target="#carritoModal">
+					<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> 
+					<span class="badge badge-light" id="badge" style="color: black !important;">{{ count(Session::get('carrito')) }}</span>	
+				</label>
 			</li>
 		</ul>
 	</div>
-
 </nav>
 
 
+
+<div class="modal fade" id="carritoModal">
+	<div class="modal-dialog  modal-lg modal-responsive"  style="width: 100% !important; max-width: 50% !important;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> CARRITO DE COMPRA</h1>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+      {{-- <img src="img/61a25413-e695-49bc-b739-12c23c5b0e1c.jpg" alt="">
+      --}}
+      <br>
+      <div class="container" style="font-size: 20px;">		
+      	<div class="contcarrito">	
+      		<br>	
+      		<table class="table ">
+				
+				<thead>
+					<tr>
+						<th>
+							#
+						</th>
+						<th>
+							Nombre || Categoria
+						</th>
+						<th>
+							Cantidad
+						</th>
+						<th>
+							Precio
+						</th>
+						<th>
+
+						</th>
+						<th>
+
+						</th>
+					</tr>
+				</thead>
+      			<tbody id="tablaCarrito">
+      				<?php $i = 1; ?>
+      				<?php $precio = 0; ?>
+      				@if(Session::has('carrito'))
+
+
+      				@foreach( Session::get('carrito') as $x )
+      				<tr>
+      					<th>
+							<?php echo $i++; ?>
+							@php
+							$category = $categorias->where('id', $x['categoria']);
+							@endphp
+
+
+      					</th>
+      					<td>
+      						<input autocomplete="off" type='text' class='id_articulo' value='{{ $x['id'] }}' hidden="">
+      						{{ $x['articulo'] }} || {{  $x['categoria'] }}
+      						<br>
+						</td>
+						<td>
+							{{$x['cantidad']}}
+						</td>
+      					<td class="columna_precio">
+							  {{  number_format(($x['precio'] * $x['cantidad']) * $moneda_actual->valor, 2, ',', '.')  }} {{ $moneda_actual->sign }} 
+							  ({{ number_format($x['precio'] * $moneda_actual->valor, 2, ',', '.')  }} {{ $moneda_actual->sign }})
+      						<?php $precio += $x['precio']; ?>
+      					</td>
+      					<td>
+      						<img src="img/{{ $x['imagen'] }}" width="40" height="45" alt="">
+      					</td>
+      					<td>
+							  <button style="color: black !important;" type="button" class="close" 
+							  onclick="borrarElementoCarrito({{ $i - 1 }}, {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
+      							<span aria-hidden="true">&times;</span>
+      						</button>
+      					</td>
+
+      				</tr>
+
+      				@endforeach
+
+      				@endif
+      				<tr>
+      					<td>	
+      					</td>
+      					<td>	
+      					</td>
+						<td>
+						</td>
+      					<td>
+      						@if($precio != 0)
+      						<strong>Total:<br> {{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong>
+      						@endif
+						</td>
+						<td></td>
+						<td></td>
+      				</tr>
+      			</tbody>
+      		</table>
+      	</div>
+
+
+      	<br>	
+      	<input type="number" id="nArt" value="{{ $i - 1}}" hidden="">
+      	<div class="modal-footer">
+			<button class="shadow_ligero" type="button" id="comprarCarrito" class="btn back" 
+			style="padding: 20px; border: none; @if(count(Session::get('carrito'))==0) display:none; @endif">
+				<img src="img/caja3.png" width="100">
+			</button>
+      		{{-- <button type="button" id="cerrarCarro" class="btn back"><img src="img/back.png" width="100"></button> --}}
+      	</div>
+
+      </div>
+
+      <br>
+      <br>
+      <br>
+  </div>
+</div>
+</div>
+<style type="text/css">
+a:hover{
+	opacity: 0.8;
+}
+</style>
+<div class="dropdown-content2" id="dropdown-content2" style=" background: rgba(0, 0, 0, 0.95); padding: 20px; color: white; display: none;">
+	<div class="container">
+		<div class="row">
+			<div class="col-2">
+				<center>
+					<img src="{{ url('img/DEADPOOL-KILLS-1-KRS-A.jpg') }}" width="300">
+					<br>
+
+					<br>
+					<h2>
+						Mi nombre es Pool. Dead Pool.
+					</h2>
+					<a class="nav-link dropbtn linkBums2 btn-block" href="{{  url('articulos_web') }}">
+						<h3><button class="btn btn-block">ARTICULOS RECIENTES</button></h3>
+					</a>
+					<a class="nav-link dropbtn linkBums2 btn-block" href="{{  url('articulos_oferta') }}">
+						<h3><button class="btn btn-block">ARTICULOS EN OFERTA</button></h3>
+					</a>
+				</center>
+			</div>
+			<div class="col" style="font-size: 20px;">
+
+				@foreach ($categorias_sub as $categoria_sub)
+				{{-- expr --}}
+				<ul class="nav {{ $categoria_sub->style }}" style="background-color: white; margin-bottom: 20px; padding: 20px;">
+					<li class="nav-item">
+						<h1><a class="nav-link" href="{{  url('categoria/'.$categoria_sub->id) }}">{{ $categoria_sub->nombre }}</a></h1>
+
+					</li>
+
+					@foreach ($categoria_sub->categoria as $element)
+					<li class="nav-item">
+						<h4><a class="nav-link" href="{{  url('subcategoria/'.$element->id) }}">{{ $element->category }}</a></h4>
+					</li>
+					
+					@endforeach
+
+					<img class="img_play" src="{{ url('img/'.$categoria_sub->style.'.png') }}" height="100">
+				</ul>
+				@endforeach
+				
+
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+
+<style type="text/css">
+.container_2{
+	width: 70%;
+}
+</style>
+
+
+
+
+{{-- <img src="{{ url('img/soygamer.png') }}">
+<div class="grid-block" style="background: url('img/soygamer.png') center center ; width: 100%; height: 100vh ;background-size: cover; ">
+wdasdsa
+</div> --}}
+
+<ul class="navbar-nav small mb-2 mb-md-0 ml-auto mr-auto bgimg" style="font-size: 20px;
+background-image: {{ url('img/soygamer.png') }}; ">
+<div style="background: rgba(2,0,36,0.1);
+background: linear-gradient(90deg, rgba(2,0,36,0.8) 0%, rgba(9,9,121,0.8) 35%, rgba(0,212,255,0.8) 100%);">
+<input type="" name="" id="tasa" value="{{ $moneda_actual->valor }}" hidden="">
+<input type="" name="" id="signo" value="{{ $moneda_actual->sign }}" hidden="">
+<center>
+	<div class="container_2">
+
+		<li class="nav-item ">
+			<br>
+			<div class="shadow_ligero" style="background: rgba(255,255,255,255.99); padding: 20px; margin: 10px;  border-radius: 10px 10px 10px 10px; color: black;">
+				<center>
+					<div class="form-inline">
+						<label>Buscando en 	&nbsp;</label>
+
+
+						<select 
+						class="" name="category" 
+						id="category_buscador_inteligente">
+						@foreach ($categorias as $category)
+						<option value="{{$category->id}}">{{$category->category}}</option>
+						@endforeach
+						<option value="0">Todas las categorias</option>
+
+					</select>
+				</div>
+			</center>
+		</div>
+		<form class="form-inline" action="/buscar_articulo_bums" method="get" style="padding: 20px;">
+			<div id="searchnavgroup" class="input-group">
+				<input autocomplete="off" type="text" class="form-control input-buscar" id="name_buscador_inteligente" name="name" placeholder="Simplifica tu compra utilizando el buscador." style="border: solid 1px; height: 80px;">
+				<div class="input-group-append">
+					<button id="searchbtn" class="btn btnbuscar colorps4"><i class="fa fa-search" aria-hidden="true"></i></button>
+				</div>
+			</div>
+		</form>
+		<div class="table-responsive" id="tabla-fondo" style="background-color: white; padding: 20px; margin: 10px;  border-radius: 10px 10px 10px 10px; display: none;">
+			<table class="table">
+				<tbody id="table_client">
+
+				</tbody>
+			</table>
+		</div>
+	</li>
+
+</div>
+<br>
+<br>
+
+<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+
+
+<div class="col-12 col-lg">
+
+</div>
+
+</center>
+</div>
+
+</ul>
 
 
 
@@ -188,159 +487,10 @@ duration: 450000,
 
 
 
-<div class="dropdown-content2" id="dropdown-content2" style="z-index: 99; ">
-	<div class="tile_3">
-		<center>
-			<h1 class="background_categoria">CATEGORIAS</h1>
-			<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-			<div class="padre">
-				<form action="articulos2" @method('POST') name="formulario_category">
-					<a href="#" class="submit-link" >
-						<input type="text" name="category" hidden="" value="1">
-						<div class="area_categoria">
-							<div class="area_foto">
-								<center>
-									<img class="img_category" src="{{ url('img/playstation.png') }}" alt="" style="max-height: 200px;">
-								</center>
-							</div>
-							<div class="categoria_padding">
-								<h1>
-									PlayStation
-								</h1>
-							</div>
-						</div>
-
-					</a>
-				</form>	
-				<form action="articulos2" @method('POST') name="formulario_category">
-					<a href="#" class="submit-link" >
-						<input type="text" name="category" hidden="" value="2">
-						<div class="area_categoria">
-							<div class="area_foto">
-								<center>
-									<img class="img_category" src="{{ url('img/icono_xbox.png') }}" alt="" style="max-height: 200px;">
-								</center>
-							</div>
-							<div class="categoria_padding">
-								<h1>
-									Xbox One
-								</h1>
-							</div>
-						</div>
-
-					</a>
-				</form>	
-				<form action="articulos2" @method('POST') name="formulario_category">
-					<a href="#" class="submit-link" >
-						<input type="text" name="category" hidden="" value="3">
-						<div class="area_categoria">
-							<div class="area_foto">
-								<center>
-									<img class="img_category" src="{{ url('img/nintendo.png') }}" alt="" style="max-height: 200px;">
-								</center>
-							</div>
-							<div class="categoria_padding">
-								<h1>
-									Nintendo
-								</h1>
-							</div>
-						</div>
-
-					</a>
-				</form>	
-				<form action="articulos" @method('POST') name="formulario_category">
-					<a href="#" class="submit-link" >
-						<input type="text" name="category" hidden="" value="15">
-						<div class="area_categoria">
-							<div class="area_foto">
-								<center>
-									<img class="img_category" src="{{ url('img/celular (2).png') }}" alt="" style="max-height: 200px;">
-								</center>
-							</div>
-							<div class="categoria_padding">
-								<h1>
-									Celulares
-								</h1>
-							</div>
-						</div>
-
-					</a>
-				</form>	
-				<form action="articulos" @method('POST') name="formulario_category">
-					<a href="#" class="submit-link" >
-						<input type="text" name="category" hidden="" value="16">
-						<div class="area_categoria">
-							<div class="area_foto">
-								<center>
-									<img class="img_category" src="{{ url('img/otro (2).png') }}" alt="" style="max-height: 200px;">
-								</center>
-							</div>
-							<div class="categoria_padding">
-								<h1>
-									Otros
-								</h1>
-							</div>
-						</div>
-
-					</a>
-				</form>
-
-				<a href="/articulos_web" class="submit-link" >
-					<input type="text" name="category" hidden="" value="{{-- {{ $categoria->id}} --}}">
-					<div class="area_categoria">
-						<div class="area_foto">
-							<center>
-								<img class="img_category" src="{{ url('img/reciente (1).png') }}" alt="" style="max-height: 200px;">
-							</center>
-						</div>
-						<div class="categoria_padding">
-							<h1>
-								Recientes
-							</h1>
-						</div>
-					</div>
-
-				</a>
-
-			</div>
-		</center>
-
-	</div>
-</div>
-
-		{{-- DROPDOWN CATEGORIA DINAMICO <div class="dropdown-content2" id="dropdown-content2">
-		<div class="tile_3">
-			<center>
-				<h1 class="background_categoria">CATEGORIAS</h1>
-				<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-				<div class="padre">
-					@foreach($categorias as $categoria)
-					<form action="articulos" @method('POST') name="formulario_category">
-						<a href="#" class="submit-link" >
-							<input type="text" name="category" hidden="" value="{{ $categoria->id}}">
-							<div class="area_categoria">
-								<div class="area_foto">
-									<center>
-										<img class="img_category" src="{{ url('img/'.$categoria->image) }}" alt="">
-									</center>
-								</div>
-								<div class="categoria_padding">
-									<h6>
-										{{ $categoria->category }}
-									</h6>
-									<hr class="hr_black">	
-									<p>{{ $categoria->description }}</p>
-								</div>
-							</div>
-						</a>
-					</form>	
-					@endforeach
-				</div>
-			</center>
-		</div>
-	</div> --}}
-	<amp-auto-ads type="adsense"
-	data-ad-client="ca-pub-2298464716816209">
+</div> 
+{{-- DROPDOWN CATEGORIA DINAMICO  --}}
+<amp-auto-ads type="adsense"
+data-ad-client="ca-pub-2298464716816209">
 </amp-auto-ads>
 
 
@@ -353,73 +503,7 @@ duration: 450000,
 <input type="checkbox" class="checkbox" id="check">
 
 
-<div class="carrito_compra" style="overflow-y: auto;">
-	<div style="margin-top: 115px;"> 			
-		<div class="titulo-carrito">	
-			<h1><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>	CARRITO DE COMPRAS</h1>	
-		</div>
 
-		<div class="container contcarrito">	
-			<br>	
-			<table class="table table-hover">
-				<tbody id="tablaCarrito">
-					<?php $i = 1; ?>
-					<?php $precio = 0; ?>
-					@if(Session::has('carrito'))
-
-
-					@foreach( Session::get('carrito') as $x )
-					<tr>
-						<th>
-							<?php echo $i++; ?>
-						</th>
-						<td>
-							<input autocomplete="off" type='text' class='id_articulo' value='{{ $x['id'] }}' hidden="">
-							{{ $x['articulo'] }} || {{ $x['categoria'] }}
-						</td>
-						<td class="columna_precio">
-							{{  number_format($x['precio'] * $moneda_actual->valor, 2, ',', '.') }} {{ $moneda_actual->sign }}
-							<?php $precio += $x['precio']; ?>
-						</td>
-						<td>
-							<img src="img/{{ $x['imagen'] }}" width="40" height="45" alt="">
-
-						</td>
-						<td>
-							<button style="color: white !important;" type="button" class="close" onclick="borrarElementoCarrito({{ $i - 1 }}, {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}');">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</td>
-
-					</tr>
-
-					@endforeach
-
-					@endif
-					<tr>
-						<td>	
-						</td>
-						<td>	
-						</td>
-
-						<td>
-							@if($precio != 0)
-							<strong>Total:<br> {{ number_format($precio * $moneda_actual->valor, 2, ',', '.')}} {{ $moneda_actual->sign }}</strong>
-							@endif
-
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<br>	
-		<input type="number" id="nArt" value="{{ $i - 1}}" hidden="">
-		<div class="modal-footer">
-			<button type="button" id="comprarCarrito" class="btn back"><img src="img/caja3.png" width="100"></button>
-			<button type="button" id="cerrarCarro" class="btn back"><img src="img/back.png" width="100"></button>
-		</div>
-	</div>
-</div>
 @yield('ultimos-vendidos')
 {{-- CARROUSEL CON REDES SOCIALES INICIO --}}
 @yield('content')
@@ -537,11 +621,16 @@ duration: 450000,
 
 
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script type="text/javascript" src="{{ url('js/marquee.js') }}"></script>
 
 	<script src="{{ url('js/bums.js') }}"></script>
 	<script src="{{ url('js/bums_v2.js') }}"></script>
+	
+	<script src="{{ url('js/jquery.min.js') }}" type="text/javascript"></script>
+	<script type="text/javascript" src="{{ url('js/jquery.easing.min.js') }}"></script>
+	<script type="text/javascript" src="{{ url('js/jquery.easy-ticker.js') }}"></script>
 
-	{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
@@ -558,14 +647,14 @@ duration: 450000,
 
 
 		function goRight(){ // inner stuff slides left
-			var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
-			var newLeftMargin = (initalLeftMargin - margen_carrito); // extra 2 for border
-			$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
+			//var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
+			//var newLeftMargin = (initalLeftMargin - margen_carrito); // extra 2 for border
+			//$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
 		}
 		function goLeft(){ // inner stuff slides right
-			var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
-			var newLeftMargin = (initalLeftMargin + margen_carrito); // extra 2 for border
-			$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
+			//var initalLeftMargin = $( ".carrito_compra" ).css('margin-left').replace("px", "")*1;
+			//var newLeftMargin = (initalLeftMargin + margen_carrito); // extra 2 for border
+			//$( ".carrito_compra" ).animate({marginLeft: newLeftMargin}, 500);
 		}
 
 		$('form .submit-link').on({
@@ -576,6 +665,9 @@ duration: 450000,
 		});
 
 
+	</script>
+	<script>
+		Marquee3k.init();
 	</script>
 
 	<!-- Footer -->

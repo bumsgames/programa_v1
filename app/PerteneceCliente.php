@@ -10,7 +10,8 @@ class PerteneceCliente extends Model
         'id_cliente',
         'id_article',
         'id_venta',
-        'informacion'
+        'informacion',
+        'id_venta_oficial',
     ];
 
     public function cliente()
@@ -25,6 +26,6 @@ class PerteneceCliente extends Model
 
     public function venta()
     {
-        return $this->belongsTo('Bumsgames\Sales', 'id_venta');
+        return $this->belongsTo('Bumsgames\Venta', 'id_venta_oficial');
     }
 }

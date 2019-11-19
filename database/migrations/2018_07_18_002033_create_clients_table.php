@@ -15,14 +15,17 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 100);
-            $table->string('lastname', 100);
+            $table->string('name', 100)->nullable();
+            $table->string('lastname', 100)->nullable();
             $table->string('nickname', 50)->unique();
-            $table->string('email')->default('SIN CORREO')->nullable();
+            $table->string('email')->nullable()->unique();
+            //$table->string('email')->default('SIN CORREO')->nullable();
             $table->string('image', 200)->default('sin-foto.jpg');
-            $table->string('password', 200)->default(bcrypt(1234));
+            $table->string('password', 200);
             $table->string('num_contact', 100)->default('** SIN NUMERO DE CONTACTO **')->nullable();
             $table->string('note', 500)->default('')->nullable();
+            $table->boolean('confirmed')->default(0);
+            $table->string('confirmation_code')->nullable();
             $table->timestamps();
         });
     }

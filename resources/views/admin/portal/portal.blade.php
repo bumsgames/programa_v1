@@ -134,7 +134,9 @@
 
 										<button type="button" 
 										class="btn btn-secondary" ml-auto=""
-										data-toggle="modal" data-target=".eliminar-imagen" Onclick="mandaridM({{$imagen->id}});">Eliminar</button>
+										Onclick="mandaridMM({{$imagen->id}},{{Auth::user()->level}});">Eliminar</button>
+
+										<button class="btn btn-primary modal" data-toggle="modal" data-target=".eliminar-imagen" type="button" hidden>Text</button>
 									</div>
 								</td>
 							</tr>

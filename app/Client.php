@@ -13,30 +13,46 @@ class Client extends Authenticatable
 
     protected $guard = 'client';
 
-
     protected $table = 'clients';
 
     protected $fillable = [
         'name',
         'lastname',
         'nickname',
-        'cedula',
         'email',
         'image',
         'password',
         'num_contact',
-        'note'
+        'note',
+        'documento_identidad',
+        'confirmation_code',
+        'confirmed'
 
     ];
 
-    public function mis_articulos()
+    public function favorites()
     {
-        return $this->belongsToMany('Bumsgames\Client', 'pertenece_clientes', 'id_cliente', 'id_article');
+        return $this->hasMany('Bumsgames\Favorite', 'client_id');
     }
 
-    public function vendedor_del_articulo()
-    {
-        return $this->belongsToMany('Bumsgames\BumsUser', 'sales', 'id_client', 'id_vendedor');
+    public function scopeConCedula($query, $p)
+    {      
+
+        if ($p) {
+            
+            return $query->where('documento_identidad', 'like', '%' . $p . '%');
+        }
     }
+
+    public function scopeConNickname($query, $p)
+    {   
+        
+        if ($p) {
+           
+            return $query->where('nickname', 'like', '%' . $p . '%');
+        }
+    }
+
+
 }
 

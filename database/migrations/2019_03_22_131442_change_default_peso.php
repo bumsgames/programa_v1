@@ -14,7 +14,7 @@ class ChangeDefaultPeso extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->integer('peso')->default(0)->change();
+            $table->float('peso')->default(0)->change();
         });
     }
 

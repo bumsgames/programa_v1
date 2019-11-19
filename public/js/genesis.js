@@ -4,6 +4,15 @@ function mandaridM(id){
     $("#id_eliminar").val(id);
 }
 
+function mandaridMM(id, level_user){
+    if(level_user>=8){
+        $("#id_eliminar").val(id);
+        $(".modal").trigger("click");
+    }else{
+        swal('No tienes permisos suficientes para eliminar esta imagen');
+    }
+}
+
 function ventaDirect(){
     swal('Para eliminar una venta debe dirigirse a movimientos');
 }
@@ -88,31 +97,73 @@ $("#boton_eliminar_cliente").click(function(){
 function Eliminar_usuario(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
-    if(clave!='spiderman1995'){
-        swal('Clave no autorizada');
-        return;
-    }
-    var route = "/delete_uss/"+id+"";
     var token = $('#token').val();
+
+    var route = "/verifyPass";
+    var form_data = new FormData;
+
+    form_data.append('password', clave);
+
     $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
         dataType:   'json',
+        data:       form_data,
         contentType: false, 
         processData: false,
         success:function(data){
-            swal("Usuario eliminado.");
-            setTimeout(function() 
-            {
-                location.reload(); 
-            }, 2000);
+        
+            console.log(data);
+            if(data.data==true && data.user.level>=10){
+
+                
+                var route = "/delete_uss/"+id+"";
+                var token = $('#token').val();
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
+                        swal("Usuario eliminado.");
+                        setTimeout(function() 
+                        {
+                            location.reload(); 
+                        }, 3000);
+                    },
+                    error:function(msj){
+                        swal("Error.", "Revisa los datos suministrados.", "error");
+                    }
+                });
+                
+
+            }else{
+                swal("No tienes los permisos necesarios para esta acción");
+                return;
+            }
+            
+            if(data.data==false){
+                swal(data.error);
+                return;
+            }
         },
         error:function(msj){
-            swal("Error.", "Revisa los datos suministrados.", "error");
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
+
+
 }
+
 function eliminar_reporte(){
     var id = $("#id_eliminar").val();
     var route = "/eliminar_reporte/"+id+"";
@@ -137,41 +188,147 @@ function eliminar_reporte(){
         }
     });
 }
+
+
 function Eliminar_articulo(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
-    if(clave=='1'){
-     var route = "/delete_articulo/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+
+    var route = "/verifyPass";
+    var token = $('#token').val();
+    var form_data = new FormData;
+    form_data.append('password', clave);
+
+    $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
         dataType:   'json',
+        data:       form_data,
         contentType: false, 
         processData: false,
         success:function(data){
-            swal("Articulo eliminado.");
-            // setTimeout(function() 
-            // {
-            //     location.reload(); 
-            // }, 2000);
+            console.log(data);
+            if(data.data==true && data.user.level>=8){
+                var route = "/delete_articulo/"+id+"";
+                var token = $('#token').val();
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
+                        swal("Articulo eliminado.");
+                        setTimeout(function() 
+                        {
+                            location.reload(); 
+                        }, 2000);
+                    },
+                    error:function(msj){
+                        var errormessages = "";
+                        $.each(msj.responseJSON, function(i, field){
+                            errormessages+="\n"+field+"\n";
+                        });
+                        swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                    }
+                });
+            }else{
+                swal("No tienes los permisos necesarios para esta acción");
+                return;
+            }
+            
+            if(data.data==false){
+                swal(data.error);
+                return;
+            }
         },
         error:function(msj){
-            swal("Error.", "Revisa los datos suministrados.", "error");
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
- }else{
-    swal('Clave no autorizada');
 }
+
+function Eliminar_Venta(){
+    var id = $("#id_eliminar").val();
+    var clave = $("#clave").val();
+
+    var route = "/verifyPass";
+    var token = $('#token').val();
+    var form_data = new FormData;
+    form_data.append('password', clave);
+
+    $.ajax({
+        url:        route,
+        headers:    {'X-CSRF-TOKEN':token},
+        type:       'post',
+        dataType:   'json',
+        data:       form_data,
+        contentType: false, 
+        processData: false,
+        success:function(data){
+            console.log(data);
+            if(data.data==true){
+
+                var route = "/delete_venta_v2/"+id+"";
+                var token = $('#token').val();
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
+                         $(".modal-backdrop").remove(); 
+        $(".modal").hide();
+        $(".modal").trigger("click");
+        $("#clave").val("");
+                        swal("Articulo eliminado.");
+                        // setTimeout(function() 
+                        // {
+                        //     location.reload(); 
+                        // }, 2000);
+                    },
+                    error:function(msj){
+                        var errormessages = "";
+                        $.each(msj.responseJSON, function(i, field){
+                            errormessages+="\n"+field+"\n";
+                        });
+                        swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+                    }
+                });
+
+            }else{
+                swal(data.error);
+                return;
+            }
+        },
+        error:function(msj){
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
+        }
+    });
 }
 function Eliminar_envios(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-     var route = "/delete_envios/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+       var route = "/delete_envios/"+id+"";
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -189,7 +346,7 @@ function Eliminar_envios(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- }else{
+   }else{
     swal('Clave no autorizada');
 }
 }
@@ -197,9 +354,9 @@ function Eliminar_cuenta(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
     if(clave=='spiderman1995'){
-     var route = "/delete_account/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+       var route = "/delete_account/"+id+"";
+       var token = $('#token').val();
+       $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
@@ -218,39 +375,84 @@ function Eliminar_cuenta(){
             swal("Error.", "Revisa los datos suministrados.", "error");
         }
     });
- }else{
+   }else{
     swal('Clave no autorizada');
 }
 }
 function Eliminar_imagen(){
     var id = $("#id_eliminar").val();
     var clave = $("#clave").val();
-    if(clave=='spiderman1995'){
-     var route = "/delete_imagen/"+id+"";
-     var token = $('#token').val();
-     $.ajax({
+
+
+    var route = "/verifyPass";
+    var token = $('#token').val();
+    var form_data = new FormData;
+    form_data.append('password', clave);
+
+    $.ajax({
         url:        route,
         headers:    {'X-CSRF-TOKEN':token},
         type:       'post',
         dataType:   'json',
+        data:       form_data,
         contentType: false, 
         processData: false,
         success:function(data){
-            swal("Imagen eliminada.");
-            // setTimeout(function() 
-            // {
-            //     location.reload(); 
-            // }, 2000);
+            console.log(data);
 
+            if(data.data==true && data.user.level>=8){
+                
+                console.log("paso data true");
+                var route = "/delete_imagen/"+id+"";
+                var token = $('#token').val();
+                
+                $.ajax({
+                    url:        route,
+                    headers:    {'X-CSRF-TOKEN':token},
+                    type:       'post',
+                    dataType:   'json',
+                    contentType: false, 
+                    processData: false,
+                    success:function(data){
+
+                        console.log(data);
+                        swal("Imagen eliminada.");
+                        setTimeout(function() 
+                        {
+                            location.reload(); 
+                        }, 3000);
+
+                    },
+                    error:function(msj){
+                        swal("Error.", "Revisa los datos suministrados.", "error");
+                    }
+                });
+
+            }
+
+            if(data.user.level<8){
+                swal("No tiene los permisos suficientes para realizar esta acción.");
+                return;
+            }
+
+            if(data.data==false){
+                console.log("paso data false");
+                swal(data.error);
+                return;
+            }
         },
         error:function(msj){
-            swal("Error.", "Revisa los datos suministrados.", "error");
+            var errormessages = "";
+
+            $.each(msj.responseJSON, function(i, field){
+                errormessages+="\n"+field+"\n";
+            });
+
+            swal("Error.", "Revisa los datos suministrados. \n\n"+errormessages+"\n\n", "error");
         }
     });
- }else{
-    swal('Clave no autorizada');
 }
-}
+
 
 function mostrar_orden(id, a, b){
     var de = a;
@@ -258,20 +460,20 @@ function mostrar_orden(id, a, b){
     de += b;
     var route = "/actualesOrden/"+id+"";
     $.get(route, function(data){
-       $("#id").val(data.id);
-       $("#de_usuarioM").val(de);
-       $("#trackingM").val(data.tracking);
-       $("#nameM").val(data.articulo);
-       $("#Costo").val(data.price);
-       $("#ordenM").val(data.type_orden);
-       $("#empresaM").val(data.empresa);
-       $("#direccionM").val(data.direccion);
-       $("#statusM").val(data.status);
-       $("#cedulaM").val(data.cedula);
-       $("#recibeM").val(data.recibe);
-       $("#numM").val(data.num_telefono);
-       console.log('este es el numer de telefono', data.num_telefono);
-   });
+     $("#id").val(data.id);
+     $("#de_usuarioM").val(de);
+     $("#trackingM").val(data.tracking);
+     $("#nameM").val(data.articulo);
+     $("#Costo").val(data.price);
+     $("#ordenM").val(data.type_orden);
+     $("#empresaM").val(data.empresa);
+     $("#direccionM").val(data.direccion);
+     $("#statusM").val(data.status);
+     $("#cedulaM").val(data.cedula);
+     $("#recibeM").val(data.recibe);
+     $("#numM").val(data.num_telefono);
+     console.log('este es el numer de telefono', data.num_telefono);
+ });
 
 }
 $("#modificar_envio").click(function(){
@@ -314,16 +516,16 @@ $("#modificar_envio").click(function(){
 function buscar_cuent(id){
     var route = "/actualCuent/"+id+"";
     $.get(route, function(data){
-       $("#idM").val(data.id);
-       $("#entidadM").val(data.entidad);
-       $("#correoM").val(data.correo);
-       $("#passwordM").val(data.password);
-       $("#id_bumsuserM").val(data.id_bumsuser);
-       $("#note_cuentaM").val(data.note_cuenta);
-       $("#coinM").val(data.id_coin);
-       $("#priceM").val(data.price);
+     $("#idM").val(data.id);
+     $("#entidadM").val(data.entidad);
+     $("#correoM").val(data.correo);
+     $("#passwordM").val(data.password);
+     $("#id_bumsuserM").val(data.id_bumsuser);
+     $("#note_cuentaM").val(data.note_cuenta);
+     $("#coinM").val(data.id_coin);
+     $("#priceM").val(data.price);
 
-   });
+ });
 }
 
 $("#modificar_cuenta").click(function(){
@@ -361,24 +563,24 @@ $("#modificar_cuenta").click(function(){
 
 $("#agregar_envio").click(function(){
 
-   var route = '/add_envios';
-   console.log("pasamos aca");
-   var token = $('#token').val();
-   var form_data = new FormData();  
+ var route = '/add_envios';
+ console.log("pasamos aca");
+ var token = $('#token').val();
+ var form_data = new FormData();  
 
-   form_data.append('articulo', $("#nombre").val());   
-   form_data.append('type_orden', $("#orden").val());
-   form_data.append('status', $("#status").val());
-   form_data.append('price', $("#price").val().split('.').join(''));
-   form_data.append('empresa', $("#empresa").val());   
-   form_data.append('direccion', $("#direccion").val());
-   form_data.append('num_telefono', $("#telefono").val());
-   form_data.append('cedula', $("#cedula").val());
-   form_data.append('recibe', $("#recibe").val());
-   form_data.append('tracking', $("#tracking").val());
-   form_data.append('id_creadoUsuario', $("#de_usuario").val());
+ form_data.append('articulo', $("#nombre").val());   
+ form_data.append('type_orden', $("#orden").val());
+ form_data.append('status', $("#status").val());
+ form_data.append('price', $("#price").val().split('.').join(''));
+ form_data.append('empresa', $("#empresa").val());   
+ form_data.append('direccion', $("#direccion").val());
+ form_data.append('num_telefono', $("#telefono").val());
+ form_data.append('cedula', $("#cedula").val());
+ form_data.append('recibe', $("#recibe").val());
+ form_data.append('tracking', $("#tracking").val());
+ form_data.append('id_creadoUsuario', $("#de_usuario").val());
 
-   $.ajax({
+ $.ajax({
     url:        route,
     headers:    {'X-CSRF-TOKEN':token},
     type:       'POST',
@@ -403,13 +605,13 @@ $("#agregar_envio").click(function(){
 });
 $("#agregar_imagenes").click(function(){
 
-   var route = '/add_imagenes';
-   console.log("pasamos aca");
-   var token = $('#token').val();
-   var form_data = new FormData();  
+ var route = '/add_imagenes';
+ console.log("pasamos aca");
+ var token = $('#token').val();
+ var form_data = new FormData();  
 
-   form_data.append('id_creator', $("#de_usuario").val());   
-   if($('#inputFile1').prop('files')[0]){
+ form_data.append('id_creator', $("#de_usuario").val());   
+ if($('#inputFile1').prop('files')[0]){
     form_data.append('imagen', $('#inputFile1').prop('files')[0]);
 }  
 $.ajax({

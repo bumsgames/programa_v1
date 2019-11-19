@@ -30,10 +30,13 @@ class Pago extends Model
 	];
 
 	public function setImageAttribute($image)
-	{
-		$this->attributes['image'] = Carbon::now()->second . $image->getClientOriginalName();
-		$name = Carbon::now()->second . $image->getClientOriginalName();
-		\Storage::disk('local')->put($name, \File::get($image));
+	{	
+
+		if ($image != 'undefined') {
+			$this->attributes['image'] = Carbon::now()->second . $image->getClientOriginalName();
+			$name = Carbon::now()->second . $image->getClientOriginalName();
+			\Storage::disk('local')->put($name, \File::get($image));
+		}
 	}
 
 	public function persona1()

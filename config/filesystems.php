@@ -63,6 +63,10 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+        'web_site_root' => [
+            'driver' =>'local',
+            'root' => base_path(),
+        ],
     ],
 
 ];

@@ -46,12 +46,13 @@
 	@endforeach
 	
 	@endforeach
-	<table class="table" style="font-size: 10px;">
+	@php $i = 0; @endphp
+	<table class=" table table-bordered display" style="font-size: 25px !important;">
 		<tbody>
 			@foreach ($ventas as $venta)
 			<tr>
 				<td>
-
+						{{ $i++ }}
 				</td>
 
 				<td>

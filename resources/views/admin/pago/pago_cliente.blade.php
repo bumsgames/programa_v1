@@ -74,8 +74,9 @@
 											@if($sin->verificado <= 0 && $sin->entregado <= 0)
 											@endif
 											<br>	
-											{{--<button data-toggle="modal" 
-											data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>--}}
+											{{-- <button data-toggle="modal" 
+											data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button> --}}
+
 											<button type="button" class="btn btn-sm" onclick="nuevo_detalle_compra({{$sin->id}})" data-toggle="modal" data-target="#modelId">
 												Ver mas detalles
 											</button>
@@ -148,6 +149,8 @@
 												@endif
 												{{--<button data-toggle="modal" 
 												data-target="#ver_detalle_compra" class="btn btn-sm" onclick="ver_detalle_compra({{ $sin->id }})">Ver mas detalles</button>--}}
+
+
 												<button type="button" class="btn btn-sm" onclick="nuevo_detalle_compra({{$sin->id}})" data-toggle="modal" data-target="#modelId">
 													Ver mas detalles
 												</button>
@@ -185,7 +188,7 @@
 					text-decoration:none;
 				}
 			</style>
-			{{--
+			{{-- 
 			<div class="modal fade letraNegra" id="ver_detalle_compra" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
@@ -291,7 +294,7 @@
 					</div>
 				</div>
 			</div>
-			--}}
+			 --}}
 			<style>
 	
 
@@ -311,7 +314,7 @@
 			</style>
 			<!-- Modal -->
 			<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-				<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-dialog modal-lg" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h2 class="modal-title"><span class="fa fa-shopping-cart"></span> Reporte de Pago</h2>
@@ -383,10 +386,14 @@
 									<hr>
 									<div class="row">
 										<div class="col-5">
-											<h5>Total ($)</h5>
+											<h5>Total Pagado: ($)</h5>
+											<br>
+											<h5>Se debia pagar ($):</h5>
 										</div>
 										<div class="col-6">
 											<h5 id="total_com"></h5>
+											<br>
+											<h5 id="total_se_debia_pagar"></h5>
 										</div>
 									</div>
 								</div>
@@ -566,3 +573,7 @@
 				</div>
 			</div>
 			@endsection
+
+			<script type="text/javascript">
+				
+			</script>

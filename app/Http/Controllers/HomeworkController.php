@@ -19,10 +19,10 @@ class HomeworkController extends Controller
     {
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
         $Status = \Bumsgames\Status::All();
         $users = \Bumsgames\BumsUser::All();
         $Homeworks = \Bumsgames\Homework::orderby('created_at', 'desc')->get();
@@ -34,13 +34,13 @@ class HomeworkController extends Controller
     {
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
         $imagenes = \Bumsgames\Imagen::orderby('created_at', 'desc')
-            ->where('portal', 0)
-            ->paginate(5);
+        ->where('portal', 0)
+        ->paginate(5);
         $imagenes_cantidad = \Bumsgames\Imagen::orderby('created_at', 'desc')->where('portal', 0)->get();
         $imagenes_cantidad = $imagenes_cantidad->count();
         return view('HomeWork.imagenes', compact('pago_sin_confirmar', 'imagenes', 'imagenes_cantidad', 'tutoriales'));
@@ -53,8 +53,8 @@ class HomeworkController extends Controller
         $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
         $data2 = '';
         $users = BumsUser::where('level', '>=', '1')
-            ->where('id', '!=', auth()->user()->id)
-            ->get();
+        ->where('id', '!=', auth()->user()->id)
+        ->get();
         foreach ($users as $user) {
             $user->notify(new TaskCompleted($titulo, $data, $data2));
         }
@@ -70,14 +70,14 @@ class HomeworkController extends Controller
     {
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
         $Status = \Bumsgames\Status::All();
         $users = \Bumsgames\BumsUser::All();
         $Homeworks = \Bumsgames\Homework::where('para_usuario', Auth::id())
-            ->orderby('created_at', 'desc')->get();
+        ->orderby('created_at', 'desc')->get();
         return view('HomeWork.index', compact('pago_sin_confirmar', 'users', 'Homeworks', 'Status', 'tutoriales'));
     }
 
@@ -97,27 +97,29 @@ class HomeworkController extends Controller
 
         $id = $request->id_art;
         $articulo = \Bumsgames\Article::find($id);
+
+
+        //dd($articulo->images);
         //$articulo = \Bumsgames\Article::with('categorias')->where('id', $id)->get();
 
         //dd($articulo->toArray());
         
         $articuloConCategory = \Bumsgames\Article::with('categorias')->where('id', $id)->first();
-
         //dd($articuloConCategory->toArray());
         //dd($articuloConCategory["categorias"]->toArray());
         $categoriesArt = $articuloConCategory['categorias'];
-
         //dd($articuloConCategory->toArray(), $categoriesArt);
         
 
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
+        
         $users = \Bumsgames\BumsUser::whereNotIn('id', function ($q) use ($id) {
-                $q->select('id_bumsuser')->from('bums_user_articles')->where('id_article', $id);
-            })->get();
+            $q->select('id_bumsuser')->from('bums_user_articles')->where('id_article', $id);
+        })->get();
         // $users = \Bumsgames\BumsUser::All();
         $categories = \Bumsgames\Category::All();
 
@@ -128,8 +130,13 @@ class HomeworkController extends Controller
         
         $ubicaciones = \Bumsgames\Ubicacion::All();
 
+        $carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+        ->get();
+
+        //dd($articulo->images->toArray());
+
         if(Auth::user()->level >= 7 || in_array($articulo->category,[3,4,6,7,10,11,13,14,15])){
-            return view('admin.article.formulario_Art', compact('pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales', 'categoriesArt','ubicaciones'));
+            return view('admin.article.formulario_Art', compact('carrito','pago_sin_confirmar', 'users', 'categories', 'articulo', 'tutoriales', 'categoriesArt','ubicaciones'));
         }
         else{
             return redirect('404');
@@ -184,8 +191,8 @@ class HomeworkController extends Controller
         $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
         $data2 = '';
         $users = BumsUser::where('level', '>=', '7')
-            ->where('id', '!=', auth()->user()->id)
-            ->get();
+        ->where('id', '!=', auth()->user()->id)
+        ->get();
         foreach ($users as $user) {
             $user->notify(new TaskCompleted($titulo, $data, $data2));
         }
@@ -234,8 +241,8 @@ class HomeworkController extends Controller
     public function eliminar_cliente(Request $request)
     {
         $comprob = \Bumsgames\PerteneceCliente::where('id_cliente', $request->id)
-            ->where('id_article', '!=', '2')
-            ->first();
+        ->where('id_article', '!=', '2')
+        ->first();
 
         if ($request->id == 1167) {
             return Response()->json([
@@ -291,50 +298,54 @@ class HomeworkController extends Controller
     public function destroy($id, Request $request)
     {
         if ($request->ajax()) {
-                $homework = \Bumsgames\Homework::find($id);
+            $homework = \Bumsgames\Homework::find($id);
                 // \Bumsgames\Homework::destroy($id);
-                $homework->delete();
+            $homework->delete();
 
-                return Responseonse()->json(["mensaje" => "borrado"]);
-            }
+            return Responseonse()->json(["mensaje" => "borrado"]);
+        }
     }
 
     public function destroymov($id, Request $request)
     {
         if ($request->ajax()) {
-                $movimiento = \Bumsgames\Movimiento::find($id);
-                if ($movimiento->description == 'Venta Realizada') {
-                    $temp = \Bumsgames\Sales::where('id_movimiento', $id)->first();
-                    $temp = \Bumsgames\Article::find($temp->id_article);
-                    $temp->fill(['quantity' => $temp->quantity + $movimiento->cantidad]);
-                    $temp->save();
-                }
-                \Bumsgames\Movimiento::destroy($id);
-                return $request->all();
+            $movimiento = \Bumsgames\Movimiento::find($id);
+            if ($movimiento->description == 'Venta Realizada') {
+                $temp = \Bumsgames\Sales::where('id_movimiento', $id)->first();
+                $temp = \Bumsgames\Article::find($temp->id_article);
+                $temp->fill(['quantity' => $temp->quantity + $movimiento->cantidad]);
+                $temp->save();
             }
+            \Bumsgames\Movimiento::destroy($id);
+            return $request->all();
+        }
     }
 
     public function destroyuss($id, Request $request)
     {
         if ($request->ajax()) {
 
-                $Usuario = \Bumsgames\BumsUser::destroy($id);
+            $Usuario = \Bumsgames\BumsUser::destroy($id);
 
-                $titulo = 'USUARIO ELIMINADO';
-                $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
-                $data2 = '';
-                $users = BumsUser::where('level', '>=', '7')->get();
-                foreach ($users as $user) {
-                    $user->notify(new TaskCompleted($titulo, $data, $data2));
-                }
-
-                return $request->all();
+            $titulo = 'USUARIO ELIMINADO';
+            $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
+            $data2 = '';
+            $users = BumsUser::where('level', '>=', '7')->get();
+            foreach ($users as $user) {
+                $user->notify(new TaskCompleted($titulo, $data, $data2));
             }
+
+            return $request->all();
+        }
     }
 
     public function destroyArt($id, Request $request)
     {
-        if ($request->ajax()) {
+
+
+
+        try {
+            if ($request->ajax()) {
 
                 $Articulos = \Bumsgames\Article::destroy($id);
 
@@ -350,92 +361,99 @@ class HomeworkController extends Controller
 
                 return $request->all();
             }
+        } catch (\Illuminate\Database\QueryException $e) {
+            // var_dump($e->errorInfo);
+            return \Response::json(array(
+                'data' => 'No se puede eliminar articulo, por que se encuentra en el Carrito Admin'),
+            500
+        );
+        }
     }
 
     public function destroyEnv($id, Request $request)
     {
         if ($request->ajax()) {
 
-                $Envios = \Bumsgames\Orden_Envio::destroy($id);
+            $Envios = \Bumsgames\Orden_Envio::destroy($id);
 
                 // $homework->destroy();
 
-                return $request->all();
-            }
+            return $request->all();
+        }
     }
 
     public function destroyAcc($id, Request $request)
     {
         if ($request->ajax()) {
 
-                $Envios = \Bumsgames\Cuenta::destroy($id);
+            $Envios = \Bumsgames\Cuenta::destroy($id);
 
                 // $homework->destroy();
 
-                return $request->all();
-            }
+            return $request->all();
+        }
     }
 
     public function destroyImagen($id, Request $request)
     {
         if ($request->ajax()) {
 
-                $Envios = \Bumsgames\Imagen::destroy($id);
+            $Envios = \Bumsgames\Imagen::destroy($id);
 
-                $titulo = 'IMAGEN ELIMINADA';
-                $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
-                $data2 = '';
-                $users = BumsUser::where('level', '>=', '1')
-                    ->where('id', '!=', auth()->user()->id)
-                    ->get();
-                foreach ($users as $user) {
-                    $user->notify(new TaskCompleted($titulo, $data, $data2));
-                }
+            $titulo = 'IMAGEN ELIMINADA';
+            $data = 'Accion por: ' . auth()->user()->name . ' ' . auth()->user()->lastname;
+            $data2 = '';
+            $users = BumsUser::where('level', '>=', '1')
+            ->where('id', '!=', auth()->user()->id)
+            ->get();
+            foreach ($users as $user) {
+                $user->notify(new TaskCompleted($titulo, $data, $data2));
+            }
 
                 // $homework->destroy();
 
-                return $request->all();
-            }
+            return $request->all();
+        }
     }
 
     public function eliminar_reporte($id, Request $request)
     {
         if ($request->ajax()) {
 
-                \Bumsgames\Reporte::destroy($id);
-                return $request->all();
-            }
+            \Bumsgames\Reporte::destroy($id);
+            return $request->all();
+        }
     }
 
     public function envios_actuales()
     {
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
         $Envios = \Bumsgames\Orden_Envio::where('type_orden', 'Por Enviar.')
-            ->orderby('created_at', 'desc')
-            ->get();
+        ->orderby('created_at', 'desc')
+        ->get();
         return view('HomeWork.envios', compact('pago_sin_confirmar', 'Envios', 'tutoriales'));
     }
 
     public function envios_actuales_recibir()
     {
         $Envios = \Bumsgames\Orden_Envio::where('type_orden', 'Por recibir')
-            ->where('articulo', '!=', 'Saldo agregado')
-            ->orderby('created_at', 'desc')
-            ->get();
+        ->where('articulo', '!=', 'Saldo agregado')
+        ->orderby('created_at', 'desc')
+        ->get();
         $tutoriales = \Bumsgames\tutorial::all();
         $pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-            ->where(function ($query) {
-                $query->where('verificado', '<=', 0)
-                    ->orWhere('entregado', '<=', 0);
-            })->get();
+        ->where(function ($query) {
+            $query->where('verificado', '<=', 0)
+            ->orWhere('entregado', '<=', 0);
+        })->get();
         return view('HomeWork.envios', compact('pago_sin_confirmar', 'Envios', 'tutoriales'));
     }
-    
+
     public function modEnvio($id, Request $request)
     {
         $envios = \Bumsgames\Orden_Envio::find($id);
