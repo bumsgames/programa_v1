@@ -311,7 +311,7 @@ function removePhotoDiv(number) {
 //         let indexImage=$("#images_mod")[0].childElementCount;
 //         console.log('el index de la imagen debe ser', indexImage);
 
-// <<<<<<< HEAD
+
 
 
 //         var htmlTagImage = 
@@ -325,7 +325,7 @@ function removePhotoDiv(number) {
 // $('#images_mod').append(htmlTagImage);
 // }
 // }
-// =======
+
 //         var htmlTagImage = 
 //         '<div class="col" id="div_'+indexImage+'">' +
 
@@ -337,19 +337,7 @@ function removePhotoDiv(number) {
 //         $('#images_mod').append(htmlTagImage);
 //     }
 // }
-// >>>>>>> 7720678a1255949bf77480dc10fdcb6d36d898a1
 
-<<<<<<< HEAD
-=======
-        '<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
-            '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
-                'Eliminar'+
-            '</button>'+
-        '</div>';
-        $('#images_mod').append(htmlTagImage);
-    }
-}
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
 
 
 function mostrarImagen2(event) {
@@ -1298,13 +1286,11 @@ function subirFotoNew(params, id_articulo) {
             var route = '/api/fotoMultiple';
             var form_data = new FormData(); 
             form_data.append('image', imageFile);
-<<<<<<< HEAD
+
             console.log("ID DEL ARTICULO:"+params.articuloID);
             var id_art = params.articuloID;
             form_data.append('article_id', id_art);
-=======
-            form_data.append('article_id', params.articuloID);
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
+
             form_data.append('number', index+1);
 
             $.ajax({    
@@ -1606,10 +1592,7 @@ $("#subir_foto_v2").click(function(){
 
 
 function subirFoto(params) {
-<<<<<<< HEAD
 
-=======
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
     var files = $('#inputFileMod').prop('files');
     console.log("files a subir", files);
     alert('subir foto');
@@ -1846,7 +1829,7 @@ $("#name_buscador_inteligente").on('keyup', function(){
 
 
 $("#name_client2").on('keyup', function(){
-<<<<<<< HEAD
+
     nombre = $("#name_client2").val();
     apellido = $("#lastname_client2").val();
     documento_identidad = $("#documento_identidad2").val();
@@ -1874,22 +1857,7 @@ $("#documento_identidad2").on('keyup', function(){
         parte_cliente_coincidencia("", "", documento_identidad, "");
     }
 });
-=======
-    if($("#name_client2").val().length > 0 && ($("#name_client2").val().length % 3) == 0){
-        var token = $('#token').val(); 
-        var form_data = new FormData();  
-        form_data.append('name_client', $("#name_client2").val());
-        form_data.append('lastname_client', $("#lastname_client2").val());
-        var route = '/coincidencia';
-        $.ajax({
-            url:        route,
-            headers:    {'X-CSRF-TOKEN':token},
-            type:       'POST',
-            dataType:   'json',
-            data:       form_data,
-            contentType: false, 
-            processData: false,
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
+
 
 $("#nickname2").on('keyup', function(){
     nombre = $("#name_client2").val();
@@ -2974,13 +2942,10 @@ $.ajax({
                 '<tr>'+
                 '<td>'+i+'</td>'+
                 '<td>' +
-<<<<<<< HEAD
+
                 '<input type="text" class="id_articulo" value="'+item.id+'" hidden><h4>'+
                 item.articulo +'</h4> <br> ' + item.category +
-=======
-                '<input type="text" class="id_articulo" value="'+item.id+'" hidden>'+
-                item.articulo +' || ' + item.category.category +
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
+
                 '</td>'+
                 '<td>' + item.cantidad + '</td>'+
                 '<td>' + item.priceTotalBs + ' Bs ('+item.priceUnitedBs+ ' Bs )' +'</td>'+
