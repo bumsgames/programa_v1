@@ -35,11 +35,7 @@
 	cursor: pointer;
 }
 
-<<<<<<< HEAD
-=======
-</style>
-<style>	
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
+
 .espaciom_img:hover .imagen {-webkit-transform:scale(1.03);transform:scale(1.03); transition: all 0.2s ease-in-out;}
 
 .shadow_ligero{
@@ -57,7 +53,7 @@
 			<br>
 			<center>
 				@if ( strlen($articulo->name) >= 10)
-<<<<<<< HEAD
+
 				<h3><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }} 
 					@if (strpos($articulo->categorias[0]->category,'Digital') !== false)
 
@@ -73,11 +69,7 @@
 					@endif
 				</strong>
 				</h2>
-=======
-				<h3><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }} ({{ $articulo->peso }} GB)</strong></h3>
-				@else
-				<h2><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }} ({{ $articulo->peso }} GB)</strong></h2>
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
+
 				@endif
 
 
@@ -106,31 +98,21 @@
 			@else
 			@if($articulo->category >= 16 && $articulo->category <= 16)
 			<img class="img_category" src="{{ url('img/otro (2).png') }}" alt="" style="max-height: 20px;">
-<<<<<<< HEAD
+
 			@endif
-=======
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
-			@endif
+
 			@endif
 			@endif
 			@endif
 			@endif
-<<<<<<< HEAD
+			@endif
+
 		</div>
 
 		
 			
 			<p style="color: black;">{{ $articulo->categorias[0]->category }}</p>
-=======
-			<br>
-		</div>
 
-		
-			@endif
-			<p style="color: black;">{{ $articulo->categorias[0]->category }}</p>
-<br>
-<br>
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
 		
 		<center>
 			<div class="espaciom_img">

@@ -440,6 +440,7 @@ Route::get('/articulosSinImagen','ProgramController@Articulos_Sin_Imagen');
 
 Route::get('/Articulos_sinCategoria','ProgramController@Articulos_sinCategoria');
 Route::get('/Articulos_sinPeso','ProgramController@Articulos_sinPeso');
+Route::get('/mis_registros','ProgramController@mis_registros');
 
 //Agregar imagen
 Route::post('/actualizarImagen/{id}','ProgramController@Actualizar_Imagen');

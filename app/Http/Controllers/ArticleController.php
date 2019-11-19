@@ -291,7 +291,6 @@ public function fotoMultiple(Request $request){
 
 
 
-  // $file->sharpen();
   \Storage::disk('local')->put($name, \File::get($file));
 
 
@@ -301,11 +300,11 @@ public function fotoMultiple(Request $request){
   $image->resize(250, null, function ($constraint) {
     $constraint->aspectRatio();
     $constraint->upsize();
-  });
+  })->sharpen();
 
 
   //\Storage::disk('local')->put($name, \File::get($file));
-  \Storage::disk('local')->put($name, (string) $image->encode('jpg', 30));
+  \Storage::disk('local')->put($name, (string) $image->encode('png', 90));
   // print_r($name);
 
 
@@ -1041,8 +1040,6 @@ public function eliminarFotosArticulo(Request $request){
 
   \Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
 
-
-  \Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
 
 
   $id_bumsuser = json_decode($request->id_bumsuser);
