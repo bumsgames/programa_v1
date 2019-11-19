@@ -1503,6 +1503,35 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		return view('admin.article.articleNoImage', compact('carrito','title', 'bancos', 'comments_por_aprobar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales'));
 	}
 
+	
+
+	public function mis_registros()
+	{
+		$articles = \Bumsgames\Article::
+		// where('id_creator', Auth::id())
+		orderby('created_at','desc')
+		->limit(100)
+		->get();
+
+		$articles_cantidad = $articles->count();
+
+		$tutoriales = \Bumsgames\tutorial::All();
+
+		$users = \Bumsgames\BumsUser::All();
+		$categories = \Bumsgames\Category::All();
+		$coins = \Bumsgames\Coin::All();
+		$title = "Mis ultimos Articulos registrados.";
+		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+		->orderby('created_at', 'desc')
+		->get();
+
+		$carrito = \Bumsgames\Carrito_Admin::where('id_admin', Auth::id())
+		->get();
+
+
+		return view('admin.article.mis_registros', compact('carrito','title', 'bancos', 'comments_por_aprobar', 'articles', 'coins', 'users', 'categories', 'articles_cantidad', 'tutoriales'));
+	}
+
 	//Agrega la imagen a todos los articulos iguales
 	public function Actualizar_Imagen(Request $request, $id)
 	{
