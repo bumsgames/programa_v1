@@ -2145,11 +2145,11 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 	}
 
 	public function coincidencia(Request $request)
+	{
 	
 
 		$coincidencia = \Bumsgames\Client::
 		where('name', 'like', '%' . $request->name_client . '%')
-
 		->where('lastname', 'like', '%' . $request->lastname_client . '%')
 		->ConCedula($request->documento_identidad)
 		->ConNickname($request->nickname)

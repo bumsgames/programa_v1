@@ -318,7 +318,7 @@
           <li><a class="treeview-item" href="{{ url('formulario_registrar_articulo') }}"><i class="icon fa fa-circle-o"></i> Registrar Articulo</a></li>
           {{--
             <li><a class="treeview-item" href="{{ url('categoria_articulo_admin') }}"><i class="icon fa fa-circle-o"></i> Articulos por categoria</a></li>--}}
-
+ <li><a class="treeview-item" href="{{ url('mis_registros') }}"><i class="icon fa fa-circle-o"></i> Mis ultimos registros</a></li>
             <li><a class="treeview-item" href="{{ url('allArticles') }}"><i class="icon fa fa-circle-o"></i> Articulos Disponibles</a></li>
           {{--
           <li><a class="treeview-item" href="{{ url('allArticlesOff') }}"><i class="icon fa fa-circle-o"></i> Articulos Agotados</a></li>
@@ -334,13 +334,11 @@
           <li><a class="treeview-item" href="{{ url('Articulos_sinPeso') }}"><i class="icon fa fa-circle-o"></i> Juego Digitales Sin Peso</a></li>
 
            <li><a class="treeview-item" href="{{ url('Articulos_masCantidad') }}"><i class="icon fa fa-circle-o"></i> Articulos con mas cantidad</a></li>
-
             <li>
               <a class="treeview-item" href="{{ url('inventario',1) }}">
                 <i class="icon fa fa-circle-o"></i> Inventario
               </a>
             </li>
-
           
         </ul>
       </li>
@@ -358,11 +356,7 @@
                 <i class="icon fa fa-circle-o"></i> {{$ubicacion->nombre_ubicacion}}
               </a>
             </li>
-
           @endforeach
-
-          @endforeach --}}
-
         </ul>
       </li> --}}
       {{-- @if(Auth::user()->level >= 7)
