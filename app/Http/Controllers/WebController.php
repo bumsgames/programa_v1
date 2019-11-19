@@ -1157,7 +1157,15 @@ class WebController extends Controller
 
 			$carritos = Session::get('carrito');
 
-			$moneda_actual = \Bumsgames\Coin::where('id',1)->first();
+			
+
+			if (Session::has('id_coin')) {
+				$id_coin = Session::get('id_coin');
+			} else {
+				$id_coin = 1;
+			}
+
+			$moneda_actual = \Bumsgames\Coin::where('id',$id_coin)->first();
 			
 			foreach ($carritos as $carro ){
 				$carro['category'] = \Bumsgames\Category::where('id', $carro['categoria'])->first();
