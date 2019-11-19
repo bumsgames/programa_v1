@@ -289,35 +289,39 @@ function mostrarImagenMod(event) {
     var file = event.target.files[0];
     console.log("file", file);
 
-    //Creo un objeto de la nueva foto que coloque e ira en memoria
-    let image = {
-        index:$("#images_mod")[0].childElementCount,
-        name:file.name
-    }
+    if(file.size<=1100000){
+        //Creo un objeto de la nueva foto que coloque e ira en memoria
+        let image = {
+            index:$("#images_mod")[0].childElementCount,
+            name:file.name
+        }
 
-    //Guardo en memoria la foto nueva que agrego
-    fotosMod.push(image);
-    console.log('fotos guardada en memoria', fotosMod);
-    
-    //Agrego la nueva foto en el Front
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (event) => { 
-        //console.log(event);    
-        prueba = event.target.result
+        //Guardo en memoria la foto nueva que agrego
+        fotosMod.push(image);
+        console.log('fotos guardada en memoria', fotosMod);
         
-        let indexImage=$("#images_mod")[0].childElementCount;
-        console.log('el index de la imagen debe ser', indexImage);
+        //Agrego la nueva foto en el Front
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => { 
+            //console.log(event);    
+            prueba = event.target.result
+            
+            let indexImage=$("#images_mod")[0].childElementCount;
+            console.log('el index de la imagen debe ser', indexImage);
 
-        var htmlTagImage = 
-        '<div class="col" id="div_'+indexImage+'">' +
+            var htmlTagImage = 
+            '<div class="col" id="div_'+indexImage+'">' +
 
-        '<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
-            '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
-                'Eliminar'+
-            '</button>'+
-        '</div>';
-        $('#images_mod').append(htmlTagImage);
+            '<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
+                '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
+                    'Eliminar'+
+                '</button>'+
+            '</div>';
+            $('#images_mod').append(htmlTagImage);
+        }
+    }else{
+        swal('El maximo de tamaño aceptado es de 1.1 mb');
     }
 }
 
@@ -1938,6 +1942,7 @@ $("#borrar_client_venta").click(function(){
     $("#cedula_cliente").val('');
     $("#note").val('');
 });
+
 $("#name").on('keyup', function(){
     if($("#name").val().length > 1 && $("#name").val().length % 4 == 0){
         var token = $('#token').val(); 
@@ -1953,6 +1958,9 @@ $("#name").on('keyup', function(){
             contentType: false, 
             processData: false,
             success:function(data){
+
+                console.log(data);
+                
                 $("#tablacoincidenciaart").show();
 
                 $("#table_article td").remove();
@@ -1971,17 +1979,19 @@ $("#name").on('keyup', function(){
                 });
                 if(contador == 0){
                  nuevaFila+="<tr><td>No hermos encontrado ninguna coincidencia.</td></tr>";
-             }
-             $("#table_article").append(nuevaFila);
-             $.each(data.cat,function(i,item){
-                $(".cat"+item.id).text(item.category);
-            });
-         }
-     });
+                }
+                $("#table_article").append(nuevaFila);
+                $.each(data.cat,function(i,item){
+                    $(".cat"+item.id).text(item.category);
+                });
+            }
+        });
     }
 });
 
 function divFunctionArt(name, category, nombre_categoria,oferta, price_in_dolar, offer_price, peso, fondo, description, trailer){
+
+
     $("#tablacoincidenciaart").show();
     $("#table_article td").remove();
 
@@ -3008,8 +3018,12 @@ function agregaCarro_admin(id,nombre,categorias,precio,imagen,duennos){
 
     var cantidadCero = $('#cantidadDisponible_'+ id).text();
     
-    console.log(cantidadCero);
-    
+    //console.log(cantidadCero);
+    console.log(categorias);
+    if(categorias.length == 0){
+        swal("No se puede agregar el articulo al carrito si no tiene categoria asignada");
+        return;
+    }
     if(cantidadCero=='0'){
         swal("No se puede agregar el articulo al carrito, cantidad es 0");
         return;

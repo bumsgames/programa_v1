@@ -2119,11 +2119,14 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		->groupBy('name', 'articulo_categorias.id_categoria')
 		->get();
 
+		//$images = \Bumsgames\Article::where('id', $coincidencia->id)->get();
+
 		// dd($coincidencia->toArray());
 		$categoria = \Bumsgames\Category::all();
 		return response()->json([
 			"mensaje" => $coincidencia,
-			"cat" => $categoria
+			"cat" => $categoria,
+			//"images" => $images
 		]);
 	}
 

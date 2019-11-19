@@ -121,7 +121,7 @@ class HomeworkController extends Controller
             $q->select('id_bumsuser')->from('bums_user_articles')->where('id_article', $id);
         })->get();
         // $users = \Bumsgames\BumsUser::All();
-        $categories = \Bumsgames\Category::All();
+        $categories = \Bumsgames\Category::orderBy('category', 'ASC')->get();
 
         foreach ($categoriesArt as $category) {
             //dd($categories[$category->id - 1]->id);
