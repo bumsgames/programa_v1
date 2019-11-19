@@ -14,7 +14,7 @@ class AddNotaSecretaToArticle extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->text('notaSecreta')->nullable();
+            $table->longtext('notaSecreta')->nullable();
         });
     }
 

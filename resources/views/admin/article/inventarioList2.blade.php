@@ -5,7 +5,7 @@
 <main class="app-content">
     <div class="app-title">
         <div>
-        <h1><i class="fa fa-dashboard"></i> inventario {{$ubicacion->nombre_ubicacion}}</h1>
+        <h1><i class="fa fa-dashboard"></i> Inventario {{$ubicacion->nombre_ubicacion}}</h1>
         </div>
     </div>
 

@@ -35,7 +35,7 @@ class CreatePerteneceClientesTable extends Migration
             ->onDelete('cascade');
 
             
-            $table->string('informacion')->default('Sin informacion');
+            $table->longtext('informacion')->default('');
 
             $table->timestamps();
         });

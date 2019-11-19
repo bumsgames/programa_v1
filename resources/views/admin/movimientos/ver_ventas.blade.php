@@ -141,6 +141,7 @@
 							<td>
 								<b>Venta realizada por: </b>{{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}
 								<br>	
+
 								<b>Cliente: </b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }}<br>	
 								<a href="{{ url('factura/'.$venta->id) }}" target="_blank"><button class="btn">Ver factura y entrega</button></a>
 								<hr>	

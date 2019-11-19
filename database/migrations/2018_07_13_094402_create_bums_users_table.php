@@ -17,7 +17,9 @@ class CreateBumsUsersTable extends Migration
             $table->increments('id');
             $table->string('name', 100);
             $table->string('lastname', 100);
-            $table->integer('telefono');
+
+            $table->bigInteger('telefono');
+
             $table->integer('active')->unsigned();
             $table->string('nickname', 50)->unique();
             $table->string('email')->unique();

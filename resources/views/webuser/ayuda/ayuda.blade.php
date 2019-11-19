@@ -57,15 +57,11 @@
 						<br>
 						<br>
 						<p> 
-							Es un juego completo al igual que un juego en formato físico, la diferencia es que un juego digital está contenido 
-							en una cuenta desde la cual se podrá comenzar la descarga del mismo, el juego quedará en el disco duro de la consola, 
-							estos juegos son 100% originales, la consola no debe estar chipeada para poder descargar los juegos digitales. Ofrecemos 
-							garantía de cada compra permanente, para ello se debe guardar nuestras normativas obligatoriamente, en caso de faltar 
-							a nuestras políticas el comprador irrumpe en la garantía.
+							
 						</p>
 						<br>
 						<br>
-						<center class="mensaje-importante">Los juegos descargados mediante cuentas son solo para uno y solo una Consola</center>
+						<center class="mensaje-importante"></center>
 						<br>
 						<br> 
 					</div>

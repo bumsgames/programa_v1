@@ -118,7 +118,9 @@
               <?php 
               $i++;
     
-              echo $i;  ?>. <img class="img_vermas" width="30" height="30" src="{{ url('img/'.$articulo->images[0]->file) }}"> <strong>Articulo: </strong>{{ $articulo->name }} || {{ $articulo->pertenece_category->category }}. 
+
+              echo $i;  ?>. <img class="img_vermas" width="30" height="30" src="{{ url('img/'.$articulo->images[0]->file) }}"> <strong>Articulo: </strong>{{ $articulo->name }} || {{ $articulo->categorias[0]->category }}. 
+
 <br>
               <strong>Agregado por:</strong> {{ $articulo->pertenece_id_creator->name }} {{ $articulo->pertenece_id_creator->lastname }} ({{ $articulo->created_at->diffForHumans() }})
               <br>

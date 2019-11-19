@@ -56,10 +56,12 @@
                             </td> --}}
                             <td>
                                 <form action="/buscar_articulo" method="post" target="_blank">
-                                    <input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
-                                    <input autocomplete="off" type="text" hidden="" value="{{ $article->id_articulo }}" name="id_art">
-                                    <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="" value="" Onclick="">Modificar</button>
-                                </form>
+
+                                                <input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
+                                                <input type="text" hidden="" value="{{ $article->id }}" name="id_art">
+                                                <button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="" value="" Onclick="">Modificar</button>
+                                            </form>
+
                                 {{-- <button class="btn btn-info" type="button">Modificar</button> --}}
                             </td>
                         </tr>

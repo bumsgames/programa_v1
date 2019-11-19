@@ -338,9 +338,11 @@
 								<td>
 									{{-- {{ $article->categorias[0]->category }} --}}
 									
-									@if (isset($article->categorias[0]))
+									{{-- @if (isset($article->categorias[0]))
 									@if ((strpos($article->categorias[0]->category,'Cuenta') !== false) 
-									|| (strpos($article->categorias[0]->category,'Cupo') !== false))
+
+									|| (strpos($article->categorias[0]->category,'Cupo') !== false)) --}}
+
 
 									@if(Auth::user()->level >= 7)
 									<strong>
@@ -381,8 +383,10 @@
 									@endforeach
 									<br>
 									<br>	
-									@endif
-									@endif
+
+									{{-- @endif
+									@endif --}}
+
 									
 									
 									@endif
@@ -412,16 +416,18 @@
 									<br>	
 									<br>
 									@endif
+									@if(Auth::user()->level >= 7)
 									<strong>Costo de Inversión: </strong>
 									<br>
 									<span class="costofil">{{$article->costo}} $</span>
 									<br>
 									<br>
+									@endif
 								</td>
 								<td>
 									<div class="btn-group" role="group" aria-label="Basic example">
 
-										@if(Auth::user()->level >= 7 || in_array($article->category,[3,4,6,7,10,11,13,14,15]))
+										@if(Auth::user()->level >= 7)
 
 										
 
@@ -430,6 +436,8 @@
 											<input autocomplete="off" type="text" hidden="" value="{{ $article->id }}" name="id_art">
 											<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target="" value="" Onclick="">Modificar</button>
 										</form>
+
+										@endif
 										
 										<button type="submit" class="btn btn-secondary" data-toggle="modal" data-target=".bd-example-modal-lg3" 
 										Onclick="mandaridM({{$article->id}})">
@@ -476,7 +484,7 @@
 							</button> --}}
 							<br>
 							<br>
-							@endif
+							
 
 							{{-- onclick='mostrar_articulo_cliente({{ $article->id }})' --}}
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal_cliente" onclick='mostrar_articulo_cliente({{ $article->id }})'>Parte cliente</button>

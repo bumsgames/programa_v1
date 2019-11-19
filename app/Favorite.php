@@ -13,5 +13,10 @@ class Favorite extends Model
         'article_id',
     ];
 
+    public function articulo()
+    {
+        return $this->belongsTo('Bumsgames\Article', 'article_id');
+    }
+
     
 }

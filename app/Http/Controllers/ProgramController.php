@@ -79,16 +79,31 @@ class ProgramController extends Controller
 
 	public function index()
 	{
+
+
+		// $articles_off = \Bumsgames\Article::
+		// selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category,fecha_agotado')
+		// 	->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
+		// 	->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
+		// 	->where('quantity', '<=', 0)
+		// 	->where('articles.id', '!=', '2')
+		// 	->orderBy('fecha_agotado', 'desc')
+		// 	->groupBy('name', 'categories.category')
+		// 	->limit(25)
+		// 	->get();
 		$articles_off = \Bumsgames\Article::
-		selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+		selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category,fecha_agotado')
 			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
-			->where('quantity', '<=', 0)
 			->where('articles.id', '!=', '2')
+			->orderby('quantity','asc')
 			->orderBy('fecha_agotado', 'desc')
 			->groupBy('name', 'categories.category')
-			->limit(50)
-			->get();
+			->get()->where('quantity','<=',0)->take(25);
+
+			// dd($articles_off);
+
+
 
 			$articulo_agregados_recientemente = \Bumsgames\Article::
 		selectRaw('name, price_in_dolar, ultimo_agregado, categories.category as category, file')
@@ -886,33 +901,52 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		$relacionCliente_Articulo = \Bumsgames\PerteneceCliente::find($request->id_pertenece);
 
 		$articulo = \Bumsgames\Article::find($relacionCliente_Articulo->id_article);
+
 		if ($articulo->id == 2) {
 			return Response::json([
 				'message' => 'No se puede devolver un articulo devuelto'
 			], 500);
 		}
-		if (
-			$articulo->category == 1
-			|| $articulo->category == 2
-			|| $articulo->category == 8
-			|| $articulo->category == 9
-			|| $articulo->category == 12
-		) {
-			$anexado = '<br>Devuelto:  ' . $articulo->pertenece_category->category . ' Fecha: ' . Carbon::now()->format('d-m-Y') . '. Por: ' . Auth::user()->name . ' ' . Auth::user()->lastname . '. ';
-			$anexado = $anexado . ' Dueño anterior: ' . $relacionCliente_Articulo->cliente->name . ' ' . $relacionCliente_Articulo->cliente->lastname;
 
-			$anexado = $articulo->note . $anexado;
-			$informacion = 'Devuelto:  ' . $articulo->name . ' | ' . $articulo->pertenece_category->category . ' <span id="textimport">| ' . $articulo->email . '</span> |  Fecha: ' . Carbon::now()->format('d-m-Y') . '. Por: ' . Auth::user()->name . ' ' . Auth::user()->lastname . '. ';
+		if (1 == 1) {
+			$anexado     = '<br>Devuelto:  ' . $articulo->categorias[0]->category . '<br> Fecha: ' . Carbon::now()->format('d-m-Y') . '. <br><br>Devuelto por: ' . Auth::user()->name . ' ' . Auth::user()->lastname . '. <br><br>';
+			
+			$anexado     = $anexado . ' Cliente(Dueño) anterior: ' . $relacionCliente_Articulo->cliente->name . ' ' . $relacionCliente_Articulo->cliente->lastname.'<hr>';
+			
+			$anexado     = $articulo->note . $anexado;
 
-			$articulo->fill(['note' => $anexado]);
-			$articulo->fill(['quantity' => 1]);
+			
+			
+			$informacion = 'Devuelto:  ' . $articulo->name . ' <br><br> ' . $articulo->categorias[0]->category . '<br> ' . 
+			$articulo->email . '<br><br>  Fecha: ' . Carbon::now()->format('d-m-Y') . '.<br> Devuelto por: ' . Auth::user()->name . ' ' . Auth::user()->lastname . '. <br><br>';
+			
+			$id_category = $articulo->categorias[0]->id;
+			
+			$articlesPivote = \Bumsgames\Article::
+			where('name', $articulo->name)
+			->whereHas('categorias', function($q)  use ($id_category) {
+			$q->where('categories.id', $id_category);
+			});
+			
+			$cantidad_antes                = $articlesPivote->sum('quantity');
+
+			if ($cantidad_antes == 0) {
+				 $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
+			}
+			
+			
+			$articulo->fill(['note'        => $anexado]);
+			$articulo->fill(['noteSecreta' => $anexado]);
+			$articulo->fill(['quantity'    => 1]);
 			$articulo->save();
+
+			
+
 
 			$articulo = $relacionCliente_Articulo->articulo->name;
 			$category = $relacionCliente_Articulo->articulo->pertenece_category->category;
 			$email = $relacionCliente_Articulo->articulo->email;
 			$cliente = $relacionCliente_Articulo->cliente->name . ' ' . $relacionCliente_Articulo->cliente->lastname;
-			$informacion = $informacion . ' Dueño anterior: ' . $relacionCliente_Articulo->cliente->name . ' ' . $relacionCliente_Articulo->cliente->lastname;
 
 
 			DB::statement('UPDATE pertenece_clientes SET id_article="2" WHERE id="' . $request->id_pertenece . '" ');
@@ -1331,6 +1365,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		->doesnthave('images')
 		->groupby('name','categories.id')
 		->where('articles.id', '!=', '2')
+		->where('quantity','>',0)
 		->get();
 
 		$articles_cantidad = $articles->count();
@@ -1363,6 +1398,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		->doesnthave('categorias')
 		->groupby('name','categories.id')
 		->where('articles.id', '!=', '2')
+		->where('quantity','>',0)
 		->get();
 
 		$articles_cantidad = $articles->count();
@@ -1401,7 +1437,9 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		// ->get();
 
 		$articles = \Bumsgames\Article::
-		selectRaw('name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+
+		selectRaw('articles.id as id,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+
 			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
 			->where('quantity', '>', 0)
@@ -1441,6 +1479,9 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		->select(\DB::raw("*, articles.id as id_articulo"))
 		->groupby('name','categories.id')
 		->where('articles.id', '!=', '2')
+
+		->where('quantity','>',0)
+
 		->get();
 
 		$articles_cantidad = $articles->count();
@@ -1602,6 +1643,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 
 	public function aplicar_filtros_multiples(Request $request)
 	{
+
 		$namefilt = $request->namefilt;
 		$category = $request->selcat;
 		$filtrocorreo = $request->filtrocorreo;
@@ -1617,22 +1659,43 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		$parametros = [$category, $filtrocorreo, $disponible, $creatorfilter, $nickfil, $precio, $oferta, $peso, $seldu];
 
 
-		$articles = \Bumsgames\Article::
-		where('articles.id', '!=', '2')		
-		->where('name', 'LIKE', '%' . $namefilt . '%') 
-		->whereHas('categorias', function($q)  use ($category) {
-			$q->ConCategoria($category);
-		})
-		->ConCorreo($filtrocorreo)
-		->Disponibilidad($disponible)
-		->Creador($creatorfilter)
-		->Nickname($nickfil)
-		->where('articles.id', '!=', '2')		
-		->whereHas('duennos', function($q)  use ($seldu) {
-			$q->Dueño($seldu);
-		})
-		->orderby('articles.id')
-		->get();
+		if ($category == 0) {
+			$articles = \Bumsgames\Article::
+			where('articles.id', '!=', '2')		
+			->where('name', 'LIKE', '%' . $namefilt . '%') 
+			->ConCorreo($filtrocorreo)
+			->Disponibilidad($disponible)
+			->Creador($creatorfilter)
+			->Nickname($nickfil)
+			->where('articles.id', '!=', '2')		
+			->whereHas('duennos', function($q)  use ($seldu) {
+				$q->Dueño($seldu);
+			})
+			->orderby('articles.id')
+			->get();
+
+			
+		}else{
+			
+			$articles = \Bumsgames\Article::
+			where('articles.id', '!=', '2')		
+			->where('name', 'LIKE', '%' . $namefilt . '%') 
+			->WhereHas('categorias', function($q)  use ($category) {
+				$q->ConCategoria($category);
+			})
+			->ConCorreo($filtrocorreo)
+			->Disponibilidad($disponible)
+			->Creador($creatorfilter)
+			->Nickname($nickfil)
+			->where('articles.id', '!=', '2')		
+			->whereHas('duennos', function($q)  use ($seldu) {
+				$q->Dueño($seldu);
+			})
+			->orderby('articles.id')
+			->get();
+		}
+
+		// dd($request->all(), $articles);
 
 		
 
@@ -2018,7 +2081,9 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 			->where('articles.id', '!=', '2')
 			->orderBy('ultimo_agregado', 'desc')
 			->groupBy('name', 'categories.category')
-			->limit(50)
+
+			->limit(75)
+
 			->get();
 
 		// $articles_off = \Bumsgames\Article::selectRaw('*, name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado')
@@ -2031,16 +2096,21 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		// ->limit(50)
 		// ->get();
 
+
 			$articles_off = \Bumsgames\Article::
-		selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category')
+		selectRaw('articles.id as id,name,name, price_in_dolar, quantity, sum(quantity) as quantity, ultimo_agregado, categories.category as category,fecha_agotado')
 			->leftjoin('articulo_categorias', 'articles.id', '=', 'articulo_categorias.id_articulo')
 			->leftjoin('categories','articulo_categorias.id_categoria','=','categories.id')
-			->where('quantity', '<=', 0)
 			->where('articles.id', '!=', '2')
+			->orderby('quantity','asc')
 			->orderBy('fecha_agotado', 'desc')
 			->groupBy('name', 'categories.category')
-			->limit(50)
-			->get();
+			->get()
+			->where('quantity','<=',0)
+			->take(75);
+
+
+
 
 
 
@@ -2076,10 +2146,16 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 
 	public function coincidencia(Request $request)
 	{
-		$coincidencia = \Bumsgames\Client::where('name', 'like', '%' . $request->name_client . '%')
+	
+
+		$coincidencia = \Bumsgames\Client::
+		where('name', 'like', '%' . $request->name_client . '%')
 		->where('lastname', 'like', '%' . $request->lastname_client . '%')
-		->where('documento_identidad', 'like', '%' . $request->documento_identidad . '%')
+		->ConCedula($request->documento_identidad)
+		->ConNickname($request->nickname)
+		->limit(25)
 		->get();
+
 		return response()->json([
 			"mensaje" => $coincidencia
 		]);
@@ -2249,6 +2325,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 			$id_coin_array = json_decode($request->id_coin_array);
 			$bancoEmisor_array = json_decode($request->bancoEmisor_array);
 			$referencia_array = json_decode($request->referencia_array);
+			$nota_pago_array = json_decode($request->nota_venta_array);
 			$id_bumsuser = json_decode($request->id_bumsuser);
 
 			for ($i = 0; $i < count($monto_array); $i++) {
@@ -2263,6 +2340,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 					'id_bancoEmisor' => $bancoEmisor_array[$i],
 					'referencia' => $referencia_array[$i],
 					'id_coin' => $id_coin_array[$i],
+					'notaPago' => $nota_pago_array[$i],
 					'dolardia' => $dolardia,
 				]);
 			}
@@ -3905,17 +3983,18 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 	public function agregar_cliente_articulo(Request $request)
 	{
 		$article = \Bumsgames\Article::find($request->id_article);
-		if (
-			$article->category == 1
-			|| $article->category == 2
-			|| $article->category == 8
-			|| $article->category == 9
-			|| $article->category == 12
-		) { } else {
-			return Response::json([
-				'message' => 'Este tipo de categoria no se le pueden agregar clientes por esta parte, debe realizar la venta'
-			], 500);
-		}
+		// if (
+		// 	$article->category == 1
+		// 	|| $article->category == 2
+		// 	|| $article->category == 8
+		// 	|| $article->category == 9
+		// 	|| $article->category == 12
+		// ) { } else {
+		// 	return Response::json([
+		// 		'message' => 'Este tipo de categoria no se le pueden agregar clientes por esta parte, debe realizar la venta'
+		// 	], 500);
+		// }
+
 
 		$this->validate($request, [
 			'name' => 'required|string',
@@ -3931,23 +4010,21 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 			], 500);
 		}
 
-		if ($article->quantity - 1 <= 0) {
-			$art = \Bumsgames\Article::where('name', $article->name)
-			->where('category', $article->category)
-			->get();
 
-			if ($art->sum('quantity') <= 0) {
-				$titulo = 'SE AGOTO';
-				$data = "Articulo: " . $article->name;
-				$data2 = "Categoria: " . $article->pertenece_category->category;
-				$users = BumsUser::where('level', '>=', '7')->get();
-				foreach ($users as $user) {
-					$user->notify(new TaskCompleted($titulo, $data, $data2));
-				}
-			}
-		}
+		$primera_categoria_id = $article->categorias[0]->id;
+		$art = \Bumsgames\Article::
+    where('name', $article->name)
+    ->whereHas('categorias', function($q)  use ($primera_categoria_id) {
+      $q->where('categories.id', $primera_categoria_id);
+    });
+
+// notificaciones se acabo stock
+		if ($art->sum('quantity') == 0) {
+      $art->update(['fecha_agotado' => Carbon::now()]);
+    } 
 
 		$cliente = \Bumsgames\Client::where('id', '=', $request->id_cliente)->first();
+
 		if (isset($cliente)) {
 			$cliente->fill($request->all());
 			$cliente->save();
@@ -3972,36 +4049,37 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 	{
 		$relacionCliente_Articulo = \Bumsgames\PerteneceCliente::find($id);
 
-		$venta = \Bumsgames\Sales::where('id_article', $relacionCliente_Articulo->id_article)
-		->where('id_client', $relacionCliente_Articulo->id_cliente)
-		->get();
+		$id_articulo = $relacionCliente_Articulo->id_article;
 
-		if ($venta->count() > 0) {
-			return Response::json([
-				'message' => 'Este parte esta relacionada a una venta, para poder eliminarla, debe eliminar la venta'
-			], 500);
+		$articulo = \Bumsgames\Article::find($id_articulo);
+
+		$id_category = $articulo->categorias[0]->id;
+
+		$articlesPivote = \Bumsgames\Article::
+		 where('name', $articulo->name)
+		->whereHas('categorias', function($q)  use ($id_category) {
+		  $q->where('categories.id', $id_category);
+		});
+
+		 // dd($articlesPivote->count());
+
+		$cantidad_antes = $articlesPivote->sum('quantity');
+		
+		$articulo->fill(['quantity' => 1]);
+		$articulo->save();
+
+
+		if ($cantidad_antes == 0) {
+			 $articlesPivote->update(['ultimo_agregado' => Carbon::now()]);
 		}
-		$articulo = \Bumsgames\Article::find($relacionCliente_Articulo->id_article);
-		if (
-			$articulo->category == 1
-			|| $articulo->category == 2
-			|| $articulo->category == 8
-			|| $articulo->category == 9
-			|| $articulo->category == 12
-		) {
-			$articulo->fill(['quantity' => 1]);
-			$articulo->save();
 
-			$relacionCliente_Articulo->delete();
+		$relacionCliente_Articulo->delete();
 
-			return Response::json([
-				'message' => 'Exitoso'
-			], 200);
-		} else {
-			return Response::json([
-				'message' => 'Este tipo de categoria no puede eliminar la relacion de pertenencia'
-			], 500);
-		}
+
+		// 	
+		return Response::json([
+		'message'      => 'Exitoso'
+		], 200);
 	}
 
 

@@ -278,7 +278,6 @@ public function fotoMultiple(Request $request){
   })
   ->get();
 
-
   // guardo imagen
   $file = $request->file('image');
   $name = Carbon::now()->second . $file->getClientOriginalName();
@@ -292,23 +291,21 @@ public function fotoMultiple(Request $request){
 
 
   // $file->sharpen();
-  \Storage::disk('local')->put($name, \File::get($file));
+  \Storage::disk('web_site_root')->put($name, \File::get($file));
+  
+  $image =\Storage::disk('web_site_root')->get($image->file);
+  print_r($image);
 
-
-
-  $image = Image::make(\Storage::disk('local')->get($image->file));
+  $image = Image::make($image);
+  print_r($image);
   
   $image->resize(250, null, function ($constraint) {
     $constraint->aspectRatio();
     $constraint->upsize();
   });
 
-
-  //\Storage::disk('local')->put($name, \File::get($file));
-  \Storage::disk('local')->put($name, (string) $image->encode('jpg', 30));
-  // print_r($name);
-
-
+  //\Storage::disk('web_site_root')->put($name, \File::get($file));
+  \Storage::disk('web_site_root')->put($name, (string) $image->encode('jpg', 30));
 
   foreach ($articulos_coincidencia as $articulo) {
     \Bumsgames\Article_Image::create([
@@ -319,7 +316,6 @@ public function fotoMultiple(Request $request){
   
   return response()->json(["se guardo la imagen"=>$imagen_guardada]);
 }
-
 
 
 // public function fotoMultiple(Request $request){
@@ -419,7 +415,6 @@ public function eliminarFotosArticulo(Request $request){
   $articulo =  \Bumsgames\Article::where('id', '=', $request->article_id)->first();
   $images = $articulo->images;
     //dd($articulo->toArray());
-
 
   foreach ($images as $image) {
     \Bumsgames\Article_Image::where('article_id', '=', $request->article_id)->where('image_id', '=', $image->id)->delete();
@@ -1039,11 +1034,8 @@ public function eliminarFotosArticulo(Request $request){
 
 
 
-  \Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
-
 
   \Bumsgames\BumsUser_Article::where('id_article', $articulo->id)->delete();
-
 
   $id_bumsuser = json_decode($request->id_bumsuser);
   $porcentaje = json_decode($request->porcentaje);

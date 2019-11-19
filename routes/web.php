@@ -227,6 +227,10 @@ Route::post('/modificar_Articulo', 'ArticleController@modificar_Articulo');
 // WebController 
 //Route::get('/categorias', 'WebController@categorias');
 Route::post('/coincidencia_buscador_inteligente','WebController@coincidencia_buscador_inteligente');
+
+Route::post('/factura_cliente','WebController@factura_cliente');
+Route::post('/entrega_cliente','WebController@entrega_cliente');
+
 Route::get('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos_web_cat/{id}/{categoria?}', 'WebController@articulos_web_cat');
 Route::get('/filtrar_articulos', 'WebController@filtrar_articulos');
@@ -237,6 +241,9 @@ Route::get('/articulos_oferta', 'WebController@articulos_oferta');
 Route::get('/articulos_oferta_opc', 'WebController@articulos_oferta_opc');
 Route::get('/ayuda', 'WebController@ayuda');
 Route::get('/adminpaneluser', 'WebController@adminpaneluser');
+Route::get('/ver_ofertas_clientes', 'WebController@ver_ofertas_clientes');
+Route::get('/mis_juegos_digitales', 'WebController@mis_juegos_digitales');
+Route::get('/favoritos_cliente', 'WebController@favoritos_cliente');
 Route::get('/categoria_general/{categoria}', 'WebController@categoria_general');
 Route::get('/prueba2', 'ControllerPrimary@index');
 Route::get('/lala', 'WebController@lala');

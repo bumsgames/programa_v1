@@ -116,12 +116,13 @@ $('.ceck_cat').change(function(){
 
     url = $("#buscador_ruta").val();
 
-    if($("#check_cat_"+$(this).val()).val() == 0){
+
+    if($("#check_cat_"+$(this).val()).val() != 0){
         $("#check_cat_"+$(this).val()).val(1);
     }else{
         $("#check_cat_"+$(this).val()).val(0);
     }
-    
+
     let id_categorias = document.querySelectorAll('.ceck_cat');
     let visible_cat   = document.querySelectorAll('.visible_cat');
 
@@ -288,7 +289,7 @@ function mostrarImagenMod(event) {
     //Obtengo el file del input
     var file = event.target.files[0];
     console.log("file", file);
-
+    
     if(file.size<=1100000){
         //Creo un objeto de la nueva foto que coloque e ira en memoria
         let image = {
@@ -1220,7 +1221,7 @@ function subirFotoMod(params) {
     }
 }
 
-function subirFotoNew(params) {
+function subirFotoNew(params, id_articulo) {
     console.log("params", params);
 
     console.log("cantidad de fotos", $("#images_mod")[0].childElementCount);
@@ -1272,7 +1273,11 @@ function subirFotoNew(params) {
             var route = '/api/fotoMultiple';
             var form_data = new FormData(); 
             form_data.append('image', imageFile);
-            form_data.append('article_id', params.articuloID);
+
+            console.log("ID DEL ARTICULO:"+params.articuloID);
+            var id_art = params.articuloID;
+            form_data.append('article_id', id_art);
+
             form_data.append('number', index+1);
 
             $.ajax({    
@@ -1494,7 +1499,7 @@ $("#registrar_articulo").click(function(){
                 let countImages = $("#images_mod")[0].childElementCount;
                 if(countImages>0){
                     console.log("subo las fotos");
-                    subirFotoNew(data);
+                    subirFotoNew(data, data.articuloID);
                 }
                 swal(data.data+"\n\n El articulo: "+$("#name").val()+". Fue registrado con exito.");
                 // swal("El articulo: "+$("#name").val()+". Fue registrado con exito.");
@@ -1574,6 +1579,7 @@ $("#subir_foto_v2").click(function(){
 
 
 function subirFoto(params) {
+
     var files = $('#inputFileMod').prop('files');
     console.log("files a subir", files);
     alert('subir foto');
@@ -1810,43 +1816,57 @@ $("#name_buscador_inteligente").on('keyup', function(){
 
 
 $("#name_client2").on('keyup', function(){
-    if($("#name_client2").val().length > 0 && ($("#name_client2").val().length % 3) == 0){
-        var token = $('#token').val(); 
-        var form_data = new FormData();  
-        form_data.append('name_client', $("#name_client2").val());
-        form_data.append('lastname_client', $("#lastname_client2").val());
-        var route = '/coincidencia';
-        $.ajax({
-            url:        route,
-            headers:    {'X-CSRF-TOKEN':token},
-            type:       'POST',
-            dataType:   'json',
-            data:       form_data,
-            contentType: false, 
-            processData: false,
 
-            success:function(data){
-                $("#table_client2 td").remove();
-                var nuevaFila;
-                contador = 0;
-                $.each(data.mensaje, function(i, item) {
-                    contador++;
-                    console.log(item.name);
-                    var angel = item.name;
-                    nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name+" "+item.lastname+"</td><td>"+item.nickname+" ||| "+item.num_contact+"</td><td><button class='btn btn-dark' id='bat' onclick='divFunction2(\""+item.id+"\",\""+item.name+"\",\""+item.lastname+"\",\""+item.num_contact+"\");'>Seleccionar</button></td></tr>";
-                });
-                $("#table_client2").append(nuevaFila);
-            }
-        });
-    }
+    nombre = $("#name_client2").val();
+    apellido = $("#lastname_client2").val();
+    documento_identidad = $("#documento_identidad2").val();
+     nickname = $("#nickname2").val();
+     if (nombre.length % 4 == 0) {
+        parte_cliente_coincidencia(nombre, apellido, documento_identidad, nickname);
+     }
 });
 
 $("#lastname_client2").on('keyup', function(){
-    if(($("#lastname_client2").val().length > 0) && ($("#lastname_client2").val().length % 3) == 0){    
+    nombre = $("#name_client2").val();
+    apellido = $("#lastname_client2").val();
+    documento_identidad = $("#documento_identidad2").val();
+     nickname = $("#nickname2").val();
+   if (apellido.length % 4 == 0) {
+        parte_cliente_coincidencia(nombre, apellido, documento_identidad, nickname);
+     }
+});
+
+$("#documento_identidad2").on('keyup', function(){
+    nombre = $("#name_client2").val();
+    apellido = $("#lastname_client2").val();
+    documento_identidad = $("#documento_identidad2").val();
+    if (documento_identidad.length % 2 == 0) {
+        parte_cliente_coincidencia("", "", documento_identidad, "");
+    }
+});
+
+
+$("#nickname2").on('keyup', function(){
+    nombre = $("#name_client2").val();
+    apellido = $("#lastname_client2").val();
+    documento_identidad = $("#documento_identidad2").val();
+     nickname = $("#nickname2").val();
+    if (nickname.length % 2 == 0) {
+        parte_cliente_coincidencia("", "", "", nickname);
+    }
+});
+
+
+function parte_cliente_coincidencia(nombre, apellido, documento_identidad, nickname){
+    if(1 == 1){    
         var token = $('#token').val(); 
         var form_data = new FormData();  
-        form_data.append('name_client', $("#name_client2").val());
-        form_data.append('lastname_client', $("#lastname_client2").val());
+
+        form_data.append('name_client', nombre);
+        form_data.append('lastname_client', apellido);
+        form_data.append('documento_identidad', documento_identidad);
+         form_data.append('nickname', nickname);
+
         var route = '/coincidencia';
         $.ajax({
             url:        route,
@@ -1865,50 +1885,65 @@ $("#lastname_client2").on('keyup', function(){
                     contador++;
                     console.log(item.name);
                     var angel = item.name;
-                    nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name+" "+item.lastname+"</td><td>"+item.nickname+" ||| "+item.num_contact+"</td><td><button class='btn btn-dark' id='bat' onclick='divFunction2(\""+item.id+"\",\""+item.name+"\",\""+item.lastname+"\",\""+item.num_contact+"\");'>Seleccionar</button></td></tr>";
+                    nuevaFila+="<tr><td>"+contador+"</td><td>"+item.name
+                    +" "+item.lastname+"</td><td>"+item.nickname+" ||| "+item.num_contact
+                    +"</td><td>"+item.documento_identidad+"</td><td><button class='btn btn-dark' id='bat' onclick='divFunction2(\""+item.id
+                    +"\",\""+item.name+"\",\""+item.lastname+"\",\""+item.nickname+"\",\""+item.documento_identidad+"\",);'>Seleccionar</button></td></tr>";
                 });
                 $("#table_client2").append(nuevaFila);
             }
         });
     }
-});
+}
 
-
-$("#name_client").on('keyup', function(){
-    var nombre_cliente = $("#name_client").val();
-    var apellido_cliente = $("#lastname_client").val();
-    var cedula_cliente = $("#cedula_cliente").val();
-    if ( (nombre_cliente.length % 3) == 0) {
-        coincidencia(nombre_cliente, apellido_cliente, cedula_cliente);
-    }
-});
+        $("#name_client").on('keyup', function(){
+        var nombre_cliente               = $("#name_client").val();
+        var apellido_cliente             = $("#lastname_client").val();
+        var cedula_cliente               = $("#cedula_cliente").val();
+        if ( (nombre_cliente.length % 3) == 0) {
+        coincidencia(nombre_cliente, apellido_cliente, cedula_cliente, "");
+        }
+        });
 
 $("#lastname_client").on('keyup', function(){
     var nombre_cliente = $("#name_client").val();
     var apellido_cliente = $("#lastname_client").val();
     var cedula_cliente = $("#cedula_cliente").val();
     if ( (apellido_cliente.length % 3) == 0) {
-        coincidencia(nombre_cliente, apellido_cliente, cedula_cliente);
+        coincidencia(nombre_cliente, apellido_cliente, cedula_cliente,"");
     }
 });
+
 
 $("#cedula_cliente").on('keyup', function(){
     var nombre_cliente = $("#name_client").val();
     var apellido_cliente = $("#lastname_client").val();
     var cedula_cliente = $("#cedula_cliente").val();
     if ( (cedula_cliente.length % 2) == 0) {
-        coincidencia(nombre_cliente, apellido_cliente, cedula_cliente);
+        coincidencia("","", cedula_cliente,"");
     }
 });
 
+$("#nickname").on('keyup', function(){
+    var nombre_cliente = $("#name_client").val();
+    var apellido_cliente = $("#lastname_client").val();
+    var cedula_cliente = $("#cedula_cliente").val();
+    var nickname = $("#nickname").val();
+    
 
-function coincidencia(nombre_cliente, apellido_cliente, cedula_cliente){
-    if((nombre_cliente.length > 0 || apellido_cliente > 0 || cedula_cliente > 0)){
+    if ( (nickname.length % 4) == 0) {
+        coincidencia("", "", "",nickname);
+    }
+});
+
+function coincidencia(nombre_cliente, apellido_cliente, cedula_cliente, nickname){
+    if((nombre_cliente.length > 0 || apellido_cliente.length > 0 || cedula_cliente.length > 0 || nickname.length > 0)){
         var token = $('#token').val(); 
         var form_data = new FormData();  
         form_data.append('name_client',nombre_cliente);
         form_data.append('lastname_client', apellido_cliente);
         form_data.append('documento_identidad', cedula_cliente);
+        form_data.append('nickname', nickname);
         var route = '/coincidencia';
         $.ajax({
             url:        route,
@@ -2046,11 +2081,12 @@ function divFunction(id, nickname, name, lastname, contact, note, documento_iden
     $("#table_client td").remove();
 }
 
-function divFunction2(id, name, lastname, contact){
+function divFunction2(id, name, lastname, nickname, documento_identidad){
     $("#id_client2").val(id);
     $("#name_client2").val(name);
     $("#lastname_client2").val(lastname);
-    $("#num_contact2").val(contact);
+    $("#nickname2").val(nickname);
+    $("#documento_identidad2").val(documento_identidad);
     $("#table_client2 td").remove();
 }
 
@@ -2899,8 +2935,10 @@ $.ajax({
                 '<tr>'+
                 '<td>'+i+'</td>'+
                 '<td>' +
-                '<input type="text" class="id_articulo" value="'+item.id+'" hidden>'+
-                item.articulo +' || ' + item.category.category +
+
+                '<input type="text" class="id_articulo" value="'+item.id+'" hidden><h4>'+
+                item.articulo +'</h4> <br> ' + item.category +
+
                 '</td>'+
                 '<td>' + item.cantidad + '</td>'+
                 '<td>' + item.priceTotalBs + ' Bs ('+item.priceUnitedBs+ ' Bs )' +'</td>'+
@@ -3339,7 +3377,8 @@ $("#borrar_campos").click(function(){
     id_cliente       = $("#id_client2").val('')
     nombre_cliente   = $("#name_client2").val('');
     apellido_cliente = $("#lastname_client2").val('');
-    num_cliente      = $("#num_contact2").val('');
+    $("#documento_identidad2").val('');
+     $("#nickname2").val('');
 });
 
 $("#botonagregartutorial").click(function(){
@@ -3376,23 +3415,34 @@ $("#botonagregartutorial").click(function(){
 });
 
 $("#agregar_cliente_articulo").click(function(){ 
+
     id_articulo      = $("#id_articulo2").val();
     id_cliente       = $("#id_client2").val()
     nombre_cliente   = $("#name_client2").val();
     apellido_cliente = $("#lastname_client2").val();
-    num_cliente      = $("#num_contact2").val();
+    // num_cliente      = $("#num_contact2").val();
+    documento_identidad      = $("#documento_identidad2").val();
+    nickname      = $("#nickname2").val();
     informacion      = "Pertenencia de articulo colocado manualmente";
     var token = $('#token').val(); 
     var form_data = new FormData(); 
+
 
     //cliente
     form_data.append('id_cliente', id_cliente);
     form_data.append('name', nombre_cliente);
     form_data.append('lastname', apellido_cliente);
-    form_data.append('num_contact', num_cliente);
-    if(!(id_cliente)){
+
+    form_data.append('nickname',nickname );
+    form_data.append('documento_identidad', documento_identidad);
+
+    if (nickname != "") {
+form_data.append('nickname',nickname );
+    }else{
         form_data.append('nickname', nicknameAleatorio(nombre_cliente, apellido_cliente));
     }
+
+
     //pertenece cliente 
     form_data.append('id_cliente', id_cliente);
     form_data.append('id_article', id_articulo);
@@ -3411,6 +3461,8 @@ $("#agregar_cliente_articulo").click(function(){
             nombre_cliente   = $("#name_client2").val('');
             apellido_cliente = $("#lastname_client2").val('');
             num_cliente      = $("#num_contact2").val('');
+            $("#documento_identidad2").val('');
+            $("#nickname2").val('');
             mostrar_articulo_cliente(id_articulo);
         },
         error:function(msj){
@@ -3543,7 +3595,7 @@ function mostrar_articulo_cliente(id_articulo){
             $( "#tabla tbody" ).append('<tr><td>'
                 +contador+ '</td><td>'
                 +item.name+' '+item.lastname+ '</td><td>'+item.num_contact+' ||| '
-                +item.email+'</td><td>'+item.nickname+'</td><td><button class="btn btn-dark btn-block" onclick="eliminaRelacion('+item.id_pertenece+','+id_articulo+');">Elimina relacion</button><button onclick="devolverA('+item.id_pertenece+','+id_articulo+');" class="btn btn-dark">Devolver articulo</button></td></tr>"');
+                +item.email+'</td><td>'+item.nickname+' | '+item.documento_identidad+'</td><td><button class="btn btn-dark btn-block" onclick="eliminaRelacion('+item.id_pertenece+','+id_articulo+');">Elimina relacion</button><button onclick="devolverA('+item.id_pertenece+','+id_articulo+');" class="btn btn-dark">Devolver articulo</button></td></tr>"');
         });
         $('#titulo_cliente_articulo').append(titulo);
         $('#id_articulo2').val(id_articulo);

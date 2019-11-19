@@ -363,7 +363,7 @@
 							
 						</div>
 						<div class="row" id="images_mod">
-							<@php
+							@php
 								$p=0;
 							@endphp
 							@foreach ($articulo->images as $image)
@@ -371,7 +371,8 @@
 								<div class="col" id="div_{{$p}}">
 									
 									<img id="img_{{$p}}" class="img"  src="img/{{ $image->file }}" 
-										style="object-fit: cover;">
+										style="object-fit: cover;" height="250">
+										<br>	
 									<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"
 									Onclick="removePhotoDiv({{$p}});">
 										Eliminar
@@ -448,51 +449,6 @@
 	  }
 	};
 	
-// 	var inputFileMod = document.getElementById('inputFileMod');
-//     if(inputFileMod){
-    	
-//         inputFileMod.addEventListener('change', mostrarImagenMod, false);
-//     }
-
-//     function mostrarImagenMod(event) {
-
-//     //Obtengo el file del input
-//     var file = event.target.files[0];
-//     console.log("file", file);
-
-//     //Creo un objeto de la nueva foto que coloque e ira en memoria
-//     let image = {
-//         index:$("#images_mod")[0].childElementCount,
-//         name:file.name
-//     }
-
-//     //Guardo en memoria la foto nueva que agrego
-//     fotosMod.push(image);
-//     console.log('fotos guardada en memoria', fotosMod);
-    
-//     //Agrego la nueva foto en el Front
-//     let reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = (event) => { 
-//         //console.log(event);    
-//         prueba = event.target.result
-        
-//         let indexImage=$("#images_mod")[0].childElementCount;
-//         console.log('el index de la imagen debe ser', indexImage);
-
-
-
-//         var htmlTagImage = 
-//         '<div class="col" id="div_'+indexImage+'">' +
-
-// '<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
-// '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
-// 'Eliminar'+
-// '</button>'+
-// '</div>';
-// $('#images_mod').append(htmlTagImage);
-// }
-// }
   </script>
 
 

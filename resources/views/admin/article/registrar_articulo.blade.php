@@ -8,7 +8,7 @@
 			<div class="tile">
 				<center>
 					<br>
-					<h1 class="fixed">REGISTRANDO ARTICULO. PRUEBA</h1>
+					<h1 class="fixed">REGISTRANDO ARTICULO.</h1>
 					<!-- 		enctype="multipart/form-data" files="true" action="/user" method="post" -->
 					<input name="_token" id="token" value="{{ csrf_token() }}" hidden="">
 					<br>

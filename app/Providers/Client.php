@@ -35,25 +35,20 @@ class Client extends Authenticatable
         return $this->hasMany('Bumsgames\Favorite', 'client_id');
     }
 
-    public function mis_articulos()
-    {
-        return $this->hasMany('Bumsgames\Favorite', 'client_id');
-    }
-
     public function scopeConCedula($query, $p)
     {      
-
+print_r("veo si entro2");
         if ($p) {
-            
+            print_r("entre2");
             return $query->where('documento_identidad', 'like', '%' . $p . '%');
         }
     }
 
     public function scopeConNickname($query, $p)
     {   
-        
+         print_r("veo si entro");
         if ($p) {
-           
+            print_r("entre");
             return $query->where('nickname', 'like', '%' . $p . '%');
         }
     }

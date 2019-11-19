@@ -318,7 +318,7 @@
           <li><a class="treeview-item" href="{{ url('formulario_registrar_articulo') }}"><i class="icon fa fa-circle-o"></i> Registrar Articulo</a></li>
           {{--
             <li><a class="treeview-item" href="{{ url('categoria_articulo_admin') }}"><i class="icon fa fa-circle-o"></i> Articulos por categoria</a></li>--}}
-
+ <li><a class="treeview-item" href="{{ url('mis_registros') }}"><i class="icon fa fa-circle-o"></i> Mis ultimos registros</a></li>
             <li><a class="treeview-item" href="{{ url('allArticles') }}"><i class="icon fa fa-circle-o"></i> Articulos Disponibles</a></li>
           {{--
           <li><a class="treeview-item" href="{{ url('allArticlesOff') }}"><i class="icon fa fa-circle-o"></i> Articulos Agotados</a></li>
@@ -334,26 +334,31 @@
           <li><a class="treeview-item" href="{{ url('Articulos_sinPeso') }}"><i class="icon fa fa-circle-o"></i> Juego Digitales Sin Peso</a></li>
 
            <li><a class="treeview-item" href="{{ url('Articulos_masCantidad') }}"><i class="icon fa fa-circle-o"></i> Articulos con mas cantidad</a></li>
+            <li>
+              <a class="treeview-item" href="{{ url('inventario',1) }}">
+                <i class="icon fa fa-circle-o"></i> Inventario
+              </a>
+            </li>
           
         </ul>
       </li>
 
-      <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+     {{--  <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Inventario</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
            <li>
               <a class="treeview-item" href="{{ url('inventario',1) }}">
                 <i class="icon fa fa-circle-o"></i> Inventario
               </a>
             </li>
-          {{-- @foreach ($ubicaciones as $ubicacion)   
+          @foreach ($ubicaciones as $ubicacion)   
             <li>
               <a class="treeview-item" href="{{ url('inventario',$ubicacion->id) }}">
                 <i class="icon fa fa-circle-o"></i> {{$ubicacion->nombre_ubicacion}}
               </a>
             </li>
-          @endforeach --}}
+          @endforeach
         </ul>
-      </li>
+      </li> --}}
       {{-- @if(Auth::user()->level >= 7)
       <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">Ordenes</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
@@ -376,7 +381,7 @@
 
        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-edit"></i><span class="app-menu__label">Ventas</span><i class="treeview-indicator fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          @if(Auth::user()->level >= 9)
+          @if(Auth::user()->level >= 5)
           <li><a class="treeview-item" href="{{ url('ver_ventas') }}"><i class="icon fa fa-circle-o"></i>Ventas Generales</a></li>
           @endif
           <li><a class="treeview-item" href="/movimientos_personal"><i class="icon fa fa-circle-o"></i>Mis ventas</a></li>
@@ -436,7 +441,7 @@
                 <li><a class="treeview-item" href="/comentariosrechazados"><i class="icon fa fa-circle-o"></i>Comentarios rechazados</a></li>
               </ul>
             </li>
-            {{-- <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-handshake-o"></i>
+            <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-handshake-o"></i>
               <span class="app-menu__label">Ofertas de Clientes &nbsp;       
                 <span class="badge badge-light">{{ \Bumsgames\Oferta::where('estado','0')->count() }}</span>
               </span><i class="treeview-indicator fa fa-angle-right"></i></a>
@@ -446,7 +451,7 @@
                 <li><a class="treeview-item" href="/ofertas_cliente_aprobadas"><i class="icon fa fa-circle-o"></i>Ofertas aprobadas</a></li>
                 <li><a class="treeview-item" href="/ofertas_cliente_rechazadas"><i class="icon fa fa-circle-o"></i>Ofertas rechazadas</a></li>
               </ul>
-            </li> --}}
+            </li>
             <li>
               <a class="app-menu__item" href="/pago_cliente"><i class="app-menu__icon fa fa-dashboard"></i>
                 <span class="app-menu__label">Pago de Clientes &nbsp; 

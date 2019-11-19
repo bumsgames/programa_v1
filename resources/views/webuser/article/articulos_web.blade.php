@@ -251,7 +251,6 @@
 						<?php $count++?>
 						@include('webuser.misc.carta')
 						@endforeach
-
 					</div>
 				</center>
 				<br>	

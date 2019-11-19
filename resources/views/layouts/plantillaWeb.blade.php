@@ -268,12 +268,15 @@ duration: 450000,
       					<th>
 							<?php echo $i++; ?>
 							@php
-							$category = $categorias->where('id',$x['categoria']);
+							$category = $categorias->where('id', $x['categoria']);
 							@endphp
+
+
       					</th>
       					<td>
       						<input autocomplete="off" type='text' class='id_articulo' value='{{ $x['id'] }}' hidden="">
-      						{{ $x['articulo'] }} || {{$category[0]->category}}
+      						{{ $x['articulo'] }} || {{  $x['categoria'] }}
+      						<br>
 						</td>
 						<td>
 							{{$x['cantidad']}}

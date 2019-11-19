@@ -59,7 +59,9 @@
                         <label class="remember"><input type="checkbox" name="keepload"> Mantener Sesion Iniciada</label>
                     </div> --}}
 
-                    <button class="btn btn-primary btnLogin mt-5" type="submit">registrarse</button>
+
+                    <button class="btn btn-primary btnLogin mt-5" type="submit">Registrarse</button>
+
                     </form>
                     <br>
                     <br>

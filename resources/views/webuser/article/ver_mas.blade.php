@@ -21,7 +21,11 @@
 						<br>
 						@foreach($imagenes_articulo as $imagen)
 						<center>
+<<<<<<< HEAD
+							<img class="img_vermas" src="{{ url('img/'.$imagen->file) }}" style="height: 350px;">
+=======
 							<img class="img_vermas" src="{{ url('img/'.$imagen->file) }}" style="height: 240px;">
+>>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
 						</center>
 						<br>	
 						@endforeach
@@ -166,12 +170,19 @@
 											disabled 
 										@else 
 											onclick="agregaCarro('{{ $articulo_part->id }}', '{{ $articulo_part->name }}', 
+<<<<<<< HEAD
+											{{ $articulo_part->categorias[0]->id }}, 
+											{{ $articulo_part->price_in_dolar }},
+											'{{ $articulo_part->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}','{{$cantidad_de_articulos->quantity}}');" 
+=======
 											'{{ $articulo_part->categorias[0]->category }}', 
 											{{ $articulo_part->price_in_dolar }},
 											'{{ $articulo_part->fondo }}', {{ $moneda_actual->valor }}, '{{ $moneda_actual->sign }}','{{$articulo_part->quantity}}');" 
+>>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
 										@endif>
 										<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Agregar al carrito
 									</button>
+									
 									<button style="border-radius:5px!important;padding:0.5rem; background: white !important; color: blue; border: solid 1px blue !important;" class="btn btn-primary btn-block botonCarta" data-toggle="modal" data-target="#modal_realizarOferta">
 										Realizar oferta
 									</button>
@@ -200,7 +211,7 @@
 
 						<br>
 
-						@if(($articulo_part->trailer))
+						{{-- @if(($articulo_part->trailer))
 						<style>
 							.embed-container { 
 								position: relative; 
@@ -220,13 +231,23 @@
 						<div class='embed-container'>
 							<iframe src='{{$articulo_part->trailer}}' frameborder='0' allowfullscreen></iframe>
 						</div>
+<<<<<<< HEAD
+						@endif --}}
+=======
 						@endif
 
 
 						<div>
+>>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
 
 
+						<div>
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
 						</div>
 
 

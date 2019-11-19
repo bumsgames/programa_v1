@@ -37,7 +37,7 @@ class CreateArticlesTable extends Migration
             $table->timestamp('ultimo_agregado', 100)->nullable();
             $table->timestamp('fecha_agotado', 100)->nullable();
             $table->date('reset_button', 100)->nullable();
-            $table->string('note', 300)->nullable();
+            $table->longtext('note', 300)->nullable();
             $table->string('image', 200)->default('nada.jpg');
             $table->string('fondo', 200)->default('fondo_nada.jpg');
             $table->timestamps();
