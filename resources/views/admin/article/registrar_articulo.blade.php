@@ -294,11 +294,37 @@
 					<input type="text" class="form-control" name="tal">
 				</div> -->
 				<div style="text-align: center;">
-					<button class="btn btn-primary" type="submit" id="registrar_articulo" id="">Registrar articulo</button>
+					<button class="btn btn-primary" type="submit" id="registrar_articulo" >Registrar articulo</button>
 				</div>
 			</div>
 		</center>
 		{{-- fin tile --}}
+	</div>
+
+	<button id="launchCostModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#costoModal" hidden>
+		Launch demo modal
+	</button>
+
+	<input type="text" value="0" id="banderaModal" name="banderaModal" hidden>
+
+	<div class="modal fade" id="costoModal" tabindex="-1" role="dialog" aria-labelledby="costoModallabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Atencion</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body">
+			  <p>No has introducido costo de inversion. ¿Deseas guardar el producto de todas formas?.</p>
+			</div>
+			<div class="modal-footer">
+			  <button class="btn btn-primary" type="submit" id="closeModalRegistrar" data-dismiss="modal">Si</button>
+			  <button type="button" id="noClose" class="btn btn-secondary" data-dismiss="modal">No</button>
+			</div>
+		  </div>
+		</div>
 	</div>
 </div>
 </div>
@@ -335,51 +361,6 @@
 			$('#counter').text(len);
 		}
 	};
-
-// 	 var inputFileMod = document.getElementById('inputFileMod');
-//     if(inputFileMod){
-    	
-//         inputFileMod.addEventListener('change', mostrarImagenMod, false);
-//     }
-
-//     function mostrarImagenMod(event) {
-
-//     //Obtengo el file del input
-//     var file = event.target.files[0];
-//     console.log("file", file);
-
-//     //Creo un objeto de la nueva foto que coloque e ira en memoria
-//     let image = {
-//         index:$("#images_mod")[0].childElementCount,
-//         name:file.name
-//     }
-
-//     //Guardo en memoria la foto nueva que agrego
-//     fotosMod.push(image);
-//     console.log('fotos guardada en memoria', fotosMod);
-    
-//     //Agrego la nueva foto en el Front
-//     let reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = (event) => { 
-//         //console.log(event);    
-//         prueba = event.target.result
-        
-//         let indexImage=$("#images_mod")[0].childElementCount;
-//         console.log('el index de la imagen debe ser', indexImage);
-
-
-
-//         var htmlTagImage = 
-//         '<div class="col" id="div_'+indexImage+'">' +
-
-// '<img id="img_'+indexImage+'" class="img row text-center fotos" src="'+ event.target.result+ '" height="100" style="object-fit: cover;">'+
-// '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv('+indexImage+');" >'+
-// 'Eliminar'+
-// '</button>'+
-// '</div>';
-// $('#images_mod').append(htmlTagImage);
-// }
-//}
 </script>
+
 @endsection

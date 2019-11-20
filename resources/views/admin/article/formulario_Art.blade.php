@@ -404,6 +404,32 @@
 
 	</div>
 
+	<button id="launchCostModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#costoModal" hidden>
+		Launch demo modal
+	</button>
+
+	<input type="text" value="0" id="banderaModal" name="banderaModal" hidden>
+
+	<div class="modal fade" id="costoModal" tabindex="-1" role="dialog" aria-labelledby="costoModallabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Atencion</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body">
+			  <p>No has introducido costo de inversion. ¿Deseas guardar el producto de todas formas?.</p>
+			</div>
+			<div class="modal-footer">
+			  <button class="btn btn-primary" type="submit" id="closeModalModificar" data-dismiss="modal">Si</button>
+			  <button type="button" id="noClose" class="btn btn-secondary" data-dismiss="modal">No</button>
+			</div>
+		  </div>
+		</div>
+	</div>
+
 </div>
 </div>
 

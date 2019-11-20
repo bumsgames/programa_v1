@@ -230,6 +230,7 @@ Route::post('/coincidencia_buscador_inteligente','WebController@coincidencia_bus
 
 Route::post('/factura_cliente','WebController@factura_cliente');
 Route::post('/entrega_cliente','WebController@entrega_cliente');
+Route::post('/update_client', 'WebController@update_client');
 
 Route::get('/articulos_web', 'WebController@articulos_web');
 Route::get('/articulos_web_cat/{id}/{categoria?}', 'WebController@articulos_web_cat');
@@ -244,6 +245,7 @@ Route::get('/adminpaneluser', 'WebController@adminpaneluser');
 Route::get('/ver_ofertas_clientes', 'WebController@ver_ofertas_clientes');
 Route::get('/mis_juegos_digitales', 'WebController@mis_juegos_digitales');
 Route::get('/favoritos_cliente', 'WebController@favoritos_cliente');
+Route::get('/configuracion_cliente', 'WebController@configuracion_cliente');
 Route::get('/categoria_general/{categoria}', 'WebController@categoria_general');
 Route::get('/prueba2', 'ControllerPrimary@index');
 Route::get('/lala', 'WebController@lala');

@@ -51,6 +51,7 @@
                 <a class="list-group-item list-group-item-action panel-item" href="{{ url('mis_juegos_digitales') }}">Mis Juegos Digitales</a>
                 <a class="list-group-item list-group-item-action panel-item" href="{{ url('favoritos_cliente') }}">Favoritos</a>
                 <a class="list-group-item list-group-item-action panel-item" href="{{ url('ver_ofertas_clientes') }}">Ofertas Realizadas</a>
+                <a class="list-group-item list-group-item-action panel-item" href="{{ url('configuracion_cliente') }}">Configuración</a>
                 @include('modal.comment')
                 <br>
                 <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#commentModal">
@@ -72,28 +73,7 @@
                             Su cuenta no ha sido verificada, verifiquela o en 7 dias sera borrada.
                         </div>
                     @endif
-<<<<<<< HEAD
                     @yield('contenido_cliente')
-=======
-                    <h1 class="panel-title">MIS COMPRAS</h1>
-                    <br>
-                    <table class="table table-shadow">
-                        <thead class="miscomprashead">
-                            <tr>
-                                <th>#</th>
-                                <th>Nombre del producto</th>
-                                <th>Categoria</th>
-                                <th>Fecha de la compra</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </div>
-
-
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
             </div>
         </div>
         </div>

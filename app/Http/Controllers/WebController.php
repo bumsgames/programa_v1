@@ -960,6 +960,58 @@ class WebController extends Controller
 		return view('webuser.user.mis_compras', compact('ventas','agentes_activos','categorias_sub','articulosmios', 'comentarios', 'articulocomprado', 'categorias', 'articulos', 'coins', 'moneda_actual', 'user'));
 	}
 
+	function configuracion_cliente(Request $request){
+
+		if (Auth::guard('client')->guest()) {
+			return redirect('/');
+		}
+		
+		$user = \Bumsgames\Client::where('id', '=', '' . Auth::guard('client')->user()->id . '')->first();
+		$carrito = Session::get('carrito');
+
+		//dd($carrito);
+
+		return view('webuser.user.configuracion_cliente', compact('user', 'carrito'));
+	}
+
+	function update_client(Request $request){	
+		
+		if($request->nickname != Auth::guard('client')->user()->nickname){
+			//dd('es diferente');
+			$this->validate($request, [
+				'nickname' => 'required|string|unique:clients',
+				'password' => 'required',
+			]);
+		}else{
+			//dd('no es');
+			$this->validate($request, [
+				'nickname' => 'required|string',
+				'password' => 'required',
+			]);
+		}
+		
+		if (Auth::guard('client')->attempt(['nickname' => $request->nickname, 'password' => $request->password])) {
+			
+			//dd($request->all());
+
+			$user = \Bumsgames\Client::find($request->id);
+			$user->name = $request->name;
+			$user->lastname = $request->lastname;
+			$user->nickname = $request->nickname;
+			$user->save();
+
+			Session::flash('flash_message_success', 'Usuario Actualizado');
+			return redirect('/configuracion_cliente');
+			//return view('webuser.user.configuracion_cliente', compact('user'));
+		}else{
+			Session::flash('flash_message', 'Contraseña Incorrecta');
+			return redirect('/configuracion_cliente');
+		}
+
+		
+
+	}
+
 	function favoritos_cliente(Request $request){
 
 		if (Auth::guard('client')->guest()) {
@@ -972,7 +1024,7 @@ class WebController extends Controller
 		->where('client_id', $user->id)
 		->get();
 
-$data =array();
+		$data =array();
 		foreach ($favoritos as $item) {
 			// dd($item->articulo->name);
 			$article = \Bumsgames\Article::
@@ -986,8 +1038,6 @@ $data =array();
 			->where('name', $item->articulo->name)
 			->where('articulo_categorias.id_categoria', $item->articulo->categorias[0]->id)
 			->first();
-
-			
 
 			// dd($article->toArray());
 

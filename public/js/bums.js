@@ -944,7 +944,27 @@ function quitar(id) {
     $(".x").remove();
 }
 
+$("#closeModalModificar").click(function () {
+    $("#modificar_articulo").click();
+    $('#banderaModal').val(0);
+})
+
+$("#noClose").click(function () {
+    $('#banderaModal').val(0);
+})
+
 $("#modificar_articulo").click(function () {
+
+    let cost = $("#costo").val();
+    console.log("costo recibo", cost);
+
+    if( (cost==0 || !cost) && $('#banderaModal').val() == 0 ){
+        $('#banderaModal').val(1);
+        console.log("bandera", $('#banderaModal').val());
+        $('#launchCostModal').click();
+        return;
+    }
+
     let duenno = document.querySelectorAll('.id_duenno');
     let porcentaje = document.querySelectorAll('.duenno_porcentaje');
 
@@ -1316,8 +1336,22 @@ function borrarFotoArticulo(params) {
     });
 }
 
+$("#closeModalRegistrar").click(function () {
+    $("#registrar_articulo").click();
+    $('#banderaModal').val(0);
+})
 
 $("#registrar_articulo").click(function () {
+
+    let cost = $("#costo").val();
+    console.log(cost);
+
+    if( (cost==0 || !cost) && $('#banderaModal').val() == 0 ){
+        $('#banderaModal').val(1);
+        console.log($('#banderaModal').val());
+        $('#launchCostModal').click();
+        return;
+    }
 
     if ($("#quantity").val() < 0) {
         swal("No se puede registrar articulo con cantidad negativa");
