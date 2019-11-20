@@ -2218,12 +2218,16 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 	public function coincidenciaArticulo(Request $request)
 	{
 		$coincidencia = \Bumsgames\Article::where('name', 'like', '%' . $request->name . '%')
-		->selectRaw('*,name, categories.category as categoria')
+		->selectRaw('*,name, categories.category as categoria, articles.id as id, categories.id as category_id')
 		->leftjoin('articulo_categorias','articulo_categorias.id_articulo','articles.id')
 		->leftjoin('categories','articulo_categorias.id_categoria','categories.id')
 		->groupBy('name', 'articulo_categorias.id_categoria')
 		->get();
 
+		foreach ($coincidencia as $article) {
+			$art = \Bumsgames\Article::find($article->id);
+			$article['images'] = $art->images;
+		}
 		//$images = \Bumsgames\Article::where('id', $coincidencia->id)->get();
 
 		// dd($coincidencia->toArray());
@@ -2231,7 +2235,6 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		return response()->json([
 			"mensaje" => $coincidencia,
 			"cat" => $categoria,
-			//"images" => $images
 		]);
 	}
 

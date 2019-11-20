@@ -1994,6 +1994,8 @@ $("#name").on('keyup', function () {
 
                 console.log(data);
 
+                coincidenciaImages = data.mensaje;
+
                 $("#tablacoincidenciaart").show();
                 $("#table_article td").remove();
 
@@ -2003,12 +2005,17 @@ $("#name").on('keyup', function () {
                 //nombre, categoria.id, oferta, precio, precio oferta, peso, imagen, trailer
                 $.each(data.mensaje, function (i, item) {
                     contador++;
-                    nuevaFila += "<tr><td>" + item.name + "</td><td class='cat" + item.id
-                        + "'></td><td><button onclick='divFunctionArt(\"" + item.name
-                        + "\",\"" + item.id + "\",\"" + item.categoria + "\",\"" + item.oferta + "\",\"" + item.price_in_dolar
-                        + "\",\"" + item.offer_price
-                        + "\",\"" + item.peso + "\",\"" + item.fondo + "\",\"" + item.description + "\",\"" + item.trailer
-                        + "\",);'>Seleccionar</button></td></tr>";
+
+
+                    console.log("imagenes", item.images);
+                    console.log(JSON.stringify(item.images));
+
+                    nuevaFila += '<tr><td>' + item.name + '</td><td class="cat' + item.id
+                        + '"></td><td><button onclick="divFunctionArt(\'' + item.name
+                        + '\',\'' + item.category_id + '\',\'' + item.categoria + '\',\'' + item.oferta + '\',\'' + item.price_in_dolar
+                        + '\',\'' + item.offer_price
+                        + '\',\'' + item.peso + '\',\'' + item.fondo + '\',\'' + item.description + '\',\'' + item.trailer
+                        + '\',\'' + item.id + '\',);">Seleccionar</button></td></tr>';
                 });
                 if (contador == 0) {
                     nuevaFila += "<tr><td>No hermos encontrado ninguna coincidencia.</td></tr>";
@@ -2022,25 +2029,26 @@ $("#name").on('keyup', function () {
     }
 });
 
+var coincidenciaImages;
 
-function divFunctionArt(name, category, nombre_categoria, oferta, price_in_dolar, offer_price, peso, fondo, description, trailer) {
+function divFunctionArt(name, category_id, nombre_categoria, oferta, price_in_dolar, offer_price, peso, fondo, description, trailer, id) {
 
-    console.log("id", category);
+    console.log("id category", category_id);
 
     $("#tablacoincidenciaart").show();
     $("#table_article td").remove();
 
     $("#name").val(name);
     // $("#category").val(category);
-    $("#categoria_opc").val(category);
+    $("#categoria_opc").val(category_id);
     $("#oferta").val(oferta);
     $("#categoria_opc").find('option:selected').remove();
     var nombre_html = nombre_categoria;
     // alert(nombre_categoria);
     // alert(nombre_html);
     var nombre = nombre_categoria;
-    $("#esribir_categoria").append('<tr><td><input type="text" class="form-control form-control-sm categoria_marca num_cat" hidden readonly value=' + category
-        + '></td><td><input type="text" class="form-control form-control-sm categoria_nombre" readonly value="' + nombre_html + '"></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" onclick="quitar_categoria(' + category
+    $("#esribir_categoria").append('<tr><td><input type="text" class="form-control form-control-sm categoria_marca num_cat" hidden readonly value=' + category_id
+        + '></td><td><input type="text" class="form-control form-control-sm categoria_nombre" readonly value="' + nombre_html + '"></td><td><button type="button" class="btn btn-danger btn-sm borrar" id="quitar_categoria" onclick="quitar_categoria(' + category_id
         + ', \'' + nombre + '\');">Quitar</button></td></tr>"');
 
     $("#oferta").val(oferta);
@@ -2063,6 +2071,34 @@ function divFunctionArt(name, category, nombre_categoria, oferta, price_in_dolar
     });
 
     $("#tablacoincidenciaart").hide();
+
+    console.log("data coincidencia",coincidenciaImages);
+
+    let articulo = coincidenciaImages.find(element=>  element.id == id);
+    console.log("articulo", articulo);
+
+    articulo.images.forEach(element => {
+        let image = {
+            index: $("#images_mod")[0].childElementCount,
+            name: element.file
+        }
+
+        //Guardo en memoria la foto nueva que agrego
+        fotosMod.push(image);
+        console.log('fotos guardada en memoria', fotosMod);
+
+        let indexImage = $("#images_mod")[0].childElementCount;
+        console.log('el index de la imagen debe ser', indexImage);
+
+        var htmlTagImage =
+            '<div class="col" id="div_' + indexImage + '">' +
+                '<img id="img_' + indexImage + '" class="img row text-center fotos" src="img/' + element.file + '" height="100" style="object-fit: cover;">' +
+                '<button class="btn btn-warning mt-2 deletePhoto" type="button" style="position: relative;"  Onclick="removePhotoDiv(' + indexImage + ');" >' +
+                    'Eliminar' +
+                '</button>' +
+            '</div>';
+        $('#images_mod').append(htmlTagImage);
+    });
 }
 
 
