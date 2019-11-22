@@ -42,7 +42,7 @@
 							<div class="row">
 								<div class="col-4">
 									<center>
-										<img src="{{ url('img/'.$uv->articulo->fondo) }}" height="80" style="width:auto" alt="">
+										<img src="{{ url('img/'.$uv->articulo->images[0]->file) }}" height="80" style="width:auto" alt="">
 									</center>
 								</div>
 								<div class="col-8">

@@ -1,10 +1,9 @@
 $("#comprarCarrito").click(function () {
     if ($("#nArt").val() >= 1) {
-        window.open("orden_a_pagar", "_blank");
+        window.open("/orden_a_pagar", "_blank");
     } else {
         swal('Usted tiene el carrito vacio.');
     }
-
 });
 
 
