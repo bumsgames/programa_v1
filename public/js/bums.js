@@ -239,7 +239,6 @@ function init() {
     if (inputFileMod) {
         inputFileMod.addEventListener('change', mostrarImagenMod, false);
     }
-
 }
 
 //Eliminar foto del frontend
