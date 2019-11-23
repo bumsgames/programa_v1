@@ -17,21 +17,50 @@
 		<div id="mostrararticulos" class="tile">
 			<div class="row">
 				<div class="col-12 col-lg-5">
-					<div class="container responsive bg-dark" style="top:100px;border-radius:50px; background: white !important; border: solid 20px gray;">
+					{{-- <div class="container responsive bg-dark" style="top:100px;border-radius:50px; background: white !important; border: solid 20px gray;"> --}}
 						<br>
-						@foreach($imagenes_articulo as $imagen)
-						<center>
-<<<<<<< HEAD
-							<img class="img_vermas" src="{{ url('img/'.$imagen->file) }}" style="height: 350px;">
-=======
-							<img class="img_vermas" src="{{ url('img/'.$imagen->file) }}" style="height: 240px;">
->>>>>>> 73e3ede248e8fba6269e0c46fac04fe3c71bb58f
-						</center>
+
+						<div class="row">
+							
+							<div class="col pl-5 pr-5">
+								
+								<div class="row">
+									
+									<div class="col-12 d-flex justify-content-center">
+										<div class="text-center" style="width: 500px;height: 500px;">
+											<img id="mainImage" src="{{ url('img/'.$imagenes_articulo[0]->file) }}" alt="" style="
+											height: 100%;
+											object-fit: cover;
+											object-position: center center;">
+										</div>
+										
+									</div>
+								</div>
+		
+								<div class="row mt-3">
+									<div class="col-12 pl-4 pr-4 pt-2 pb-2" style="background-color: rgba(210, 210, 210, 0.9)">
+										<div class="slider">
+											@foreach($imagenes_articulo as $imagen)
+												<img class="p-3 img_article" src="{{ url('img/'.$imagen->file) }}" 
+													style="height: 300px;auto;" onclick="setPhoto('{{$imagen->file}}')"
+												>
+											@endforeach
+										</div>
+									</div>
+										
+								</div>
+
+							</div>
+						</div>
+						{{-- @foreach($imagenes_articulo as $imagen)
+							<center>
+								<img class="img_vermas" src="{{ url('img/'.$imagen->file) }}" style="height: 350px;">
+							</center>
 						<br>	
-						@endforeach
+						@endforeach --}}
 						
 						<br>
-					</div>
+					{{-- </div> --}}
 					<br>
 					<div class="row">	
 						<div class="col">	
@@ -311,14 +340,78 @@
 		background-color: rgba(210, 210, 210, 0.9);
 		padding: 30px;
 	}
+
+	.slick-next:before {
+		color:black !important;
+	}
+
+	.slick-prev:before{
+		color:black !important;
+	}
+
+	.img_article:hover{
+		padding: .5rem!important;
+	}
 </style>
 {{--  --}}
 <br><br><br><br>
+
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
+{{-- <script type="text/javascript" src="cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script> --}}
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
 
 <script>
+
+	function setPhoto(params) {
+		console.log(params);
+
+		var URLdomain = window.location.host;
+		console.log(URLdomain);
+		$("#mainImage").attr("src", 'http://'+ URLdomain + "/img/"+params);
+	}
+
+	$('.slider').slick({
+	infinite: true,
+	slidesToShow: 5,
+	slidesToScroll: 2
+	});
+
+	// $(".slider").slick({
+
+	// 	// normal options...
+	// 	infinite: false,
+
+	// 	// the magic
+	// 	responsive: [{
+
+	// 		breakpoint: 1024,
+	// 		settings: {
+	// 		slidesToShow: 3,
+	// 		infinite: true
+	// 		}
+
+	// 	}, {
+
+	// 		breakpoint: 600,
+	// 		settings: {
+	// 		slidesToShow: 2,
+	// 		dots: true
+	// 		}
+
+	// 	}, {
+
+	// 		breakpoint: 300,
+	// 		settings: "unslick" // destroys slick
+
+	// 	}]
+	// });
+
 	$("#dejar_mensaje").click(function (){
 		
         // oferta_ofer   
@@ -474,6 +567,8 @@
 		});
 
 	});
+
+
 
 </script>
 {{-- return rex.test($(".status", this).text()); --}}

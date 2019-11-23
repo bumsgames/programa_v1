@@ -14,15 +14,11 @@
 	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 	<link href="{{ url('css/bums_v2.css') }}"  rel="stylesheet"/>
 
+	
 	{!! NoCaptcha::renderJs() !!}
 	
-	<script async custom-element="amp-auto-ads"
-	src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-	
-	
-</script>
-<script src="{{ url('js/marquee3k.js') }}"></script>
-
+	<script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+	<script src="{{ url('js/marquee3k.js') }}"></script>
 
 </head>
 
@@ -635,6 +631,7 @@ data-ad-client="ca-pub-2298464716816209">
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 	<script>
+
 		var margen_carrito = $(".carrito_compra").outerWidth(true) - $(".carrito_compra").outerWidth();
 		$( ".checkbox").change(function(e) {
 			if($(".checkbox").is(":checked")){
