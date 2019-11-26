@@ -11,7 +11,8 @@ class Oferta extends Model
         'telefono',
         'oferta',
         'estado',
-        'Fk_article'
+        'Fk_article',
+        'mensaje'
     ];
 
     public function articulo()

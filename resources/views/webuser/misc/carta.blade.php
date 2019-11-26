@@ -35,6 +35,16 @@
 	cursor: pointer;
 }
 
+a {
+    color: black !important;
+    text-decoration: none;
+}
+
+a:hover {
+    color: black !important;
+    text-decoration: none;
+}
+
 
 .espaciom_img:hover .imagen {-webkit-transform:scale(1.03);transform:scale(1.03); transition: all 0.2s ease-in-out;}
 
@@ -53,23 +63,25 @@
 			<br>
 			<center>
 				@if ( strlen($articulo->name) >= 10)
+				<a href="{{url('ver_mas/'.$articulo->id)}}">
+					<h3><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }} 
+						@if (strpos($articulo->categorias[0]->category,'Digital') !== false)
 
-				<h3><strong>{{ strtoupper ( str_limit($articulo->name,80)	) }} 
-					@if (strpos($articulo->categorias[0]->category,'Digital') !== false)
-
-									({{ $articulo->peso }} GB)
-									@endif
-									</strong>
-				</h3>
+							({{ $articulo->peso }} GB)
+						@endif
+						</strong>
+					</h3>
+				</a>
 				@else
-				<h2><strong>
-					{{ strtoupper ( str_limit($articulo->name,80)	) }} 
-					@if (strpos($articulo->categorias[0]->category,'Digital') !== false)
-					({{ $articulo->peso }} GB)
-					@endif
-				</strong>
-				</h2>
-
+				<a href="{{url('ver_mas/'.$articulo->id)}}">
+					<h2><strong>
+						{{ strtoupper ( str_limit($articulo->name,80)	) }} 
+						@if (strpos($articulo->categorias[0]->category,'Digital') !== false)
+						({{ $articulo->peso }} GB)
+						@endif
+					</strong>
+					</h2>
+				</a>
 				@endif
 
 
