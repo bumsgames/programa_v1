@@ -35,7 +35,9 @@
                       class="form-control" 
                       name="name"
                       value="{{ old('name') }}" 
-                      autocomplete="nope">
+                      autocomplete="nope"
+                      required
+                      >
                     </div>
                   </div>
                   <div class="col"> 
@@ -45,7 +47,9 @@
                       class="form-control" 
                       name="lastname"
                       value="{{ old('lastname') }}" 
-                      autocomplete="nope">
+                      autocomplete="nope"
+                      required
+                      >
                     </div>
                   </div>
                 </div>
@@ -54,13 +58,16 @@
                   
                   <div class="col">
                     
+                    {!!$errors->first('email','<span style="color:red" class="help-block">:message</span>')!!}
+
                     <div class="form-group">
                       <label for="">Correo de usuario</label>
                       <input type="text" 
                       class="form-control" 
                       name="email"
                       value="{{ old('email') }}" 
-                      autocomplete="off">
+                      autocomplete="off"
+                      required>
                     </div>
                   </div>
 
@@ -80,6 +87,8 @@
                   
                   <div class="col">
                     
+                    {!!$errors->first('nickname','<span style="color:red" class="help-block">:message</span>')!!}
+
                     <div class="form-group">
                       <label for="">Nickname de usuario</label>
                       <input type="text" 
@@ -87,7 +96,7 @@
                       id="nickname"
                       name="nickname"
                       value="{{ old('nickname') }}" 
-                      autocomplete="off">
+                      autocomplete="off" required>
                     </div>
                   </div>
 
@@ -98,7 +107,7 @@
                       class="form-control " 
                       name="level"
                       value="{{ old('level') }}" 
-                      autocomplete="off">
+                      autocomplete="off" required>
                     </div>
                   </div>
                 </div>
@@ -109,7 +118,7 @@
                   class="form-control" 
                   name="password"
                   value="{{ old('password') }}" 
-                  autocomplete="off">
+                  autocomplete="off" required>
                 </div>
 
                 <div class="row">

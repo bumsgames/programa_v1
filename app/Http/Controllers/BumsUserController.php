@@ -123,6 +123,12 @@ class BumsUserController extends Controller
     public function crear_usuario(Request $request)
     {
 
+        $this->validate($request, [
+            'nickname' => 'required|string|unique:bums_users',
+            'email' => 'nullable|email|unique:bums_users',
+            'password' => 'required|string',
+        ]);
+
         try {
             //encripta la contraseña
             $request['password'] = bcrypt($request->password);

@@ -3135,35 +3135,103 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		return back()->with('success', 'Usuario creado, correctamente.');
 	}
 
-	
+	// Comentado dia 26//11//19
+	// public function movimientos_personal()
+	// {
+	// 	$movimientos = \Bumsgames\BumsUser_Movimiento::join('movimientos', 'movimientos.id', '=', 'bums_user__movimientos.id_movimiento')
+	// 	->where('movimiento_usuario', Auth::id())
+	// 	->where('movimientos.type', 'bums')
+	// 	->where('movimientos.cantidad', '>', '0')
+	// 	->orderby('movimientos.created_at', 'DESC')
+	// 	->paginate(100);
+	// 	//Cambiar el paginate(100) de arriba por get() si se quiere volver a ajax
+	// 	$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
+	// 	->where(function ($query) {
+	// 		$query->where('verificado', '<=', 0)
+	// 		->orWhere('entregado', '<=', 0);
+	// 	})->get();
+
+	// 	$title = 'Movimientos Personales';
+	// 	$movement = 'bums';
+	// 	$url = 'movimientos_tipo_banco_personal';
+	// 	$coins = \Bumsgames\Coin::All();
+	// 	$usuarios = \Bumsgames\BumsUser::All();
+	// 	$tutoriales = \Bumsgames\tutorial::All();
+	// 	$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
+	// 	->orderby('created_at', 'desc')
+	// 	->get();
+	// 	//Comentar las 3 lineas de abajo para volver a Ajax
+	// 	$movimientos_list = [];
+	// 	$count_movimientos = 1;
+	// 	return view('admin.movimientos.movimientosFILTRADOS', compact('movimientos', 'comments_por_aprobar', 'movimientos_list', 'count_movimientos', 'pago_sin_confirmar', 'title', 'movement', 'url', 'coins', 'usuarios', 'tutoriales'));
+	// 	//Descomentar lo de abajo para volver a ajax
+	// 	//return view('admin.movimientos.movimientos_personal', compact('movimientos','comments_por_aprobar','pago_sin_confirmar','title','movement','url', 'coins','usuarios','tutoriales'));
+	// }
+
 	public function movimientos_personal()
 	{
-		$movimientos = \Bumsgames\BumsUser_Movimiento::join('movimientos', 'movimientos.id', '=', 'bums_user__movimientos.id_movimiento')
-		->where('movimiento_usuario', Auth::id())
-		->where('movimientos.type', 'bums')
-		->where('movimientos.cantidad', '>', '0')
-		->orderby('movimientos.created_at', 'DESC')
-		->paginate(100);
-		//Cambiar el paginate(100) de arriba por get() si se quiere volver a ajax
-		$pago_sin_confirmar = \Bumsgames\Pago::orderby('created_at', 'desc')
-		->where(function ($query) {
-			$query->where('verificado', '<=', 0)
-			->orWhere('entregado', '<=', 0);
-		})->get();
 
-		$title = 'Movimientos Personales';
-		$movement = 'bums';
-		$url = 'movimientos_tipo_banco_personal';
-		$coins = \Bumsgames\Coin::All();
-		$usuarios = \Bumsgames\BumsUser::All();
-		$tutoriales = \Bumsgames\tutorial::All();
-		$comments_por_aprobar = \Bumsgames\Comment::where('aprobado', null)
-		->orderby('created_at', 'desc')
+		if (Session::has('n_paginacion')) {
+			$n_paginacion = Session::get('n_paginacion');
+		} else {
+			$n_paginacion = 50;
+		}
+		$ventas = \Bumsgames\Venta::
+		where('id_vendedor',Auth::id())
+		->orderby('created_at','desc')
+		->paginate($n_paginacion);
+
+		$day1 = \Carbon\Carbon::parse('last monday')->startOfDay()->format('Y-m-d');
+		$day2 = \Carbon\Carbon::parse('next sunday')->endOfDay()->format('Y-m-d');
+		
+		$venta_hoy = \Bumsgames\Venta::
+		whereDate('ventas.created_at', \Carbon\Carbon::today())
 		->get();
-		//Comentar las 3 lineas de abajo para volver a Ajax
-		$movimientos_list = [];
-		$count_movimientos = 1;
-		return view('admin.movimientos.movimientosFILTRADOS', compact('movimientos', 'comments_por_aprobar', 'movimientos_list', 'count_movimientos', 'pago_sin_confirmar', 'title', 'movement', 'url', 'coins', 'usuarios', 'tutoriales'));
+
+		$venta_semana = \Bumsgames\Venta::
+		whereBetween('ventas.created_at',[$day1,$day2])
+		->get();
+
+		$pagado_hoy = \Bumsgames\VentaPago::
+		selectRaw('sum(monto / dolardia) as pagado')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereDate('ventas.created_at', \Carbon\Carbon::today())
+		->get();
+
+		$pagado_semana = \Bumsgames\VentaPago::
+		selectRaw('sum(monto / dolardia) as pagado')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereBetween('ventas.created_at',[$day1,$day2])
+		->get();
+
+		$invertido_hoy = \Bumsgames\VentaArticulos::
+		selectRaw('sum(costo_individual) as invertido')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereDate('ventas.created_at', \Carbon\Carbon::today())
+		->get();
+
+		$invertido_semana = \Bumsgames\VentaArticulos::
+		selectRaw('sum(costo_individual) as invertido')
+		->leftjoin('ventas','ventas.id','id_venta')
+		->whereBetween('ventas.created_at',[$day1,$day2])
+		->get();
+
+		$bancos = \Bumsgames\banco_emisor::All();
+		$usuarios_sistema = \Bumsgames\BumsUser::All();
+		$title = 'MIS VENTAS';
+		$tutoriales = \Bumsgames\tutorial::All();
+		$carrito = \Bumsgames\Carrito_Admin::with('articulo')->where('id_admin', Auth::id())
+		->get();
+
+		$select_usuarios =  \Bumsgames\BumsUser::where('level','>=','7')->get();
+
+		$bancos_emisores =  \Bumsgames\banco_emisor::All();
+		$monedas =  \Bumsgames\Coin::All();
+		$ubicaciones =  \Bumsgames\Ubicacion::All();
+		$categories =  \Bumsgames\Category::All();
+
+		return view('admin.movimientos.mis_ventas', compact('venta_hoy','venta_semana','pagado_hoy','pagado_semana','invertido_hoy','invertido_semana','select_usuarios','n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos','bancos_emisores','monedas','ubicaciones','categories'));
+
 		//Descomentar lo de abajo para volver a ajax
 		//return view('admin.movimientos.movimientos_personal', compact('movimientos','comments_por_aprobar','pago_sin_confirmar','title','movement','url', 'coins','usuarios','tutoriales'));
 	}

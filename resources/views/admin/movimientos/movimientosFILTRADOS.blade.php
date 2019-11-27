@@ -22,7 +22,7 @@
 			<div class="col-md-12">
 				<div class="tile">
 
-					<form id="excelFiltr" action="" method="post">
+					{{-- <form id="excelFiltr" action="" method="post">
 						<!--Descomentar si se quiere poner nuevamente el excel-->
 						<!--Solo sirve para exportar a <b>Excel</b> los movimientos de los usuarios.-->
 						<br>
@@ -72,10 +72,11 @@
 						</center>
 						<br>	
 
-					</form>
-					<form>
+					</form> --}}
 
-					</form>
+					{{-- <form>
+
+					</form> --}}
 					<input type="text" id="movement" value="{{ $movement }}" hidden="">
 					<!--<button type="button" class="btn btn-success" onclick="window.location.href='{{ $url }}'">Movimientos tipo Banco</button>
 					<button type="button" class="btn btn-success" data-toggle="modal" data-target=".registrar_movimiento" id="prueba">Crear nuevo movimiento</button>-->
