@@ -27,7 +27,6 @@ class Client extends Authenticatable
         'documento_identidad',
         'confirmation_code',
         'confirmed'
-
     ];
 
     public function favorites()

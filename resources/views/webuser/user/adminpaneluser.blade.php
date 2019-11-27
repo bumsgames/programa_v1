@@ -68,9 +68,16 @@
         <div class="container">
             <div class="tab-content letraNegra ayudabody" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-principal" role="tabpanel" aria-labelledby="list-principal-list">
-                    @if (Auth::guard('client')->user()->confirmed==0)
+                    
+                    @if (Auth::guard('client')->user()->confirmed==0 && isset(Auth::guard('client')->user()->email))
                         <div class="alert alert-danger mb-4" style="font-size: 24pt" role="alert">
-                            Su cuenta no ha sido verificada, verifiquela o en 7 dias sera borrada.
+                            Su cuenta no ha sido verificada, verifiquela o en 7 dias sera borrada. 
+                            <a href="{{ url('sendVerify') }}">Reenviar Correo</a>
+                        </div>
+                    @endif
+                    @if (\Session::has('resend'))
+                        <div class="alert alert-success" style="font-size: 24pt">
+                            {!! \Session::get('resend') !!}
                         </div>
                     @endif
                     @yield('contenido_cliente')

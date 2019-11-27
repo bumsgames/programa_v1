@@ -47,7 +47,7 @@
                             <div class="form-group">
                                 <label for="my-input">Nombre</label>
                                 <input type="text" class="form-control" name="name" autocomplete="off" value="{{ Auth::guard('client')->user()->name }}" 
-                                placeholder="Nombre de usuario" required>
+                                placeholder="Nombre " required>
                             </div> 
                         </div>
 
@@ -55,11 +55,9 @@
                             <div class="form-group">
                                 <label for="my-input">Apellido</label>
                                 <input type="text" class="form-control" name="lastname" autocomplete="off" value="{{ Auth::guard('client')->user()->lastname }}" 
-                                placeholder="Nombre de usuario" required>
+                                placeholder="Apellido" required>
                             </div> 
                         </div>
-
-                        
 
                         <div class="col-4">
                             <div class="form-group">
@@ -73,7 +71,10 @@
                             <div class="form-group">
                                 <label for="my-input">Email</label>
                                 <input type="text" class="form-control" name="email" autocomplete="off" value="{{ Auth::guard('client')->user()->email }}" 
-                                placeholder="Dirección de Email" required disabled>
+                                placeholder="Dirección de Email" 
+                                @if (isset(Auth::guard('client')->user()->email))
+                                    disabled required 
+                                @endif >
                             </div>  
                         </div>
 
@@ -81,9 +82,9 @@
                             <div class="form-group">
                                 <label for="my-input">Cedula</label>
                                 <input type="number" class="form-control" name="documento_identidad" autocomplete="off" 
-                                value="{{Auth::guard('client')->user()->documento_identidad }}" placeholder="Numero de Cédula" required 
+                                value="{{Auth::guard('client')->user()->documento_identidad }}" placeholder="Numero de Cédula" 
                                 @if (isset($user->documento_identidad))
-                                    disabled
+                                    disabled required 
                                 @endif>
                             </div> 
                         </div>

@@ -21,19 +21,21 @@
                         <input type="text" class="form-control loginUser" name="nickname" autocomplete="off" value="{{ old('nickname') }}" placeholder="Nombre de usuario" required>
                     </div>   
                     
-                    {!!$errors->first('email','<span class="help-block" style="color:red;">:message</span>')!!}
+                    {{-- {!!$errors->first('email','<span class="help-block" style="color:white;">:message</span>')!!}
 
                     <div class="form-group">
                         <input type="text" class="form-control loginUser" name="email" autocomplete="off" value="{{ old('email') }}" 
                         placeholder="Dirección de Email" required>
-                    </div>  
+                    </div>   --}}
+{{-- 
+                    {!!$errors->first('documento_identidad','<span class="help-block" style="color:white;">:message</span>')!!}
 
                     <div class="form-group">
                         <input type="number" class="form-control loginUser" name="documento_identidad" autocomplete="off" 
                         value="{{ old('documento_identidad') }}" placeholder="Numero de Cédula" required>
-                    </div> 
+                    </div>  --}}
 
-                    {!!$errors->first('password','<span class="help-block" style="color:red;">:message</span>')!!}
+                    {!!$errors->first('password','<span class="help-block" style="color:white;">:message</span>')!!}
                     
                     <div class="form-group">
                         <input type="password" class="form-control loginUser" name="password" autocomplete="off" placeholder="Contraseña" required>

@@ -993,12 +993,25 @@ class WebController extends Controller
 		if (Auth::guard('client')->attempt(['nickname' => $request->nickname, 'password' => $request->password])) {
 			
 			//dd($request->all());
-
+			$pass=false;
 			$user = \Bumsgames\Client::find($request->id);
 			$user->name = $request->name;
 			$user->lastname = $request->lastname;
 			$user->nickname = $request->nickname;
+
+			if(is_null($user->email)){
+				$pass = true;
+				$user->email = $request->email;
+			}
 			$user->save();
+			
+			if($pass){
+				$data['email']=$user->email;
+				$data['name']=$user->name;
+				Mail::send('mail.userConfirmation', $user->toArray(), function($message) use ($data) {
+					$message->to($data['email'], $data['name'])->subject('Por favor confirma tu correo');
+				});
+			}
 
 			Session::flash('flash_message_success', 'Usuario Actualizado');
 			return redirect('/configuracion_cliente');
@@ -1809,8 +1822,6 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 			->orderBy('id', 'asc')
 			->get();
 
-
-			
 			return view('loginUser.clienteRegister', compact('agentes_activos','categorias_sub','categorias', 'comentarios', 'moneda_actual', 'coins'));
 		}
 
@@ -1843,8 +1854,9 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 
 			$this->validate($data, [
 				'nickname' => 'required|string|unique:clients',
+				// 'documento_identidad' => 'required|unique:clients',
 				'password' => 'required|confirmed',
-				'email' => 'required|email|unique:clients',
+				//'email' => 'required|email|unique:clients',
 				'g-recaptcha-response' => 'required|captcha',
 			]);
 
@@ -1854,17 +1866,19 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 				'nickname' => $data['nickname'],
 				'email' => $data['email'],
 				'password' => bcrypt($data['password']),
-				'documento_identidad' => $data['documento_identidad'],
+				// 'documento_identidad' => $data['documento_identidad'],
 				'confirmation_code' => $confirmation_code
 			]);
 			
 			// Send confirmation code
-			Mail::send('mail.userConfirmation', $user->toArray(), function($message) use ($data) {
-				$message->to($data['email'], $data['name'])->subject('Por favor confirma tu correo');
-			});
+			// Mail::send('mail.userConfirmation', $user->toArray(), function($message) use ($data) {
+			// 	$message->to($data['email'], $data['name'])->subject('Por favor confirma tu correo');
+			// });
 
 			return $this->loginAuth($data);
 		}
+
+		
 
 		public function logout()
 		{
@@ -1872,6 +1886,20 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 				Auth::guard('client')->logout();
 			} catch (\Exception $e) { }
 			return redirect('/');
+		}
+
+		public function sendVerify(){
+
+			$user = \Bumsgames\Client::find(Auth::guard('client')->user()->id);
+			
+			$data['email']=$user->email;
+			$data['name']=$user->name;
+
+			Mail::send('mail.userConfirmation', $user->toArray(), function($message) use ($data) {
+				$message->to($data['email'], $data['name'])->subject('Por favor confirma tu correo');
+			});
+
+			return back()->with('resend', 'Se ha reenviado el correo de verificación');
 		}
 
 		public function verify($code)
@@ -1885,7 +1913,7 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 			$user->confirmation_code = null;
 			$user->save();
 		
-			return redirect('/login')->with('notification', 'Has confirmado correctamente tu correo!');
+			return redirect('/login')->with('notification', 'Has confirmado correctamente tu correo, inicia sesion nuevamente.');
 		}
 
 		public function canjear(Request $request, $precio)
