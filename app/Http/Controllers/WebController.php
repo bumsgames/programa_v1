@@ -1842,7 +1842,7 @@ $categoria = \Bumsgames\Category::where('id', $request->categoria)->first();
 		{	
 
 			$this->validate($data, [
-				'nickname' => 'required|string',
+				'nickname' => 'required|string|unique:clients',
 				'password' => 'required|confirmed',
 				'email' => 'required|email|unique:clients',
 				'g-recaptcha-response' => 'required|captcha',
