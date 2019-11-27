@@ -261,6 +261,7 @@ $tutoriales = \Bumsgames\tutorial::All();
 		}
 
 		public function filtrar_ventas_v2(Request $request){
+
 			if (Session::has('n_paginacion')) {
 				$n_paginacion = Session::get('n_paginacion');
 			} else {
@@ -269,12 +270,8 @@ $tutoriales = \Bumsgames\tutorial::All();
 
 			// if ($request->select_vendedor == -1) {
 			// 	$request->merge(['select_vendedor' => null]);
-
 			// }
 
-			
-
-			
 			$cantidad_articulo = \Bumsgames\VentaArticulos::
 			leftjoin('articles','articles.id', '=', 'venta_articulos.id_articulo')
 			->selectRaw('sum(cantidad) as cantidad')
@@ -297,8 +294,6 @@ $tutoriales = \Bumsgames\tutorial::All();
 			})
 			->first();
 
-
-
 			$cantidad_pago = \Bumsgames\VentaPago::
 			ConBanco($request->select_banco)
 			->ConMoneda($request->select_moneda)
@@ -314,10 +309,6 @@ $tutoriales = \Bumsgames\tutorial::All();
 			->where('referencia','like', '%' . $request->input_referencia . '%')
 			->where('notaPago','like', '%' . $request->input_notaPago . '%')
 			->first();	
-
-
-
-
 
 			// dd($cantidad_pago->count());
 			if ($cantidad_pago->count() == null) {
@@ -356,12 +347,9 @@ $tutoriales = \Bumsgames\tutorial::All();
 				}
 				
 			}
-			
 			// $cantidad_no_cobrado = 
 			
 			// dd($request->all());
-			
-			
 
 			$ventas = \Bumsgames\Venta::
 			whereHas('ventaCliente', function($q)  use ($request) {
@@ -3147,8 +3135,7 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		return back()->with('success', 'Usuario creado, correctamente.');
 	}
 
-
-
+	
 	public function movimientos_personal()
 	{
 		$movimientos = \Bumsgames\BumsUser_Movimiento::join('movimientos', 'movimientos.id', '=', 'bums_user__movimientos.id_movimiento')
@@ -3499,10 +3486,6 @@ $titulo = "Mis clientes (".auth()->user()->name . ' ' . auth()->user()->lastname
 		$monedas =  \Bumsgames\Coin::All();
 		$ubicaciones =  \Bumsgames\Ubicacion::All();
 		$categories =  \Bumsgames\Category::All();
-
-		
-
-
 
 		return view('admin.movimientos.ver_ventas', compact('venta_hoy','venta_semana','pagado_hoy','pagado_semana','invertido_hoy','invertido_semana','select_usuarios','n_paginacion','carrito','tutoriales','title','ventas','usuarios_sistema','bancos','bancos_emisores','monedas','ubicaciones','categories'));
 	}

@@ -7,7 +7,7 @@
 	<div class="row">
 		<div  class="form-group col-12 col-lg-3">
 			<label>Nombre de Cliente</label>
-			<input  value="" autocomplete="off" type="text" class="form-control" name="nombre_cliente">
+			<input id="filter_name" value="" autocomplete="off" type="text" class="form-control" name="nombre_cliente">
 		</div>
 		<div  class="form-group col-12 col-lg-3">
 			<label>Apellido de Cliente</label>
@@ -151,4 +151,8 @@
 	</div>	
 	<center><button class="btn btn-primary my-1 mr-sm-2" id="filtrar_ventas_v2" type="submit" formtarget="_blank">FILTRAR VENTAS</button></center>
 </form>
+
+
+
+
 

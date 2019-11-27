@@ -12,10 +12,10 @@ class Venta extends Model
       'id_vendedor',
       'id_cliente',
       'id_envio',
-  ];
+    ];
 
-  public function ventaCliente()
-  {
+    public function ventaCliente()
+    {
         return $this->belongsTo('Bumsgames\Client', 'id_cliente'); // Le indicamos que se va relacionar con el atributo id
     }
 

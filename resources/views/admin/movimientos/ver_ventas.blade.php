@@ -17,57 +17,54 @@
 			<li class="breadcrumb-item"><a href="#">{{ $title }}</a></li>
 		</ul>
 	</div>
-	
-
-
 
 		<div class="row">
 			<div class="col-md-12">
 				<div class="tile">
 				
-				@include('admin.movimientos.filtros_ventas')
+					@include('admin.movimientos.filtros_ventas')
 
-<table class="table">
-	<tr>	
-		<td>
-@if ( $pagado_hoy[0]->pagado != null && $invertido_hoy[0]->invertido != null)
-					<h3>HOY</h3>
-					<b>N# de Ventas: </b> {{ $venta_hoy->count() }}  <br>
-					Pagado: {{ $pagado_hoy[0]->pagado }} $<br>
-					Invertido: {{ $invertido_hoy[0]->invertido }} $<br>
-					Ganancia: {{ $pagado_hoy[0]->pagado - $invertido_hoy[0]->invertido}} $<br>
-				@endif	
-</td>
-<td>
-@if ( $pagado_semana[0]->pagado != null && $invertido_semana[0]->invertido != null)
-					<h3>SEMANA</h3>
-					<b>N# de Ventas: </b> {{ $venta_semana->count() }} <br>
-					Pagado: {{ $pagado_semana[0]->pagado }} $<br>
-					Invertido: {{ $invertido_semana[0]->invertido }} $<br>
-					Ganancia: {{ $pagado_semana[0]->pagado - $invertido_semana[0]->invertido}} $<br>
-				@endif	
-</td>
+					<table class="table">
+						<tr>	
+							<td>
+					@if ( $pagado_hoy[0]->pagado != null && $invertido_hoy[0]->invertido != null)
+										<h3>HOY</h3>
+										<b>N# de Ventas: </b> {{ $venta_hoy->count() }}  <br>
+										Pagado: {{ $pagado_hoy[0]->pagado }} $<br>
+										Invertido: {{ $invertido_hoy[0]->invertido }} $<br>
+										Ganancia: {{ $pagado_hoy[0]->pagado - $invertido_hoy[0]->invertido}} $<br>
+									@endif	
+					</td>
+					<td>
+					@if ( $pagado_semana[0]->pagado != null && $invertido_semana[0]->invertido != null)
+										<h3>SEMANA</h3>
+										<b>N# de Ventas: </b> {{ $venta_semana->count() }} <br>
+										Pagado: {{ $pagado_semana[0]->pagado }} $<br>
+										Invertido: {{ $invertido_semana[0]->invertido }} $<br>
+										Ganancia: {{ $pagado_semana[0]->pagado - $invertido_semana[0]->invertido}} $<br>
+									@endif	
+					</td>
 
-	</tr>
-</table>
-
-				
+						</tr>
+					</table>
 
 				
-{{-- 
-				@if (isset() && isset())
-					<h3>SEMANA</h3>
-					Pagado: <br>
-					Invertido: <br>
-					Ganancia: <br>
-				@endif --}}
-{{-- 				{{ $pagado_semana }}
-				{{ $invertido_semana }}
-				
-				{{ $pagado_hoy }}
 
-				
-				{{ $invertido_hoy }} --}}
+										
+						{{-- 
+										@if (isset() && isset())
+											<h3>SEMANA</h3>
+											Pagado: <br>
+											Invertido: <br>
+											Ganancia: <br>
+										@endif --}}
+						{{-- 				{{ $pagado_semana }}
+										{{ $invertido_semana }}
+										
+										{{ $pagado_hoy }}
+
+										
+										{{ $invertido_hoy }} --}}
 
 				<form class="form-inline margin" action="{{  url('n_paginacion') }}" method="get" style="float: right;">
 					<div class="form-inline">
@@ -95,19 +92,20 @@
 
 				<hr>
 				@foreach ($usuarios_sistema as $usuario)
-				@php
-				$total_usuario[$usuario->id] = 0;
-				$invertido_u[$usuario->id] = 0;
-				$por_cobrar[$usuario->id] = 0;
-				@endphp
+					@php
+						$total_usuario[$usuario->id] = 0;
+						$invertido_u[$usuario->id] = 0;
+						$por_cobrar[$usuario->id] = 0;
+					@endphp
 
-				@foreach ($bancos as $banco)
-				@php
-				$total_usuario_banco[$usuario->id][$banco->id] = 0;
-				$por_cobrar_banco[$usuario->id][$banco->id] = 0;
-				@endphp
+					@foreach ($bancos as $banco)
 
-				@endforeach
+						@php
+							$total_usuario_banco[$usuario->id][$banco->id] = 0;
+							$por_cobrar_banco[$usuario->id][$banco->id] = 0;
+						@endphp
+
+					@endforeach
 
 				@endforeach
 
@@ -130,13 +128,15 @@
 
 								@php $precio_carrito = 0; @endphp
 								@php $suma_inversion = 0; @endphp
+
 								@foreach($venta->articulos as $articulo)
-								{{-- Muestra los articulos {{ $articulo }} --}}
-								@php 
-								$suma_inversion += $articulo->costo_individual * $articulo->cantidad; 
-								$precio_carrito += $articulo->precio_venta * $articulo->cantidad;
-								@endphp
+									{{-- Muestra los articulos {{ $articulo }} --}}
+									@php 
+										$suma_inversion += $articulo->costo_individual * $articulo->cantidad; 
+										$precio_carrito += $articulo->precio_venta * $articulo->cantidad;
+									@endphp
 								@endforeach
+
 							</td>
 							<td>
 								<b>Venta realizada por: </b>{{ $venta->ventaVendedor->name }} {{ $venta->ventaVendedor->lastname }}
@@ -145,19 +145,24 @@
 								<b>Cliente: </b>{{ $venta->ventaCliente->name }} {{ $venta->ventaCliente->lastname }}<br>	
 								<a href="{{ url('factura/'.$venta->id) }}" target="_blank"><button class="btn">Ver factura y entrega</button></a>
 								<hr>	
-								@php $total_pagado = 0; @endphp
-								@foreach ($venta->pagos as $pago)
-								<br>
-								<b>Bando Emisor: </b>{{ $pago->banco->banco }}
-								<br>
-								<b>Monto:</b> {{ $pago->monto }} {{ $pago->moneda->sign }}
-								<br>
-								@if ($pago->moneda->id != 2)
-								<b>Tasa:</b> {{ $pago->dolardia }} {{ $pago->moneda->sign }} = 1 $
-								@endif
-
 								
-								@php $total_pagado += $pago->monto / $pago->dolardia; @endphp
+								@php $total_pagado = 0; @endphp
+
+								@foreach ($venta->pagos as $pago)
+									<br>
+									<b>Bando Emisor: </b>{{ $pago->banco->banco }}
+									<br>
+									<b>Monto:</b> {{ $pago->monto }} {{ $pago->moneda->sign }}
+									<br>
+
+									@if ($pago->moneda->id != 2)
+										<b>Tasa:</b> {{ $pago->dolardia }} {{ $pago->moneda->sign }} = 1 $
+									@endif
+
+									@php 
+										$total_pagado += $pago->monto / $pago->dolardia; 
+									@endphp
+
 								@endforeach
 								<hr>	
 								<b>Equivalente:</b> {{ $pago->monto / $pago->dolardia }} $
@@ -325,6 +330,10 @@ td:nth-child(2){
 		form.action="{{route("filtrar_movimientos_bums_david")}}";
 		form.submit();
 	}
+
+	$('#filter_name').keyup(function() {
+		console.log("se cambio el nombre");
+	});
 
 </script>
 @endsection
